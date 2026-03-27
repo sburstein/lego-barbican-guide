@@ -42,9 +42,9 @@ export default function App() {
   const [selectedPiece, setSelectedPiece] = useState<PieceInfo | null>(null);
   const [showInventory, setShowInventory] = useState(false);
 
-  // Reset step index when phase changes
+  // Reset step index when phase changes — start at -1 (no step active yet)
   useEffect(() => {
-    setActiveStepIndex(0);
+    setActiveStepIndex(-1);
   }, [activePhase]);
 
   useEffect(() => {
@@ -63,11 +63,44 @@ export default function App() {
     }
   }, [activeStepIndex, activePhase]);
 
+  // Flat ordered list of all step IDs across all phases
+  const allStepIds = useMemo(() => {
+    const ids: string[] = [];
+    for (const phase of build.phases) {
+      for (let i = 0; i < phase.steps.length; i++) {
+        ids.push(`${phase.id}-${i}`);
+      }
+    }
+    return ids;
+  }, [build.phases]);
+
+  // Check if a step is unlocked (all previous steps completed)
+  const isStepUnlocked = useCallback(
+    (stepId: string) => {
+      const idx = allStepIds.indexOf(stepId);
+      if (idx <= 0) return true; // First step is always unlocked
+      // All steps before this one must be completed
+      for (let i = 0; i < idx; i++) {
+        if (!completed.has(allStepIds[i])) return false;
+      }
+      return true;
+    },
+    [allStepIds, completed]
+  );
+
   const toggleStep = (id: string) => {
     setCompleted((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
+      if (next.has(id)) {
+        // Unchecking: cascade uncomplete all steps after this one
+        const idx = allStepIds.indexOf(id);
+        next.delete(id);
+        for (let i = idx + 1; i < allStepIds.length; i++) {
+          next.delete(allStepIds[i]);
+        }
+      } else {
+        next.add(id);
+      }
       return next;
     });
   };
@@ -79,9 +112,9 @@ export default function App() {
   const totalSteps = build.phases.reduce((a, p) => a + p.steps.length, 0);
   const completedCount = completed.size;
   const progress = Math.round((completedCount / totalSteps) * 100);
-  const completedPhaseIds = build.phases
-    .filter((p) => p.steps.every((_, i) => completed.has(`${p.id}-${i}`)))
-    .map((p) => p.id);
+  // Check if a phase is fully done (all its steps completed)
+  const isPhaseComplete = (phase: typeof build.phases[number]) =>
+    phase.steps.every((_, i) => completed.has(`${phase.id}-${i}`));
 
   const activePhaseData = build.phases.find((p) => p.id === activePhase)!;
   const phasePhotos = build.phasePhotos[activePhase] || [];
@@ -135,9 +168,7 @@ export default function App() {
         <Tabs value={activePhase} onValueChange={setActivePhase}>
           <TabsList className="mb-4 flex flex-wrap h-auto gap-1 bg-stone-100 p-1">
             {build.phases.map((phase) => {
-              const done = phase.steps.every((_, i) =>
-                completed.has(`${phase.id}-${i}`)
-              );
+              const done = isPhaseComplete(phase);
               return (
                 <TabsTrigger
                   key={phase.id}
@@ -190,13 +221,17 @@ export default function App() {
                   {phase.steps.map((step, i) => {
                     const stepId = `${phase.id}-${i}`;
                     const done = completed.has(stepId);
-                    const isActive3D = i === activeStepIndex;
+                    const isActive3D = activeStepIndex >= 0 && i === activeStepIndex;
+                    const unlocked = isStepUnlocked(stepId);
+                    const locked = !unlocked && !done;
                     return (
                       <Card
                         key={stepId}
                         data-step-index={i}
                         className={`border transition-colors cursor-pointer ${
-                          isActive3D
+                          locked
+                            ? "border-stone-200 bg-stone-50 opacity-60"
+                            : isActive3D
                             ? "ring-2 ring-red-400/50 border-red-300 bg-red-50/10"
                             : done
                             ? "border-green-200 bg-green-50/30"
@@ -212,6 +247,7 @@ export default function App() {
                               checked={done}
                               onCheckedChange={() => toggleStep(stepId)}
                               className="mt-0.5"
+                              disabled={locked}
                               onClick={(e) => e.stopPropagation()}
                             />
                             <CardTitle className="text-[13px] font-semibold flex items-center gap-2 leading-tight">
@@ -219,7 +255,12 @@ export default function App() {
                                 {i + 1}
                               </span>
                               {step.title}
-                              {isActive3D && (
+                              {locked && (
+                                <span className="text-stone-400 text-[10px]" title="Complete previous steps first">
+                                  &#128274;
+                                </span>
+                              )}
+                              {isActive3D && !locked && (
                                 <Badge className="text-[9px] bg-red-500/10 text-red-600 border border-red-300 px-1.5 py-0">
                                   3D
                                 </Badge>
@@ -333,12 +374,12 @@ export default function App() {
                           buildId={build.id}
                           phaseId={activePhase}
                           stepIndex={activeStepIndex}
-                          completedPhases={completedPhaseIds}
+                          completedSteps={completed}
                           onPieceSelect={handlePieceSelect}
                         />
 
                         {/* Step Parts Callout Box — LEGO instruction style */}
-                        {activePhaseData.steps[activeStepIndex] &&
+                        {activeStepIndex >= 0 && activePhaseData.steps[activeStepIndex] &&
                           activePhaseData.steps[activeStepIndex].pieces.length > 0 && (
                           <div className="absolute bottom-12 right-3 bg-[#fdf6e3] border border-[#d4c9a8] rounded-lg shadow-md p-2.5 max-w-[200px]">
                             <p className="text-[9px] font-bold text-stone-500 uppercase tracking-wider mb-1.5">
@@ -414,12 +455,14 @@ export default function App() {
                       </span>
                       {", "}
                       <span className="font-medium text-red-600">
-                        Step {activeStepIndex + 1} of {activePhaseData.steps.length}
+                        {activeStepIndex >= 0
+                          ? `Step ${activeStepIndex + 1} of ${activePhaseData.steps.length}`
+                          : "Click a step to begin"}
                       </span>
-                      {completedPhaseIds.length > 0 &&
-                        ` + ${completedPhaseIds.length} completed phase${
-                          completedPhaseIds.length > 1 ? "s" : ""
-                        }`}
+                      {completedCount > 0 &&
+                        ` · ${completedCount} step${
+                          completedCount > 1 ? "s" : ""
+                        } completed`}
                     </p>
                   </div>
                 </div>

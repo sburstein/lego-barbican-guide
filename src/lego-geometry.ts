@@ -233,7 +233,7 @@ export function createRoundBrick(
   const group = new THREE.Group();
   const height = h * BRICK_HEIGHT;
 
-  const cylGeo = new THREE.CylinderGeometry(0.45, 0.45, height, 16);
+  const cylGeo = new THREE.CylinderGeometry(1.0, 1.0, height, 16);
   const cyl = new THREE.Mesh(cylGeo, WHITE_MAT);
   cyl.position.y = height / 2;
   cyl.castShadow = true;
@@ -285,14 +285,80 @@ export function createCurvedSlope(
   return group;
 }
 
-// Grille brick (textured surface with pronounced horizontal grooves)
-export function createGrilleBrick(
+// Side-stud brick — single group with body, top studs, and front-face studs
+export function createSideStudBrick(
+  w: number,
+  d: number,
+  h: number = 1,
+  mat?: THREE.Material,
+  info?: PieceInfo
+): THREE.Group {
+  const material = mat || WHITE_MAT;
+  const height = h * BRICK_HEIGHT;
+  const group = new THREE.Group();
+
+  // Brick body
+  const bodyGeo = new THREE.BoxGeometry(w, height, d);
+  const body = new THREE.Mesh(bodyGeo, material);
+  body.position.y = height / 2;
+  body.castShadow = true;
+  body.receiveShadow = true;
+  if (info) (body as any).pieceInfo = info;
+  group.add(body);
+
+  // Edge lines
+  const edgesGeo = new THREE.EdgesGeometry(bodyGeo);
+  const edgeLines = new THREE.LineSegments(edgesGeo, EDGE_LINE_MAT);
+  edgeLines.position.y = height / 2;
+  group.add(edgeLines);
+
+  // Top studs (like normal createBrick)
+  const topStuds = createStuds(w, d, height);
+  topStuds.children.forEach((s) => {
+    if (info) (s as any).pieceInfo = info;
+  });
+  group.add(topStuds);
+
+  // Front-face studs (Z+ side) — rotated 90 degrees
+  const sideStudGeo = new THREE.CylinderGeometry(
+    STUD_RADIUS * 0.92,
+    STUD_RADIUS,
+    STUD_HEIGHT,
+    12
+  );
+  for (let x = 0; x < Math.floor(w); x++) {
+    const stud = new THREE.Mesh(sideStudGeo, STUD_MAT);
+    stud.rotation.x = Math.PI / 2; // point outward along Z
+    stud.position.set(
+      x - (Math.floor(w) - 1) / 2,
+      height / 2,
+      d / 2 + STUD_HEIGHT / 2
+    );
+    stud.castShadow = true;
+    if (info) (stud as any).pieceInfo = info;
+    group.add(stud);
+
+    // Dark ring at stud base
+    const ring = new THREE.Mesh(STUD_RING_GEO, STUD_RING_MAT);
+    ring.position.set(
+      x - (Math.floor(w) - 1) / 2,
+      height / 2,
+      d / 2 + 0.01
+    );
+    group.add(ring);
+  }
+
+  return group;
+}
+
+// Grille tile (textured surface with pronounced horizontal grooves — plate height)
+export function createGrilleTile(
   w: number,
   d: number,
   info?: PieceInfo
 ): THREE.Group {
   const group = new THREE.Group();
-  const height = BRICK_HEIGHT;
+  const height = PLATE_HEIGHT;
 
   const bodyGeo = new THREE.BoxGeometry(w, height, d);
   const body = new THREE.Mesh(bodyGeo, GRILLE_MAT);
@@ -307,16 +373,16 @@ export function createGrilleBrick(
   edgeLines.position.y = height / 2;
   group.add(edgeLines);
 
-  // 5 pronounced horizontal groove lines (recessed slightly into surface)
-  const grooveGeo = new THREE.BoxGeometry(w * 0.96, 0.06, d * 0.15);
-  for (let i = 0; i < 5; i++) {
+  // 3 pronounced horizontal groove lines (spaced for PLATE_HEIGHT profile)
+  const grooveGeo = new THREE.BoxGeometry(w * 0.96, 0.04, d * 0.15);
+  for (let i = 0; i < 3; i++) {
     const groove = new THREE.Mesh(grooveGeo, GROOVE_LINE_MAT);
-    groove.position.set(0, 0.18 + i * 0.2, d / 2 - d * 0.06);
+    groove.position.set(0, 0.08 + i * 0.12, d / 2 - d * 0.06);
     if (info) (groove as any).pieceInfo = info;
     group.add(groove);
     // Back side groove too
     const grooveBack = new THREE.Mesh(grooveGeo, GROOVE_LINE_MAT);
-    grooveBack.position.set(0, 0.18 + i * 0.2, -(d / 2 - d * 0.06));
+    grooveBack.position.set(0, 0.08 + i * 0.12, -(d / 2 - d * 0.06));
     if (info) (grooveBack as any).pieceInfo = info;
     group.add(grooveBack);
   }
@@ -357,7 +423,7 @@ export function createInvertedSlope(
   info?: PieceInfo
 ): THREE.Group {
   const group = new THREE.Group();
-  const h = BRICK_HEIGHT * 0.4;
+  const h = BRICK_HEIGHT;
 
   // Wedge shape — flat on top, angled on bottom
   const shape = new THREE.Shape();
@@ -441,11 +507,11 @@ const BP_PHASES = [
 
 export function buildPhaseModel(
   phaseId: string,
-  completedPhases: string[],
+  completedSteps: Set<string>,
   _buildId: string = "barbican-panorama",
   stepIndex?: number
 ): THREE.Group {
-  return buildBarbicanPanorama(phaseId, completedPhases, stepIndex);
+  return buildBarbicanPanorama(phaseId, completedSteps, stepIndex);
 }
 
 // ─── Step Group Helper ────────────────────────────────────────────────
@@ -485,40 +551,68 @@ export function applyActiveStepStyle(group: THREE.Group): void {
 
 function buildBarbicanPanorama(
   phaseId: string,
-  completedPhases: string[],
+  completedSteps: Set<string>,
   stepIndex?: number
 ): THREE.Group {
   const model = new THREE.Group();
   const currentIdx = BP_PHASES.indexOf(phaseId);
 
-  const show = (pid: string): boolean => {
+  // Determine phase status:
+  // - "current": this is the actively viewed phase
+  // - "completed": ALL steps of this phase are checked off
+  // - "future": comes after current phase and is not fully completed
+  // - "past": comes before current phase (always show all)
+  const getPhaseStatus = (pid: string): "current" | "completed" | "past" | "future" => {
+    if (pid === phaseId) return "current";
     const idx = BP_PHASES.indexOf(pid);
-    return idx <= currentIdx || completedPhases.includes(pid);
+    // Check if all steps of this phase are completed
+    // We need to know how many steps each phase has — we track this as we build
+    if (idx < currentIdx) return "past";
+    return "future";
+  };
+
+  // Track step counts per phase so we can check "all completed"
+  const phaseStepCounts: Record<string, number> = {};
+  const isPhaseFullyCompleted = (pid: string): boolean => {
+    const count = phaseStepCounts[pid];
+    if (count === undefined || count === 0) return false;
+    for (let i = 0; i < count; i++) {
+      if (!completedSteps.has(`${pid}-${i}`)) return false;
+    }
+    return true;
+  };
+
+  // show() determines whether a phase's geometry should be included at all
+  const show = (pid: string): boolean => {
+    const status = getPhaseStatus(pid);
+    if (status === "current") return true;
+    if (status === "past") return true;
+    // For future phases — only show if fully completed
+    if (status === "future") return isPhaseFullyCompleted(pid);
+    return isPhaseFullyCompleted(pid);
   };
 
   // Step grouping helpers — used within each phase block
-  const isCurrentPhase = (pid: string) => pid === phaseId;
-  let currentPhaseGroup: THREE.Group | null = null;
-  let stepCounter = 0;
+  let stepCounterMap: Record<string, number> = {};
   let activeStepGroupRef: THREE.Group | null = null;
 
   const beginPhase = (pid: string): THREE.Group => {
     const pg = new THREE.Group();
     pg.userData.phaseId = pid;
     model.add(pg);
-    if (isCurrentPhase(pid)) {
-      currentPhaseGroup = pg;
-      stepCounter = 0;
-    } else {
-      currentPhaseGroup = null;
-    }
+    stepCounterMap[pid] = 0;
     return pg;
   };
 
   const startStep = (phaseGroup: THREE.Group): THREE.Group => {
+    const pid = phaseGroup.userData.phaseId as string;
     const sg = new THREE.Group();
-    const idx = stepCounter++;
+    const idx = stepCounterMap[pid] || 0;
     sg.userData.stepIndex = idx;
+    sg.userData.phaseId = pid;
+    stepCounterMap[pid] = idx + 1;
+    // Update phase step count tracking
+    phaseStepCounts[pid] = idx + 1;
     phaseGroup.add(sg);
     return sg;
   };
@@ -535,7 +629,7 @@ function buildBarbicanPanorama(
   const BASE_D = 24;
   const LAKE_Z = 8; // lake front-centre
   const PODIUM_Y = PLATE_HEIGHT;
-  const PODIUM_DECK_Y = PODIUM_Y + 3 * BRICK_HEIGHT + PLATE_HEIGHT;
+  const PODIUM_DECK_Y = PODIUM_Y + 3 * BRICK_HEIGHT; // columns touch deck — no gap
   const TERRACE_X = -2; // terrace centred slightly left
   const TERRACE_W = 20;
   const TERRACE_D = 3;
@@ -554,54 +648,86 @@ function buildBarbicanPanorama(
   if (show("bp-foundation")) {
     const pg1 = beginPhase("bp-foundation");
 
-    // Step 0: Base 8x8 plates (the grid)
+    // Step 0: Primary base — 6 individual 8x8 plates in 3x2 grid
     const s1_0 = startStep(pg1);
-    const left = createPlate(BASE_W / 2, BASE_D, WHITE_MAT, {
+    const plateInfo = {
       name: "Plate 8×8",
       partNumber: "41539",
-      description: "Foundation plate — left half",
-    });
-    left.position.set(-BASE_W / 4, 0, 0);
-    addToStep(s1_0, left);
-    const right = createPlate(BASE_W / 2, BASE_D, WHITE_MAT, {
-      name: "Plate 8×8",
-      partNumber: "41539",
-      description: "Foundation plate — right half",
-    });
-    right.position.set(BASE_W / 4, 0, 0);
-    addToStep(s1_0, right);
+      description: "Foundation plate — 8×8",
+    };
+    // 3 columns × 2 rows, each plate is ~5.3 units wide, ~4 units deep
+    const plateW = BASE_W / 3;
+    const plateD = BASE_D / 2;
+    for (let col = 0; col < 3; col++) {
+      for (let row = 0; row < 2; row++) {
+        const plate = createPlate(plateW - 0.3, plateD - 0.3, WHITE_MAT, plateInfo);
+        plate.position.set(
+          -BASE_W / 3 + col * plateW,
+          0,
+          -plateD / 2 + row * plateD
+        );
+        addToStep(s1_0, plate);
+      }
+    }
 
-    // Step 1: Lake/side extensions (placeholder — same visual as core)
+    // Step 1: Front extension — lake zone plates extending forward
     const s1_1 = startStep(pg1);
-    // Represented by slightly extended area (visual marker)
-    const extFront = createPlate(BASE_W, 2, WHITE_MAT, {
-      name: "Plate 6×10",
-      partNumber: "3033",
-      description: "Front extension — lake zone",
-    });
-    extFront.position.set(0, 0, BASE_D / 2 + 1);
-    addToStep(s1_1, extFront);
+    const extInfo = { name: "Plate 6×10", partNumber: "3033", description: "Front extension — lake zone" };
+    // 4 extension plates projecting toward the viewer
+    for (let i = 0; i < 4; i++) {
+      const ext = createPlate(BASE_W / 4 - 0.3, 6, WHITE_MAT, extInfo);
+      ext.position.set(-BASE_W * 3 / 8 + i * (BASE_W / 4), 0, BASE_D / 2 + 3);
+      addToStep(s1_1, ext);
+    }
+    // Side extension plates widening the base
+    const sideInfo = { name: "Plate 6×8", partNumber: "3036", description: "Side extension plate" };
+    for (const side of [-1, 1]) {
+      const sideExt = createPlate(3, BASE_D - 2, WHITE_MAT, sideInfo);
+      sideExt.position.set(side * (BASE_W / 2 + 1.5), 0, 0);
+      addToStep(s1_1, sideExt);
+    }
 
-    // Step 2: Gap fill plates
+    // Step 2: Infill plates filling gaps between primary and extension plates
     const s1_2 = startStep(pg1);
-    const fill = createPlate(BASE_W, 1, WHITE_MAT, {
-      name: "Plate 4×8",
-      partNumber: "3035",
-      description: "Gap fill plate",
-    }, true);
-    fill.position.set(0, 0, -BASE_D / 2 - 0.5);
-    addToStep(s1_2, fill);
+    const fillInfo = { name: "Plate 4×8", partNumber: "3035", description: "Gap fill plate" };
+    // Fill the gaps between the 8x8 grid plates
+    for (let col = 0; col < 2; col++) {
+      const fill = createPlate(0.4, BASE_D - 1, DARK_MAT, fillInfo, true);
+      fill.position.set(-plateW / 2 + col * plateW, 0.01, 0);
+      addToStep(s1_2, fill);
+    }
+    // Fill gap between core and front extension
+    const frontFill = createPlate(BASE_W - 1, 0.4, DARK_MAT, fillInfo, true);
+    frontFill.position.set(0, 0.01, BASE_D / 2);
+    addToStep(s1_2, frontFill);
+    // Corner fill plates
+    const cornerInfo = { name: "Plate 6×6", partNumber: "3958", description: "Corner fill plate" };
+    for (const sx of [-1, 1]) {
+      const corner = createPlate(3, 6, WHITE_MAT, cornerInfo);
+      corner.position.set(sx * (BASE_W / 2 + 1.5), 0, BASE_D / 2 + 3);
+      addToStep(s1_2, corner);
+    }
 
-    // Step 3: Edge reinforcement
+    // Step 3: Edge reinforcement + triple-layered tower zone at rear
     const s1_3 = startStep(pg1);
-    for (const zOff of [-BASE_D / 2, BASE_D / 2]) {
-      const edge = createPlate(BASE_W, 0.5, DARK_MAT, {
-        name: "Plate 1×8",
-        partNumber: "3460",
-        description: "Base perimeter edge",
-      }, true);
-      edge.position.set(0, 0, zOff);
+    // Edge beams around perimeter
+    const edgeInfo = { name: "Plate 1×10", partNumber: "4477", description: "Edge reinforcement beam" };
+    for (const zOff of [-(BASE_D / 2 + 0.5), BASE_D / 2 + 6]) {
+      const edge = createPlate(BASE_W + 6, 0.6, DARK_MAT, edgeInfo, true);
+      edge.position.set(0, 0.02, zOff);
       addToStep(s1_3, edge);
+    }
+    for (const xOff of [-(BASE_W / 2 + 3), BASE_W / 2 + 3]) {
+      const edge = createPlate(0.6, BASE_D + 7, DARK_MAT, edgeInfo, true);
+      edge.position.set(xOff, 0.02, 2.5);
+      addToStep(s1_3, edge);
+    }
+    // Triple-layer reinforcement at rear (tower zone) — visibly thicker
+    const towerZoneInfo = { name: "Plate 4×6", partNumber: "3032", description: "Triple-layer tower zone reinforcement" };
+    for (let layer = 0; layer < 2; layer++) {
+      const tz = createPlate(BASE_W - 2, 6, layer === 0 ? DARK_MAT : WHITE_MAT, towerZoneInfo, true);
+      tz.position.set(0, PLATE_HEIGHT * (layer + 1), -(BASE_D / 2 - 1));
+      addToStep(s1_3, tz);
     }
   }
 
@@ -654,15 +780,21 @@ function buildBarbicanPanorama(
       }
     }
 
-    // Step 2: Deeper centre — second layer of trans plates in centre 8×4 zone
+    // Step 2: Scattered singles — individual 1x1 plates scattered on top of lake surface
+    // These should be VISIBLY raised above the lake to show depth variation
     const s2_2 = startStep(pg2);
-    const deepInfo = { name: "Trans-Clear Plate 1×2", partNumber: "3023", description: "Deeper lake centre" };
-    for (let x = -4; x < 4; x += 2) {
-      for (let z = -2; z < 2; z += 1) {
-        const dp = createPlate(2, 1, TRANS_MAT, deepInfo);
-        dp.position.set(x + 1, 0.12, LAKE_Z + z);
-        addToStep(s2_2, dp);
-      }
+    const scatteredInfo = { name: "Trans-Clear Plate 1×1", partNumber: "3024", description: "Scattered depth plate — visible above lake surface" };
+    // Scatter pattern — irregular positions concentrated near edges
+    const scatterPositions = [
+      [-6, -3], [-5, -4], [-4, 3], [-3, -2], [-2, 4], [-1, -4],
+      [0, 3], [1, -3], [2, 4], [3, -4], [4, 2], [5, -3], [6, 3],
+      [-6, 2], [4, -2],
+    ];
+    for (const [x, z] of scatterPositions) {
+      // Each scattered plate sits visibly ON TOP of the lake surface
+      const sp = createBrick(1, 1, 0.5, TRANS_MAT, scatteredInfo);
+      sp.position.set(x, PLATE_HEIGHT + 0.05, LAKE_Z + z);
+      addToStep(s2_2, sp);
     }
   }
 
@@ -700,47 +832,17 @@ function buildBarbicanPanorama(
       addToStep(s3_1, secCol);
     }
 
-    // Step 2: Podium deck — individual 2×6 plates WITH studs
-    const s3_2 = startStep(pg3);
-    const deckInfo = { name: "Plate 2×6", partNumber: "3795", description: "Podium deck plate" };
-    // Lay individual 2×6 plates in a grid across the deck area
-    for (let x = -12; x < 13; x += 6) {
-      for (let z = -2; z < 6; z += 2) {
-        const dp = createPlate(6, 2, WHITE_MAT, deckInfo);
-        dp.position.set(x, PODIUM_DECK_Y, z + 2);
-        addToStep(s3_2, dp);
-      }
-    }
-
-    // Step 3: Soffits — inverted slope wedges
-    const s3_3 = startStep(pg3);
-    for (let i = 0; i < 8; i++) {
-      const soffit = createInvertedSlope(3, 1, {
-        name: "Slope Inverted 45 2×1",
-        partNumber: "3665",
-        description: "Cantilevered soffit at deck edge",
-      });
-      soffit.position.set(-10.5 + i * 3, PODIUM_DECK_Y - PLATE_HEIGHT * 1.5, 5.5);
-      addToStep(s3_3, soffit);
-    }
-
-    // Step 4: Parapets — thin panel wall pieces
-    const s3_4 = startStep(pg3);
-    const parapetInfo = { name: "Panel 1×4×1 Rounded", partNumber: "30413", description: "Podium walkway parapet" };
-    for (const zOff of [5.8, -1.5]) {
-      const parapet = createPanel(26, 0.8, parapetInfo);
-      parapet.position.set(0, PODIUM_DECK_Y + PLATE_HEIGHT, zOff);
-      addToStep(s3_4, parapet);
-    }
+    // (Deck, soffits, and parapets moved to Phase 4 per builds.ts)
   }
 
-  // ── PHASE 4: Terrace Block Structural Core ───────────────────────────
+  // ── PHASE 4: Ground Level & Structural Cores (9 steps) ────────────────
   if (show("bp-terrace-core")) {
     const pg4 = beginPhase("bp-terrace-core");
     const bearingWallCount = 4;
     const bearingCoursesBelow = Math.round((PODIUM_DECK_Y - PLATE_HEIGHT) / BRICK_HEIGHT);
+    const facadeZ_p4 = TERRACE_Z + TERRACE_D / 2 + 0.6;
 
-    // Step 0: Ground course — wide bricks (bearing walls)
+    // Step 0: Terrace Ground Course + Arts Centre Arches
     const s4_0 = startStep(pg4);
     for (let w = 0; w < bearingWallCount; w++) {
       const wx = TERRACE_X - TERRACE_W / 2 + 2 + w * (TERRACE_W / (bearingWallCount - 1)) - 2;
@@ -755,48 +857,123 @@ function buildBarbicanPanorama(
         addToStep(s4_0, bearWall);
       }
     }
+    // Arts Centre arches at ground level (moved from Phase 6)
+    for (let i = 0; i < 3; i++) {
+      const arch = createArch({
+        name: "Arch 1×4",
+        partNumber: "3659",
+        description: "Ground-level entrance arch",
+      });
+      arch.position.set(TERRACE_X - 5 + i * 5, PODIUM_Y, facadeZ_p4 + 2);
+      arch.scale.set(0.5, 0.5, 0.5);
+      addToStep(s4_0, arch);
+    }
 
-    // Step 1: Rising courses — lower half
+    // Step 1: Ground-Floor Window Panels
     const s4_1 = startStep(pg4);
+    for (let i = 0; i < 5; i++) {
+      const panel = createBrick(1.5, 0.4, 1.5, TRANS_MAT, {
+        name: "Trans-Clear Panel 1×2×2",
+        partNumber: "87552",
+        description: "Arts Centre foyer window",
+      });
+      panel.position.set(TERRACE_X - 4 + i * 2, PLATE_HEIGHT, facadeZ_p4 + 1);
+      addToStep(s4_1, panel);
+    }
+
+    // Step 2: Ground-Level Landscaping
+    const s4_2 = startStep(pg4);
+    for (let i = 0; i < 4; i++) {
+      const slope = createBrick(2, 1, 0.5, GREEN_MAT, {
+        name: "Slope 2×3 (25°)",
+        partNumber: "3298",
+        description: "Terrain grade slope",
+      }, true);
+      slope.position.set(TERRACE_X - 3 + i * 2, PLATE_HEIGHT, facadeZ_p4 - 1);
+      addToStep(s4_2, slope);
+    }
+
+    // Step 3: Podium Deck (Pre-assembled with Soffits)
+    const s4_3 = startStep(pg4);
+    const deckInfo = { name: "Plate 2×6", partNumber: "3795", description: "Podium deck plate" };
+    for (let x = -12; x < 13; x += 6) {
+      for (let z = -2; z < 6; z += 2) {
+        const dp = createPlate(6, 2, WHITE_MAT, deckInfo);
+        dp.position.set(x, PODIUM_DECK_Y, z + 2);
+        addToStep(s4_3, dp);
+      }
+    }
+    // Soffits
+    for (let i = 0; i < 8; i++) {
+      const soffit = createInvertedSlope(3, 1, {
+        name: "Slope Inverted 45 2×1",
+        partNumber: "3665",
+        description: "Cantilevered soffit at deck edge",
+      });
+      soffit.position.set(-10.5 + i * 3, PODIUM_DECK_Y - PLATE_HEIGHT * 1.5, 5.5);
+      addToStep(s4_3, soffit);
+    }
+
+    // Step 4: Podium Parapets
+    const s4_4 = startStep(pg4);
+    const parapetInfo = { name: "Panel 1×4×1 Rounded", partNumber: "30413", description: "Podium walkway parapet" };
+    for (const zOff of [5.8, -1.5]) {
+      const parapet = createPanel(26, 0.8, parapetInfo);
+      parapet.position.set(0, PODIUM_DECK_Y + PLATE_HEIGHT, zOff);
+      addToStep(s4_4, parapet);
+    }
+
+    // Step 5: Tower Base — Directly on Foundation
+    const s4_5 = startStep(pg4);
+    {
+      const tw = TOWER_W + 2;
+      const td = TOWER_D + 2;
+      for (let course = 0; course < 5; course++) {
+        const cy = TOWER_BASE_Y + course * BRICK_HEIGHT;
+        const sizes = course % 2 === 0 ? [4, 4] : [3, 2, 3];
+        let xPos = TOWER_X - tw / 2;
+        for (const sz of sizes) {
+          const b = createBrick(sz, 1, 1, WHITE_MAT, {
+            name: sz === 4 ? "Brick 1×4" : sz === 3 ? "Brick 1×3" : "Brick 1×2",
+            partNumber: sz === 4 ? "3010" : sz === 3 ? "3622" : "3004",
+            description: "Tower base — running bond",
+          }, true);
+          b.position.set(xPos + sz / 2, cy, TOWER_Z + td / 2 - 0.5);
+          addToStep(s4_5, b);
+          xPos += sz;
+        }
+      }
+    }
+
+    // Step 6: Terrace & Tower Rising Together — lower terrace courses
+    const s4_6 = startStep(pg4);
     for (let course = 0; course < Math.floor(TERRACE_H / 2); course++) {
       const cy = PODIUM_DECK_Y + PLATE_HEIGHT + course * BRICK_HEIGHT;
-      const offset = course % 2 === 0 ? 0 : 0.5;
-      const brick = createBrick(TERRACE_W, TERRACE_D, 1, WHITE_MAT, {
-        name: course % 2 === 0 ? "Brick 2×4" : "Brick 2×3",
-        partNumber: course % 2 === 0 ? "3001" : "3002",
-        description: "Terrace core wall — running bond",
-      }, true);
-      brick.position.set(TERRACE_X + offset, cy, TERRACE_Z);
-      addToStep(s4_1, brick);
+      const brickSizes = course % 2 === 0 ? [6, 4, 6, 4] : [4, 6, 4, 6];
+      let xPos = TERRACE_X - TERRACE_W / 2;
+      for (const size of brickSizes) {
+        const brick = createBrick(size, TERRACE_D, 1, WHITE_MAT, {
+          name: size === 6 ? "Brick 2×6" : "Brick 2×4",
+          partNumber: size === 6 ? "2456" : "3001",
+          description: "Terrace core wall — running bond",
+        }, true);
+        brick.position.set(xPos + size / 2, cy, TERRACE_Z);
+        addToStep(s4_6, brick);
+        xPos += size;
+      }
     }
 
-    // Step 2: Floor plates + upper courses
-    const s4_2 = startStep(pg4);
-    for (let course = Math.floor(TERRACE_H / 2); course < TERRACE_H; course++) {
-      const cy = PODIUM_DECK_Y + PLATE_HEIGHT + course * BRICK_HEIGHT;
-      const offset = course % 2 === 0 ? 0 : 0.5;
-      const brick = createBrick(TERRACE_W, TERRACE_D, 1, WHITE_MAT, {
-        name: course % 2 === 0 ? "Brick 2×4" : "Brick 2×3",
-        partNumber: course % 2 === 0 ? "3001" : "3002",
-        description: "Terrace core wall — running bond",
-      }, true);
-      brick.position.set(TERRACE_X + offset, cy, TERRACE_Z);
-      addToStep(s4_2, brick);
-    }
-
-    // Step 3: Wall infill (visual completion)
-    const s4_3 = startStep(pg4);
-    // Cap plate across top
+    // Step 7: Structural Plates & Shear Walls
+    const s4_7 = startStep(pg4);
+    // Cap plate
     const capPlate = createPlate(TERRACE_W, TERRACE_D, WHITE_MAT, {
       name: "Plate 2×8",
       partNumber: "3034",
-      description: "Terrace top cap plate",
+      description: "Terrace structural plate",
     }, true);
-    capPlate.position.set(TERRACE_X, PODIUM_DECK_Y + PLATE_HEIGHT + TERRACE_H * BRICK_HEIGHT, TERRACE_Z);
-    addToStep(s4_3, capPlate);
-
-    // Step 4: Rear shear walls
-    const s4_4 = startStep(pg4);
+    capPlate.position.set(TERRACE_X, PODIUM_DECK_Y + PLATE_HEIGHT + Math.floor(TERRACE_H / 2) * BRICK_HEIGHT, TERRACE_Z);
+    addToStep(s4_7, capPlate);
+    // Shear walls
     const shearWallD = 4;
     const totalShearCourses = bearingCoursesBelow + TERRACE_H;
     for (const side of [-1, 1]) {
@@ -809,92 +986,178 @@ function buildBarbicanPanorama(
           description: "Rear shear wall — foundation to tower",
         }, true);
         wall.position.set(sx, cy, TERRACE_Z - TERRACE_D / 2 - shearWallD / 2);
-        addToStep(s4_4, wall);
+        addToStep(s4_7, wall);
       }
     }
+
+    // Step 8: Wall Infill & Tower Completion to Terrace Height
+    const s4_8 = startStep(pg4);
+    for (let course = Math.floor(TERRACE_H / 2); course < TERRACE_H; course++) {
+      const cy = PODIUM_DECK_Y + PLATE_HEIGHT + course * BRICK_HEIGHT;
+      const brickSizes = course % 2 === 0 ? [6, 4, 6, 4] : [4, 6, 4, 6];
+      let xPos = TERRACE_X - TERRACE_W / 2;
+      for (const size of brickSizes) {
+        const brick = createBrick(size, TERRACE_D, 1, WHITE_MAT, {
+          name: size === 6 ? "Brick 2×6" : "Brick 2×4",
+          partNumber: size === 6 ? "2456" : "3001",
+          description: "Terrace core wall — running bond",
+        }, true);
+        brick.position.set(xPos + size / 2, cy, TERRACE_Z);
+        addToStep(s4_8, brick);
+        xPos += size;
+      }
+    }
+    // Final cap plate on top
+    const topCapPlate = createPlate(TERRACE_W, TERRACE_D, WHITE_MAT, {
+      name: "Plate 2×8",
+      partNumber: "3034",
+      description: "Terrace top cap plate",
+    }, true);
+    topCapPlate.position.set(TERRACE_X, PODIUM_DECK_Y + PLATE_HEIGHT + TERRACE_H * BRICK_HEIGHT, TERRACE_Z);
+    addToStep(s4_8, topCapPlate);
   }
 
   // ── PHASE 5: Terrace SNOT Facade ─────────────────────────────────────
   if (show("bp-terrace-facade")) {
     const pg5 = beginPhase("bp-terrace-facade");
-    const facadeZ = TERRACE_Z + TERRACE_D / 2 + 0.4;
+    // Facade sits FLUSH against the terrace wall front face
+    const facadeZ = TERRACE_Z + TERRACE_D / 2;
 
-    // Step 0: SNOT mounting points
+    // The SNOT technique: side-stud bricks REPLACE standard bricks in the
+    // terrace wall at certain positions. Their outward-facing studs provide
+    // attachment points for the grille tiles and window pieces. Without these,
+    // the wall face is smooth and nothing can attach to it.
+
+    // Step 0: SNOT mounting bricks — REPLACE wall bricks with side-stud bricks
+    // These are PART OF the wall, not additions. They sit at the wall surface
+    // with studs protruding outward.
     const s5_0 = startStep(pg5);
-    // Step 1: Textured concrete — grille tiles (lower levels)
-    const s5_1 = startStep(pg5);
-    // Step 2: Window reveals — headlight bricks
-    const s5_2 = startStep(pg5);
-    // Step 3: Glazing — transparent bricks (upper levels)
-    const s5_3 = startStep(pg5);
-    // Step 4: Large window panels
-    const s5_4 = startStep(pg5);
-
-    for (let level = 0; level < 5; level++) {
+    for (let level = 0; level < 5; level += 2) {
       const ly = PODIUM_DECK_Y + PLATE_HEIGHT + level * 2 * BRICK_HEIGHT;
-      const targetStep = level < 2 ? s5_1 : level < 4 ? s5_3 : s5_4;
       for (let col = 0; col < 7; col++) {
         const cx = TERRACE_X - TERRACE_W / 2 + 1.5 + col * 2.8;
-        const grille = createGrilleBrick(2, 0.5, {
+        // Side-stud brick — single piece with body + top studs + front-face studs
+        const mount = createSideStudBrick(2, TERRACE_D * 0.4, 1, WHITE_MAT, {
+          name: "Brick 1×4 Side Studs",
+          partNumber: "30414",
+          description: "SNOT brick — replaces wall brick, studs face outward",
+        });
+        mount.position.set(cx, ly, facadeZ);
+        addToStep(s5_0, mount);
+      }
+    }
+
+    // Step 1: Grille tiles CLIP ONTO the outward-facing studs
+    const s5_1 = startStep(pg5);
+    for (let level = 0; level < 3; level++) {
+      const ly = PODIUM_DECK_Y + PLATE_HEIGHT + level * 2 * BRICK_HEIGHT;
+      for (let col = 0; col < 7; col++) {
+        const cx = TERRACE_X - TERRACE_W / 2 + 1.5 + col * 2.8;
+        // Grille tile clips onto the protruding studs — sits against the wall face
+        const grille = createGrilleTile(2, 0.4, {
           name: "Tile 1×2 Grille",
           partNumber: "2412b",
-          description: "Bush-hammered concrete texture panel",
+          description: "Bush-hammered concrete texture — clipped onto SNOT studs",
         });
-        grille.position.set(cx, ly, facadeZ);
-        addToStep(level === 0 ? s5_0 : targetStep, grille);
-        const win = createBrick(2, 0.3, 0.8, TRANS_MAT, {
-          name: "Trans-Clear Panel 1×2×2",
-          partNumber: "87552",
-          description: "Window glazing — SNOT facade",
+        grille.position.set(cx, ly + BRICK_HEIGHT * 0.5, facadeZ + TERRACE_D * 0.2 + STUD_HEIGHT);
+        addToStep(s5_1, grille);
+      }
+    }
+
+    // Step 2: Headlight bricks — ALSO replace wall bricks at window positions
+    // These create a recessed pocket in the wall for the glass to sit in
+    const s5_2 = startStep(pg5);
+    for (let level = 0; level < 4; level++) {
+      const ly = PODIUM_DECK_Y + PLATE_HEIGHT + level * 2 * BRICK_HEIGHT + BRICK_HEIGHT;
+      for (let col = 0; col < 7; col++) {
+        const cx = TERRACE_X - TERRACE_W / 2 + 1.5 + col * 2.8;
+        // Headlight brick is IN the wall — its recessed front creates a pocket
+        const hl = createBrick(1, TERRACE_D * 0.4, BRICK_HEIGHT * 0.6, DARK_MAT, {
+          name: "Headlight Brick 1×1",
+          partNumber: "4070",
+          description: "Window reveal — recessed pocket in wall for glass",
         });
-        win.position.set(cx, ly + BRICK_HEIGHT, facadeZ + 0.1);
-        addToStep(level < 3 ? s5_2 : targetStep, win);
+        hl.position.set(cx, ly, facadeZ);
+        addToStep(s5_2, hl);
+      }
+    }
+
+    // Step 3: Transparent bricks/panels slide INTO the headlight recesses
+    const s5_3 = startStep(pg5);
+    for (let level = 0; level < 4; level++) {
+      const ly = PODIUM_DECK_Y + PLATE_HEIGHT + level * 2 * BRICK_HEIGHT + BRICK_HEIGHT;
+      for (let col = 0; col < 7; col++) {
+        const cx = TERRACE_X - TERRACE_W / 2 + 1.5 + col * 2.8;
+        // Trans brick slides into the headlight recess — sits flush with wall face
+        const win = createBrick(1.6, 0.3, BRICK_HEIGHT * 0.5, TRANS_MAT, {
+          name: level < 3 ? "Trans-Clear Brick 1×2" : "Trans-Clear Panel 1×2×2",
+          partNumber: level < 3 ? "3065" : "87552",
+          description: "Glass piece — seated in headlight brick recess",
+        });
+        // Positioned AT the wall face, inside the headlight pocket
+        win.position.set(cx, ly + BRICK_HEIGHT * 0.1, facadeZ + TERRACE_D * 0.1);
+        addToStep(s5_3, win);
       }
     }
   }
 
-  // ── PHASE 6: Balconies & Soffits ─────────────────────────────────────
+  // ── PHASE 6: Balconies & Soffits (3 steps) ────────────────────────────
   if (show("bp-terrace-balconies")) {
     const pg6 = beginPhase("bp-terrace-balconies");
     const facadeZ = TERRACE_Z + TERRACE_D / 2 + 0.6;
 
-    // Step 0: Balcony slabs — projecting plates
+    // Step 0: Pre-Assemble & Attach Balcony Sub-Assemblies (levels 0-2)
     const s6_0 = startStep(pg6);
-    // Step 1: Balcony soffits — narrow inverted slopes
-    const s6_1 = startStep(pg6);
-    // Step 2: Wide inverted slopes
-    const s6_2 = startStep(pg6);
-    // Step 3: Balcony surface — smooth tiles
-    const s6_3 = startStep(pg6);
-
-    for (let level = 0; level < 5; level++) {
+    for (let level = 0; level < 3; level++) {
       const ly =
         PODIUM_DECK_Y + PLATE_HEIGHT + (level * 2 + 1) * BRICK_HEIGHT + BRICK_HEIGHT;
       const stagger = level % 2 === 0 ? 0 : 1.4;
-      const targetStep = level < 2 ? s6_0 : level < 3 ? s6_1 : level < 4 ? s6_2 : s6_3;
       for (let col = 0; col < 6; col++) {
         const cx = TERRACE_X - TERRACE_W / 2 + 2 + col * 3.2 + stagger;
         const balcony = createPlate(2.5, 1.2, WHITE_MAT, {
-          name: "Plate 1×4",
-          partNumber: "3710",
-          description: "Cantilevered balcony projection",
+          name: "Plate 1×6",
+          partNumber: "3666",
+          description: "Cantilevered balcony slab",
         }, true);
         balcony.position.set(cx, ly, facadeZ + 1);
-        addToStep(targetStep, balcony);
+        addToStep(s6_0, balcony);
       }
     }
 
-    // Step 4: Arts Centre arches
-    const s6_4 = startStep(pg6);
-    for (let i = 0; i < 3; i++) {
-      const arch = createArch({
-        name: "Arch 1×4",
-        partNumber: "3659",
-        description: "Ground-level entrance arch",
-      });
-      arch.position.set(TERRACE_X - 5 + i * 5, PODIUM_Y, facadeZ + 2);
-      arch.scale.set(0.5, 0.5, 0.5);
-      addToStep(s6_4, arch);
+    // Step 1: Attach remaining balcony rows (levels 3-4)
+    const s6_1 = startStep(pg6);
+    for (let level = 3; level < 5; level++) {
+      const ly =
+        PODIUM_DECK_Y + PLATE_HEIGHT + (level * 2 + 1) * BRICK_HEIGHT + BRICK_HEIGHT;
+      const stagger = level % 2 === 0 ? 0 : 1.4;
+      for (let col = 0; col < 6; col++) {
+        const cx = TERRACE_X - TERRACE_W / 2 + 2 + col * 3.2 + stagger;
+        const balcony = createPlate(2.5, 1.2, WHITE_MAT, {
+          name: "Plate 1×6",
+          partNumber: "3666",
+          description: "Cantilevered balcony slab",
+        }, true);
+        balcony.position.set(cx, ly, facadeZ + 1);
+        addToStep(s6_1, balcony);
+      }
+    }
+
+    // Step 2: Balcony Surface — Smooth Tiles
+    const s6_2 = startStep(pg6);
+    for (let level = 0; level < 5; level++) {
+      const ly =
+        PODIUM_DECK_Y + PLATE_HEIGHT + (level * 2 + 1) * BRICK_HEIGHT + BRICK_HEIGHT + PLATE_HEIGHT;
+      const stagger = level % 2 === 0 ? 0 : 1.4;
+      for (let col = 0; col < 6; col += 2) {
+        const cx = TERRACE_X - TERRACE_W / 2 + 2 + col * 3.2 + stagger;
+        const tile = createPlate(2.5, 1.0, WHITE_MAT, {
+          name: "Tile 1×6",
+          partNumber: "6636",
+          description: "Smooth balcony surface tile",
+        }, true);
+        tile.position.set(cx, ly, facadeZ + 1);
+        addToStep(s6_2, tile);
+      }
     }
   }
 
@@ -982,63 +1245,121 @@ function buildBarbicanPanorama(
     }
   }
 
-  // ── PHASE 8: Lauderdale Tower Core ───────────────────────────────────
+  // ── PHASE 8: Lauderdale Tower — Above the Roofline (3 steps) ─────────
   if (show("bp-tower-core")) {
     const pg8 = beginPhase("bp-tower-core");
     const totalTowerCourses = TOWER_COURSES + Math.round(PODIUM_DECK_Y / BRICK_HEIGHT) + TERRACE_H;
 
-    // Step 0: Tower base — directly on foundation (widened)
+    // Step 0: Tower Front Corner SNOT
     const s8_0 = startStep(pg8);
-    for (let course = 0; course < 5; course++) {
-      const cy = TOWER_BASE_Y + course * BRICK_HEIGHT;
-      const baseBrick = createBrick(TOWER_W + 2, TOWER_D + 2, 1, WHITE_MAT, {
-        name: "Brick 2×4",
-        partNumber: "3001",
-        description: "Tower widened base — directly on foundation",
-      }, true);
-      baseBrick.position.set(TOWER_X, cy, TOWER_Z);
-      addToStep(s8_0, baseBrick);
+    {
+      // SNOT bricks on front corners for facade attachment
+      for (const side of [-1, 1]) {
+        for (let i = 0; i < 2; i++) {
+          const snot = createBrick(1, 1, 1, WHITE_MAT, {
+            name: "Brick 1×1 Studs 4 Sides",
+            partNumber: "4733",
+            description: "Tower front corner SNOT brick",
+          });
+          const cornerY = TOWER_BASE_Y + (10 + i * 10) * BRICK_HEIGHT;
+          snot.position.set(
+            TOWER_X + side * (TOWER_W / 2 - 0.5),
+            cornerY,
+            TOWER_Z + TOWER_D / 2 - 0.5
+          );
+          addToStep(s8_0, snot);
+        }
+      }
     }
 
-    // Step 1: Tower lower shaft — through terrace zone
+    // Step 1: Tower shaft — individual bricks through terrace zone + emerging above
     const s8_1 = startStep(pg8);
-    const midCourse = Math.floor((totalTowerCourses - 5) / 3) + 5;
-    for (let course = 5; course < midCourse; course++) {
-      const cy = TOWER_BASE_Y + course * BRICK_HEIGHT;
-      const brick = createBrick(TOWER_W, TOWER_D, 1, WHITE_MAT, {
-        name: "Brick 2×4",
-        partNumber: "3001",
-        description: "Lauderdale Tower core wall",
-      }, true);
-      brick.position.set(TOWER_X, cy, TOWER_Z);
-      addToStep(s8_1, brick);
+    {
+      const midCourse = Math.floor((totalTowerCourses - 5) / 2) + 5;
+      for (let course = 5; course < midCourse; course++) {
+        const cy = TOWER_BASE_Y + course * BRICK_HEIGHT;
+        const sizes = course % 2 === 0 ? [4, 2] : [3, 3];
+        // Front wall
+        let xPos = TOWER_X - TOWER_W / 2;
+        for (const sz of sizes) {
+          const b = createBrick(sz, 1, 1, WHITE_MAT, {
+            name: sz === 4 ? "Brick 1×4" : sz === 3 ? "Brick 1×3" : "Brick 1×2",
+            partNumber: sz === 4 ? "3010" : sz === 3 ? "3622" : "3004",
+            description: "Lauderdale Tower core — running bond",
+          }, true);
+          b.position.set(xPos + sz / 2, cy, TOWER_Z + TOWER_D / 2 - 0.5);
+          addToStep(s8_1, b);
+          xPos += sz;
+        }
+        // Back wall
+        xPos = TOWER_X - TOWER_W / 2;
+        for (const sz of sizes) {
+          const b = createBrick(sz, 1, 1, WHITE_MAT, {
+            name: sz === 4 ? "Brick 1×4" : sz === 3 ? "Brick 1×3" : "Brick 1×2",
+            partNumber: sz === 4 ? "3010" : sz === 3 ? "3622" : "3004",
+            description: "Lauderdale Tower core — running bond",
+          }, true);
+          b.position.set(xPos + sz / 2, cy, TOWER_Z - TOWER_D / 2 + 0.5);
+          addToStep(s8_1, b);
+          xPos += sz;
+        }
+        // Side walls
+        for (const side of [-1, 1]) {
+          const sideLen = TOWER_D - 2;
+          const b = createBrick(1, Math.max(sideLen, 1), 1, WHITE_MAT, {
+            name: "Brick 1×2",
+            partNumber: "3004",
+            description: "Lauderdale Tower core — side wall",
+          }, true);
+          b.position.set(TOWER_X + side * (TOWER_W / 2 - 0.5), cy, TOWER_Z);
+          addToStep(s8_1, b);
+        }
+      }
     }
 
-    // Step 2: Tower emerging — above terrace roofline
+    // Step 2: Tower upper — hollow core (perimeter ring only, center empty)
     const s8_2 = startStep(pg8);
-    const upperStart = midCourse + Math.floor((totalTowerCourses - midCourse) / 2);
-    for (let course = midCourse; course < upperStart; course++) {
-      const cy = TOWER_BASE_Y + course * BRICK_HEIGHT;
-      const brick = createBrick(TOWER_W, TOWER_D, 1, WHITE_MAT, {
-        name: "Brick 1×3",
-        partNumber: "3622",
-        description: "Lauderdale Tower core wall",
-      }, true);
-      brick.position.set(TOWER_X, cy, TOWER_Z);
-      addToStep(s8_2, brick);
-    }
-
-    // Step 3: Tower upper — hollow core
-    const s8_3 = startStep(pg8);
-    for (let course = upperStart; course < totalTowerCourses; course++) {
-      const cy = TOWER_BASE_Y + course * BRICK_HEIGHT;
-      const brick = createBrick(TOWER_W, TOWER_D, 1, WHITE_MAT, {
-        name: "Brick 2×4",
-        partNumber: "3001",
-        description: "Lauderdale Tower core wall",
-      }, true);
-      brick.position.set(TOWER_X, cy, TOWER_Z);
-      addToStep(s8_3, brick);
+    {
+      const midCourse = Math.floor((totalTowerCourses - 5) / 2) + 5;
+      for (let course = midCourse; course < totalTowerCourses; course++) {
+        const cy = TOWER_BASE_Y + course * BRICK_HEIGHT;
+        const sizes = course % 2 === 0 ? [4, 2] : [3, 3];
+        // Front wall
+        let xPos = TOWER_X - TOWER_W / 2;
+        for (const sz of sizes) {
+          const b = createBrick(sz, 1, 1, WHITE_MAT, {
+            name: sz === 4 ? "Brick 1×4" : sz === 3 ? "Brick 1×3" : "Brick 1×2",
+            partNumber: sz === 4 ? "3010" : sz === 3 ? "3622" : "3004",
+            description: "Lauderdale Tower hollow core — perimeter",
+          }, true);
+          b.position.set(xPos + sz / 2, cy, TOWER_Z + TOWER_D / 2 - 0.5);
+          addToStep(s8_2, b);
+          xPos += sz;
+        }
+        // Back wall
+        xPos = TOWER_X - TOWER_W / 2;
+        for (const sz of sizes) {
+          const b = createBrick(sz, 1, 1, WHITE_MAT, {
+            name: sz === 4 ? "Brick 1×4" : sz === 3 ? "Brick 1×3" : "Brick 1×2",
+            partNumber: sz === 4 ? "3010" : sz === 3 ? "3622" : "3004",
+            description: "Lauderdale Tower hollow core — perimeter",
+          }, true);
+          b.position.set(xPos + sz / 2, cy, TOWER_Z - TOWER_D / 2 + 0.5);
+          addToStep(s8_2, b);
+          xPos += sz;
+        }
+        // Side walls (center stays empty)
+        for (const side of [-1, 1]) {
+          const sideLen = TOWER_D - 2;
+          const b = createBrick(1, Math.max(sideLen, 1), 1, WHITE_MAT, {
+            name: "Brick 1×2",
+            partNumber: "3004",
+            description: "Lauderdale Tower hollow core — side",
+          }, true);
+          b.position.set(TOWER_X + side * (TOWER_W / 2 - 0.5), cy, TOWER_Z);
+          addToStep(s8_2, b);
+        }
+      }
     }
   }
 
@@ -1048,16 +1369,16 @@ function buildBarbicanPanorama(
     const facadeZ_t = TOWER_Z + TOWER_D / 2 + 0.3;
     const towerVisibleStart = PODIUM_DECK_Y + PLATE_HEIGHT + TERRACE_H * BRICK_HEIGHT + 2;
 
-    // 5 steps spread across 6 bands: s0 = band 0, s1 = band 1, s2 = bands 2-3, s3 = band 4, s4 = band 5
+    // 4 steps across 6 bands: s0 = bands 0-1, s1 = bands 2-3, s2 = band 4, s3 = band 5
     const stepGroups9 = [
-      startStep(pg9), startStep(pg9), startStep(pg9), startStep(pg9), startStep(pg9),
+      startStep(pg9), startStep(pg9), startStep(pg9), startStep(pg9),
     ];
-    const bandToStep = [0, 1, 2, 2, 3, 4];
+    const bandToStep = [0, 0, 1, 1, 2, 3];
 
     for (let band = 0; band < 6; band++) {
       const by = towerVisibleStart + (3 + band * 4) * BRICK_HEIGHT;
       const sg = stepGroups9[bandToStep[band]];
-      const grille = createGrilleBrick(TOWER_W, 0.5, {
+      const grille = createGrilleTile(TOWER_W, 0.5, {
         name: "Grille Brick 1×2",
         partNumber: "2877",
         description: "Tower window band — concrete texture",
@@ -1366,27 +1687,50 @@ function buildBarbicanPanorama(
     }
   }
 
-  // ── Apply step visibility for current phase ─────────────────────────
+  // ── Apply step-level visibility across ALL phases ────────────────────
   const effectiveStepIndex = stepIndex ?? Infinity;
-  model.traverse((obj) => {
+  model.children.forEach((obj) => {
     const pg = obj as THREE.Group;
-    if (pg.userData.phaseId === phaseId) {
-      // This is the current phase group — apply step visibility
+    const pid = pg.userData.phaseId as string | undefined;
+    if (!pid) return;
+
+    const status = getPhaseStatus(pid);
+    const fullyCompleted = isPhaseFullyCompleted(pid);
+
+    pg.children.forEach((child) => {
+      const sg = child as THREE.Group;
+      if (sg.userData.stepIndex === undefined) return;
+      const si = sg.userData.stepIndex as number;
+      const stepId = `${pid}-${si}`;
+
+      if (status === "current") {
+        // Current phase: show steps up to activeStepIndex
+        // When effectiveStepIndex is -1, no steps from the current phase are shown
+        if (effectiveStepIndex >= 0 && si <= effectiveStepIndex) {
+          sg.visible = true;
+        } else {
+          sg.visible = false;
+        }
+      } else if (status === "past" || fullyCompleted) {
+        // Past or fully completed: show all steps
+        sg.visible = true;
+      } else {
+        // Future and not fully completed: show only completed steps
+        sg.visible = completedSteps.has(stepId);
+      }
+    });
+
+    // Apply active step highlighting for current phase
+    if (status === "current") {
       let maxVisibleStep = -1;
       pg.children.forEach((child) => {
         const sg = child as THREE.Group;
-        if (sg.userData.stepIndex !== undefined) {
-          if (sg.userData.stepIndex > effectiveStepIndex) {
-            sg.visible = false;
-          } else {
-            sg.visible = true;
-            if (sg.userData.stepIndex > maxVisibleStep) {
-              maxVisibleStep = sg.userData.stepIndex;
-            }
+        if (sg.userData.stepIndex !== undefined && sg.visible) {
+          if ((sg.userData.stepIndex as number) > maxVisibleStep) {
+            maxVisibleStep = sg.userData.stepIndex as number;
           }
         }
       });
-      // Apply active step highlighting to the last visible step
       if (maxVisibleStep >= 0) {
         pg.children.forEach((child) => {
           const sg = child as THREE.Group;

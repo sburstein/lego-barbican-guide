@@ -7,7 +7,7 @@ type Props = {
   buildId: string;
   phaseId: string;
   stepIndex: number;
-  completedPhases: string[];
+  completedSteps: Set<string>;
   onPieceSelect?: (info: PieceInfo | null) => void;
 };
 
@@ -15,7 +15,7 @@ export default function LegoViewer({
   buildId,
   phaseId,
   stepIndex,
-  completedPhases,
+  completedSteps,
   onPieceSelect,
 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -27,6 +27,7 @@ export default function LegoViewer({
   const frameRef = useRef<number>(0);
   const highlightedRef = useRef<THREE.Mesh | null>(null);
   const originalMatRef = useRef<THREE.Material | null>(null);
+  const animFrameRef = useRef<number>(0);
 
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -191,9 +192,15 @@ export default function LegoViewer({
     };
   }, [handleClick]);
 
-  // Update model when phase changes
+  // Update model when phase/step/completedSteps changes
   useEffect(() => {
     if (!sceneRef.current || !isLoaded) return;
+
+    // Cancel any running entrance animation
+    if (animFrameRef.current) {
+      cancelAnimationFrame(animFrameRef.current);
+      animFrameRef.current = 0;
+    }
 
     // Remove old model
     if (modelRef.current) {
@@ -206,7 +213,7 @@ export default function LegoViewer({
     }
 
     // Build new model
-    const model = buildPhaseModel(phaseId, completedPhases, buildId, stepIndex);
+    const model = buildPhaseModel(phaseId, completedSteps, buildId, stepIndex);
     sceneRef.current.add(model);
     modelRef.current = model;
 
@@ -217,7 +224,34 @@ export default function LegoViewer({
       originalMatRef.current = null;
     }
     onPieceSelect?.(null);
-  }, [buildId, phaseId, stepIndex, completedPhases, isLoaded, onPieceSelect]);
+
+    // Entrance animation for the active step group
+    const activeGroup = (model as any)._activeStepGroup as THREE.Group | null;
+    if (activeGroup) {
+      const finalY = activeGroup.position.y;
+      const startY = finalY + 3;
+      activeGroup.position.y = startY;
+      // Set initial scale small
+      activeGroup.scale.set(0.85, 0.85, 0.85);
+      const duration = 400; // ms
+      const startTime = performance.now();
+
+      const animateEntrance = (now: number) => {
+        const elapsed = now - startTime;
+        const t = Math.min(elapsed / duration, 1);
+        // Ease out cubic
+        const ease = 1 - Math.pow(1 - t, 3);
+        activeGroup.position.y = startY + (finalY - startY) * ease;
+        activeGroup.scale.setScalar(0.85 + 0.15 * ease);
+        if (t < 1) {
+          animFrameRef.current = requestAnimationFrame(animateEntrance);
+        } else {
+          animFrameRef.current = 0;
+        }
+      };
+      animFrameRef.current = requestAnimationFrame(animateEntrance);
+    }
+  }, [buildId, phaseId, stepIndex, completedSteps, isLoaded, onPieceSelect]);
 
   return (
     <div
