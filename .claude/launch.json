@@ -3,9 +3,12 @@
   "configurations": [
     {
       "name": "barbican-guide",
-      "runtimeExecutable": "/bin/bash",
-      "runtimeArgs": ["/Users/scottburstein/lego-barbican-guide/start-dev.sh"],
-      "port": 5174
+      "command": "npx vite --port 5174",
+      "cwd": "/Users/scottburstein/lego-barbican-guide",
+      "port": 5174,
+      "env": {
+        "PATH": "/Users/scottburstein/.nvm/versions/node/v25.6.1/bin:/usr/local/bin:/usr/bin:/bin"
+      }
     }
   ]
 }
