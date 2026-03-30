@@ -3,12 +3,10 @@
   "configurations": [
     {
       "name": "barbican-guide",
-      "command": "npx vite --port 5174",
+      "runtimeExecutable": "/Users/scottburstein/.nvm/versions/node/v25.6.1/bin/npx",
+      "runtimeArgs": ["vite", "--port", "5174"],
       "cwd": "/Users/scottburstein/lego-barbican-guide",
-      "port": 5174,
-      "env": {
-        "PATH": "/Users/scottburstein/.nvm/versions/node/v25.6.1/bin:/usr/local/bin:/usr/bin:/bin"
-      }
+      "port": 5174
     }
   ]
 }
