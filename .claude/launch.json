@@ -4,9 +4,9 @@
     {
       "name": "barbican-guide",
       "runtimeExecutable": "/Users/scottburstein/.nvm/versions/node/v25.6.1/bin/npx",
-      "runtimeArgs": ["vite", "--port", "5174"],
+      "runtimeArgs": ["vite", "--port", "5176"],
       "cwd": "/Users/scottburstein/lego-barbican-guide",
-      "port": 5174
+      "port": 5176
     }
   ]
 }

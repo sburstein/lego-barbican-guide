@@ -834,11 +834,61 @@ function buildBarbicanPanorama(
   const TERRACE_H = 7;        // terrace height in brick courses
   const TOWER_X = 0;          // tower center X
   const TOWER_Z = -9;         // tower center Z
-  const TOWER_W = 6;          // tower width
-  const TOWER_D = 4;          // tower depth
+  // Y-plan tower: 2×2 core + 3 wings (back, left, right)
+  const TOWER_CORE = 2;       // central core size
+  const TOWER_WING_W = 2;     // wing width in studs
+  const TOWER_WING_D = 3;     // wing depth in studs (base, decreases with setbacks)
+  const TOWER_W = 6;          // bounding box width (kept for balcony slab sizing)
+  const TOWER_D = 4;          // bounding box depth (kept for compatibility)
   const TOWER_COURSES = 25;
   const TOWER_BASE_Y = PLATE_HEIGHT;
   const LAKE_Z = 6;           // lake center Z (front zone)
+
+  // Tower setback: every 6 courses, wing depth shrinks by 0.5
+  const towerWingDepth = (course: number): number => {
+    const setback = Math.floor(course / 6) * 0.5;
+    return Math.max(2, TOWER_WING_D - setback);
+  };
+
+  // Build one course of the Y-plan tower
+  const buildYTowerCourse = (sg: THREE.Group, course: number) => {
+    const cy = TOWER_BASE_Y + course * BRICK_HEIGHT;
+    const wingD = towerWingDepth(course);
+    const sizes = course % 2 === 0 ? [2] : [1, 1]; // running bond
+    const brickInfo = (sz: number): PieceInfo => ({
+      name: sz === 2 ? "Brick 1×2" : "Brick 1×1",
+      partNumber: sz === 2 ? "3004" : "3005",
+      description: "Tower Y-plan",
+    });
+
+    // Central core: 2×2 solid
+    const core = createBrick(TOWER_CORE, TOWER_CORE, 1, WHITE_MAT, {
+      name: "Brick 2×2", partNumber: "3003", description: "Tower core",
+    }, true);
+    core.position.set(TOWER_X, cy, TOWER_Z);
+    addToStep(sg, core);
+
+    // Wing A: extends -Z (back)
+    for (const sz of sizes) {
+      const wingA = createBrick(TOWER_WING_W, sz, 1, WHITE_MAT, brickInfo(sz), true);
+      wingA.position.set(TOWER_X, cy, TOWER_Z - TOWER_CORE / 2 - wingD / 2);
+      addToStep(sg, wingA);
+    }
+
+    // Wing B: extends +X (right)
+    for (const sz of sizes) {
+      const wingB = createBrick(sz, TOWER_WING_W, 1, WHITE_MAT, brickInfo(sz), true);
+      wingB.position.set(TOWER_X + TOWER_CORE / 2 + wingD / 2, cy, TOWER_Z);
+      addToStep(sg, wingB);
+    }
+
+    // Wing C: extends -X (left)
+    for (const sz of sizes) {
+      const wingC = createBrick(sz, TOWER_WING_W, 1, WHITE_MAT, brickInfo(sz), true);
+      wingC.position.set(TOWER_X - TOWER_CORE / 2 - wingD / 2, cy, TOWER_Z);
+      addToStep(sg, wingC);
+    }
+  };
 
   // ════════════════════════════════════════════════════════════════════
   // PHASE 1: Foundation Platform (10 steps)
@@ -1306,63 +1356,27 @@ function buildBarbicanPanorama(
       addToStep(s4_12, cp);
     }
 
-    // Steps 13-16: Tower Base — running bond (Brick 1×4, 1×3, 1×2)
-    const tw = TOWER_W;
+    // Steps 13-16: Tower Base — Y-plan courses 0-4
     const towerFrontZ = TOWER_Z + TOWER_D / 2;
     const towerBackZ = TOWER_Z - TOWER_D / 2;
 
-    const buildTowerWall = (sg: THREE.Group, course: number, zPos: number) => {
-      const cy = TOWER_BASE_Y + course * BRICK_HEIGHT;
-      const sizes = course % 2 === 0 ? [4, 2] : [3, 3];
-      let xPos = TOWER_X - tw / 2;
-      for (const sz of sizes) {
-        const name = sz === 4 ? "Brick 1×4" : sz === 3 ? "Brick 1×3" : "Brick 1×2";
-        const pn = sz === 4 ? "3010" : sz === 3 ? "3622" : "3004";
-        const b = createBrick(sz, 1, 1, WHITE_MAT, { name, partNumber: pn, description: "Tower base" }, true);
-        b.position.set(xPos + sz / 2, cy, zPos);
-        addToStep(sg, b);
-        xPos += sz;
-      }
-    };
-
-    // Step 13: Tower Base — First 2 courses, front wall
+    // Step 13: Tower Base — Y-plan courses 0-1
     const s4_13 = startStep(pg4);
     for (let c = 0; c < 2; c++) {
-      buildTowerWall(s4_13, c, towerFrontZ - 0.5);
-    }
-    // Side walls
-    for (let c = 0; c < 2; c++) {
-      const cy = TOWER_BASE_Y + c * BRICK_HEIGHT;
-      for (const sx of [-1, 1]) {
-        const b = createBrick(1, TOWER_D - 2, 1, WHITE_MAT, {
-          name: "Brick 1×2", partNumber: "3004", description: "Tower side wall",
-        }, true);
-        b.position.set(TOWER_X + sx * (tw / 2 - 0.5), cy, TOWER_Z);
-        addToStep(s4_13, b);
-      }
+      buildYTowerCourse(s4_13, c);
     }
 
-    // Step 14: Tower Base — course 2, front+back
+    // Step 14: Tower Base — Y-plan course 2
     const s4_14 = startStep(pg4);
-    buildTowerWall(s4_14, 2, towerFrontZ - 0.5);
-    buildTowerWall(s4_14, 2, towerBackZ + 0.5);
+    buildYTowerCourse(s4_14, 2);
 
-    // Step 15: Tower Base — course 3
+    // Step 15: Tower Base — Y-plan course 3
     const s4_15 = startStep(pg4);
-    buildTowerWall(s4_15, 3, towerFrontZ - 0.5);
-    buildTowerWall(s4_15, 3, towerBackZ + 0.5);
+    buildYTowerCourse(s4_15, 3);
 
-    // Step 16: Tower Base — course 4
+    // Step 16: Tower Base — Y-plan course 4
     const s4_16 = startStep(pg4);
-    buildTowerWall(s4_16, 4, towerFrontZ - 0.5);
-    buildTowerWall(s4_16, 4, towerBackZ + 0.5);
-    for (const sx of [-1, 1]) {
-      const b = createBrick(1, TOWER_D - 2, 1, WHITE_MAT, {
-        name: "Brick 1×2", partNumber: "3004", description: "Tower side",
-      }, true);
-      b.position.set(TOWER_X + sx * (tw / 2 - 0.5), TOWER_BASE_Y + 4 * BRICK_HEIGHT, TOWER_Z);
-      addToStep(s4_16, b);
-    }
+    buildYTowerCourse(s4_16, 4);
 
     // Steps 17-22: Terrace Wall — running bond courses above podium deck
     const terraceWallY = PODIUM_DECK_Y + PLATE_HEIGHT;
@@ -1434,32 +1448,16 @@ function buildBarbicanPanorama(
       buildTerraceWallCourse(s4_22, c);
     }
 
-    // Step 23: Tower Shaft — courses 5-7
+    // Step 23: Tower Shaft — Y-plan courses 5-7
     const s4_23 = startStep(pg4);
     for (let c = 5; c < 8; c++) {
-      buildTowerWall(s4_23, c, towerFrontZ - 0.5);
-      buildTowerWall(s4_23, c, towerBackZ + 0.5);
-      for (const sx of [-1, 1]) {
-        const b = createBrick(1, TOWER_D - 2, 1, WHITE_MAT, {
-          name: "Brick 1×2", partNumber: "3004", description: "Tower shaft side",
-        }, true);
-        b.position.set(TOWER_X + sx * (tw / 2 - 0.5), TOWER_BASE_Y + c * BRICK_HEIGHT, TOWER_Z);
-        addToStep(s4_23, b);
-      }
+      buildYTowerCourse(s4_23, c);
     }
 
-    // Step 24: Tower Shaft — courses 8-9
+    // Step 24: Tower Shaft — Y-plan courses 8-9
     const s4_24 = startStep(pg4);
     for (let c = 8; c < 10; c++) {
-      buildTowerWall(s4_24, c, towerFrontZ - 0.5);
-      buildTowerWall(s4_24, c, towerBackZ + 0.5);
-      for (const sx of [-1, 1]) {
-        const b = createBrick(1, TOWER_D - 2, 1, WHITE_MAT, {
-          name: "Brick 1×2", partNumber: "3004", description: "Tower shaft side",
-        }, true);
-        b.position.set(TOWER_X + sx * (tw / 2 - 0.5), TOWER_BASE_Y + c * BRICK_HEIGHT, TOWER_Z);
-        addToStep(s4_24, b);
-      }
+      buildYTowerCourse(s4_24, c);
     }
 
     // Step 25: Structural Floor Plates — Terrace
@@ -1470,16 +1468,16 @@ function buildBarbicanPanorama(
     midPlate.position.set(TERRACE_X, terraceWallY + Math.ceil(TERRACE_H / 2) * BRICK_HEIGHT, TERRACE_Z);
     addToStep(s4_25, midPlate);
 
-    // Step 26: Shear Walls
+    // Step 26: Shear Walls (offset from tower zone)
     const s4_26 = startStep(pg4);
     for (const side of [-1, 1]) {
-      const sx = TERRACE_X + side * 3;
+      const sx = TERRACE_X + side * 5; // moved outward to clear tower Y-plan wings
       for (let c = 0; c < TERRACE_H; c++) {
         const cy = PLATE_HEIGHT + c * BRICK_HEIGHT;
         const wall = createBrick(1, 4, 1, WHITE_MAT, {
           name: "Brick 2×4", partNumber: "3001", description: "Shear wall",
         }, true);
-        wall.position.set(sx, cy, TERRACE_Z - TERRACE_D / 2 - 2);
+        wall.position.set(sx, cy, TERRACE_Z - TERRACE_D / 2 - 1);
         addToStep(s4_26, wall);
       }
     }
@@ -1534,13 +1532,14 @@ function buildBarbicanPanorama(
       }
     }
 
-    // Steps 2-4: Grille Texture — 3 bands
+    // Steps 2-4: Grille Texture — 3 bands (rotated to face outward via SNOT)
     for (let band = 0; band < 3; band++) {
       const sg = startStep(pg5);
       const ly = terraceWallY + (band * 2) * BRICK_HEIGHT;
       for (const cx of snotCols) {
         const grille = createGrilleTile(2, 1, grilleInfo);
-        grille.position.set(cx, ly + BRICK_HEIGHT * 0.5, facadeZ + 0.5 + STUD_HEIGHT);
+        grille.rotation.x = Math.PI / 2; // face outward — SNOT technique
+        grille.position.set(cx, ly + BRICK_HEIGHT * 0.5, facadeZ + 0.6);
         addToStep(sg, grille);
       }
     }
@@ -1606,14 +1605,17 @@ function buildBarbicanPanorama(
     // 6 balcony positions across the terrace, 3 studs wide each
     const balcXs = [-8, -5, -2, 1, 4, 7]; // integer positions for even-width
 
-    // Steps 0-4: Balcony plates at 5 levels
+    // Steps 0-4: Balcony plates at 5 levels (serrated sawtooth edges)
     for (let level = 0; level < 5; level++) {
       const sg = startStep(pg6);
       const ly = terraceWallY + (level * 2 + 1) * BRICK_HEIGHT + BRICK_HEIGHT;
       const stagger = level % 2 === 0 ? 0 : 1;
-      for (const cx of balcXs) {
+      for (let col = 0; col < balcXs.length; col++) {
+        const cx = balcXs[col];
+        // Sawtooth: alternate balconies project 0.5 studs further out
+        const zJitter = (col % 2 === 0) ? 0 : 0.5;
         const balc = createPlate(3, 1, WHITE_MAT, balcInfo, true);
-        balc.position.set(cx + stagger, ly, facadeZ);
+        balc.position.set(cx + stagger, ly, facadeZ + zJitter);
         addToStep(sg, balc);
       }
     }
@@ -1781,82 +1783,50 @@ function buildBarbicanPanorama(
   if (show("bp-tower-core")) {
     const pg8 = beginPhase("bp-tower-core");
     const totalTowerCourses = TOWER_COURSES + Math.round(PODIUM_DECK_Y / BRICK_HEIGHT) + TERRACE_H;
-    const towerFrontZ = TOWER_Z + TOWER_D / 2 - 0.5;
-    const towerBackZ = TOWER_Z - TOWER_D / 2 + 0.5;
-    const tw = TOWER_W;
 
-    const towerBrickInfo = (sz: number): PieceInfo => ({
-      name: sz === 4 ? "Brick 1×4" : sz === 3 ? "Brick 1×3" : "Brick 1×2",
-      partNumber: sz === 4 ? "3010" : sz === 3 ? "3622" : "3004",
-      description: "Tower core",
-    });
-
-    const buildTowerCourseRange = (sg: THREE.Group, startC: number, endC: number) => {
-      for (let course = startC; course < endC; course++) {
-        const cy = TOWER_BASE_Y + course * BRICK_HEIGHT;
-        const sizes = course % 2 === 0 ? [4, 2] : [3, 3];
-        // Front wall
-        let xPos = TOWER_X - tw / 2;
-        for (const sz of sizes) {
-          const b = createBrick(sz, 1, 1, WHITE_MAT, towerBrickInfo(sz), true);
-          b.position.set(xPos + sz / 2, cy, towerFrontZ);
-          addToStep(sg, b);
-          xPos += sz;
-        }
-        // Back wall
-        xPos = TOWER_X - tw / 2;
-        for (const sz of sizes) {
-          const b = createBrick(sz, 1, 1, WHITE_MAT, towerBrickInfo(sz), true);
-          b.position.set(xPos + sz / 2, cy, towerBackZ);
-          addToStep(sg, b);
-          xPos += sz;
-        }
-        // Side walls
-        for (const side of [-1, 1]) {
-          const b = createBrick(1, TOWER_D - 2, 1, WHITE_MAT, {
-            name: "Brick 1×2", partNumber: "3004", description: "Tower side",
-          }, true);
-          b.position.set(TOWER_X + side * (tw / 2 - 0.5), cy, TOWER_Z);
-          addToStep(sg, b);
-        }
+    // Build Y-plan course range
+    const buildYTowerRange = (sg: THREE.Group, startC: number, endC: number) => {
+      for (let c = startC; c < endC; c++) {
+        buildYTowerCourse(sg, c);
       }
     };
 
-    // Step 0: Corner SNOT — Left
+    // Step 0: Corner SNOT — wing tips (left wing)
     const s8_0 = startStep(pg8);
     for (let i = 0; i < 2; i++) {
       const snot = createTravisBrick({
         name: "Brick 1×1 Studs 4 Sides", partNumber: "4733", description: "Tower corner SNOT",
       });
-      snot.position.set(TOWER_X - tw / 2 + 0.5, TOWER_BASE_Y + (10 + i * 10) * BRICK_HEIGHT, towerFrontZ);
+      snot.position.set(TOWER_X - TOWER_CORE / 2 - TOWER_WING_D + 0.5, TOWER_BASE_Y + (10 + i * 10) * BRICK_HEIGHT, TOWER_Z);
       addToStep(s8_0, snot);
     }
 
-    // Step 1: Corner SNOT — Right
+    // Step 1: Corner SNOT — wing tips (right wing)
     const s8_1 = startStep(pg8);
     for (let i = 0; i < 2; i++) {
       const snot = createTravisBrick({
         name: "Brick 1×1 Studs 4 Sides", partNumber: "4733", description: "Tower corner SNOT",
       });
-      snot.position.set(TOWER_X + tw / 2 - 0.5, TOWER_BASE_Y + (10 + i * 10) * BRICK_HEIGHT, towerFrontZ);
+      snot.position.set(TOWER_X + TOWER_CORE / 2 + TOWER_WING_D - 0.5, TOWER_BASE_Y + (10 + i * 10) * BRICK_HEIGHT, TOWER_Z);
       addToStep(s8_1, snot);
     }
 
-    // Steps 2-6: Tower courses in ranges
+    // Steps 2-6: Tower Y-plan courses in ranges
     const midCourse = Math.floor((totalTowerCourses - 5) / 2) + 5;
     const rangeSize = Math.floor((midCourse - 10) / 2);
 
     const s8_2 = startStep(pg8);
-    buildTowerCourseRange(s8_2, 10, 10 + rangeSize);
+    buildYTowerRange(s8_2, 10, 10 + rangeSize);
 
     const s8_3 = startStep(pg8);
-    buildTowerCourseRange(s8_3, 10 + rangeSize, midCourse);
+    buildYTowerRange(s8_3, 10 + rangeSize, midCourse);
 
-    // Step 4: Mid structural plate
+    // Step 4: Mid structural plate (covers core + wing stubs)
     const s8_4 = startStep(pg8);
     {
       const plateY = TOWER_BASE_Y + midCourse * BRICK_HEIGHT;
-      const plate = createPlate(TOWER_W, TOWER_D, WHITE_MAT, {
+      // Core plate
+      const plate = createPlate(TOWER_CORE + 2, TOWER_CORE + 2, WHITE_MAT, {
         name: "Plate 2×6", partNumber: "3795", description: "Tower floor plate",
       }, true);
       plate.position.set(TOWER_X, plateY, TOWER_Z);
@@ -1866,26 +1836,26 @@ function buildBarbicanPanorama(
     const upperRange = Math.floor((totalTowerCourses - midCourse) / 3);
 
     const s8_5 = startStep(pg8);
-    buildTowerCourseRange(s8_5, midCourse, midCourse + upperRange);
+    buildYTowerRange(s8_5, midCourse, midCourse + upperRange);
 
     const s8_6 = startStep(pg8);
-    buildTowerCourseRange(s8_6, midCourse + upperRange, midCourse + upperRange * 2);
+    buildYTowerRange(s8_6, midCourse + upperRange, midCourse + upperRange * 2);
 
     // Steps 7-9: Upper tower
     const s8_7 = startStep(pg8);
-    buildTowerCourseRange(s8_7, midCourse + upperRange * 2, midCourse + upperRange * 3);
+    buildYTowerRange(s8_7, midCourse + upperRange * 2, midCourse + upperRange * 3);
 
     const s8_8 = startStep(pg8);
-    buildTowerCourseRange(s8_8, midCourse + upperRange * 3, Math.min(midCourse + upperRange * 4, totalTowerCourses - 1));
+    buildYTowerRange(s8_8, midCourse + upperRange * 3, Math.min(midCourse + upperRange * 4, totalTowerCourses - 1));
 
     const s8_9 = startStep(pg8);
-    buildTowerCourseRange(s8_9, Math.min(midCourse + upperRange * 4, totalTowerCourses - 1), totalTowerCourses);
+    buildYTowerRange(s8_9, Math.min(midCourse + upperRange * 4, totalTowerCourses - 1), totalTowerCourses);
 
     // Step 10: Top structural plate
     const s8_10 = startStep(pg8);
     {
       const plateY = TOWER_BASE_Y + totalTowerCourses * BRICK_HEIGHT;
-      const plate = createPlate(TOWER_W, TOWER_D, WHITE_MAT, {
+      const plate = createPlate(TOWER_CORE + 2, TOWER_CORE + 2, WHITE_MAT, {
         name: "Plate 2×6", partNumber: "3795", description: "Tower top plate",
       }, true);
       plate.position.set(TOWER_X, plateY, TOWER_Z);
@@ -1896,11 +1866,7 @@ function buildBarbicanPanorama(
     const s8_11 = startStep(pg8);
     {
       const finalY = TOWER_BASE_Y + totalTowerCourses * BRICK_HEIGHT + PLATE_HEIGHT;
-      const capBrick = createBrick(TOWER_W, TOWER_D, 1, WHITE_MAT, {
-        name: "Brick 1×4", partNumber: "3010", description: "Tower final course",
-      }, true);
-      capBrick.position.set(TOWER_X, finalY, TOWER_Z);
-      addToStep(s8_11, capBrick);
+      buildYTowerCourse(s8_11, totalTowerCourses);
     }
   }
 
@@ -1910,29 +1876,38 @@ function buildBarbicanPanorama(
   if (show("bp-tower-facade")) {
     const pg9 = beginPhase("bp-tower-facade");
     const terraceWallY = PODIUM_DECK_Y + PLATE_HEIGHT;
-    const facadeZ_t = TOWER_Z + TOWER_D / 2;
     const towerVisibleStart = terraceWallY + TERRACE_H * BRICK_HEIGHT + 2;
     const grilleInfo9: PieceInfo = { name: "Grille Brick 1×2", partNumber: "2877", description: "Tower window band" };
     const winInfo9: PieceInfo = { name: "Trans-Clear Brick 1×2", partNumber: "3065", description: "Tower window" };
     const slabInfo9: PieceInfo = { name: "Plate 2×6", partNumber: "3795", description: "Tower balcony slab" };
 
-    // Steps 0-6: Window bands at regular intervals
+    // Wing facade positions for Y-plan: front of back wing, right side of right wing, left side of left wing
+    const wingFacades: { x: number; z: number; w: number; d: number; rotated: boolean }[] = [
+      { x: TOWER_X, z: TOWER_Z - TOWER_CORE / 2 - TOWER_WING_D, w: TOWER_WING_W, d: 1, rotated: false }, // back wing tip
+      { x: TOWER_X + TOWER_CORE / 2 + TOWER_WING_D, z: TOWER_Z, w: 1, d: TOWER_WING_W, rotated: true },  // right wing tip
+      { x: TOWER_X - TOWER_CORE / 2 - TOWER_WING_D, z: TOWER_Z, w: 1, d: TOWER_WING_W, rotated: true },  // left wing tip
+    ];
+
+    // Steps 0-6: Window bands on each wing face
     for (let band = 0; band < 7; band++) {
       const sg = startStep(pg9);
       const by = towerVisibleStart + (3 + band * 4) * BRICK_HEIGHT;
-      const grille = createGrilleTile(TOWER_W, 1, grilleInfo9);
-      grille.position.set(TOWER_X, by, facadeZ_t);
-      addToStep(sg, grille);
-      const win = createBrick(TOWER_W, 1, 1, TRANS_MAT, winInfo9);
-      win.position.set(TOWER_X, by + BRICK_HEIGHT, facadeZ_t);
-      addToStep(sg, win);
+      for (const wf of wingFacades) {
+        const grille = createGrilleTile(wf.w, wf.d, grilleInfo9);
+        if (wf.rotated) grille.rotation.x = Math.PI / 2;
+        grille.position.set(wf.x, by, wf.z);
+        addToStep(sg, grille);
+        const win = createBrick(wf.w, wf.d, 1, TRANS_MAT, winInfo9);
+        win.position.set(wf.x, by + BRICK_HEIGHT, wf.z);
+        addToStep(sg, win);
+      }
     }
 
-    // Step 7: Balcony slabs — lower 3
+    // Step 7: Balcony slabs — lower 3 (Y-plan: cross-shaped slab covers core + wing stubs)
     const s9_7 = startStep(pg9);
     for (let band = 0; band < 3; band++) {
       const by = towerVisibleStart + (3 + band * 4) * BRICK_HEIGHT;
-      const slab = createPlate(TOWER_W + 2, TOWER_D + 2, WHITE_MAT, slabInfo9, true);
+      const slab = createPlate(TOWER_CORE + 2, TOWER_CORE + 2, WHITE_MAT, slabInfo9, true);
       slab.position.set(TOWER_X, by + BRICK_HEIGHT + PLATE_HEIGHT, TOWER_Z);
       addToStep(s9_7, slab);
     }
@@ -1941,7 +1916,7 @@ function buildBarbicanPanorama(
     for (let s = 0; s < 3; s++) {
       const sg = startStep(pg9);
       const by = towerVisibleStart + (3 + (3 + s) * 4) * BRICK_HEIGHT;
-      const slab = createPlate(TOWER_W + 2, TOWER_D + 2, WHITE_MAT, slabInfo9, true);
+      const slab = createPlate(TOWER_CORE + 2, TOWER_CORE + 2, WHITE_MAT, slabInfo9, true);
       slab.position.set(TOWER_X, by + BRICK_HEIGHT + PLATE_HEIGHT, TOWER_Z);
       addToStep(sg, slab);
     }
@@ -1958,11 +1933,12 @@ function buildBarbicanPanorama(
     const towerVisibleStart2 = terraceWallY + TERRACE_H * BRICK_HEIGHT + 2;
     const cheeseInfo: PieceInfo = { name: "Cheese Slope 1×1×2/3", partNumber: "54200", description: "Serrated edge" };
 
-    const makeWedge = (side: number, by: number, sg: THREE.Group) => {
+    // Cheese slope wedge at wing tips of Y-plan tower
+    const makeWedge = (wingDir: "left" | "right" | "back", by: number, sg: THREE.Group) => {
       const cheese = new THREE.Group();
       const wedgeShape = new THREE.Shape();
       wedgeShape.moveTo(0, 0);
-      wedgeShape.lineTo(0.7 * side, 0);
+      wedgeShape.lineTo(0.7, 0);
       wedgeShape.lineTo(0, 0.5);
       wedgeShape.closePath();
       const wedgeGeo = new THREE.ExtrudeGeometry(wedgeShape, { depth: 0.8, bevelEnabled: false });
@@ -1972,87 +1948,94 @@ function buildBarbicanPanorama(
       (wedgeMesh as any).pieceInfo = cheeseInfo;
       wedgeMesh.castShadow = true;
       cheese.add(wedgeMesh);
-      cheese.position.set(TOWER_X + (TOWER_W / 2 + 1) * side, by, TOWER_Z + TOWER_D / 2);
+      if (wingDir === "left") {
+        cheese.position.set(TOWER_X - TOWER_CORE / 2 - TOWER_WING_D - 0.5, by, TOWER_Z);
+      } else if (wingDir === "right") {
+        cheese.position.set(TOWER_X + TOWER_CORE / 2 + TOWER_WING_D + 0.5, by, TOWER_Z);
+      } else {
+        cheese.position.set(TOWER_X, by, TOWER_Z - TOWER_CORE / 2 - TOWER_WING_D - 0.5);
+      }
       addToStep(sg, cheese);
     };
 
-    // Steps 0-3: Serrated edges (cheese slopes)
+    // Steps 0-3: Serrated edges (cheese slopes) on Y-plan wing tips
     const s10_0 = startStep(pg10);
     for (let band = 0; band < 2; band++) {
       const by = towerVisibleStart2 + (5 + band * 5) * BRICK_HEIGHT;
-      makeWedge(-1, by, s10_0);
+      makeWedge("left", by, s10_0);
     }
 
     const s10_1 = startStep(pg10);
     for (let band = 0; band < 2; band++) {
       const by = towerVisibleStart2 + (5 + band * 5) * BRICK_HEIGHT;
-      makeWedge(1, by, s10_1);
+      makeWedge("right", by, s10_1);
     }
 
     const s10_2 = startStep(pg10);
     for (let band = 2; band < 4; band++) {
       const by = towerVisibleStart2 + (5 + band * 5) * BRICK_HEIGHT;
-      makeWedge(-1, by, s10_2);
+      makeWedge("back", by, s10_2);
     }
 
     const s10_3 = startStep(pg10);
     for (let band = 2; band < 4; band++) {
       const by = towerVisibleStart2 + (5 + band * 5) * BRICK_HEIGHT;
-      makeWedge(1, by, s10_3);
+      makeWedge("left", by, s10_3);
     }
 
-    // Step 4: Crown main slope
+    // Step 4: Crown slopes — 3 wedges converging (one per wing direction)
     const s10_4 = startStep(pg10);
     {
-      const slopeP = createSlope(TOWER_W, TOWER_D, 45, {
-        name: "Slope 1×2 (45°)", partNumber: "3040", description: "Crown main slope",
+      // Back wing slope
+      const slopeBack = createSlope(TOWER_WING_W, TOWER_WING_D, 45, {
+        name: "Slope 1×2 (45°)", partNumber: "3040", description: "Crown back wing",
       });
-      slopeP.position.set(TOWER_X, crownBaseY, TOWER_Z);
-      addToStep(s10_4, slopeP);
+      slopeBack.position.set(TOWER_X, crownBaseY, TOWER_Z - TOWER_CORE / 2 - 1);
+      addToStep(s10_4, slopeBack);
     }
 
-    // Step 5: Large gentle slopes
+    // Step 5: Crown slopes — right wing
     const s10_5 = startStep(pg10);
     {
-      const slopeP = createSlope(TOWER_W - 2, TOWER_D - 1, 25, {
-        name: "Slope 3×4 (25°)", partNumber: "3297", description: "Crown transition",
+      const slopeRight = createSlope(TOWER_WING_D, TOWER_WING_W, 45, {
+        name: "Slope 3×4 (25°)", partNumber: "3297", description: "Crown right wing",
       });
-      slopeP.position.set(TOWER_X, crownBaseY + BRICK_HEIGHT, TOWER_Z);
-      addToStep(s10_5, slopeP);
+      slopeRight.position.set(TOWER_X + TOWER_CORE / 2 + 1, crownBaseY, TOWER_Z);
+      addToStep(s10_5, slopeRight);
     }
 
-    // Step 6: Medium slopes
+    // Step 6: Crown slopes — left wing
     const s10_6 = startStep(pg10);
     {
-      const slopeP = createSlope(TOWER_W - 2, TOWER_D - 2, 25, {
-        name: "Slope 3×4 (25°)", partNumber: "3297", description: "Crown medium slope",
+      const slopeLeft = createSlope(TOWER_WING_D, TOWER_WING_W, 45, {
+        name: "Slope 3×4 (25°)", partNumber: "3297", description: "Crown left wing",
       });
-      slopeP.position.set(TOWER_X, crownBaseY + 2 * BRICK_HEIGHT, TOWER_Z);
-      addToStep(s10_6, slopeP);
+      slopeLeft.position.set(TOWER_X - TOWER_CORE / 2 - 1, crownBaseY, TOWER_Z);
+      addToStep(s10_6, slopeLeft);
     }
 
-    // Step 7: Steep slopes
+    // Step 7: Crown core convergence
     const s10_7 = startStep(pg10);
     {
-      const slopeP = createSlope(TOWER_W - 4, TOWER_D - 2, 65, {
-        name: "Slope 1×2×2 (65°)", partNumber: "60481", description: "Crown steep slope",
+      const coreCrown = createSlope(TOWER_CORE, TOWER_CORE, 65, {
+        name: "Slope 1×2×2 (65°)", partNumber: "60481", description: "Crown steep core",
       });
-      slopeP.position.set(TOWER_X, crownBaseY + 3 * BRICK_HEIGHT, TOWER_Z);
-      addToStep(s10_7, slopeP);
+      coreCrown.position.set(TOWER_X, crownBaseY + BRICK_HEIGHT, TOWER_Z);
+      addToStep(s10_7, coreCrown);
     }
 
-    // Step 8: Cap tiles
+    // Step 8: Cap tile
     const s10_8 = startStep(pg10);
-    const capY = crownBaseY + 3 * BRICK_HEIGHT;
-    const cap = createTile(TOWER_W - 2, TOWER_D - 2, WHITE_MAT, {
+    const capY = crownBaseY + 2 * BRICK_HEIGHT;
+    const cap = createTile(TOWER_CORE, TOWER_CORE, WHITE_MAT, {
       name: "Tile 2×2", partNumber: "3068b", description: "Tower cap",
     });
     cap.position.set(TOWER_X, capY + BRICK_HEIGHT, TOWER_Z);
     addToStep(s10_8, cap);
 
-    // Step 9: Mechanical penthouse
+    // Step 9: Mechanical penthouse — single 1×1 on top
     const s10_9 = startStep(pg10);
-    const mech = createBrick(2, 2, 1, DARK_MAT, {
+    const mech = createBrick(1, 1, 1, DARK_MAT, {
       name: "Brick 1×1", partNumber: "3005", description: "Mechanical penthouse",
     }, true);
     mech.position.set(TOWER_X, capY + BRICK_HEIGHT + PLATE_HEIGHT, TOWER_Z);
