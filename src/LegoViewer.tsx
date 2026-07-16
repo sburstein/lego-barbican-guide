@@ -85,13 +85,13 @@ export default function LegoViewer({
     // Scene
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0xf5f5f0);
-    scene.fog = new THREE.Fog(0xf5f5f0, 80, 150);
+    scene.fog = new THREE.Fog(0xf5f5f0, 110, 220);
     sceneRef.current = scene;
 
     // Camera
-    const camera = new THREE.PerspectiveCamera(35, width / height, 0.1, 300);
-    camera.position.set(30, 22, 35);
-    camera.lookAt(0, 8, 0);
+    const camera = new THREE.PerspectiveCamera(35, width / height, 0.1, 400);
+    camera.position.set(62, 56, 76);
+    camera.lookAt(0, 15, 0);
     cameraRef.current = camera;
 
     // Renderer
@@ -112,9 +112,9 @@ export default function LegoViewer({
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.08;
-    controls.target.set(0, 8, 0);
+    controls.target.set(0, 15, 0);
     controls.minDistance = 15;
-    controls.maxDistance = 80;
+    controls.maxDistance = 120;
     controls.maxPolarAngle = Math.PI / 2 + 0.1;
     controls.update();
     controlsRef.current = controls;
@@ -124,16 +124,16 @@ export default function LegoViewer({
     scene.add(ambientLight);
 
     const directionalLight = new THREE.DirectionalLight(0xfff8e7, 1.2);
-    directionalLight.position.set(15, 25, 10);
+    directionalLight.position.set(25, 50, 18);
     directionalLight.castShadow = true;
     directionalLight.shadow.mapSize.width = 2048;
     directionalLight.shadow.mapSize.height = 2048;
     directionalLight.shadow.camera.near = 0.5;
-    directionalLight.shadow.camera.far = 80;
-    directionalLight.shadow.camera.left = -20;
-    directionalLight.shadow.camera.right = 20;
-    directionalLight.shadow.camera.top = 20;
-    directionalLight.shadow.camera.bottom = -20;
+    directionalLight.shadow.camera.far = 140;
+    directionalLight.shadow.camera.left = -30;
+    directionalLight.shadow.camera.right = 30;
+    directionalLight.shadow.camera.top = 55;
+    directionalLight.shadow.camera.bottom = -25;
     directionalLight.shadow.bias = -0.001;
     scene.add(directionalLight);
 
@@ -202,14 +202,10 @@ export default function LegoViewer({
       animFrameRef.current = 0;
     }
 
-    // Remove old model
+    // Remove old model. Geometries are shared/cached by the piece factory,
+    // so they must NOT be disposed here.
     if (modelRef.current) {
       sceneRef.current.remove(modelRef.current);
-      modelRef.current.traverse((obj) => {
-        if ((obj as THREE.Mesh).geometry) {
-          (obj as THREE.Mesh).geometry.dispose();
-        }
-      });
     }
 
     // Build new model
