@@ -108,7 +108,7 @@ const barbicanPanorama: Build = {
   subtitle:
     "The full lakeside composition: tower, terraces, conservatory, podium, and lake",
   description:
-    "A large-scale diorama capturing the Barbican's most iconic composition — the full lakeside view with Lauderdale Tower rising behind barrel-vaulted terrace blocks, the colonnade podium, the Conservatory greenhouse, and the ornamental lake. This is a serious, multi-session build using grille-brick spandrels for bush-hammered concrete texture, inverted slopes for the waterside plinth, serrated balcony bands, and recessed window slots. Designed to maximise the LEGO Architecture Studio 21050 set.",
+    "A large-scale diorama capturing the Barbican's most iconic composition — the full lakeside view with Lauderdale Tower rising behind barrel-vaulted terrace blocks, the colonnade podium, the Conservatory greenhouse, and the ornamental lake. This is a serious, multi-session build using grille-brick spandrels for bush-hammered concrete texture, inverted slopes for the waterside plinth, serrated balcony bands, and recessed window slots. Every piece is drawn from the set's actual white and trans-clear inventory; the 3D model tints water edging dark and planting green purely as a visual guide — on the table those are the same white parts. Designed to maximise the LEGO Architecture Studio 21050 set.",
   difficulty: 3,
   estimatedTime: "8–12 hours across multiple sessions",
   pieceCount: 671,
@@ -292,54 +292,54 @@ const barbicanPanorama: Build = {
         {
           title: "Water Surface — Back Rows",
           instruction:
-            "Place 12× Trans-Clear Trans-Clear Plate 1×2 — lake water. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 12× Trans-Clear Plate 1×2 — lake water. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
-          { name: "Trans-Clear Trans-Clear Plate 1×2", part: "3023", qty: 12 },
+          { name: "Trans-Clear Plate 1×2", part: "3023", qty: 12 },
         ],
           tip: "Do not cover every single stud. The irregularity is deliberate — in architecture this is called 'articulated surface.' The bumps read as ripples at this scale.",
         },
         {
           title: "Water Surface — Middle Rows",
           instruction:
-            "Place 6× Trans-Clear Trans-Clear Plate 1×2 — lake water. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 6× Trans-Clear Plate 1×2 — lake water. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
-          { name: "Trans-Clear Trans-Clear Plate 1×2", part: "3023", qty: 6 },
+          { name: "Trans-Clear Plate 1×2", part: "3023", qty: 6 },
         ],
           tip: "Offsetting rows prevents a visible grid pattern. Real water has no straight lines — the offset suggests organic ripple movement.",
         },
         {
           title: "Water Surface — Front Rows",
           instruction:
-            "Place 6× Trans-Clear Trans-Clear Plate 1×2 — lake water. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 6× Trans-Clear Plate 1×2 — lake water. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
-          { name: "Trans-Clear Trans-Clear Plate 1×2", part: "3023", qty: 6 },
+          { name: "Trans-Clear Plate 1×2", part: "3023", qty: 6 },
         ],
           tip: "Three bands of transparent plates create a convincing water mass. The depth of the clear plastic catches and refracts real light — just like water.",
         },
         {
           title: "Water Surface — Final Fill",
           instruction:
-            "Place 6× Trans-Clear Trans-Clear Plate 1×2 — lake water. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 6× Trans-Clear Plate 1×2 — lake water. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
-          { name: "Trans-Clear Trans-Clear Plate 1×2", part: "3023", qty: 6 },
+          { name: "Trans-Clear Plate 1×2", part: "3023", qty: 6 },
         ],
           tip: "The lake should now be a continuous transparent surface. A few exposed studs between plates are desirable — they add texture.",
         },
         {
           title: "Depth Variation — Near Edges",
           instruction:
-            "Place 7× Trans-Clear Trans-Clear Plate 1×1 — ripple highlight. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 7× Trans-Clear Plate 1×1 — ripple highlight. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
-          { name: "Trans-Clear Trans-Clear Plate 1×1", part: "3024", qty: 7 },
+          { name: "Trans-Clear Plate 1×1", part: "3024", qty: 7 },
         ],
           tip: "Real lakes are shallow at the edges and deeper in the centre. These scattered singles near the rim suggest that natural depth gradient.",
         },
         {
           title: "Depth Variation — Centre & Deep Spots",
           instruction:
-            "Place 7× Trans-Clear Trans-Clear Plate 1×1 — ripple highlight. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 7× Trans-Clear Plate 1×1 — ripple highlight. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
-          { name: "Trans-Clear Trans-Clear Plate 1×1", part: "3024", qty: 7 },
+          { name: "Trans-Clear Plate 1×1", part: "3024", qty: 7 },
         ],
           tip: "The Architecture Studio guidebook says 'what is not there matters as much as what is.' The sparser centre reads as deeper, stiller water.",
         },
@@ -491,27 +491,27 @@ const barbicanPanorama: Build = {
         {
           title: "Ground-Floor Windows — Left Half",
           instruction:
-            "Place 2× Trans-Clear Trans-Clear Panel 1×2×2 — foyer glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 2× Trans-Clear Panel 1×2×2 — foyer glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
-          { name: "Trans-Clear Trans-Clear Panel 1×2×2", part: "87552", qty: 2 },
+          { name: "Trans-Clear Panel 1×2×2", part: "87552", qty: 2 },
         ],
           tip: "These large windows signal public space — the Arts Centre foyer is the most open, inviting part of the Barbican at ground level.",
         },
         {
           title: "Ground-Floor Windows — Right Half",
           instruction:
-            "Place 1× Trans-Clear Trans-Clear Panel 1×2×2 — foyer glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 1× Trans-Clear Panel 1×2×2 — foyer glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
-          { name: "Trans-Clear Trans-Clear Panel 1×2×2", part: "87552", qty: 1 },
+          { name: "Trans-Clear Panel 1×2×2", part: "87552", qty: 1 },
         ],
           tip: "Place these firmly now — once the podium deck spans over this zone, you cannot adjust window positions.",
         },
         {
           title: "Ground-Level Landscaping",
           instruction:
-            "Place 2× Slope 2×3 (25°) (green) — landscaped bank. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 2× Slope 2×3 (25°) — landscaped bank. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
-          { name: "Slope 2×3 (25°) (green)", part: "3298", qty: 2 },
+          { name: "Slope 2×3 (25°)", part: "3298", qty: 2 },
         ],
           tip: "Grade changes (gentle slopes in the ground plane) make a landscape feel natural. Even 1-plate height differences create shadow lines that read as terrain. This is your last chance to reach the ground plane.",
         },
@@ -797,9 +797,9 @@ const barbicanPanorama: Build = {
         {
           title: "Grille Texture — Middle Band",
           instruction:
-            "Place 6× Trans-Clear Trans-Clear Brick 1×2 — window glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 6× Trans-Clear Brick 1×2 — window glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
-          { name: "Trans-Clear Trans-Clear Brick 1×2", part: "3065", qty: 6 },
+          { name: "Trans-Clear Brick 1×2", part: "3065", qty: 6 },
         ],
           tip: "Each grille tile is a miniature abstraction of rough concrete. The repeating pattern creates a moiré effect that reads as surface texture from across the room.",
         },
@@ -824,9 +824,9 @@ const barbicanPanorama: Build = {
         {
           title: "Window Reveals — Middle Row",
           instruction:
-            "Place 6× Trans-Clear Trans-Clear Brick 1×2 — window glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 6× Trans-Clear Brick 1×2 — window glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
-          { name: "Trans-Clear Trans-Clear Brick 1×2", part: "3065", qty: 6 },
+          { name: "Trans-Clear Brick 1×2", part: "3065", qty: 6 },
         ],
           tip: "Consistent spacing between headlight bricks creates the regular window grid that defines Brutalist residential blocks — one window per living room, repeated identically.",
         },
@@ -851,9 +851,9 @@ const barbicanPanorama: Build = {
         {
           title: "Glazing — Middle Windows",
           instruction:
-            "Place 6× Trans-Clear Trans-Clear Brick 1×2 — window glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 6× Trans-Clear Brick 1×2 — window glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
-          { name: "Trans-Clear Trans-Clear Brick 1×2", part: "3065", qty: 6 },
+          { name: "Trans-Clear Brick 1×2", part: "3065", qty: 6 },
         ],
           tip: "The recess depth creates a visible shadow line around each window — this shadow line is what gives the facade its three-dimensional quality in photographs.",
         },
@@ -922,18 +922,18 @@ const barbicanPanorama: Build = {
         {
           title: "Balcony Sub-Assembly 2 — Plates & Soffits",
           instruction:
-            "Place 2× Plate 1×1 Round (green) — balcony planter. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 2× Plate 1×1 Round — balcony planter. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
-          { name: "Plate 1×1 Round (green)", part: "4073", qty: 2 },
+          { name: "Plate 1×1 Round", part: "4073", qty: 2 },
         ],
           tip: "Varying the soffit type between balcony rows creates visual interest — the real Barbican uses different soffit depths at different levels.",
         },
         {
           title: "Balcony Sub-Assembly 3 — Wide Balcony",
           instruction:
-            "Place 4× Plate 1×1 Round (green) — balcony planter. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 4× Plate 1×1 Round — balcony planter. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
-          { name: "Plate 1×1 Round (green)", part: "4073", qty: 4 },
+          { name: "Plate 1×1 Round", part: "4073", qty: 4 },
         ],
           tip: "The 4th-storey balcony is the widest in the real Barbican — it projects furthest and casts the deepest shadow. The 2×2 inverted slopes create this extra depth.",
         },
@@ -976,10 +976,10 @@ const barbicanPanorama: Build = {
         {
           title: "Attach Balconies — Upper Rows",
           instruction:
-            "Place 2× Plate 1×1 Round — deck planter, then 2× Plate 1×1 Round (green) — deck planting. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 2× Plate 1×1 Round — deck planter, then 2× Plate 1×1 Round — deck planting. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
           { name: "Plate 1×1 Round", part: "4073", qty: 2 },
-          { name: "Plate 1×1 Round (green)", part: "4073", qty: 2 },
+          { name: "Plate 1×1 Round", part: "4073", qty: 2 },
         ],
           tip: "Six balcony rows create six shadow lines — this layered horizontal effect is what makes the Barbican terraces so photogenic in low afternoon light.",
         },
@@ -1076,10 +1076,10 @@ const barbicanPanorama: Build = {
         {
           title: "Eave Slopes — Remaining",
           instruction:
-            "Place 2× Brick 1×1 — plant room corner, then 2× Trans-Clear Trans-Clear Brick 1×2 — plant room glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 2× Brick 1×1 — plant room corner, then 2× Trans-Clear Brick 1×2 — plant room glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
           { name: "Brick 1×1", part: "3005", qty: 2 },
-          { name: "Trans-Clear Trans-Clear Brick 1×2", part: "3065", qty: 2 },
+          { name: "Trans-Clear Brick 1×2", part: "3065", qty: 2 },
         ],
           tip: "No gaps at the eave line — every opening lets light through and breaks the illusion of a solid concrete roof. Seal every joint.",
         },
@@ -1291,10 +1291,10 @@ const barbicanPanorama: Build = {
         {
           title: "Rear Corner SNOT — 4-Sided Bricks",
           instruction:
-            "Place 3× Grille Brick 1×2 — tower spandrel band, then 3× Trans-Clear Trans-Clear Brick 1×2 — tower window band. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 3× Grille Brick 1×2 — tower spandrel band, then 3× Trans-Clear Brick 1×2 — tower window band. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
           { name: "Grille Brick 1×2", part: "2877", qty: 3 },
-          { name: "Trans-Clear Trans-Clear Brick 1×2", part: "3065", qty: 3 },
+          { name: "Trans-Clear Brick 1×2", part: "3065", qty: 3 },
         ],
           tip: "The 4-sided SNOT brick handles corners where two cladding planes meet. It provides attachment in all four cardinal directions.",
           highlight: true,
@@ -1302,40 +1302,40 @@ const barbicanPanorama: Build = {
         {
           title: "Rear Corner SNOT — Additional",
           instruction:
-            "Place 3× Grille Brick 1×2 — tower spandrel band, then 3× Trans-Clear Trans-Clear Brick 1×2 — tower window band. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 3× Grille Brick 1×2 — tower spandrel band, then 3× Trans-Clear Brick 1×2 — tower window band. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
           { name: "Grille Brick 1×2", part: "2877", qty: 3 },
-          { name: "Trans-Clear Trans-Clear Brick 1×2", part: "3065", qty: 3 },
+          { name: "Trans-Clear Brick 1×2", part: "3065", qty: 3 },
         ],
           tip: "More SNOT mounting points mean smoother cladding attachment. The real tower has continuous cladding — not intermittent patches.",
         },
         {
           title: "Edge SNOT — 2-Sided Bricks",
           instruction:
-            "Place 3× Grille Brick 1×2 — tower spandrel band, then 3× Trans-Clear Trans-Clear Brick 1×2 — tower window band. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 3× Grille Brick 1×2 — tower spandrel band, then 3× Trans-Clear Brick 1×2 — tower window band. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
           { name: "Grille Brick 1×2", part: "2877", qty: 3 },
-          { name: "Trans-Clear Trans-Clear Brick 1×2", part: "3065", qty: 3 },
+          { name: "Trans-Clear Brick 1×2", part: "3065", qty: 3 },
         ],
           tip: "The 2-sided SNOT brick is the workhorse of tower facades — it provides cladding attachment along flat faces while the 4-sided brick handles corners.",
         },
         {
           title: "Edge SNOT — Remaining",
           instruction:
-            "Place 3× Grille Brick 1×2 — tower spandrel band, then 3× Trans-Clear Trans-Clear Brick 1×2 — tower window band. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 3× Grille Brick 1×2 — tower spandrel band, then 3× Trans-Clear Brick 1×2 — tower window band. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
           { name: "Grille Brick 1×2", part: "2877", qty: 3 },
-          { name: "Trans-Clear Trans-Clear Brick 1×2", part: "3065", qty: 3 },
+          { name: "Trans-Clear Brick 1×2", part: "3065", qty: 3 },
         ],
           tip: "Together, the 4-sided and 2-sided SNOT bricks create a complete wrapping surface around the tower. Every visible face can now receive cladding.",
         },
         {
           title: "Horizontal Banding — Lower Grilles",
           instruction:
-            "Place 3× Grille Brick 1×2 — tower spandrel band, then 3× Trans-Clear Trans-Clear Brick 1×2 — tower window band. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 3× Grille Brick 1×2 — tower spandrel band, then 3× Trans-Clear Brick 1×2 — tower window band. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
           { name: "Grille Brick 1×2", part: "2877", qty: 3 },
-          { name: "Trans-Clear Trans-Clear Brick 1×2", part: "3065", qty: 3 },
+          { name: "Trans-Clear Brick 1×2", part: "3065", qty: 3 },
         ],
           tip: "Horizontal banding expresses the floor plates — each line says 'a floor slab is here.' This honest expression of structure is a core Brutalist principle.",
         },
@@ -1552,27 +1552,27 @@ const barbicanPanorama: Build = {
         {
           title: "Corner Infill — Left Side",
           instruction:
-            "Place 2× Trans-Clear Trans-Clear Panel 1×2×2 — side glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 2× Trans-Clear Panel 1×2×2 — side glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
-          { name: "Trans-Clear Trans-Clear Panel 1×2×2", part: "87552", qty: 2 },
+          { name: "Trans-Clear Panel 1×2×2", part: "87552", qty: 2 },
         ],
           tip: "Corner bricks make the curve appear continuous — without them, the conservatory walls would have visible gaps at every quarter-turn.",
         },
         {
           title: "Corner Infill — Right Side",
           instruction:
-            "Place 2× Trans-Clear Trans-Clear Panel 1×2×2 — rear glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 2× Trans-Clear Panel 1×2×2 — rear glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
-          { name: "Trans-Clear Trans-Clear Panel 1×2×2", part: "87552", qty: 2 },
+          { name: "Trans-Clear Panel 1×2×2", part: "87552", qty: 2 },
         ],
           tip: "The completed wall frame should feel solid and self-supporting. It needs to hold glazing and support the roof slopes.",
         },
         {
           title: "Glazing — Front Windows",
           instruction:
-            "Place 2× Trans-Clear Trans-Clear Panel 1×2×2 — front glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 2× Trans-Clear Panel 1×2×2 — front glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
-          { name: "Trans-Clear Trans-Clear Panel 1×2×2", part: "87552", qty: 2 },
+          { name: "Trans-Clear Panel 1×2×2", part: "87552", qty: 2 },
         ],
           tip: "The white curved bricks represent the steel frame, the transparent bricks represent the glass. This frame-and-infill logic is the same as a curtain wall.",
         },
@@ -1590,18 +1590,18 @@ const barbicanPanorama: Build = {
         {
           title: "Interior Planting — Dense Clusters",
           instruction:
-            "Place 3× Plate 1×1 Round (green) — conservatory planting. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 3× Plate 1×1 Round — conservatory planting. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
-          { name: "Plate 1×1 Round (green)", part: "4073", qty: 3 },
+          { name: "Plate 1×1 Round", part: "4073", qty: 3 },
         ],
           tip: "Place the planting before the roof goes on — once the roof is in place, you cannot reach inside. Clustered round plates suggest dense tropical planting from above.",
         },
         {
           title: "Interior Planting — Scattered",
           instruction:
-            "Place 2× Plate 1×1 Round (green) — conservatory planting. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 2× Plate 1×1 Round — conservatory planting. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
-          { name: "Plate 1×1 Round (green)", part: "4073", qty: 2 },
+          { name: "Plate 1×1 Round", part: "4073", qty: 2 },
         ],
           tip: "Sparse planting around the edges contrasts with the dense clusters inside. This creates the feel of cultivation grading into wildness.",
         },
@@ -1618,18 +1618,18 @@ const barbicanPanorama: Build = {
         {
           title: "Glass Roof",
           instruction:
-            "Place 6× Trans-Clear Trans-Clear Plate 1×2 — glass roof. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 6× Trans-Clear Plate 1×2 — glass roof. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
-          { name: "Trans-Clear Trans-Clear Plate 1×2", part: "3023", qty: 6 },
+          { name: "Trans-Clear Plate 1×2", part: "3023", qty: 6 },
         ],
           tip: "An 18-degree pitch is typical of greenhouse roofs — steep enough to shed rain, shallow enough to admit winter sun at London's latitude.",
         },
         {
           title: "Rooftop Platform — Round Corners",
           instruction:
-            "Place 6× Trans-Clear Trans-Clear Plate 1×2 — glass roof. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 6× Trans-Clear Plate 1×2 — glass roof. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
-          { name: "Trans-Clear Trans-Clear Plate 1×2", part: "3023", qty: 6 },
+          { name: "Trans-Clear Plate 1×2", part: "3023", qty: 6 },
         ],
           tip: "The round corner plates create an organic terrace outline that contrasts with the rectangular platform below — another instance of the Barbican's curve-vs-straight dialogue.",
         },
@@ -1879,40 +1879,40 @@ const barbicanPanorama: Build = {
         {
           title: "Curved Edges & Plaza Extension",
           instruction:
-            "Place 2× Round Brick 1×1 — tree trunk; 2× Plate 2×2 Round (green) — tree canopy; and 2× Plate 1×1 Round (green) — tree crown. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 2× Round Brick 1×1 — tree trunk; 2× Plate 2×2 Round — tree canopy; and 2× Plate 1×1 Round — tree crown. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
           { name: "Round Brick 1×1", part: "3062b", qty: 2 },
-          { name: "Plate 2×2 Round (green)", part: "4032", qty: 2 },
-          { name: "Plate 1×1 Round (green)", part: "4073", qty: 2 },
+          { name: "Plate 2×2 Round", part: "4032", qty: 2 },
+          { name: "Plate 1×1 Round", part: "4073", qty: 2 },
         ],
           tip: "The curved edges soften the rectangular platform and echo the conservatory's organic form — the Barbican's signature curve-vs-straight dialogue.",
         },
         {
           title: "Landscape Slopes — Terrain Grading",
           instruction:
-            "Place 2× Round Brick 1×1 — tree trunk; 2× Plate 2×2 Round (green) — tree canopy; and 2× Plate 1×1 Round (green) — tree crown. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 2× Round Brick 1×1 — tree trunk; 2× Plate 2×2 Round — tree canopy; and 2× Plate 1×1 Round — tree crown. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
           { name: "Round Brick 1×1", part: "3062b", qty: 2 },
-          { name: "Plate 2×2 Round (green)", part: "4032", qty: 2 },
-          { name: "Plate 1×1 Round (green)", part: "4073", qty: 2 },
+          { name: "Plate 2×2 Round", part: "4032", qty: 2 },
+          { name: "Plate 1×1 Round", part: "4073", qty: 2 },
         ],
           tip: "Terrain slopes soften the transition between ground plane and vertical structure. Without them, buildings look like they have been dropped onto a table.",
         },
         {
           title: "Landscape Slopes — Edge Transitions",
           instruction:
-            "Place 1× Slope 2×3 (25°) (green) — landscaped bank. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 1× Slope 2×3 (25°) — landscaped bank. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
-          { name: "Slope 2×3 (25°) (green)", part: "3298", qty: 1 },
+          { name: "Slope 2×3 (25°)", part: "3298", qty: 1 },
         ],
           tip: "Multiple slope angles in the landscape create a natural, undulating ground plane — not a flat sterile surface.",
         },
         {
           title: "Structural Soffits — Exposed Deck Edges",
           instruction:
-            "Place 1× Slope 2×3 (25°) (green) — landscaped bank. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 1× Slope 2×3 (25°) — landscaped bank. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
-          { name: "Slope 2×3 (25°) (green)", part: "3298", qty: 1 },
+          { name: "Slope 2×3 (25°)", part: "3298", qty: 1 },
         ],
           tip: "The inverted slopes underneath deck edges create the deep shadow lines that distinguish the Barbican's layered horizontal planes. They are the most Brutalist detail in the model.",
         },
@@ -1955,11 +1955,11 @@ const barbicanPanorama: Build = {
         {
           title: "Final Structural Completion",
           instruction:
-            "Place 2× Round Brick 1×1 — tree trunk; 2× Plate 2×2 Round (green) — tree canopy; and 2× Plate 1×1 Round (green) — tree crown. Every piece sits on the stud grid — press each one down fully before moving on.",
+            "Place 2× Round Brick 1×1 — tree trunk; 2× Plate 2×2 Round — tree canopy; and 2× Plate 1×1 Round — tree crown. Every piece sits on the stud grid — press each one down fully before moving on.",
           pieces: [
           { name: "Round Brick 1×1", part: "3062b", qty: 2 },
-          { name: "Plate 2×2 Round (green)", part: "4032", qty: 2 },
-          { name: "Plate 1×1 Round (green)", part: "4073", qty: 2 },
+          { name: "Plate 2×2 Round", part: "4032", qty: 2 },
+          { name: "Plate 1×1 Round", part: "4073", qty: 2 },
         ],
           tip: "Step back and view the completed diorama from lake level — at eye height with the podium. You should see the full Barbican composition: lake reflecting towers, terraces screening the base, podium columns creating rhythm, and the conservatory catching light at the end. This is the view that made the Barbican an icon of Brutalist urbanism.",
           highlight: true,

@@ -17,10 +17,13 @@ function stepEntries(step) {
     const key = `${p.info.name}|${p.info.partNumber}|${p.color}|${p.info.description}`;
     groups.set(key, (groups.get(key) || 0) + 1);
   }
+  // The physical 21050 set is white + trans-clear only; dark/green in the 3D
+  // model are visual coding for the same white parts, so names stay real.
   return [...groups.entries()].map(([key, qty]) => {
-    const [name, part, color, desc] = key.split("|");
-    const displayName =
-      color === "trans" ? `Trans-Clear ${name}` : color === "green" ? `${name} (green)` : name;
+    const [name, part, , desc] = key.split("|");
+    const displayName = name.startsWith("Trans-Clear") || !part.match(/^(3023|3024|3065|87552)$/)
+      ? name
+      : `Trans-Clear ${name}`;
     return { name: displayName, part, qty, desc };
   });
 }

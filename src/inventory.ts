@@ -1,4 +1,9 @@
 // ─── Full LEGO Architecture Studio 21050 Inventory ──────────────────
+// Verified part-for-part and quantity-for-quantity against the published
+// Brickset inventory of 21050-1 (July 2026). Part numbers use BrickLink
+// conventions (e.g. 3941 for the 2×2 round brick, LEGO design 6143;
+// 30413 for the 1×4×1 panel, LEGO design 15207; 2456 for the 2×6 brick,
+// LEGO design 44237). The set contains white and trans-clear parts only.
 
 export type PieceEntry = {
   partNumber: string;
