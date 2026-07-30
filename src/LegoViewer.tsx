@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { buildPhaseModel, HIGHLIGHT_MAT, type PieceInfo } from "./lego-geometry";
+import { boundsFor } from "./build-models.ts";
 
 type Props = {
   buildId: string;
@@ -88,7 +89,9 @@ export default function LegoViewer({
     scene.fog = new THREE.Fog(0xf5f5f0, 110, 220);
     sceneRef.current = scene;
 
-    // Camera
+    // Camera. The real framing is applied by the re-frame effect below as
+    // soon as the scene is live, so that a 12-stud section and a 40-stud
+    // diorama each fill the viewport rather than sharing one fixed view.
     const camera = new THREE.PerspectiveCamera(35, width / height, 0.1, 400);
     camera.position.set(62, 56, 76);
     camera.lookAt(0, 15, 0);
@@ -113,8 +116,6 @@ export default function LegoViewer({
     controls.enableDamping = true;
     controls.dampingFactor = 0.08;
     controls.target.set(0, 15, 0);
-    controls.minDistance = 15;
-    controls.maxDistance = 120;
     controls.maxPolarAngle = Math.PI / 2 + 0.1;
     controls.update();
     controlsRef.current = controls;
@@ -191,6 +192,36 @@ export default function LegoViewer({
       container.removeChild(renderer.domElement);
     };
   }, [handleClick]);
+
+  // Re-frame the camera when the build changes — the scene is created once,
+  // so without this a switch would keep the previous build's framing.
+  useEffect(() => {
+    const camera = cameraRef.current;
+    const controls = controlsRef.current;
+    if (!camera || !controls || !isLoaded) return;
+    const { center, radius } = boundsFor(buildId);
+    const [tx, ty, tz] = center;
+
+    // Distance that fits the bounding sphere in the narrower of the two
+    // field-of-view angles, trimmed slightly because a sphere over-estimates
+    // a boxy model. Direction matches the original hand-tuned three-quarter
+    // view so the panorama still looks the way it always did.
+    // The container can still be zero-width on the first layout pass, which
+    // leaves camera.aspect at 0; fall back to a square viewport so the fit
+    // falls back to the vertical one rather than dividing by zero.
+    const aspect =
+      Number.isFinite(camera.aspect) && camera.aspect > 0 ? camera.aspect : 1;
+    const vHalf = THREE.MathUtils.degToRad(camera.fov / 2);
+    const hHalf = Math.atan(Math.tan(vHalf) * aspect);
+    const dist = (radius / Math.sin(Math.min(vHalf, hHalf))) * 0.95;
+    const dir = new THREE.Vector3(62, 41, 76).normalize();
+
+    camera.position.set(tx + dir.x * dist, ty + dir.y * dist, tz + dir.z * dist);
+    controls.target.set(tx, ty, tz);
+    controls.minDistance = Math.max(4, radius * 0.4);
+    controls.maxDistance = dist * 2.5;
+    controls.update();
+  }, [buildId, isLoaded]);
 
   // Update model when phase/step/completedSteps changes
   useEffect(() => {

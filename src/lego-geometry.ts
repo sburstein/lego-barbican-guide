@@ -1,8 +1,6 @@
 import * as THREE from "three";
 import {
-  generateBuild,
   validateBuild,
-  BP_PHASE_ORDER,
   studCells,
   footprintCells,
   type Placement,
@@ -10,6 +8,7 @@ import {
   type Facing,
   type PieceInfo,
 } from "./lego-model";
+import { BUILD_IDS, modelFor, phaseOrderFor } from "./build-models.ts";
 
 export type { PieceInfo } from "./lego-model";
 
@@ -107,6 +106,21 @@ function yawOf(f: Facing): number {
   }
 }
 
+/** Unit vector of a facing in model coordinates (matches the validator). */
+const FACE_DIR: Record<Facing, [number, number]> = {
+  N: [0, -1], S: [0, 1], E: [1, 0], W: [-1, 0],
+};
+
+/** Yaw that swings local +z onto FACE_DIR[f]. */
+function dirYaw(f: Facing): number {
+  switch (f) {
+    case "S": return 0;
+    case "N": return Math.PI;
+    case "E": return Math.PI / 2;
+    case "W": return -Math.PI / 2;
+  }
+}
+
 /** Extrude a 2D profile (depth-axis = shape X, height = shape Y) across a width. */
 function prism(points: [number, number][], width: number): THREE.BufferGeometry {
   const shape = new THREE.Shape();
@@ -136,6 +150,12 @@ function curvedTopProfile(width: number, h: number): [number, number][] {
 }
 
 // ─── Piece mesh factory ────────────────────────────────────────────────
+
+/** Tag an object with the part it belongs to, for click-to-identify. */
+function tag<T extends THREE.Object3D>(obj: T, info: PieceInfo): T {
+  (obj as T & { pieceInfo?: PieceInfo }).pieceInfo = info;
+  return obj;
+}
 
 function addEdges(group: THREE.Group, geo: THREE.BufferGeometry, mesh: THREE.Mesh) {
   const lines = new THREE.LineSegments(cachedEdges(geo), EDGE_LINE_MAT);
@@ -202,18 +222,136 @@ function buildPiece(p: Placement): THREE.Group {
       }
       break;
     }
-    case "cornerPlate": {
-      // L-shaped plate: a 2-cell arm + a 1-cell foot (missing inner cell)
-      const cells = footprintCells(p);
-      const cellGeo = cachedGeo("cornercell", () => new THREE.BoxGeometry(0.97, H, 0.97));
-      for (const [cx2, cz2] of cells) {
+    case "cornerPlate":
+    case "cornerBrick":
+    case "roundCornerPlate": {
+      // Cell-by-cell body for the L-shaped and quarter-disc plates
+      const cellGeo = cachedGeo(`cornercell:${H}`, () => new THREE.BoxGeometry(0.97, H, 0.97));
+      for (const [cx2, cz2] of footprintCells(p)) {
         const m = new THREE.Mesh(cellGeo, body);
         m.position.set(cx2 + 0.5 - cx, H / 2, cz2 + 0.5 - cz);
         m.castShadow = true;
         m.receiveShadow = true;
-        (m as any).pieceInfo = p.info;
-        g.add(m);
+        g.add(tag(m, p.info));
       }
+      break;
+    }
+    case "macaroni": {
+      // Quarter-arc brick: a ring segment swept about the missing inner corner
+      const geo = cachedGeo(`macaroni:${H}`, () => {
+        const shape = new THREE.Shape();
+        shape.absarc(0, 0, 2, 0, Math.PI / 2, false);
+        shape.absarc(0, 0, 1, Math.PI / 2, 0, true);
+        shape.closePath();
+        const eg = new THREE.ExtrudeGeometry(shape, { depth: H, bevelEnabled: false });
+        eg.rotateX(-Math.PI / 2); // extrude along +y
+        return eg;
+      });
+      const m = addMesh(g, geo, body, p.info, 0, false);
+      // Place the arc's origin at the missing inner corner of the 2×2 cell
+      const [mx, mz] = (() => {
+        switch (p.facing) {
+          case "S": return [p.x + 2, p.z + 2];
+          case "W": return [p.x, p.z + 2];
+          case "N": return [p.x, p.z];
+          case "E": return [p.x + 2, p.z];
+        }
+      })();
+      m.position.set(mx - cx, 0, mz - cz);
+      m.rotation.y =
+        p.facing === "S" ? Math.PI : p.facing === "W" ? Math.PI / 2 :
+        p.facing === "N" ? 0 : -Math.PI / 2;
+      break;
+    }
+    case "jumper": {
+      const geo = cachedGeo(`jumper:${bw}x${bd}`, () => new THREE.BoxGeometry(bw, H, bd));
+      const m = addMesh(g, geo, body, p.info, H / 2);
+      m.rotation.y = yaw;
+      // single centre stud, off the grid by half a stud
+      const centre = new THREE.Mesh(STUD_GEO, stud);
+      centre.position.y = H + STUD_H / 2;
+      g.add(tag(centre, p.info));
+      break;
+    }
+    case "sideStud2":
+    case "sideStud4":
+    case "sideStudBrick": {
+      const geo = cachedGeo(`ssb:${bw}x${H}x${bd}`, () => new THREE.BoxGeometry(bw, H, bd));
+      const m = addMesh(g, geo, body, p.info, H / 2);
+      m.rotation.y = yaw;
+      // Side studs: 4733 on all four faces, the others on their facing
+      // (47905 also on the opposite face).
+      const faces: Facing[] =
+        p.kind === "sideStud4"
+          ? ["N", "S", "E", "W"]
+          : p.kind === "sideStud2"
+            ? [p.facing, ({ N: "S", S: "N", E: "W", W: "E" } as const)[p.facing]]
+            : [p.facing];
+      const sideGeo = cachedGeo("sidestud", () =>
+        new THREE.CylinderGeometry(STUD_R, STUD_R, STUD_H, 16));
+      const count = p.kind === "sideStudBrick" ? Math.max(pw, pd) : 1;
+      for (const f of faces) {
+        for (let i = 0; i < count; i++) {
+          const s = new THREE.Mesh(sideGeo, stud);
+          const along = count === 1 ? 0 : i - (count - 1) / 2;
+          const out = new THREE.Vector3(along, 0, 0.5 + STUD_H / 2 - SEAM);
+          out.applyAxisAngle(new THREE.Vector3(0, 1, 0), dirYaw(f));
+          s.position.set(out.x, H / 2, out.z);
+          s.rotation.set(Math.PI / 2, dirYaw(f), 0, "YXZ");
+          g.add(tag(s, p.info));
+        }
+      }
+      break;
+    }
+    case "steepSlope2":
+    case "steepSlope3": {
+      // Near-vertical slope: rises the full height over a single stud of depth
+      const pts: [number, number][] = [
+        [-pd / 2 + SEAM, 0],
+        [-pd / 2 + SEAM, H],
+        [-pd / 2 + SEAM + 0.5, H],
+        [pd / 2 - SEAM, 0.2],
+        [pd / 2 - SEAM, 0],
+      ];
+      const geo = cachedGeo(`steep:${pw}x${pd}x${H}`, () => prism(pts, pw - SEAM * 2));
+      const m = addMesh(g, geo, body, p.info);
+      m.rotation.y = yaw;
+      break;
+    }
+    case "curvedSlope": {
+      // Convex quarter-round: vertical at the back, tangent to the base in front
+      const pts: [number, number][] = [[-pd / 2 + SEAM, 0], [-pd / 2 + SEAM, H]];
+      const steps = 12;
+      const span = pd - SEAM * 2;
+      for (let i = 1; i <= steps; i++) {
+        const t = i / steps;
+        pts.push([-pd / 2 + SEAM + span * t, H * Math.cos((t * Math.PI) / 2)]);
+      }
+      pts.push([pd / 2 - SEAM, 0]);
+      const geo = cachedGeo(`curveslope:${pw}x${pd}x${H}`, () => prism(pts, pw - SEAM * 2));
+      const m = addMesh(g, geo, body, p.info);
+      m.rotation.y = yaw;
+      break;
+    }
+    case "wedgeL":
+    case "wedgeR": {
+      // Plate with one corner cut away on a diagonal
+      const hw = pw / 2 - SEAM;
+      const hd = pd / 2 - SEAM;
+      const mirror = p.kind === "wedgeL" ? -1 : 1;
+      const geo = cachedGeo(`wedge:${p.kind}:${pw}x${pd}`, () => {
+        const shape = new THREE.Shape();
+        shape.moveTo(-hw * mirror, -hd);
+        shape.lineTo(hw * mirror, -hd);
+        shape.lineTo(hw * mirror, hd - 1);
+        shape.lineTo(-hw * mirror, hd);
+        shape.closePath();
+        const eg = new THREE.ExtrudeGeometry(shape, { depth: H, bevelEnabled: false });
+        eg.rotateX(-Math.PI / 2);
+        return eg;
+      });
+      const m = addMesh(g, geo, body, p.info, 0, false);
+      m.rotation.y = yaw;
       break;
     }
     case "glassPanel": {
@@ -382,7 +520,16 @@ function buildPiece(p: Placement): THREE.Group {
     g.add(s);
   }
 
-  g.position.set(cx, p.layer * LAYER_H, cz);
+  if (p.attach) {
+    // SNOT: stand the piece on edge against the host brick's side stud.
+    // Rotating the group maps its local +y (the piece's "up") onto the
+    // facing direction, so the flat face ends up parallel to the wall.
+    const [dx, dz] = FACE_DIR[p.facing];
+    g.rotation.set(Math.PI / 2, dirYaw(p.facing), 0, "YXZ");
+    g.position.set(cx + dx * 0.5, (p.layer + 0.5) * LAYER_H, cz + dz * 0.5);
+  } else {
+    g.position.set(cx, p.layer * LAYER_H, cz);
+  }
   return g;
 }
 
@@ -408,28 +555,31 @@ export function applyActiveStepStyle(group: THREE.Group): void {
 
 // ─── Progressive model builder ─────────────────────────────────────────
 
-// Dev-time physical validation: warn loudly if the model ever regresses.
+// Dev-time physical validation: warn loudly if a model ever regresses.
 if (import.meta.env?.DEV) {
-  const errs = validateBuild(generateBuild());
-  if (errs.length) {
-    console.warn(`[lego-model] ${errs.length} physical violations:`);
-    for (const e of errs.slice(0, 20)) console.warn("  " + e);
+  for (const id of BUILD_IDS) {
+    const errs = validateBuild(modelFor(id));
+    if (errs.length) {
+      console.warn(`[lego-model] ${id}: ${errs.length} physical violations:`);
+      for (const e of errs.slice(0, 20)) console.warn("  " + e);
+    }
   }
 }
 
 export function buildPhaseModel(
   phaseId: string,
   completedSteps: Set<string>,
-  _buildId: string = "barbican-panorama",
+  buildId: string = "barbican-panorama",
   stepIndex?: number
 ): THREE.Group {
   const model = new THREE.Group();
-  const build = generateBuild();
-  const currentIdx = BP_PHASE_ORDER.indexOf(phaseId);
+  const build = modelFor(buildId);
+  const order = phaseOrderFor(buildId);
+  const currentIdx = order.indexOf(phaseId);
 
   const phaseStatus = (pid: string): "current" | "past" | "future" => {
     if (pid === phaseId) return "current";
-    return BP_PHASE_ORDER.indexOf(pid) < currentIdx ? "past" : "future";
+    return order.indexOf(pid) < currentIdx ? "past" : "future";
   };
 
   const isPhaseFullyCompleted = (pid: string): boolean => {
@@ -444,7 +594,7 @@ export function buildPhaseModel(
   const effectiveStepIndex = stepIndex ?? Infinity;
   let activeStepGroup: THREE.Group | null = null;
 
-  for (const pid of BP_PHASE_ORDER) {
+  for (const pid of order) {
     const status = phaseStatus(pid);
     const fullyCompleted = isPhaseFullyCompleted(pid);
     if (status === "future" && !fullyCompleted) {

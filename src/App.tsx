@@ -20,36 +20,69 @@ import {
   calculatePieceUsage,
 } from "./inventory";
 
-// ─── The single build ────────────────────────────────────────────────
-const BUILD = ALL_BUILDS[0];
-
 // ─── App ────────────────────────────────────────────────────────────
 export default function App() {
-  const build = BUILD;
-  const storageKey = `barbican-${build.id}-progress`;
-
-  const [completed, setCompleted] = useState<Set<string>>(() => {
+  const [buildId, setBuildId] = useState<string>(() => {
     try {
-      const saved = localStorage.getItem(storageKey);
-      return saved ? new Set(JSON.parse(saved)) : new Set();
+      const saved = localStorage.getItem("barbican-active-build");
+      return saved && ALL_BUILDS.some((b) => b.id === saved) ? saved : ALL_BUILDS[0].id;
     } catch {
-      return new Set();
+      return ALL_BUILDS[0].id;
     }
   });
+  const build = ALL_BUILDS.find((b) => b.id === buildId) ?? ALL_BUILDS[0];
+  const storageKey = `barbican-${build.id}-progress`;
 
+  // Progress is stored per build, so switching never loses where you were
+  const readProgress = (key: string): Set<string> => {
+    try {
+      const saved = localStorage.getItem(key);
+      return saved ? new Set<string>(JSON.parse(saved)) : new Set<string>();
+    } catch {
+      return new Set<string>();
+    }
+  };
+
+  const [completed, setCompleted] = useState<Set<string>>(() => readProgress(storageKey));
   const [activePhase, setActivePhase] = useState(build.phases[0].id);
+
+  // On the render where the build changes, `activePhase` still holds the old
+  // build's phase id (the state adjustment above re-renders after this pass),
+  // so fall back to the new build's first phase rather than indexing off the
+  // end of it.
+  const currentPhase = build.phases.some((p) => p.id === activePhase)
+    ? activePhase
+    : build.phases[0].id;
+
   const [activeStepIndex, setActiveStepIndex] = useState(0);
   const [selectedPiece, setSelectedPiece] = useState<PieceInfo | null>(null);
   const [showInventory, setShowInventory] = useState(false);
+
+  // Switching build swaps every piece of per-build state in one render, so
+  // the save effect below never sees one build's progress paired with the
+  // other's storage key. (React's "adjust state when a prop changes" pattern
+  // rather than an effect, which would cascade an extra render.)
+  const [prevBuildId, setPrevBuildId] = useState(build.id);
+  if (prevBuildId !== build.id) {
+    setPrevBuildId(build.id);
+    setCompleted(readProgress(storageKey));
+    setActivePhase(build.phases[0].id);
+    setActiveStepIndex(-1);
+    setSelectedPiece(null);
+  }
+
+  useEffect(() => {
+    localStorage.setItem(storageKey, JSON.stringify([...completed]));
+  }, [completed, storageKey]);
+
+  useEffect(() => {
+    localStorage.setItem("barbican-active-build", build.id);
+  }, [build.id]);
 
   // Reset step index when phase changes — start at -1 (no step active yet)
   useEffect(() => {
     setActiveStepIndex(-1);
   }, [activePhase]);
-
-  useEffect(() => {
-    localStorage.setItem(storageKey, JSON.stringify([...completed]));
-  }, [completed, storageKey]);
 
   const stepsColumnRef = useRef<HTMLDivElement>(null);
 
@@ -61,7 +94,7 @@ export default function App() {
     if (activeCard) {
       activeCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
-  }, [activeStepIndex, activePhase]);
+  }, [activeStepIndex, currentPhase]);
 
   // Flat ordered list of all step IDs across all phases
   const allStepIds = useMemo(() => {
@@ -116,8 +149,8 @@ export default function App() {
   const isPhaseComplete = (phase: typeof build.phases[number]) =>
     phase.steps.every((_, i) => completed.has(`${phase.id}-${i}`));
 
-  const activePhaseData = build.phases.find((p) => p.id === activePhase)!;
-  const phasePhotos = build.phasePhotos[activePhase] || [];
+  const activePhaseData = build.phases.find((p) => p.id === currentPhase)!;
+  const phasePhotos = build.phasePhotos[currentPhase] || [];
 
   // Inventory helpers
   const inventoryUsage = useMemo(() => {
@@ -144,7 +177,7 @@ export default function App() {
             </div>
             <div>
               <h1 className="text-sm font-semibold tracking-tight leading-none">
-                The Barbican Estate — Lakeside Panorama
+                {build.title}
               </h1>
               <p className="text-[11px] text-stone-400">
                 LEGO Architecture Studio 21050 · {build.pieceCount} pieces · {build.phases.length} phases
@@ -152,6 +185,22 @@ export default function App() {
             </div>
           </div>
           <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1 bg-stone-100 rounded p-0.5">
+              {ALL_BUILDS.map((b) => (
+                <button
+                  key={b.id}
+                  onClick={() => setBuildId(b.id)}
+                  title={b.subtitle}
+                  className={`text-[11px] px-2.5 py-1 rounded transition-colors ${
+                    b.id === build.id
+                      ? "bg-white text-stone-900 shadow-sm font-medium"
+                      : "text-stone-500 hover:text-stone-800"
+                  }`}
+                >
+                  {b.id === "barbican-panorama" ? "Panorama" : "Frobisher Section"}
+                </button>
+              ))}
+            </div>
             <span className="text-[11px] text-stone-400 hidden sm:inline">
               {completedCount}/{totalSteps} steps
             </span>
@@ -165,7 +214,7 @@ export default function App() {
 
       <div className="max-w-[1400px] mx-auto px-4 py-4">
         {/* Phase tabs */}
-        <Tabs value={activePhase} onValueChange={setActivePhase}>
+        <Tabs value={currentPhase} onValueChange={setActivePhase}>
           <TabsList className="mb-4 flex flex-wrap h-auto gap-1 bg-stone-100 p-1">
             {build.phases.map((phase) => {
               const done = isPhaseComplete(phase);
@@ -192,7 +241,7 @@ export default function App() {
               <div className="flex flex-col xl:flex-row lg:flex-row gap-4 xl:h-[calc(100vh-120px)] lg:h-[calc(100vh-120px)]">
                 {/* LEFT: Steps — scrollable */}
                 <div
-                  ref={activePhase === phase.id ? stepsColumnRef : undefined}
+                  ref={currentPhase === phase.id ? stepsColumnRef : undefined}
                   className="space-y-3 order-2 xl:order-1 lg:order-2 xl:w-[340px] lg:w-[320px] xl:flex-shrink-0 lg:flex-shrink-0 xl:overflow-y-auto lg:overflow-y-auto xl:pr-2 lg:pr-2"
                 >
                   <div className="flex items-center gap-2 mb-3">
@@ -372,7 +421,7 @@ export default function App() {
                       >
                         <LegoViewer
                           buildId={build.id}
-                          phaseId={activePhase}
+                          phaseId={currentPhase}
                           stepIndex={activeStepIndex}
                           completedSteps={completed}
                           onPieceSelect={handlePieceSelect}

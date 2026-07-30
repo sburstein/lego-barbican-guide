@@ -23,6 +23,18 @@ export type PartKind =
   | "roundBrick"
   | "roundPlate"
   | "cornerPlate" // 2×2 L-shaped corner plate 2420
+  | "cornerBrick" // 2×2 L-shaped corner brick 2357
+  | "macaroni" // 2×2 quarter-arc brick 85080
+  | "jumper" // 1×2 plate with a single centre stud 15573 (off-grid top)
+  | "sideStud2" // 1×1 brick, studs on 2 opposite sides 47905
+  | "sideStud4" // 1×1 brick, studs on 4 sides 4733
+  | "sideStudBrick" // 1×4 brick with side studs on one face 30414
+  | "steepSlope2" // 1×2×2 slope 65° (60481), 2 bricks tall
+  | "steepSlope3" // 1×2×3 slope 75° (4460b), 3 bricks tall
+  | "curvedSlope" // curved slopes 50950 (1×3) / 3045 (2×2 double)
+  | "wedgeL" // wedge plate 2×4 left 41768
+  | "wedgeR" // wedge plate 2×4 right 41767
+  | "roundCornerPlate" // plate 4×4 round corner 30565
   | "slope45" // descends over the last stud, small top ledge, no studs
   | "slope33" // descends over 2 studs, studded back row
   | "invSlope" // inverted 45, full studded top
@@ -51,6 +63,13 @@ export type Placement = {
   color: ColorKey;
   facing: Facing;
   info: PieceInfo;
+  /**
+   * SNOT attachment: the piece is clipped onto the side studs of the brick
+   * occupying its own (x, z, layer) cell and hangs into the empty cell in
+   * `facing`. It claims no grid cell of its own, so the validator checks a
+   * side-stud host instead of studs underneath.
+   */
+  attach?: boolean;
 };
 
 export type StepPlacements = Placement[];
@@ -129,6 +148,27 @@ reg("glassPanel", 1, 2, 6, "Trans-Clear Panel 1×2×2", "87552");
 reg("profile", 1, 2, 3, "Grille Brick 1×2", "2877");
 reg("headlight", 1, 1, 3, "Headlight Brick 1×1", "4070");
 reg("cheese", 1, 1, 2, "Cheese Slope 1×1×⅔", "54200");
+// Parts left unused by the Lakeside Panorama — the Frobisher section's palette
+reg("tile", 1, 8, 1, "Tile 1×8", "4162");
+reg("roundPlate", 4, 4, 1, "Plate 4×4 Round w/ Pin", "60474");
+reg("roundCornerPlate", 4, 4, 1, "Plate 4×4 Round Corner", "30565");
+reg("cornerBrick", 2, 2, 3, "Brick 2×2 Corner", "2357");
+reg("macaroni", 2, 2, 3, "Macaroni Brick 2×2", "85080");
+reg("jumper", 1, 2, 1, "Jumper Plate 1×2", "15573");
+reg("sideStud2", 1, 1, 3, "Brick 1×1 Studs 2 Sides", "47905");
+reg("sideStud4", 1, 1, 3, "Brick 1×1 Studs 4 Sides", "4733");
+reg("sideStudBrick", 1, 4, 3, "Brick 1×4 Side Studs", "30414");
+reg("steepSlope2", 1, 2, 6, "Slope 1×2×2 (65°)", "60481");
+reg("steepSlope3", 1, 2, 9, "Slope 1×2×3 (75°)", "4460b");
+reg("curvedSlope", 1, 3, 3, "Curved Slope 3×1", "50950");
+reg("curvedSlope", 2, 2, 2, "Slope 2×2 Double Convex", "3045");
+reg("wedgeL", 2, 4, 1, "Wedge 2×4 Left", "41768");
+reg("wedgeR", 2, 4, 1, "Wedge 2×4 Right", "41767");
+reg("invSlope", 1, 3, 3, "Slope 1×3 Inverted", "4287");
+reg("invSlope", 2, 2, 3, "Slope 2×2 Inverted", "3660");
+reg("invSlope", 2, 3, 3, "Slope 2×3 Inverted", "3747b");
+reg("slope33", 3, 4, 3, "Slope 3×4 (25°)", "3297");
+reg("slope33", 2, 4, 3, "Slope 2×4 (18°)", "30363");
 
 export function catalogEntry(kind: PartKind, w: number, d: number): CatalogEntry | undefined {
   const lo = Math.min(w, d);
@@ -146,6 +186,16 @@ export function partNumberFor(entry: CatalogEntry, color: ColorKey): string | un
 const FULL_STUD_TOP = new Set<PartKind>([
   "brick", "plate", "roundBrick", "roundPlate", "cornerPlate", "invSlope",
   "panel", "glassPanel", "profile", "headlight", "arch",
+  "cornerBrick", "sideStud2", "sideStud4", "sideStudBrick",
+  "roundCornerPlate", "wedgeL", "wedgeR",
+]);
+
+/** L-shaped kinds: a 2×2 footprint with the inner corner cell missing. */
+const L_SHAPED = new Set<PartKind>(["cornerPlate", "cornerBrick", "macaroni"]);
+
+/** Kinds that carry studs on their vertical faces (SNOT hosts). */
+const SIDE_STUD_HOSTS = new Set<PartKind>([
+  "sideStud2", "sideStud4", "sideStudBrick", "headlight",
 ]);
 
 /** Cell excluded from an L-shaped corner plate, by facing. */
@@ -158,18 +208,50 @@ function cornerMissing(p: Placement): [number, number] {
   }
 }
 
+/**
+ * A 4×4 round corner plate is a quarter disc: the three cells beyond the
+ * radius (measured from the inner corner, chosen by facing) are absent.
+ */
+function roundCornerAbsent(p: Placement): [number, number][] {
+  // Local offsets of the three clipped cells for facing "S" (inner corner at
+  // the piece's min-x / min-z), then mirrored per facing.
+  const local: [number, number][] = [[3, 3], [2, 3], [3, 2]];
+  return local.map(([i, j]) => {
+    switch (p.facing) {
+      case "S": return [p.x + i, p.z + j] as [number, number];
+      case "W": return [p.x + (3 - i), p.z + j] as [number, number];
+      case "N": return [p.x + (3 - i), p.z + (3 - j)] as [number, number];
+      case "E": return [p.x + i, p.z + (3 - j)] as [number, number];
+    }
+  });
+}
+
 export function footprintCells(p: Placement): [number, number][] {
   const cells: [number, number][] = [];
   for (let i = 0; i < p.w; i++) for (let j = 0; j < p.d; j++) cells.push([p.x + i, p.z + j]);
-  if (p.kind === "cornerPlate") {
+  if (L_SHAPED.has(p.kind)) {
     const [mx, mz] = cornerMissing(p);
     return cells.filter(([cx, cz]) => !(cx === mx && cz === mz));
+  }
+  if (p.kind === "roundCornerPlate") {
+    const absent = roundCornerAbsent(p);
+    return cells.filter(([cx, cz]) => !absent.some(([ax, az]) => ax === cx && az === cz));
   }
   return cells;
 }
 
+/**
+ * A macaroni brick carries only two studs, at the ends of its arc — the two
+ * cells of the L that are orthogonally adjacent to the missing inner corner.
+ */
+function macaroniStudCells(p: Placement): [number, number][] {
+  const [mx, mz] = cornerMissing(p);
+  return footprintCells(p).filter(([cx, cz]) => cx === mx || cz === mz);
+}
+
 /** Which cells of a placement have studs on top (absolute cells). */
 export function topStudCells(p: Placement): [number, number][] {
+  if (p.kind === "macaroni") return macaroniStudCells(p);
   return FULL_STUD_TOP.has(p.kind) ? footprintCells(p) : [];
 }
 
@@ -190,7 +272,7 @@ export function studCells(p: Placement): [number, number][] {
 
 // ─── Builder ───────────────────────────────────────────────────────────
 
-class Builder {
+export class Builder {
   build: BuildPlacements = {};
   private phaseId = "";
   private stepArr: StepPlacements | null = null;
@@ -229,6 +311,19 @@ class Builder {
     };
     this.stepArr!.push({ kind, w, d, x, z, layer, h, color, facing, info });
   }
+  /** Clip a 1×1 finishing piece onto the side studs of the brick at (x, z, layer). */
+  putAttached(
+    kind: PartKind,
+    x: number,
+    z: number,
+    layer: number,
+    color: ColorKey,
+    desc: string,
+    facing: Facing
+  ) {
+    this.put(kind, 1, 1, x, z, layer, color, desc, facing);
+    this.stepArr![this.stepArr!.length - 1].attach = true;
+  }
 }
 
 // ─── Validator ─────────────────────────────────────────────────────────
@@ -255,10 +350,15 @@ export function validateBuild(build: BuildPlacements): string[] {
     if (p.layer < 0) errors.push(`BELOW TABLE: ${where}`);
   }
 
-  // Occupancy + support (order by layer so lower pieces exist first)
-  const sorted = [...all].sort((a, b) => a.p.layer - b.p.layer);
+  // Occupancy + support (order by layer so lower pieces exist first).
+  // SNOT attachments are validated in a second pass: they need a side-stud
+  // host in their own cell and clear air in the cell they hang into.
+  const sorted = [...all]
+    .filter((a) => !a.p.attach)
+    .sort((a, b) => a.p.layer - b.p.layer);
   const occ = new Map<string, string>();
   const studs = new Map<string, boolean>();
+  const sideHosts = new Map<string, Placement>();
 
   for (const { p, where } of sorted) {
     if (!Number.isInteger(p.layer) || !Number.isInteger(p.x)) continue;
@@ -268,6 +368,7 @@ export function validateBuild(build: BuildPlacements): string[] {
         const prev = occ.get(k);
         if (prev) errors.push(`COLLISION at cell (${cx},${cz}) layer ${l}: ${where} overlaps ${prev}`);
         else occ.set(k, where);
+        if (SIDE_STUD_HOSTS.has(p.kind)) sideHosts.set(k, p);
       }
     }
     if (p.layer > 0) {
@@ -277,6 +378,36 @@ export function validateBuild(build: BuildPlacements): string[] {
     for (const [cx, cz] of studCells(p)) {
       studs.set(`${cx},${cz},${p.layer + p.h}`, true);
     }
+  }
+
+  const DELTA: Record<Facing, [number, number]> = {
+    N: [0, -1], S: [0, 1], E: [1, 0], W: [-1, 0],
+  };
+  const OPPOSITE: Record<Facing, Facing> = { N: "S", S: "N", E: "W", W: "E" };
+
+  for (const { p, where } of all) {
+    if (!p.attach) continue;
+    if (p.w !== 1 || p.d !== 1)
+      errors.push(`ATTACHMENT TOO LARGE (must be 1×1): ${where}`);
+    const key = `${p.x},${p.z},${p.layer}`;
+    const host = sideHosts.get(key);
+    if (!host) {
+      errors.push(`NO SIDE-STUD HOST at (${p.x},${p.z}) layer ${p.layer}: ${where}`);
+      continue;
+    }
+    // 4733 has studs on all four sides; the others only on their facing
+    // (47905 also on the opposite face).
+    const ok =
+      host.kind === "sideStud4" ||
+      host.facing === p.facing ||
+      (host.kind === "sideStud2" && OPPOSITE[host.facing] === p.facing);
+    if (!ok)
+      errors.push(
+        `HOST HAS NO STUD FACING ${p.facing} (${host.info.name} faces ${host.facing}): ${where}`
+      );
+    const [dx, dz] = DELTA[p.facing];
+    const blocker = occ.get(`${p.x + dx},${p.z + dz},${p.layer}`);
+    if (blocker) errors.push(`ATTACHMENT BLOCKED by ${blocker}: ${where}`);
   }
 
   return errors;
