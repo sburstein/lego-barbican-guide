@@ -1,73 +1,47 @@
-# React + TypeScript + Vite
+# LEGO Barbican Guide
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An interactive build guide for recreating the Barbican Estate from a single
+LEGO Architecture Studio set (21050), with a live 3D model for every step.
 
-Currently, two official plugins are available:
+**Live site:** https://lego-barbican-guide.netlify.app
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## The three builds
 
-## React Compiler
+| Build | Pieces | Steps | What it is |
+|---|---|---|---|
+| The Barbican Estate: Lakeside Panorama | 668 | 108 | The wide shot: lake, podium colonnade, terrace block with barrel vaults, Lauderdale Tower, conservatory, landscaping |
+| Frobisher Crescent: Facade Bay Section | 167 | 40 | The close-up: a cutaway bay with party walls, three floors, SNOT facade panels and a vaulted roof |
+| London Wall & Bastion | 73 | 18 | The dessert: the ancient wall fragment and bastion inside the estate, built from the leftover slopes, wedges and macaroni bricks |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+All three are designed to stand at the same time: together they use 908 of the
+set's 1,210 pieces with no part over its real quantity.
 
-## Expanding the ESLint configuration
+## How correctness is enforced
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Every build lives as data in `src/lego-model.ts`, `src/model-frobisher.ts`
+and `src/model-londonwall.ts`: each piece is a real 21050 part placed on an
+integer stud grid at an integer plate-layer. `validateBuild()` proves, for
+every piece:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- it is a real part (in the requested color) from the set's catalog
+- it sits on the grid, collides with nothing (full 3D cell occupancy)
+- it has studs beneath it (tiles, cheese slopes and curved tops provide none)
+- it can be lowered straight down at the moment its step comes; nothing
+  placed earlier blocks the column above it
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+The guide text in `src/builds.ts` is generated from the models, so the app
+can never drift from the geometry.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Scripts
+
+```bash
+npx vite                              # dev server
+node scripts/validate-geometry.mjs    # physics + build-order + guide sync
+node audit.mjs                        # piece usage vs. the set inventory
+node scripts/gen-builds.mjs           # regenerate builds.ts step text
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Step titles and tips are authored in the model files via
+`b.step(title, tip)`; instructions and piece lists derive from the
+placements. `src/inventory.ts` is verified against the published Brickset
+inventory of 21050-1.

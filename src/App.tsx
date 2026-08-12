@@ -197,7 +197,11 @@ export default function App() {
                       : "text-stone-500 hover:text-stone-800"
                   }`}
                 >
-                  {b.id === "barbican-panorama" ? "Panorama" : "Frobisher Section"}
+                  {b.id === "barbican-panorama"
+                    ? "Panorama"
+                    : b.id === "frobisher-section"
+                    ? "Frobisher Section"
+                    : "London Wall"}
                 </button>
               ))}
             </div>
@@ -264,6 +268,34 @@ export default function App() {
                     <p className="text-xs text-stone-600 leading-relaxed">
                       {phase.location}
                     </p>
+                  </div>
+
+                  {/* Gather-first parts list for the whole phase */}
+                  <div className="bg-amber-50/60 rounded-lg p-3 border border-amber-200">
+                    <p className="text-[10px] font-semibold text-amber-700 uppercase tracking-wider mb-1.5">
+                      Gather these pieces before starting
+                    </p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {(() => {
+                        const totals = new Map<string, { name: string; qty: number }>();
+                        for (const st of phase.steps)
+                          for (const pc of st.pieces) {
+                            const cur = totals.get(pc.part);
+                            if (cur) cur.qty += pc.qty;
+                            else totals.set(pc.part, { name: pc.name, qty: pc.qty });
+                          }
+                        return [...totals.values()]
+                          .sort((a, b) => b.qty - a.qty)
+                          .map((t) => (
+                            <span
+                              key={t.name}
+                              className="text-[10px] bg-white border border-amber-200 text-stone-600 rounded px-1.5 py-0.5"
+                            >
+                              {t.name} <span className="font-semibold text-amber-700">×{t.qty}</span>
+                            </span>
+                          ));
+                      })()}
+                    </div>
                   </div>
 
                   {/* Steps */}

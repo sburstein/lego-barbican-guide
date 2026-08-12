@@ -111,7 +111,7 @@ const barbicanPanorama: Build = {
     "A large-scale diorama capturing the Barbican's most iconic composition — the full lakeside view with Lauderdale Tower rising behind barrel-vaulted terrace blocks, the colonnade podium, the Conservatory greenhouse, and the ornamental lake. This is a serious, multi-session build using grille-brick spandrels for bush-hammered concrete texture, inverted slopes for the waterside plinth, serrated balcony bands, and recessed window slots. Every piece is drawn from the set's actual white and trans-clear inventory; the 3D model tints water edging dark and planting green purely as a visual guide — on the table those are the same white parts. Designed to maximise the LEGO Architecture Studio 21050 set.",
   difficulty: 3,
   estimatedTime: "8–12 hours across multiple sessions",
-  pieceCount: 671,
+  pieceCount: 668,
   concept: "Brutalist Urbanism — Layers, Texture & Repetition",
   heroPhoto: SHARED_PHOTOS.lakeside.url,
   photos: {
@@ -143,113 +143,85 @@ const barbicanPanorama: Build = {
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-foundation",
-      title: "Phase 1 — Foundation Platform",
+      title: "Phase 1: Foundation Platform",
       concept: "Site & Datum",
       color: "#6B7280",
       icon: "🏗️",
-      time: "25–35 min",
+      time: "15\u201320 min",
       location:
-        "You are establishing the datum — the ground plane from which everything rises. The Barbican is built on a bombed-out section of the City of London, so the whole estate sits on a massive concrete podium raised above street level. Your base plate represents this podium deck: lake zone in front, building zone behind.",
+        "Every brick of the Barbican stands on ground the Luftwaffe cleared. The Cripplegate ward was virtually demolished in the Blitz; by 1951 only 48 people lived in it, and in 1957 the City voted to rebuild it as a place to live rather than another office quarter. Chamberlin, Powell and Bon, fresh from the Golden Lane Estate next door, designed a 40-acre walled city on a raised concrete podium. Your baseplates are that podium: lake in front, buildings behind, no cars anywhere.",
       steps: [
         {
-          title: "Back Row — First Two Large Plates",
-          instruction:
-            "Place 2× Plate 8×8 — foundation platform. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Back row of baseplates",
+          instruction: "Place 3× Plate 8×8 (foundation platform); toward the rear of the model, directly on the table. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Plate 8×8", part: "41539", qty: 2 },
-        ],
-          tip: "In architecture, the datum is the reference point for every measurement. Start with a perfectly flat surface — if the base warps, the whole diorama tilts.",
-          highlight: true,
+            { name: "Plate 8×8", part: "41539", qty: 3 },
+          ],
+          tip: "The Barbican stands on the Cripplegate ward, flattened in the Blitz; by 1951 just 48 people lived here. Everything you build rises from this cleared ground, exactly as the estate did.",
         },
         {
-          title: "Back Row — Third Large Plate",
-          instruction:
-            "Place 1× Plate 8×8 — foundation platform. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Middle row of baseplates",
+          instruction: "Place 3× Plate 8×8 (foundation platform); in the centre of the model, directly on the table. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Plate 8×8", part: "41539", qty: 1 },
-        ],
-          tip: "Three 8×8 plates in a row give you 24 studs of width — the panoramic scale that makes the Barbican composition work.",
+            { name: "Plate 8×8", part: "41539", qty: 3 },
+          ],
+          tip: "Chamberlin, Powell and Bon won the commission after their Golden Lane Estate next door. Construction here started in 1965 and ran for eleven years.",
         },
         {
-          title: "Front Row — Two Large Plates",
-          instruction:
-            "Place 2× Plate 8×8 — foundation platform. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Lake-zone extension",
+          instruction: "Place 4× Plate 6×10 (lake zone extension); toward the front of the model, directly on the table. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Plate 8×8", part: "41539", qty: 2 },
-        ],
-          tip: "Overlapping by 2 studs locks the rows together. Never let four plate corners meet at one point — stagger joints like real brickwork.",
+            { name: "Plate 6×10", part: "3033", qty: 4 },
+          ],
+          tip: "The whole 40-acre estate sits on a raised concrete podium; pedestrians above, service roads and car parks below. Your baseplates are that podium deck.",
         },
         {
-          title: "Front Row — Sixth Large Plate",
-          instruction:
-            "Place 1× Plate 8×8 — foundation platform. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Side extensions",
+          instruction: "Place 4× Plate 6×8 (side extension); toward the rear of the model, directly on the table. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Plate 8×8", part: "41539", qty: 1 },
-        ],
-          tip: "You now have a solid 24×16 core — the heart of the site. Everything else extends outward from this grid.",
+            { name: "Plate 6×8", part: "3036", qty: 4 },
+          ],
+          tip: "Real baseplates, like real ground beams, want their joints staggered. The side wings widen the site for the gardens and boundary walls to come.",
         },
         {
-          title: "Front Extension — Lake Zone Plates",
-          instruction:
-            "Place 4× Plate 6×10 — lake zone extension. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Seam ties, west and east",
+          instruction: "Place 1× Plate 2×4 (seam tie (west)) and 1× Plate 2×4 (seam tie (east)); toward the rear of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Plate 6×10", part: "3033", qty: 4 },
-        ],
-          tip: "The Barbican's site plan is a roughly rectangular superblock — wider than deep. This forward extension gives the lake its panoramic spread.",
+            { name: "Plate 2×4", part: "3020", qty: 1 },
+            { name: "Plate 2×4", part: "3020", qty: 1 },
+          ],
+          tip: "Plates bridging a joint lock two baseplates into one slab; the same job the podium's expansion joints and ties do across the estate.",
         },
         {
-          title: "Side Extensions — Widening the Site",
-          instruction:
-            "Place 4× Plate 6×8 — side extension. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Ties across the side joints",
+          instruction: "Place 4× Plate 1×6 (side seam tie); toward the rear of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Plate 6×8", part: "3036", qty: 4 },
-        ],
-          tip: "The side plates create the podium zone where the colonnade will stand. They need to be rock-solid because they will bear column loads.",
+            { name: "Plate 1×6", part: "3666", qty: 4 },
+          ],
+          tip: "Press each tie down firmly along its whole length before moving on; a loose base joint telegraphs wobble all the way up.",
         },
         {
-          title: "Infill — Middle Zone",
-          instruction:
-            "Place 1× Plate 2×4 — seam tie (west), then 1× Plate 2×4 — seam tie (east). Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Edge beams around the rim",
+          instruction: "Place 2× Plate 1×10 (front edge beam); 1× Plate 1×4 (front edge beam); 2× Plate 1×6 (back edge beam); 1× Plate 1×10 (left edge beam); 1× Plate 1×6 (left edge beam); 1× Plate 1×10 (right edge beam); and 1× Plate 1×6 (right edge beam); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Plate 2×4", part: "3020", qty: 1 },
-          { name: "Plate 2×4", part: "3020", qty: 1 },
-        ],
-          tip: "Stagger your plate joints like brickwork — never let four plate corners meet at one point. This is the same structural logic as a real building foundation.",
+            { name: "Plate 1×10", part: "4477", qty: 2 },
+            { name: "Plate 1×4", part: "3710", qty: 1 },
+            { name: "Plate 1×6", part: "3666", qty: 2 },
+            { name: "Plate 1×10", part: "4477", qty: 1 },
+            { name: "Plate 1×6", part: "3666", qty: 1 },
+            { name: "Plate 1×10", part: "4477", qty: 1 },
+            { name: "Plate 1×6", part: "3666", qty: 1 },
+          ],
+          tip: "The estate reads as a walled city; its name comes from the Latin barbecana, a fortified outer gateway. These dark beams start that defensive edge.",
         },
         {
-          title: "Infill — Corner Zones",
-          instruction:
-            "Place 4× Plate 1×6 — side seam tie. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Tower raft foundation",
+          instruction: "Place 3× Plate 4×6 (tower reinforcement l1) and 2× Plate 4×6 (tower reinforcement l2); toward the rear of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Plate 1×6", part: "3666", qty: 4 },
-        ],
-          tip: "Corner plates take the most abuse when the model is picked up or moved. Overlap them generously for a rigid base.",
-        },
-        {
-          title: "Edge Beams",
-          instruction:
-            "Place 2× Plate 1×10 — front edge beam; 1× Plate 1×4 — front edge beam; 2× Plate 1×6 — back edge beam; 1× Plate 1×10 — left edge beam; 1× Plate 1×6 — left edge beam; 1× Plate 1×10 — right edge beam; and 1× Plate 1×6 — right edge beam. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Plate 1×10", part: "4477", qty: 2 },
-          { name: "Plate 1×4", part: "3710", qty: 1 },
-          { name: "Plate 1×6", part: "3666", qty: 2 },
-          { name: "Plate 1×10", part: "4477", qty: 1 },
-          { name: "Plate 1×6", part: "3666", qty: 1 },
-          { name: "Plate 1×10", part: "4477", qty: 1 },
-          { name: "Plate 1×6", part: "3666", qty: 1 },
-        ],
-          tip: "Edge beams prevent the platform from spreading apart at the joints. In real construction, a continuous perimeter beam is the first defence against foundation movement.",
-          highlight: true,
-        },
-        {
-          title: "Tower Reinforcement Zone",
-          instruction:
-            "Place 3× Plate 4×6 — tower reinforcement l1, then 2× Plate 4×6 — tower reinforcement l2. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Plate 4×6", part: "3032", qty: 3 },
-          { name: "Plate 4×6", part: "3032", qty: 2 },
-        ],
-          tip: "The tower will be the heaviest part of the model by far. Real tower foundations are often 3-5 metres thick. Over-engineer the base — you will thank yourself at Phase 8.",
+            { name: "Plate 4×6", part: "3032", qty: 3 },
+            { name: "Plate 4×6", part: "3032", qty: 2 },
+          ],
+          tip: "Ove Arup's engineers gave each tower a massive raft so 43 storeys of concrete could stand beside Underground tunnels. Two stacked plate layers are your raft.",
         },
       ],
     },
@@ -259,89 +231,64 @@ const barbicanPanorama: Build = {
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-lake",
-      title: "Phase 2 — The Lake",
-      concept: "Negative Space & Reflection",
+      title: "Phase 2: The Lake",
+      concept: "Water & Reflection",
       color: "#06B6D4",
       icon: "💧",
-      time: "20–25 min",
+      time: "20\u201325 min",
       location:
-        "The ornamental lake is the Barbican's emotional centre — the calm mirror that reflects the towers and gives this dense estate its famous sense of space. You are building negative space: the lake defines the buildings by contrast. The water surface sits one plate below the surrounding walkway, creating a visible shadow line at the water's edge.",
+        "The architects put an ornamental lake at the centre of the composition so the concrete would always be seen doubled in water. Fountains run along the terrace edge, koi and ghost carp live in it, and the whole basin sits over the estate's hidden service level. Residents' balconies were angled to look onto it; you are building the estate's front garden.",
       steps: [
         {
-          title: "Lake Corners — Border Start",
-          instruction:
-            "Place 4× Plate 2×2 Corner — lake corner. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Lake corners",
+          instruction: "Place 4× Plate 2×2 Corner (lake corner); toward the front of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Plate 2×2 Corner", part: "2420", qty: 4 },
-        ],
-          tip: "The real Barbican lake has a clean concrete kerb. These corner pieces define the sharp geometry of the water's edge — crisp right angles, not organic curves.",
-          highlight: true,
+            { name: "Plate 2×2 Corner", part: "2420", qty: 4 },
+          ],
+          tip: "The architects wanted the blocks 'reflected in the ornamental lake'. Four corner plates set out its rectangle; everything else on the estate is arranged to face it.",
         },
         {
-          title: "Lake Edge — Straight Border",
-          instruction:
-            "Place 3× Plate 1×4 — lake border (back); 3× Plate 1×4 — lake border (front); 1× Plate 1×3 — lake border (left); and 1× Plate 1×3 — lake border (right). Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Lake border",
+          instruction: "Place 3× Plate 1×4 (lake border (back)); 3× Plate 1×4 (lake border (front)); 1× Plate 1×3 (lake border (left)); and 1× Plate 1×3 (lake border (right)); toward the front of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Plate 1×4", part: "3710", qty: 3 },
-          { name: "Plate 1×4", part: "3710", qty: 3 },
-          { name: "Plate 1×3", part: "3623", qty: 1 },
-          { name: "Plate 1×3", part: "3623", qty: 1 },
-        ],
-          tip: "This 1-plate step-down creates the shadow line where land meets water — visible even at micro scale. Keep the border perfectly straight.",
+            { name: "Plate 1×4", part: "3710", qty: 3 },
+            { name: "Plate 1×4", part: "3710", qty: 3 },
+            { name: "Plate 1×3", part: "3623", qty: 1 },
+            { name: "Plate 1×3", part: "3623", qty: 1 },
+          ],
+          tip: "The dark border is the lake's concrete lip. In the real thing, fountains run along the terrace side and residents' balconies look straight down onto the water.",
         },
         {
-          title: "Water Surface — Back Rows",
-          instruction:
-            "Place 12× Trans-Clear Plate 1×2 — lake water. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Water surface, first rows",
+          instruction: "Place 12× Trans-Clear Plate 1×2 (lake water); toward the front of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Trans-Clear Plate 1×2", part: "3023", qty: 12 },
-        ],
-          tip: "Do not cover every single stud. The irregularity is deliberate — in architecture this is called 'articulated surface.' The bumps read as ripples at this scale.",
+            { name: "Trans-Clear Plate 1×2", part: "3023", qty: 12 },
+          ],
+          tip: "Lay the trans-clear plates in neat courses like flooring. Gaps read as missing water, so keep every row complete.",
         },
         {
-          title: "Water Surface — Middle Rows",
-          instruction:
-            "Place 6× Trans-Clear Plate 1×2 — lake water. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Water surface, middle rows",
+          instruction: "Place 12× Trans-Clear Plate 1×2 (lake water); toward the front of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Trans-Clear Plate 1×2", part: "3023", qty: 6 },
-        ],
-          tip: "Offsetting rows prevents a visible grid pattern. Real water has no straight lines — the offset suggests organic ripple movement.",
+            { name: "Trans-Clear Plate 1×2", part: "3023", qty: 12 },
+          ],
+          tip: "The real lake holds koi, ghost carp and terrapins. It also does quiet structural work; it sits over the Barbican's service level.",
         },
         {
-          title: "Water Surface — Front Rows",
-          instruction:
-            "Place 6× Trans-Clear Plate 1×2 — lake water. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Water surface, final row",
+          instruction: "Place 6× Trans-Clear Plate 1×2 (lake water); toward the front of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Trans-Clear Plate 1×2", part: "3023", qty: 6 },
-        ],
-          tip: "Three bands of transparent plates create a convincing water mass. The depth of the clear plastic catches and refracts real light — just like water.",
+            { name: "Trans-Clear Plate 1×2", part: "3023", qty: 6 },
+          ],
+          tip: "One more row closes the surface against the front border.",
         },
         {
-          title: "Water Surface — Final Fill",
-          instruction:
-            "Place 6× Trans-Clear Plate 1×2 — lake water. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Ripple highlights",
+          instruction: "Place 14× Trans-Clear Plate 1×1 (ripple highlight); toward the front of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Trans-Clear Plate 1×2", part: "3023", qty: 6 },
-        ],
-          tip: "The lake should now be a continuous transparent surface. A few exposed studs between plates are desirable — they add texture.",
-        },
-        {
-          title: "Depth Variation — Near Edges",
-          instruction:
-            "Place 7× Trans-Clear Plate 1×1 — ripple highlight. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Trans-Clear Plate 1×1", part: "3024", qty: 7 },
-        ],
-          tip: "Real lakes are shallow at the edges and deeper in the centre. These scattered singles near the rim suggest that natural depth gradient.",
-        },
-        {
-          title: "Depth Variation — Centre & Deep Spots",
-          instruction:
-            "Place 7× Trans-Clear Plate 1×1 — ripple highlight. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Trans-Clear Plate 1×1", part: "3024", qty: 7 },
-        ],
-          tip: "The Architecture Studio guidebook says 'what is not there matters as much as what is.' The sparser centre reads as deeper, stiller water.",
+            { name: "Trans-Clear Plate 1×1", part: "3024", qty: 14 },
+          ],
+          tip: "Single trans plates catch light at a different angle than the rows beneath; an old LEGO Architecture trick for making flat water read as moving.",
         },
       ],
     },
@@ -351,86 +298,61 @@ const barbicanPanorama: Build = {
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-podium",
-      title: "Phase 3 — Podium Colonnade",
-      concept: "Rhythm & Procession",
+      title: "Phase 3: Podium & Colonnade",
+      concept: "Pilotis & Undercroft",
       color: "#8B5CF6",
       icon: "🏛️",
-      time: "15–20 min",
+      time: "20\u201325 min",
       location:
-        "The Barbican's podium is its connective tissue — a raised walkway system supported by cylindrical concrete columns (pilotis), separating pedestrians above from vehicles below. We place columns first but delay the podium deck — the terrace and tower foundations need to go on the base plate while it is still accessible. The deck, soffits, and parapets will be added in Phase 4 after ground-level elements are in place.",
+        "Peter Chamberlin said plainly that the practice's biggest influence was Le Corbusier, and nowhere is it clearer than here: fat round pilotis lift the blocks free of the ground, exactly as at the Unit\u00e9 d'Habitation. The shadowed space beneath became the estate's service world. Pave that floor while you can still reach it; the deck will close over it for good.",
       steps: [
         {
-          title: "Main Columns — First Four",
-          instruction:
-            "Place 4× Brick 2×2 Round — podium column. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Main columns",
+          instruction: "Place 12× Brick 2×2 Round (podium column); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 2×2 Round", part: "3941", qty: 4 },
-        ],
-          tip: "Regular column spacing creates visual rhythm — like beats in music. Count the gaps between columns: that repeating interval IS the Barbican's architectural language.",
-          highlight: true,
+            { name: "Brick 2×2 Round", part: "3941", qty: 12 },
+          ],
+          tip: "Peter Chamberlin admitted the biggest influence was Le Corbusier; and these fat round pilotis lifting the blocks over the lake are textbook Corbusier.",
         },
         {
-          title: "Main Columns — Middle Four",
-          instruction:
-            "Place 4× Brick 2×2 Round — podium column. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Column capitals",
+          instruction: "Place 6× Plate 2×2 Round (column capital); in the centre of the model, about 2 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 2×2 Round", part: "3941", qty: 4 },
-        ],
-          tip: "Consistent spacing is critical. If one column is off by even half a stud, the rhythm breaks and the podium deck will not sit flat.",
+            { name: "Plate 2×2 Round", part: "4032", qty: 6 },
+          ],
+          tip: "A round plate on each column spreads the load; and gives the deck plates a stud to bite on.",
         },
         {
-          title: "Main Columns — Last Four",
-          instruction:
-            "Place 4× Brick 2×2 Round — podium column. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Secondary columns",
+          instruction: "Place 8× Round Brick 1×1 (secondary column); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 2×2 Round", part: "3941", qty: 4 },
-        ],
-          tip: "Stand at eye level with the base and sight along the column line. All 12 columns should read as a perfectly regular rhythm — the hallmark of Brutalist civic architecture.",
+            { name: "Round Brick 1×1", part: "3062b", qty: 8 },
+          ],
+          tip: "Slimmer 1×1 round columns fill the long spans between the main pilotis, just as the estate mixes column sizes under its slabs.",
         },
         {
-          title: "Column Capitals — Left Half",
-          instruction:
-            "Place 3× Plate 2×2 Round — column capital. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Secondary column caps",
+          instruction: "Place 4× Plate 1×1 (column cap); in the centre of the model, about 2 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Plate 2×2 Round", part: "4032", qty: 3 },
-        ],
-          tip: "The round plate capitals widen the bearing surface for the deck plates. They also visually mark the column-to-beam junction — a critical detail in structural expression.",
+            { name: "Plate 1×1", part: "3024w", qty: 4 },
+          ],
+          tip: "A single plate tops each slim column so it finishes level with the big capitals.",
         },
         {
-          title: "Column Capitals — Right Half",
-          instruction:
-            "Place 3× Plate 2×2 Round — column capital. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Undercroft paving, rear",
+          instruction: "Place 3× Tile 2×2 (undercroft paving); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Plate 2×2 Round", part: "4032", qty: 3 },
-        ],
-          tip: "Check each capital sits flat and level. An uneven capital means an uneven deck — problems compound upward in any structure.",
+            { name: "Tile 2×2", part: "3068b", qty: 3 },
+          ],
+          tip: "Pave the shaded floor under the deck now, while you can still reach it; once the deck goes on, this space closes up for good, exactly like the estate's service undercrofts.",
         },
         {
-          title: "Secondary Columns — Left Half",
-          instruction:
-            "Place 4× Round Brick 1×1 — secondary column. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Undercroft paving, front",
+          instruction: "Place 6× Tile 2×2 (undercroft paving); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Round Brick 1×1", part: "3062b", qty: 4 },
-        ],
-          tip: "The secondary columns are slender and elegant — they add structural redundancy without the visual mass of the main pilotis.",
-        },
-        {
-          title: "Secondary Columns — Right Half",
-          instruction:
-            "Place 4× Round Brick 1×1 — secondary column. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Round Brick 1×1", part: "3062b", qty: 4 },
-        ],
-          tip: "In real Brutalist buildings, this mix of thick and thin columns creates visual depth. The colonnade should now have a complex rhythm of large and small verticals.",
-        },
-        {
-          title: "Lateral Bracing",
-          instruction:
-            "Place 4× Plate 1×1 — column cap. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Plate 1×1", part: "3024w", qty: 4 },
-        ],
-          tip: "Lateral bracing is what separates a column that stands from one that topples. The real Barbican columns are braced by the podium slab itself — at LEGO scale, these hidden braces are your safety net.",
+            { name: "Tile 2×2", part: "3068b", qty: 6 },
+          ],
+          tip: "Smooth tiles read as poured floor slab. Keep them inside the column grid.",
         },
       ],
     },
@@ -441,314 +363,144 @@ const barbicanPanorama: Build = {
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-terrace-core",
-      title: "Phase 4 — Ground Level & Structural Cores",
-      concept: "Build Sequence & Access",
+      title: "Phase 4: Ground Level & Structural Cores",
+      concept: "Bearing Walls & Deck",
       color: "#D97706",
       icon: "🧱",
-      time: "50–65 min",
+      time: "35\u201345 min",
       location:
-        "This is the most important phase for buildability. The terrace block and tower are built TOGETHER — interleaved rather than sequentially — because the podium deck will cover the base plate once placed. All ground-level elements (terrace ground course, Arts Centre arches, ground-floor windows, landscaping slopes) must go in BEFORE the podium deck spans across the columns. Then the tower base is placed while the terrace is still only 1-2 courses high. Both structures rise upward simultaneously, interlocking where they meet for maximum structural rigidity.",
+        "Concrete cross-walls carry the terrace blocks, with the Arts Centre pushed in at ground level. When the Queen opened the Barbican Centre on 3 March 1982 it was the largest performing-arts centre in Europe, and she called the complex 'one of the modern wonders of the world'. This phase also starts Lauderdale Tower and lays the podium deck that all pedestrian life happens on.",
       steps: [
-        // --- Terrace ground course ---
         {
-          title: "Terrace Ground — Left Section",
-          instruction:
-            "Place 4× Brick 2×4 — bearing wall. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Bearing walls",
+          instruction: "Place 8× Brick 2×4 (bearing wall); toward the rear of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 2×4", part: "3001", qty: 4 },
-        ],
-          tip: "This is your LAST chance to place ground-level elements before the podium deck covers this zone. Work quickly and carefully.",
-          highlight: true,
+            { name: "Brick 2×4", part: "3001", qty: 8 },
+          ],
+          tip: "Four dark cross-walls carry the terrace block, echoing the estate's in-situ concrete party walls. Everything above lands on these.",
         },
         {
-          title: "Terrace Ground — Right Section",
-          instruction:
-            "Place 4× Brick 2×4 — bearing wall. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Bond course",
+          instruction: "Place 4× Plate 2×4 (bond course); toward the rear of the model, about 2 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 2×4", part: "3001", qty: 4 },
-        ],
-          tip: "The 2×6 bricks provide excellent spanning strength. Their length bridges over plate joints below, distributing load evenly.",
+            { name: "Plate 2×4", part: "3020", qty: 4 },
+          ],
+          tip: "A plate course across the wall heads ties them into one structure before the slab arrives.",
         },
         {
-          title: "Terrace Ground — Bond Course",
-          instruction:
-            "Place 4× Plate 2×4 — bond course. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Arts Centre arcade",
+          instruction: "Place 6× Brick 1×1 (arcade pier) and 3× Arch 1×4 (arts centre arch); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Plate 2×4", part: "3020", qty: 4 },
-        ],
-          tip: "Real bricks are always laid in bond (offset) so that vertical joints never align. This interlocking pattern is stronger than stacking — each brick ties its neighbours together.",
+            { name: "Brick 1×1", part: "3005", qty: 6 },
+            { name: "Arch 1×4", part: "3659", qty: 3 },
+          ],
+          tip: "The Barbican Centre; Europe's largest performing-arts centre when the Queen opened it in 1982, calling the complex 'one of the modern wonders of the world'; announces itself at ground level with arched openings.",
         },
         {
-          title: "Arts Centre Arches",
-          instruction:
-            "Place 6× Brick 1×1 — arcade pier, then 3× Arch 1×4 — arts centre arch. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Foyer glazing",
+          instruction: "Place 3× Trans-Clear Panel 1×2×2 (foyer glazing); toward the rear of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 1×1", part: "3005", qty: 6 },
-          { name: "Arch 1×4", part: "3659", qty: 3 },
-        ],
-          tip: "The arches are a deliberate historical reference to Roman aqueducts — place them now while you can still reach the base plate. Once the podium deck goes on, this zone is sealed.",
+            { name: "Trans-Clear Panel 1×2×2", part: "87552", qty: 3 },
+          ],
+          tip: "Full-height trans-clear panels behind the arcade are the foyer's glass line. Slide each one down between the bearing walls.",
         },
         {
-          title: "Ground-Floor Windows — Left Half",
-          instruction:
-            "Place 2× Trans-Clear Panel 1×2×2 — foyer glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Landscaped banks",
+          instruction: "Place 2× Slope 2×3 (25°) (landscaped bank); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Trans-Clear Panel 1×2×2", part: "87552", qty: 2 },
-        ],
-          tip: "These large windows signal public space — the Arts Centre foyer is the most open, inviting part of the Barbican at ground level.",
+            { name: "Slope 2×3 (25°)", part: "3298", qty: 2 },
+          ],
+          tip: "Green slopes soften the estate's flanks; the Barbican's landscaping was specified as deliberately as its concrete.",
         },
         {
-          title: "Ground-Floor Windows — Right Half",
-          instruction:
-            "Place 1× Trans-Clear Panel 1×2×2 — foyer glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Terrace ground slab",
+          instruction: "Place 3× Plate 4×4 (terrace ground slab); toward the rear of the model, about 2 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Trans-Clear Panel 1×2×2", part: "87552", qty: 1 },
-        ],
-          tip: "Place these firmly now — once the podium deck spans over this zone, you cannot adjust window positions.",
+            { name: "Plate 4×4", part: "3031", qty: 3 },
+          ],
+          tip: "Plates over the arcade close the ground floor. From here up, the terrace block is residential.",
         },
         {
-          title: "Ground-Level Landscaping",
-          instruction:
-            "Place 2× Slope 2×3 (25°) — landscaped bank. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Waterside plinth and steps",
+          instruction: "Place 4× Slope 1×2 Inverted (waterside plinth) and 4× Plate 1×2 (lakeside step); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Slope 2×3 (25°)", part: "3298", qty: 2 },
-        ],
-          tip: "Grade changes (gentle slopes in the ground plane) make a landscape feel natural. Even 1-plate height differences create shadow lines that read as terrain. This is your last chance to reach the ground plane.",
-        },
-        // --- Podium deck ---
-        {
-          title: "Podium Deck — Back Plates",
-          instruction:
-            "Place 2× Plate 4×6 — podium deck. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Plate 4×6", part: "3032", qty: 2 },
-        ],
-          tip: "The back deck plates bear load directly above the columns. Press each plate firmly to seat it on the round capitals.",
+            { name: "Slope 1×2 Inverted", part: "3665", qty: 4 },
+            { name: "Plate 1×2", part: "3023w", qty: 4 },
+          ],
+          tip: "Inverted slopes form the podium's battered edge above the lake, with step plates tying the waterfront to the main platform. Place these before the deck goes on; afterwards you can't reach them.",
         },
         {
-          title: "Podium Deck — Front Plates",
-          instruction:
-            "Place 3× Plate 4×6 — podium deck. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Podium deck",
+          instruction: "Place 5× Plate 4×6 (podium deck); in the centre of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Plate 4×6", part: "3032", qty: 3 },
-        ],
-          tip: "The front edge of the podium is the most visible horizontal line in the model. Keep it perfectly straight.",
+            { name: "Plate 4×6", part: "3032", qty: 5 },
+          ],
+          tip: "The deck drops onto the column capitals and turns the colonnade into an undercroft. On the estate this level is where all pedestrian life happens; no cars anywhere above ground.",
         },
         {
-          title: "Podium Deck — Wide Sections",
-          instruction:
-            "Place 3× Plate 4×4 — terrace ground slab. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Deck parapet",
+          instruction: "Place 5× Panel 1×4×1 Rounded (deck parapet); in the centre of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Plate 4×4", part: "3031", qty: 3 },
-        ],
-          tip: "Wider plates resist bending better than narrow ones. Concentrate them at the longest unsupported spans between columns.",
+            { name: "Panel 1×4×1 Rounded", part: "30413", qty: 5 },
+          ],
+          tip: "Rounded panels edge the deck where it faces the lake; the estate's highwalks all carry this same continuous rail line.",
         },
         {
-          title: "Podium Soffits — Sub-Assembly",
-          instruction:
-            "Place 4× Slope 1×2 Inverted — waterside plinth, then 4× Plate 1×2 — lakeside step. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Parapet corners",
+          instruction: "Place 4× Panel 1×1×1 Corner (parapet corner); in the centre of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Slope 1×2 Inverted", part: "3665", qty: 4 },
-          { name: "Plate 1×2", part: "3023w", qty: 4 },
-        ],
-          tip: "Pre-assembling the soffit onto the deck plates before placing them is much easier than trying to attach inverted slopes underneath an already-placed deck. Build flat, flip, place.",
+            { name: "Panel 1×1×1 Corner", part: "6231", qty: 4 },
+          ],
+          tip: "Corner panels turn the rail around the deck's back corners.",
         },
         {
-          title: "Podium Parapets — Railings",
-          instruction:
-            "Place 5× Panel 1×4×1 Rounded — deck parapet. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Tower courses 1-2",
+          instruction: "Place 4× Brick 1×3 (tower y-plan course); 2× Brick 2×2 (tower y-plan course); and 4× Brick 2×3 (tower y-plan course); toward the rear of the model, about 1 brick up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Panel 1×4×1 Rounded", part: "30413", qty: 5 },
-        ],
-          tip: "Parapets are the horizontal lines that make Brutalist buildings look layered when photographed. They cast long shadows that emphasise horizontality.",
+            { name: "Brick 1×3", part: "3622", qty: 4 },
+            { name: "Brick 2×2", part: "3003", qty: 2 },
+            { name: "Brick 2×3", part: "3002", qty: 4 },
+          ],
+          tip: "Lauderdale Tower begins. The real towers are triangular in plan with a service core; ours is a Y; three wings around a 2×2 core, which keeps every course self-bracing.",
         },
         {
-          title: "Podium Parapets — Corner Pieces",
-          instruction:
-            "Place 4× Panel 1×1×1 Corner — parapet corner. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Tower courses 3-4",
+          instruction: "Place 2× Brick 1×3 (tower y-plan course); 2× Brick 2×2 (tower y-plan course); 3× Brick 2×3 (tower y-plan course); 1× Brick 2×6 (tower y-plan course); 1× Plate 2×6 (tower floor band); and 2× Plate 2×4 (tower floor band); toward the rear of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Panel 1×1×1 Corner", part: "6231", qty: 4 },
-        ],
-          tip: "Corner panels give the parapets a finished look — raw cut-off ends look unresolved. Every line should terminate deliberately.",
-        },
-        // --- Tower base ---
-        {
-          title: "Tower Base — First Course Left",
-          instruction:
-            "Place 4× Brick 1×3 — tower y-plan course; 2× Brick 2×2 — tower y-plan course; and 4× Brick 2×3 — tower y-plan course. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Brick 1×3", part: "3622", qty: 4 },
-          { name: "Brick 2×2", part: "3003", qty: 2 },
-          { name: "Brick 2×3", part: "3002", qty: 4 },
-        ],
-          tip: "Structural engineering 101: a wider base dramatically improves stability. The real Barbican towers have massive foundations extending well below ground.",
-          highlight: true,
+            { name: "Brick 1×3", part: "3622", qty: 2 },
+            { name: "Brick 2×2", part: "3003", qty: 2 },
+            { name: "Brick 2×3", part: "3002", qty: 3 },
+            { name: "Brick 2×6", part: "2456", qty: 1 },
+            { name: "Plate 2×6", part: "3795", qty: 1 },
+            { name: "Plate 2×4", part: "3020", qty: 2 },
+          ],
+          tip: "Alternating course patterns interlock the wings into the core; running bond, the oldest trick in masonry, in concrete and in LEGO.",
         },
         {
-          title: "Tower Base — First Course Right",
-          instruction:
-            "Place 2× Brick 1×3 — tower y-plan course; 2× Brick 2×2 — tower y-plan course; 3× Brick 2×3 — tower y-plan course; 1× Brick 2×6 — tower y-plan course; 1× Plate 2×6 — tower floor band; and 2× Plate 2×4 — tower floor band. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Tower courses 5-6",
+          instruction: "Place 2× Brick 1×3 (tower y-plan course); 3× Brick 2×2 (tower y-plan course); 2× Brick 2×3 (tower y-plan course); 1× Brick 2×4 (tower y-plan course); and 3× Grille Brick 1×2 (tower spandrel band); toward the rear of the model, about 5 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 1×3", part: "3622", qty: 2 },
-          { name: "Brick 2×2", part: "3003", qty: 2 },
-          { name: "Brick 2×3", part: "3002", qty: 3 },
-          { name: "Brick 2×6", part: "2456", qty: 1 },
-          { name: "Plate 2×6", part: "3795", qty: 1 },
-          { name: "Plate 2×4", part: "3020", qty: 2 },
-        ],
-          tip: "The tower base needs to be perfectly centred on the reinforced foundation zone. Check alignment before adding more courses.",
+            { name: "Brick 1×3", part: "3622", qty: 2 },
+            { name: "Brick 2×2", part: "3003", qty: 3 },
+            { name: "Brick 2×3", part: "3002", qty: 2 },
+            { name: "Brick 2×4", part: "3001", qty: 1 },
+            { name: "Grille Brick 1×2", part: "2877", qty: 3 },
+          ],
+          tip: "From here up the wing tips alternate: ribbed spandrel courses, then trans-clear window bands. Each course carries its own facade pieces.",
         },
         {
-          title: "Tower Base — Second Course",
-          instruction:
-            "Place 2× Brick 1×3 — tower y-plan course; 3× Brick 2×2 — tower y-plan course; 2× Brick 2×3 — tower y-plan course; and 1× Brick 2×4 — tower y-plan course. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Tower courses 7-8",
+          instruction: "Place 1× Brick 2×4 (tower y-plan course); 3× Brick 2×2 (tower y-plan course); 3× Trans-Clear Brick 1×2 (tower window band); 1× Brick 2×6 (tower y-plan course); 1× Brick 2×3 (tower y-plan course); 1× Plate 2×6 (tower floor band); and 2× Plate 2×4 (tower floor band); toward the rear of the model, about 7 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 1×3", part: "3622", qty: 2 },
-          { name: "Brick 2×2", part: "3003", qty: 3 },
-          { name: "Brick 2×3", part: "3002", qty: 2 },
-          { name: "Brick 2×4", part: "3001", qty: 1 },
-        ],
-          tip: "Bond pattern (offset joints) is even more critical in the tower than the terrace — every aligned joint is a potential failure point under the tower's cumulative weight.",
-        },
-        {
-          title: "Tower Base — Third Course",
-          instruction:
-            "Place 1× Brick 2×4 — tower y-plan course; 3× Brick 2×2 — tower y-plan course; 1× Brick 2×6 — tower y-plan course; 1× Brick 2×3 — tower y-plan course; 1× Plate 2×6 — tower floor band; and 2× Plate 2×4 — tower floor band. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Brick 2×4", part: "3001", qty: 1 },
-          { name: "Brick 2×2", part: "3003", qty: 3 },
-          { name: "Brick 2×6", part: "2456", qty: 1 },
-          { name: "Brick 2×3", part: "3002", qty: 1 },
-          { name: "Plate 2×6", part: "3795", qty: 1 },
-          { name: "Plate 2×4", part: "3020", qty: 2 },
-        ],
-          tip: "Alternating offset direction every course creates the strongest possible bond. This is called 'stretcher bond' — the standard for structural masonry worldwide.",
-        },
-        // --- Terrace walls rising ---
-        {
-          title: "Terrace Wall — Course 3 (Left Half)",
-          instruction:
-            "Place 2× Brick 1×6 — terrace back wall; 2× Brick 1×4 — terrace back wall; and 2× Brick 1×2 — terrace end wall. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Brick 1×6", part: "3009", qty: 2 },
-          { name: "Brick 1×4", part: "3010", qty: 2 },
-          { name: "Brick 1×2", part: "3004", qty: 2 },
-        ],
-          tip: "Interleaving the terrace and tower build creates a much stronger structure than building them separately. The interlocking bricks at the junction work like a zipper.",
-        },
-        {
-          title: "Terrace Wall — Course 3 (Right Half)",
-          instruction:
-            "Place 2× Brick 1×4 — terrace back wall; 2× Brick 1×6 — terrace back wall; and 2× Brick 1×2 — terrace end wall. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Brick 1×4", part: "3010", qty: 2 },
-          { name: "Brick 1×6", part: "3009", qty: 2 },
-          { name: "Brick 1×2", part: "3004", qty: 2 },
-        ],
-          tip: "The 1×8 bricks span long distances, bridging over many joints below. They act like steel beams in real construction — tying the wall together horizontally.",
-        },
-        {
-          title: "Terrace Wall — Courses 4-5 (Left)",
-          instruction:
-            "Place 10× Plate 2×3 — terrace floor band; 3× Plate 2×2 — balcony slab (projecting); and 7× Plate 1×2 — balcony slab (flush). Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Plate 2×3", part: "3021", qty: 10 },
-          { name: "Plate 2×2", part: "3022", qty: 3 },
-          { name: "Plate 1×2", part: "3023w", qty: 7 },
-        ],
-          tip: "Two-stud-deep bricks create a thicker wall that resists lateral forces better. The terrace wall needs this thickness to support the barrel vault above.",
-        },
-        {
-          title: "Terrace Wall — Courses 4-5 (Centre)",
-          instruction:
-            "Place 2× Brick 1×6 — terrace back wall; 2× Brick 1×4 — terrace back wall; and 2× Brick 1×2 — terrace end wall. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Brick 1×6", part: "3009", qty: 2 },
-          { name: "Brick 1×4", part: "3010", qty: 2 },
-          { name: "Brick 1×2", part: "3004", qty: 2 },
-        ],
-          tip: "Bricks that span the terrace-tower junction interlock the two structures. This creates a unified structural mass — each building braces the other.",
-        },
-        {
-          title: "Terrace Wall — Courses 4-5 (Right)",
-          instruction:
-            "Place 2× Brick 1×4 — terrace back wall; 2× Brick 1×6 — terrace back wall; and 2× Brick 1×2 — terrace end wall. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Brick 1×4", part: "3010", qty: 2 },
-          { name: "Brick 1×6", part: "3009", qty: 2 },
-          { name: "Brick 1×2", part: "3004", qty: 2 },
-        ],
-          tip: "Step back and check: the terrace wall should be a continuous, solid mass — no gaps, no wobbly spots. Press each course firmly before adding the next.",
-        },
-        {
-          title: "Terrace Wall — Upper Courses with 1×6",
-          instruction:
-            "Place 10× Plate 2×3 — terrace floor band; 5× Plate 2×2 — balcony slab (projecting); and 5× Plate 1×2 — balcony slab (flush). Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Plate 2×3", part: "3021", qty: 10 },
-          { name: "Plate 2×2", part: "3022", qty: 5 },
-          { name: "Plate 1×2", part: "3023w", qty: 5 },
-        ],
-          tip: "The 1×6 bricks at this height create the horizontal banding visible on the real Barbican terraces — long, unbroken lines that emphasise the building's panoramic width.",
-        },
-        // --- Tower shaft through terrace height ---
-        {
-          title: "Tower Shaft — Courses 4-6",
-          instruction:
-            "Place 2× Brick 1×3 — tower y-plan course; 3× Brick 2×2 — tower y-plan course; 2× Brick 2×3 — tower y-plan course; and 1× Brick 2×4 — tower y-plan course. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Brick 1×3", part: "3622", qty: 2 },
-          { name: "Brick 2×2", part: "3003", qty: 3 },
-          { name: "Brick 2×3", part: "3002", qty: 2 },
-          { name: "Brick 2×4", part: "3001", qty: 1 },
-        ],
-          tip: "The tower rises behind the terrace — at this stage both structures should be roughly the same height, growing together like twin stems from one root.",
-        },
-        {
-          title: "Tower Shaft — Infill Bricks",
-          instruction:
-            "Place 1× Brick 2×4 — tower y-plan course; 3× Brick 2×2 — tower y-plan course; 1× Brick 2×6 — tower y-plan course; 1× Brick 2×3 — tower y-plan course; 1× Plate 2×6 — tower floor band; and 2× Plate 2×4 — tower floor band. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Brick 2×4", part: "3001", qty: 1 },
-          { name: "Brick 2×2", part: "3003", qty: 3 },
-          { name: "Brick 2×6", part: "2456", qty: 1 },
-          { name: "Brick 2×3", part: "3002", qty: 1 },
-          { name: "Plate 2×6", part: "3795", qty: 1 },
-          { name: "Plate 2×4", part: "3020", qty: 2 },
-        ],
-          tip: "Small infill bricks at course ends are the mortar of LEGO construction — they seal gaps and prevent racking (sideways lean) in the tower.",
-        },
-        // --- Structural plates ---
-        {
-          title: "Structural Floor Plates — Terrace",
-          instruction:
-            "Place 4× Brick 1×6 — terrace back wall; 4× Brick 1×4 — terrace back wall; and 4× Brick 1×2 — terrace end wall. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Brick 1×6", part: "3009", qty: 4 },
-          { name: "Brick 1×4", part: "3010", qty: 4 },
-          { name: "Brick 1×2", part: "3004", qty: 4 },
-        ],
-          tip: "The structural plate every few courses mimics real construction where floor slabs brace the walls against buckling. Without these plates, a tall LEGO wall will eventually lean.",
-          highlight: true,
-        },
-        {
-          title: "Shear Walls",
-          instruction:
-            "Place 2× Brick 1×2 — shear wall. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Brick 1×2", part: "3004", qty: 2 },
-        ],
-          tip: "Shear walls create a direct load path from the tower straight down to the foundation. Without them, the tower's weight bears on flat plates which can flex.",
-        },
-        {
-          title: "Upper Wall Infill",
-          instruction:
-            "Place 2× Plate 4×8 — roof cap plate, then 1× Plate 4×4 — roof cap plate. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Plate 4×8", part: "3035", qty: 2 },
-          { name: "Plate 4×4", part: "3031", qty: 1 },
-        ],
-          tip: "Step back and look at the profile. You should see the terrace as a solid rectangular mass with the tower rising behind it — both structures built as a unified block from the foundation up.",
+            { name: "Brick 2×4", part: "3001", qty: 1 },
+            { name: "Brick 2×2", part: "3003", qty: 3 },
+            { name: "Trans-Clear Brick 1×2", part: "3065", qty: 3 },
+            { name: "Brick 2×6", part: "2456", qty: 1 },
+            { name: "Brick 2×3", part: "3002", qty: 1 },
+            { name: "Plate 2×6", part: "3795", qty: 1 },
+            { name: "Plate 2×4", part: "3020", qty: 2 },
+          ],
+          tip: "A plate band after every fourth course marks a floor line, just as the towers' balcony slabs stripe their elevations.",
         },
       ],
     },
@@ -758,131 +510,179 @@ const barbicanPanorama: Build = {
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-terrace-facade",
-      title: "Phase 5 — Terrace Block: SNOT Facade",
-      concept: "Surface & Texture",
+      title: "Phase 5: Terrace Block, Storeys & Facade",
+      concept: "Repetition & Texture",
       color: "#DC2626",
       icon: "🪟",
-      time: "35–45 min",
+      time: "45\u201355 min",
       location:
-        "Now you transform the raw mass into the Barbican's signature bush-hammered concrete facade. The real buildings have a deeply textured surface created by hammering cast concrete to expose aggregate — giving it a rough, almost geological quality. You will recreate this using SNOT (Studs Not On Top) technique: bricks with side studs face their studs outward, and grille tiles attached sideways create the textured surface.",
+        "The thirteen real terrace blocks are seven storeys of identical, hand-finished concrete. After each pour had cured for 21 days, workers attacked the whole surface with pick hammers to expose the Penlee granite aggregate: over 200,000 square metres of wall, famously tooled by a team of just six men. Build each storey complete (walls, windows, floor band and balconies) before starting the next; that is the only order real bricks allow.",
       steps: [
         {
-          title: "SNOT Bricks — Lower Storeys",
-          instruction:
-            "Place 3× Brick 1×4 — spandrel course. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Storey 1: walls and spandrels",
+          instruction: "Place 2× Brick 1×6 (terrace back wall); 2× Brick 1×4 (terrace back wall); 2× Brick 1×2 (terrace end wall); and 5× Brick 1×4 (spandrel course); toward the rear of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 1×4", part: "3010", qty: 3 },
-        ],
-          tip: "This is the key SNOT move. The side studs create a new building plane offset half a plate from the structural wall. That offset IS the shadow reveal that makes Brutalist facades photogenic.",
-          highlight: true,
+            { name: "Brick 1×6", part: "3009", qty: 2 },
+            { name: "Brick 1×4", part: "3010", qty: 2 },
+            { name: "Brick 1×2", part: "3004", qty: 2 },
+            { name: "Brick 1×4", part: "3010", qty: 5 },
+          ],
+          tip: "The terrace blocks are seven storeys in real life; three here. The spandrel course uses 1×4 bricks; read them as the pick-hammered concrete panels between windows.",
         },
         {
-          title: "SNOT Bricks — Upper Storeys",
-          instruction:
-            "Place 2× Brick 1×4 — spandrel course. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Storey 1: window piers",
+          instruction: "Place 8× Brick 1×1 (window pier); in the centre of the model, about 4 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 1×4", part: "3010", qty: 2 },
-        ],
-          tip: "Spacing the SNOT bricks at every other storey creates alternating bands of textured concrete and smooth window strips — the Barbican's signature rhythm.",
+            { name: "Brick 1×1", part: "3005", qty: 8 },
+          ],
+          tip: "Single-stud piers set the window rhythm. The gaps between them take the glazing next.",
         },
         {
-          title: "Grille Texture — Bottom Band",
-          instruction:
-            "Place 8× Brick 1×1 — window pier. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Storey 1: glazing",
+          instruction: "Place 6× Trans-Clear Brick 1×2 (window glazing); in the centre of the model, about 4 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 1×1", part: "3005", qty: 8 },
-        ],
-          tip: "The 80/20 texture rule: cover 80% of each band with grille texture, leave 20% as smooth tile or window. This contrast is what makes the texture visible.",
+            { name: "Trans-Clear Brick 1×2", part: "3065", qty: 6 },
+          ],
+          tip: "Trans-clear 1×2 bricks drop between the piers. Narrow vertical slots of glass in deep concrete are the terrace blocks' signature.",
         },
         {
-          title: "Grille Texture — Middle Band",
-          instruction:
-            "Place 6× Trans-Clear Brick 1×2 — window glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Storey 1: rear bond course",
+          instruction: "Place 2× Brick 1×4 (terrace back wall); 2× Brick 1×6 (terrace back wall); and 2× Brick 1×2 (terrace end wall); toward the rear of the model, about 4 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Trans-Clear Brick 1×2", part: "3065", qty: 6 },
-        ],
-          tip: "Each grille tile is a miniature abstraction of rough concrete. The repeating pattern creates a moiré effect that reads as surface texture from across the room.",
+            { name: "Brick 1×4", part: "3010", qty: 2 },
+            { name: "Brick 1×6", part: "3009", qty: 2 },
+            { name: "Brick 1×2", part: "3004", qty: 2 },
+          ],
+          tip: "The back wall bonds over the course below; stagger every joint.",
         },
         {
-          title: "Grille Texture — Top Band",
-          instruction:
-            "Place 5× Brick 1×4 — spandrel course. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Storey 1: floor band",
+          instruction: "Place 10× Plate 2×3 (terrace floor band); 3× Plate 2×2 (balcony slab (projecting)); and 7× Plate 1×2 (balcony slab (flush)); in the centre of the model, about 5 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 1×4", part: "3010", qty: 5 },
-        ],
-          tip: "Step back and look at the facade from 1 metre away. The three textured bands should read as a continuous rough concrete surface with window slots between them.",
+            { name: "Plate 2×3", part: "3021", qty: 10 },
+            { name: "Plate 2×2", part: "3022", qty: 3 },
+            { name: "Plate 1×2", part: "3023w", qty: 7 },
+          ],
+          tip: "A full plate band is this storey's floor slab. The rear plates span to the back wall; the front strip alternates flush and projecting.",
         },
         {
-          title: "Window Reveals — Bottom Row",
-          instruction:
-            "Place 8× Headlight Brick 1×1 — window pier (headlight). Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Storey 1: balcony finishing",
+          instruction: "Place 2× Tile 1×2 Grille (balcony grille decking) and 2× Plate 1×1 Round (balcony planter); in the centre of the model, about 5 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Headlight Brick 1×1", part: "4070", qty: 8 },
-        ],
-          tip: "Window reveals are the most important detail in Brutalist architecture. The depth of the recess determines how much shadow the window casts across the day as the sun moves.",
+            { name: "Tile 1×2 Grille", part: "2412b", qty: 2 },
+            { name: "Plate 1×1 Round", part: "4073", qty: 2 },
+          ],
+          tip: "Grille tiles deck the projecting balconies, and round green plates are the residents' planters; balcony gardening is practically a competitive sport at the Barbican. Do this now: the next storey will close off the reach.",
         },
         {
-          title: "Window Reveals — Middle Row",
-          instruction:
-            "Place 6× Trans-Clear Brick 1×2 — window glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Storey 2: walls and spandrels",
+          instruction: "Place 2× Brick 1×6 (terrace back wall); 2× Brick 1×4 (terrace back wall); 2× Brick 1×2 (terrace end wall); and 5× Brick 1×4 (spandrel course); toward the rear of the model, about 5 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Trans-Clear Brick 1×2", part: "3065", qty: 6 },
-        ],
-          tip: "Consistent spacing between headlight bricks creates the regular window grid that defines Brutalist residential blocks — one window per living room, repeated identically.",
+            { name: "Brick 1×6", part: "3009", qty: 2 },
+            { name: "Brick 1×4", part: "3010", qty: 2 },
+            { name: "Brick 1×2", part: "3004", qty: 2 },
+            { name: "Brick 1×4", part: "3010", qty: 5 },
+          ],
+          tip: "The estate's exposed concrete was hand-finished: after 21 days' curing, workers with pick hammers chipped the whole surface to expose the Penlee granite aggregate; over 200,000 m² of it, reportedly by a team of six.",
         },
         {
-          title: "Window Reveals — Top Row",
-          instruction:
-            "Place 5× Brick 1×4 — spandrel course. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Storey 2: window piers",
+          instruction: "Place 8× Headlight Brick 1×1 (window pier (headlight)); in the centre of the model, about 6 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 1×4", part: "3010", qty: 5 },
-        ],
-          tip: "The three rows of headlight bricks should form a perfectly regular grid — same spacing, same depth, same rhythm. This repetition IS the Brutalist democratic ideal.",
+            { name: "Headlight Brick 1×1", part: "4070", qty: 8 },
+          ],
+          tip: "This storey's piers are headlight bricks; their recessed faces read as the deep window reveals that give the facades their shadow.",
         },
         {
-          title: "Glazing — Lower Windows",
-          instruction:
-            "Place 8× Brick 1×1 — window pier. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Storey 2: glazing",
+          instruction: "Place 6× Trans-Clear Brick 1×2 (window glazing); in the centre of the model, about 6 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 1×1", part: "3005", qty: 8 },
-        ],
-          tip: "Deep-set windows are a thermal strategy — the concrete overhang shades the glass from high summer sun while admitting low winter sun. Form follows climate.",
+            { name: "Trans-Clear Brick 1×2", part: "3065", qty: 6 },
+          ],
+          tip: "Trans-clear 1×2 bricks drop between the piers. Narrow vertical slots of glass in deep concrete are the terrace blocks' signature.",
         },
         {
-          title: "Glazing — Middle Windows",
-          instruction:
-            "Place 6× Trans-Clear Brick 1×2 — window glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Storey 2: rear bond course",
+          instruction: "Place 2× Brick 1×4 (terrace back wall); 2× Brick 1×6 (terrace back wall); and 2× Brick 1×2 (terrace end wall); toward the rear of the model, about 6 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Trans-Clear Brick 1×2", part: "3065", qty: 6 },
-        ],
-          tip: "The recess depth creates a visible shadow line around each window — this shadow line is what gives the facade its three-dimensional quality in photographs.",
+            { name: "Brick 1×4", part: "3010", qty: 2 },
+            { name: "Brick 1×6", part: "3009", qty: 2 },
+            { name: "Brick 1×2", part: "3004", qty: 2 },
+          ],
+          tip: "The back wall bonds over the course below; stagger every joint.",
         },
         {
-          title: "Glazing — Upper Windows",
-          instruction:
-            "Place 3× Tile 2×2 — undercroft paving. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Storey 2: floor band",
+          instruction: "Place 10× Plate 2×3 (terrace floor band); 3× Plate 2×2 (balcony slab (projecting)); and 7× Plate 1×2 (balcony slab (flush)); in the centre of the model, about 7 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Tile 2×2", part: "3068b", qty: 3 },
-        ],
-          tip: "The top-floor windows complete the regular glazing grid — three rows of identically spaced windows expressing the democratic ideal of social housing.",
+            { name: "Plate 2×3", part: "3021", qty: 10 },
+            { name: "Plate 2×2", part: "3022", qty: 3 },
+            { name: "Plate 1×2", part: "3023w", qty: 7 },
+          ],
+          tip: "A full plate band is this storey's floor slab. The rear plates span to the back wall; the front strip alternates flush and projecting.",
         },
         {
-          title: "Penthouse Windows — Tall Panels",
-          instruction:
-            "Place 3× Tile 2×2 — undercroft paving. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Storey 2: balcony finishing",
+          instruction: "Place 2× Tile 1×2 Grille (balcony grille decking) and 2× Plate 1×1 Round (balcony planter); in the centre of the model, about 7 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Tile 2×2", part: "3068b", qty: 3 },
-        ],
-          tip: "The penthouse windows are taller than the standard floors — this variation at the top signals hierarchy. Even social housing has a top floor worth celebrating.",
+            { name: "Tile 1×2 Grille", part: "2412b", qty: 2 },
+            { name: "Plate 1×1 Round", part: "4073", qty: 2 },
+          ],
+          tip: "Grille tiles deck the projecting balconies, and round green plates are the residents' planters; balcony gardening is practically a competitive sport at the Barbican. Do this now: the next storey will close off the reach.",
         },
         {
-          title: "Glazing — Remaining Window Fill",
-          instruction:
-            "Place 3× Tile 2×2 — undercroft paving. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Storey 3: walls and spandrels",
+          instruction: "Place 2× Brick 1×6 (terrace back wall); 2× Brick 1×4 (terrace back wall); 2× Brick 1×2 (terrace end wall); and 5× Brick 1×4 (spandrel course); toward the rear of the model, about 7 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Tile 2×2", part: "3068b", qty: 3 },
-        ],
-          tip: "Check the facade from the front: you should see alternating bands of rough grille texture and deep-set glass. The contrast between opaque and transparent is the facade's defining quality.",
+            { name: "Brick 1×6", part: "3009", qty: 2 },
+            { name: "Brick 1×4", part: "3010", qty: 2 },
+            { name: "Brick 1×2", part: "3004", qty: 2 },
+            { name: "Brick 1×4", part: "3010", qty: 5 },
+          ],
+          tip: "Top storey. In the real blocks the uppermost flats are the prized ones, tucked directly under the barrel vaults.",
+        },
+        {
+          title: "Storey 3: window piers",
+          instruction: "Place 8× Brick 1×1 (window pier); in the centre of the model, about 8 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Brick 1×1", part: "3005", qty: 8 },
+          ],
+          tip: "Single-stud piers set the window rhythm. The gaps between them take the glazing next.",
+        },
+        {
+          title: "Storey 3: glazing",
+          instruction: "Place 6× Trans-Clear Brick 1×2 (window glazing); in the centre of the model, about 8 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Trans-Clear Brick 1×2", part: "3065", qty: 6 },
+          ],
+          tip: "Trans-clear 1×2 bricks drop between the piers. Narrow vertical slots of glass in deep concrete are the terrace blocks' signature.",
+        },
+        {
+          title: "Storey 3: rear bond course",
+          instruction: "Place 2× Brick 1×4 (terrace back wall); 2× Brick 1×6 (terrace back wall); and 2× Brick 1×2 (terrace end wall); toward the rear of the model, about 8 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Brick 1×4", part: "3010", qty: 2 },
+            { name: "Brick 1×6", part: "3009", qty: 2 },
+            { name: "Brick 1×2", part: "3004", qty: 2 },
+          ],
+          tip: "The back wall bonds over the course below; stagger every joint.",
+        },
+        {
+          title: "Shear walls",
+          instruction: "Place 2× Brick 1×2 (shear wall); toward the rear of the model, about 7 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Brick 1×2", part: "3004", qty: 2 },
+          ],
+          tip: "Two interior walls stiffen the top storey against the roof load.",
+        },
+        {
+          title: "Roof cap",
+          instruction: "Place 2× Plate 4×8 (roof cap plate) and 1× Plate 4×4 (roof cap plate); toward the rear of the model, about 9 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Plate 4×8", part: "3035", qty: 2 },
+            { name: "Plate 4×4", part: "3031", qty: 1 },
+          ],
+          tip: "Large plates close the block and give the vault roof its bed. The 13 real terrace blocks all finish this way; flat slab, then the white vaults.",
         },
       ],
     },
@@ -892,114 +692,46 @@ const barbicanPanorama: Build = {
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-terrace-balconies",
-      title: "Phase 6 — Terrace Block: Balconies & Soffits",
-      concept: "Cantilever & Shadow",
+      title: "Phase 6: Highwalks & Podium Life",
+      concept: "Streets in the Sky",
       color: "#059669",
       icon: "🏢",
-      time: "25–35 min",
+      time: "10\u201315 min",
       location:
-        "Cantilevered balconies are the Barbican's most recognisable residential feature — concrete slabs projecting from the facade, casting deep shadows on the floors below. You will pre-assemble each balcony row as a sub-assembly (plate + inverted slope soffit) before attaching to the facade. This avoids the difficulty of reaching underneath already-placed balcony slabs.",
+        "The Barbican's elevated walkways were meant to be the first stretch of a city-wide 'pedway' network floating above the traffic. The network never happened, but the estate's piece of it works exactly as drawn: you can walk from flat to concert hall to school without ever meeting a car. Benches, planters and paving make the podium a place rather than a route.",
       steps: [
         {
-          title: "Balcony Sub-Assembly 1 — Plates",
-          instruction:
-            "Place 2× Tile 1×2 Grille — balcony grille decking. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Highwalk plates",
+          instruction: "Place 5× Plate 1×4 (highwalk plate); in the centre of the model, about 4 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Tile 1×2 Grille", part: "2412b", qty: 2 },
-        ],
-          tip: "Pre-assembling the soffit onto the balcony slab before mounting is much easier than trying to attach inverted slopes underneath an already-placed slab.",
-          highlight: true,
+            { name: "Plate 1×4", part: "3710", qty: 5 },
+          ],
+          tip: "The estate's highwalks were meant to seed a city-wide network of walkways above the traffic; the 'pedway'. Only fragments were ever built, but the Barbican's stretch still works exactly as drawn.",
         },
         {
-          title: "Balcony Sub-Assembly 1 — Soffits",
-          instruction:
-            "Place 3× Tile 1×2 Grille — balcony grille decking. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Highwalk paving",
+          instruction: "Place 5× Tile 1×4 (highwalk tile); in the centre of the model, about 4 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Tile 1×2 Grille", part: "2412b", qty: 3 },
-        ],
-          tip: "The inverted slopes taper the slab edge, creating the characteristic Brutalist cantilever profile — thick at the wall, thin at the outer edge.",
+            { name: "Tile 1×4", part: "2431", qty: 5 },
+          ],
+          tip: "Dark tiles give the elevated walk its smooth deck. Yellow lines painted on the real ones guide visitors to the Centre.",
         },
         {
-          title: "Balcony Sub-Assembly 2 — Plates & Soffits",
-          instruction:
-            "Place 2× Plate 1×1 Round — balcony planter. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Deck planters",
+          instruction: "Place 2× Plate 1×1 Round (deck planter) and 2× Plate 1×1 Round (deck planting); in the centre of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Plate 1×1 Round", part: "4073", qty: 2 },
-        ],
-          tip: "Varying the soffit type between balcony rows creates visual interest — the real Barbican uses different soffit depths at different levels.",
+            { name: "Plate 1×1 Round", part: "4073", qty: 2 },
+            { name: "Plate 1×1 Round", part: "4073", qty: 2 },
+          ],
+          tip: "Round planters with greenery break up the podium paving, matching the estate's raised beds.",
         },
         {
-          title: "Balcony Sub-Assembly 3 — Wide Balcony",
-          instruction:
-            "Place 4× Plate 1×1 Round — balcony planter. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Lakeside benches",
+          instruction: "Place 4× Tile 1×2 (lakeside bench); toward the front of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Plate 1×1 Round", part: "4073", qty: 4 },
-        ],
-          tip: "The 4th-storey balcony is the widest in the real Barbican — it projects furthest and casts the deepest shadow. The 2×2 inverted slopes create this extra depth.",
-        },
-        {
-          title: "Balcony Sub-Assembly 4 — Inverted Slopes",
-          instruction:
-            "Place 3× Plate 1×4 — highwalk plate. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Plate 1×4", part: "3710", qty: 3 },
-        ],
-          tip: "The upper balconies are narrower than the lower ones — the building steps back as it rises, maintaining sunlight access to lower floors.",
-        },
-        {
-          title: "Balcony Sub-Assemblies 5-6 — Soffits",
-          instruction:
-            "Place 2× Plate 1×4 — highwalk plate. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Plate 1×4", part: "3710", qty: 2 },
-        ],
-          tip: "These final two rows are the narrowest balconies — they project just far enough to cast a shadow line on the floor below.",
-        },
-        {
-          title: "Upper Balcony Surface Tiles",
-          instruction:
-            "Place 3× Tile 1×4 — highwalk tile. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Tile 1×4", part: "2431", qty: 3 },
-        ],
-          tip: "The tile strips on top of the balcony slabs create the smooth walking surfaces — the defining textural contrast of Brutalist residential architecture.",
-        },
-        {
-          title: "Attach Balconies — Lower Rows",
-          instruction:
-            "Place 2× Tile 1×4 — highwalk tile. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Tile 1×4", part: "2431", qty: 2 },
-        ],
-          tip: "Work from the bottom up — the lower balconies provide a visual reference for aligning the upper ones.",
-        },
-        {
-          title: "Attach Balconies — Upper Rows",
-          instruction:
-            "Place 2× Plate 1×1 Round — deck planter, then 2× Plate 1×1 Round — deck planting. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Plate 1×1 Round", part: "4073", qty: 2 },
-          { name: "Plate 1×1 Round", part: "4073", qty: 2 },
-        ],
-          tip: "Six balcony rows create six shadow lines — this layered horizontal effect is what makes the Barbican terraces so photogenic in low afternoon light.",
-        },
-        {
-          title: "Balcony Surface — Long Tiles",
-          instruction:
-            "Place 2× Tile 1×2 — lakeside bench. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Tile 1×2", part: "3069b", qty: 2 },
-        ],
-          tip: "Smooth vs. rough is the fundamental contrast in Brutalist architecture. Smooth surfaces are for touching (floors, handrails); rough surfaces are for looking at (walls, columns).",
-        },
-        {
-          title: "Balcony Surface — Short Tiles",
-          instruction:
-            "Place 2× Tile 1×2 — lakeside bench. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Tile 1×2", part: "3069b", qty: 2 },
-        ],
-          tip: "The smooth tile contrasts with the studded structure below the slab — you can see the difference between 'floor' and 'ceiling' even at this micro scale.",
+            { name: "Tile 1×2", part: "3069b", qty: 4 },
+          ],
+          tip: "Benches face the water on the lakeside walk; the estate's best free seats.",
         },
       ],
     },
@@ -1009,107 +741,73 @@ const barbicanPanorama: Build = {
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-barrel-vault",
-      title: "Phase 7 — Barrel Vault Roof",
-      concept: "Form & Silhouette",
+      title: "Phase 7: Barrel Vault Roof",
+      concept: "The Signature Curve",
       color: "#7C3AED",
       icon: "🌀",
-      time: "20–30 min",
+      time: "25\u201330 min",
       location:
-        "The barrel vault is the terrace block's crown — a long, curved concrete roof that gives the Barbican its unmistakable silhouette. In the real estate, these vaults cover the top-floor maisonettes and contain the building's mechanical systems. The curve is both structural (a vault is stronger than a flat roof) and sculptural (it breaks the skyline with a soft organic form against the tower's hard geometry). IMPORTANT: Leave the rightmost 6 studs of the terrace block UNBUILT — this reserved section is where the Conservatory will be built in Phase 11.",
+        "Nothing says Barbican like the white barrel vaults along every terrace roofline. The architects took the curve from Le Corbusier's Maison Jaoul and from whitewashed Greek island churches, then repeated it across all thirteen blocks. Your curved-top bricks crown the rooftop plant room the same way.",
       steps: [
         {
-          title: "Vault Curve — Left Half",
-          instruction:
-            "Place 4× Slope 2×2 (45°) — roof pitch (rear). Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Rear roof pitch",
+          instruction: "Place 7× Slope 2×2 (45°) (roof pitch (rear)); toward the rear of the model, about 10 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Slope 2×2 (45°)", part: "3039", qty: 4 },
-        ],
-          tip: "A barrel vault is a half-cylinder. At LEGO scale, the curve is suggested rather than literal — the brain fills in the smooth curve from these stepped facets.",
-          highlight: true,
+            { name: "Slope 2×2 (45°)", part: "3039", qty: 7 },
+          ],
+          tip: "The terrace roofs trace back to Le Corbusier's Maison Jaoul vaults and Greek island church roofs; Mediterranean curves over London concrete.",
         },
         {
-          title: "Vault Curve — Right Half",
-          instruction:
-            "Place 3× Slope 2×2 (45°) — roof pitch (rear). Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Front roof pitch",
+          instruction: "Place 3× Slope 2×4 (45°) (roof pitch (front)) and 2× Slope 1×2 (45°) (roof pitch (front)); in the centre of the model, about 10 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Slope 2×2 (45°)", part: "3039", qty: 3 },
-        ],
-          tip: "Symmetry is key — sight along the ridge line to ensure both halves curve identically. Any asymmetry in the vault reads as structural failure.",
+            { name: "Slope 2×4 (45°)", part: "3037", qty: 3 },
+            { name: "Slope 1×2 (45°)", part: "3040", qty: 2 },
+          ],
+          tip: "The south pitch meets the rear at the ridge. Seen from the lake this is the terrace's skyline.",
         },
         {
-          title: "Vault Enrichment — Left",
-          instruction:
-            "Place 2× Slope 2×4 (45°) — roof pitch (front). Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Plant room walls",
+          instruction: "Place 2× Brick 1×3 (plant room wall (rear)) and 2× Brick 1×2 (plant room wall (side)); at the rear east of the model, about 10 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Slope 2×4 (45°)", part: "3037", qty: 2 },
-        ],
-          tip: "In architecture, 'enrichment' means adding detail to a primary form. The curved top bricks soften the stepped facets — like moulding profiles soften a classical cornice.",
+            { name: "Brick 1×3", part: "3622", qty: 2 },
+            { name: "Brick 1×2", part: "3004", qty: 2 },
+          ],
+          tip: "A rooftop plant room anchors the east end; the estate hides all its machinery in blocks like this one.",
         },
         {
-          title: "Vault Enrichment — Right",
-          instruction:
-            "Place 1× Slope 2×4 (45°) — roof pitch (front), then 2× Slope 1×2 (45°) — roof pitch (front). Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Plant room glazing",
+          instruction: "Place 2× Brick 1×1 (plant room corner) and 2× Trans-Clear Brick 1×2 (plant room glazing); on the east side, about 10 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Slope 2×4 (45°)", part: "3037", qty: 1 },
-          { name: "Slope 1×2 (45°)", part: "3040", qty: 2 },
-        ],
-          tip: "The enriched vault should now read as a continuous, smoothly curved surface from end to end. No sharp steps should be visible in profile.",
+            { name: "Brick 1×1", part: "3005", qty: 2 },
+            { name: "Trans-Clear Brick 1×2", part: "3065", qty: 2 },
+          ],
+          tip: "Corner bricks and trans-clear infill give the plant room its clerestory band.",
         },
         {
-          title: "Eave Slopes — Narrow Ends",
-          instruction:
-            "Place 2× Brick 1×3 — plant room wall (rear). Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Plant room roof",
+          instruction: "Place 1× Plate 4×4 (plant room roof) and 1× Plate 2×4 (plant room roof); at the rear east of the model, about 11 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 1×3", part: "3622", qty: 2 },
-        ],
-          tip: "The eave (where roof meets wall) is one of the most important lines in any building. A clean, sharp eave makes the vault look intentional.",
+            { name: "Plate 4×4", part: "3031", qty: 1 },
+            { name: "Plate 2×4", part: "3020", qty: 1 },
+          ],
+          tip: "Plates cap the box, ready for the vaults.",
         },
         {
-          title: "Eave Slopes — Long Sides",
-          instruction:
-            "Place 2× Brick 1×2 — plant room wall (side). Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Barrel vaults, rear row",
+          instruction: "Place 6× Curved Top Brick 1×2 (barrel vault cap); at the rear east of the model, about 11 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 1×2", part: "3004", qty: 2 },
-        ],
-          tip: "The long-side eaves are the most visible in the lakeside view. They create a continuous shadow line that defines where wall becomes roof.",
+            { name: "Curved Top Brick 1×2", part: "6091", qty: 6 },
+          ],
+          tip: "Curved-top bricks laid side by side are the Barbican's most famous motif in miniature: the repeated white barrel vaults that crown all thirteen terrace blocks.",
         },
         {
-          title: "Eave Slopes — Remaining",
-          instruction:
-            "Place 2× Brick 1×1 — plant room corner, then 2× Trans-Clear Brick 1×2 — plant room glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Barrel vaults, front row",
+          instruction: "Place 6× Curved Top Brick 1×2 (barrel vault cap); on the east side, about 11 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 1×1", part: "3005", qty: 2 },
-          { name: "Trans-Clear Brick 1×2", part: "3065", qty: 2 },
-        ],
-          tip: "No gaps at the eave line — every opening lets light through and breaks the illusion of a solid concrete roof. Seal every joint.",
-        },
-        {
-          title: "Ridge Cap — Smooth Tiles",
-          instruction:
-            "Place 1× Plate 4×4 — plant room roof, then 1× Plate 2×4 — plant room roof. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Plate 4×4", part: "3031", qty: 1 },
-          { name: "Plate 2×4", part: "3020", qty: 1 },
-        ],
-          tip: "The ridge line is what you see in every photograph of the Barbican's terraces — a long horizontal curve against the sky. Making it smooth (tiled) distinguishes it from the rough textured walls below.",
-        },
-        {
-          title: "Hip Corners — Front",
-          instruction:
-            "Place 6× Curved Top Brick 1×2 — barrel vault cap. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Curved Top Brick 1×2", part: "6091", qty: 6 },
-        ],
-          tip: "Hip corners are where geometry gets complex — two curved surfaces meeting at an angle. In real roofing, this is the hardest joint to waterproof. The double convex slope elegantly resolves this intersection.",
-        },
-        {
-          title: "Hip Corners — Back",
-          instruction:
-            "Place 6× Curved Top Brick 1×2 — barrel vault cap. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Curved Top Brick 1×2", part: "6091", qty: 6 },
-        ],
-          tip: "The completed vault should now have a smooth, continuous profile from every angle. Run your finger along the ridge — it should feel unbroken from end to end.",
+            { name: "Curved Top Brick 1×2", part: "6091", qty: 6 },
+          ],
+          tip: "A second row completes the vaulted roofscape.",
         },
       ],
     },
@@ -1120,157 +818,167 @@ const barbicanPanorama: Build = {
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-tower-core",
-      title: "Phase 8 — Lauderdale Tower: Above the Roofline",
-      concept: "Verticality & Proportion",
+      title: "Phase 8: Lauderdale Tower, The Shaft",
+      concept: "Verticality",
       color: "#BE185D",
       icon: "🗼",
-      time: "25–35 min",
+      time: "45\u201360 min",
       location:
-        "The tower base and lower shaft were built in Phase 4 as part of the interleaved terrace+tower construction. This phase covers ONLY the visible portion above the terrace roofline. Lauderdale Tower is the Barbican's tallest residential building at 123 metres (42 storeys). The lower courses are hidden behind the terrace, but they are essential structure carrying all the vertical load down to the foundation.",
+        "Cromwell, Shakespeare and Lauderdale rise 43 and 44 storeys to about 123 metres, among the tallest residential towers in Europe when they topped out. Each is triangular in plan with serrated balcony edges; ours is a Y around a solid core, which keeps every course self-bracing. The window bands build in as you climb, so the shaft arrives finished.",
       steps: [
         {
-          title: "Front Corner SNOT — Left",
-          instruction:
-            "Place 1× Brick 2×4 — tower y-plan course; 2× Brick 2×2 — tower y-plan course; 2× Brick 1×3 — tower y-plan course; and 2× Brick 1×2 — tower y-plan course. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Tower courses 9-10",
+          instruction: "Place 2× Brick 1×3 (tower y-plan course); 3× Brick 2×2 (tower y-plan course); 2× Brick 2×3 (tower y-plan course); 1× Brick 2×4 (tower y-plan course); and 3× Grille Brick 1×2 (tower spandrel band); toward the rear of the model, about 10 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 2×4", part: "3001", qty: 1 },
-          { name: "Brick 2×2", part: "3003", qty: 2 },
-          { name: "Brick 1×3", part: "3622", qty: 2 },
-          { name: "Brick 1×2", part: "3004", qty: 2 },
-        ],
-          tip: "Place SNOT bricks now while the front corners are still accessible — the barrel vault partially obstructs this zone later.",
-          highlight: true,
+            { name: "Brick 1×3", part: "3622", qty: 2 },
+            { name: "Brick 2×2", part: "3003", qty: 3 },
+            { name: "Brick 2×3", part: "3002", qty: 2 },
+            { name: "Brick 2×4", part: "3001", qty: 1 },
+            { name: "Grille Brick 1×2", part: "2877", qty: 3 },
+          ],
+          tip: "The three real towers; Cromwell, Shakespeare and Lauderdale; rise 43 and 44 storeys to about 123 metres, among the tallest residential towers in Europe when they topped out.",
         },
         {
-          title: "Front Corner SNOT — Right",
-          instruction:
-            "Place 2× Brick 1×3 — tower y-plan course; 2× Brick 1×2 — tower y-plan course; 2× Brick 1×6 — tower y-plan course; 1× Brick 2×2 — tower y-plan course; 1× Plate 2×8 — tower floor band; and 1× Plate 2×2 — tower floor band. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Tower courses 11-12",
+          instruction: "Place 1× Brick 2×4 (tower y-plan course); 3× Brick 2×2 (tower y-plan course); 3× Trans-Clear Brick 1×2 (tower window band); 1× Brick 2×6 (tower y-plan course); 1× Brick 2×3 (tower y-plan course); 1× Plate 2×6 (tower floor band); and 2× Plate 2×4 (tower floor band); toward the rear of the model, about 12 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 1×3", part: "3622", qty: 2 },
-          { name: "Brick 1×2", part: "3004", qty: 2 },
-          { name: "Brick 1×6", part: "3009", qty: 2 },
-          { name: "Brick 2×2", part: "3003", qty: 1 },
-          { name: "Plate 2×8", part: "3034", qty: 1 },
-          { name: "Plate 2×2", part: "3022", qty: 1 },
-        ],
-          tip: "SNOT bricks at corners are the most powerful technique in Architecture Studio building. They allow cladding to wrap around corners seamlessly.",
+            { name: "Brick 2×4", part: "3001", qty: 1 },
+            { name: "Brick 2×2", part: "3003", qty: 3 },
+            { name: "Trans-Clear Brick 1×2", part: "3065", qty: 3 },
+            { name: "Brick 2×6", part: "2456", qty: 1 },
+            { name: "Brick 2×3", part: "3002", qty: 1 },
+            { name: "Plate 2×6", part: "3795", qty: 1 },
+            { name: "Plate 2×4", part: "3020", qty: 2 },
+          ],
+          tip: "Keep pressing each course fully home; a tall thin tower amplifies any gap below.",
         },
         {
-          title: "Tower Emerging — Courses 10-14",
-          instruction:
-            "Place 1× Brick 2×4 — tower y-plan course; 2× Brick 2×2 — tower y-plan course; 2× Brick 1×3 — tower y-plan course; and 2× Brick 1×2 — tower y-plan course. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Tower courses 13-14",
+          instruction: "Place 1× Brick 2×4 (tower y-plan course); 2× Brick 2×2 (tower y-plan course); 2× Brick 1×3 (tower y-plan course); 2× Brick 1×2 (tower y-plan course); and 3× Grille Brick 1×2 (tower spandrel band); toward the rear of the model, about 14 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 2×4", part: "3001", qty: 1 },
-          { name: "Brick 2×2", part: "3003", qty: 2 },
-          { name: "Brick 1×3", part: "3622", qty: 2 },
-          { name: "Brick 1×2", part: "3004", qty: 2 },
-        ],
-          tip: "From here up, every course is fully visible and should be clean. No sloppy joints — the tower is the tallest element and draws the eye first.",
+            { name: "Brick 2×4", part: "3001", qty: 1 },
+            { name: "Brick 2×2", part: "3003", qty: 2 },
+            { name: "Brick 1×3", part: "3622", qty: 2 },
+            { name: "Brick 1×2", part: "3004", qty: 2 },
+            { name: "Grille Brick 1×2", part: "2877", qty: 3 },
+          ],
+          tip: "The window bands continue automatically as you climb; grille spandrels, then glass.",
         },
         {
-          title: "Tower Emerging — Corner Fill",
-          instruction:
-            "Place 2× Brick 1×3 — tower y-plan course; 2× Brick 1×2 — tower y-plan course; 2× Brick 1×6 — tower y-plan course; 1× Brick 2×2 — tower y-plan course; 1× Plate 2×8 — tower floor band; and 1× Plate 2×2 — tower floor band. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Tower courses 15-16",
+          instruction: "Place 2× Brick 1×3 (tower y-plan course); 2× Brick 1×2 (tower y-plan course); 3× Trans-Clear Brick 1×2 (tower window band); 2× Brick 1×6 (tower y-plan course); 1× Brick 2×2 (tower y-plan course); 1× Plate 2×8 (tower floor band); 1× Plate 2×2 (tower floor band); and 2× Cheese Slope 1×1×⅔ (serrated fin); toward the rear of the model, about 16 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 1×3", part: "3622", qty: 2 },
-          { name: "Brick 1×2", part: "3004", qty: 2 },
-          { name: "Brick 1×6", part: "3009", qty: 2 },
-          { name: "Brick 2×2", part: "3003", qty: 1 },
-          { name: "Plate 2×8", part: "3034", qty: 1 },
-          { name: "Plate 2×2", part: "3022", qty: 1 },
-        ],
-          tip: "1×1 bricks at corners allow the bond pattern to shift direction — they are the keystone that locks each course together.",
+            { name: "Brick 1×3", part: "3622", qty: 2 },
+            { name: "Brick 1×2", part: "3004", qty: 2 },
+            { name: "Trans-Clear Brick 1×2", part: "3065", qty: 3 },
+            { name: "Brick 1×6", part: "3009", qty: 2 },
+            { name: "Brick 2×2", part: "3003", qty: 1 },
+            { name: "Plate 2×8", part: "3034", qty: 1 },
+            { name: "Plate 2×2", part: "3022", qty: 1 },
+            { name: "Cheese Slope 1×1×⅔", part: "54200", qty: 2 },
+          ],
+          tip: "The towers' floors were cast around slip-formed cores; your plate bands play the part of the floor slabs.",
         },
         {
-          title: "Structural Plates — Mid Tower",
-          instruction:
-            "Place 1× Brick 2×4 — tower y-plan course; 2× Brick 2×2 — tower y-plan course; 2× Brick 1×3 — tower y-plan course; and 2× Brick 1×2 — tower y-plan course. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Tower courses 17-18",
+          instruction: "Place 1× Brick 2×4 (tower y-plan course); 2× Brick 2×2 (tower y-plan course); 2× Brick 1×3 (tower y-plan course); 2× Brick 1×2 (tower y-plan course); and 3× Grille Brick 1×2 (tower spandrel band); toward the rear of the model, about 18 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 2×4", part: "3001", qty: 1 },
-          { name: "Brick 2×2", part: "3003", qty: 2 },
-          { name: "Brick 1×3", part: "3622", qty: 2 },
-          { name: "Brick 1×2", part: "3004", qty: 2 },
-        ],
-          tip: "Structural plates every 5 courses mimic real construction where floor slabs brace the walls against buckling. Without these plates, a tall LEGO wall will eventually lean or topple.",
+            { name: "Brick 2×4", part: "3001", qty: 1 },
+            { name: "Brick 2×2", part: "3003", qty: 2 },
+            { name: "Brick 1×3", part: "3622", qty: 2 },
+            { name: "Brick 1×2", part: "3004", qty: 2 },
+            { name: "Grille Brick 1×2", part: "2877", qty: 3 },
+          ],
+          tip: "Press every piece fully home before moving on; gaps low down telegraph all the way up.",
         },
         {
-          title: "Tower Courses 15-19",
-          instruction:
-            "Place 2× Brick 1×3 — tower y-plan course; 2× Brick 1×2 — tower y-plan course; 1× Brick 2×4 — tower y-plan course; 2× Brick 2×2 — tower y-plan course; 1× Plate 2×8 — tower floor band; and 1× Plate 2×2 — tower floor band. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Tower courses 19-20",
+          instruction: "Place 2× Brick 1×3 (tower y-plan course); 2× Brick 1×2 (tower y-plan course); 3× Trans-Clear Brick 1×2 (tower window band); 2× Brick 1×6 (tower y-plan course); 1× Brick 2×2 (tower y-plan course); 1× Plate 2×8 (tower floor band); 1× Plate 2×2 (tower floor band); and 2× Cheese Slope 1×1×⅔ (serrated fin); toward the rear of the model, about 20 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 1×3", part: "3622", qty: 2 },
-          { name: "Brick 1×2", part: "3004", qty: 2 },
-          { name: "Brick 2×4", part: "3001", qty: 1 },
-          { name: "Brick 2×2", part: "3003", qty: 2 },
-          { name: "Plate 2×8", part: "3034", qty: 1 },
-          { name: "Plate 2×2", part: "3022", qty: 1 },
-        ],
-          tip: "The mid-section of the tower is its most regular zone — identical floor plates stacked repetitively. This is the democratic rhythm of social housing: same apartment, same view, 42 times.",
+            { name: "Brick 1×3", part: "3622", qty: 2 },
+            { name: "Brick 1×2", part: "3004", qty: 2 },
+            { name: "Trans-Clear Brick 1×2", part: "3065", qty: 3 },
+            { name: "Brick 1×6", part: "3009", qty: 2 },
+            { name: "Brick 2×2", part: "3003", qty: 1 },
+            { name: "Plate 2×8", part: "3034", qty: 1 },
+            { name: "Plate 2×2", part: "3022", qty: 1 },
+            { name: "Cheese Slope 1×1×⅔", part: "54200", qty: 2 },
+          ],
+          tip: "First setback: the wings shorten as the tower rises, sharpening the silhouette.",
         },
         {
-          title: "Tower Courses 15-19 — Corner Fill",
-          instruction:
-            "Place 2× Brick 1×3 — tower y-plan course; 2× Brick 1×2 — tower y-plan course; and 1× Brick 2×2 — tower y-plan course. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Tower courses 21-22",
+          instruction: "Place 1× Brick 2×4 (tower y-plan course); 2× Brick 2×2 (tower y-plan course); 2× Brick 1×3 (tower y-plan course); 2× Brick 1×2 (tower y-plan course); and 3× Grille Brick 1×2 (tower spandrel band); toward the rear of the model, about 23 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 1×3", part: "3622", qty: 2 },
-          { name: "Brick 1×2", part: "3004", qty: 2 },
-          { name: "Brick 2×2", part: "3003", qty: 1 },
-        ],
-          tip: "Consistent bond at every level means the tower reads as a single monolithic structure, not a stack of separate floors.",
+            { name: "Brick 2×4", part: "3001", qty: 1 },
+            { name: "Brick 2×2", part: "3003", qty: 2 },
+            { name: "Brick 1×3", part: "3622", qty: 2 },
+            { name: "Brick 1×2", part: "3004", qty: 2 },
+            { name: "Grille Brick 1×2", part: "2877", qty: 3 },
+          ],
+          tip: "Check the row against the 3D view before seating it; sliding bricks sideways to correct is harder than placing them right.",
         },
         {
-          title: "Upper Tower — Hollow Core Courses 20-25",
-          instruction:
-            "Place 1× Brick 2×2 — tower y-plan course; 1× Brick 2×4 — tower y-plan course; 1× Brick 1×2 — tower y-plan course; 1× Plate 2×6 — tower floor band; and 1× Plate 2×2 — tower floor band. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Tower courses 23-24",
+          instruction: "Place 2× Brick 1×3 (tower y-plan course); 2× Brick 1×2 (tower y-plan course); 3× Trans-Clear Brick 1×2 (tower window band); 1× Brick 2×4 (tower y-plan course); 2× Brick 2×2 (tower y-plan course); 1× Plate 2×8 (tower floor band); 1× Plate 2×2 (tower floor band); and 2× Cheese Slope 1×1×⅔ (serrated fin); toward the rear of the model, about 25 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 2×2", part: "3003", qty: 1 },
-          { name: "Brick 2×4", part: "3001", qty: 1 },
-          { name: "Brick 1×2", part: "3004", qty: 1 },
-          { name: "Plate 2×6", part: "3795", qty: 1 },
-          { name: "Plate 2×2", part: "3022", qty: 1 },
-        ],
-          tip: "Real skyscrapers are hollow — the structural core is at the perimeter or centre, not solid concrete all the way through. A hollow LEGO tower above course 20 is both more realistic and more stable.",
+            { name: "Brick 1×3", part: "3622", qty: 2 },
+            { name: "Brick 1×2", part: "3004", qty: 2 },
+            { name: "Trans-Clear Brick 1×2", part: "3065", qty: 3 },
+            { name: "Brick 2×4", part: "3001", qty: 1 },
+            { name: "Brick 2×2", part: "3003", qty: 2 },
+            { name: "Plate 2×8", part: "3034", qty: 1 },
+            { name: "Plate 2×2", part: "3022", qty: 1 },
+            { name: "Cheese Slope 1×1×⅔", part: "54200", qty: 2 },
+          ],
+          tip: "Line the pieces up on the table in order first; real LEGO designers call this presorting, and it halves build time.",
         },
         {
-          title: "Upper Tower — Perimeter Courses 26-28",
-          instruction:
-            "Place 2× Brick 1×3 — tower y-plan course; 2× Brick 1×2 — tower y-plan course; and 1× Brick 2×2 — tower y-plan course. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Tower courses 25-26",
+          instruction: "Place 2× Brick 1×3 (tower y-plan course); 2× Brick 1×2 (tower y-plan course); 1× Brick 2×2 (tower y-plan course); and 3× Brick 1×2 (tower spandrel course); toward the rear of the model, about 27 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 1×3", part: "3622", qty: 2 },
-          { name: "Brick 1×2", part: "3004", qty: 2 },
-          { name: "Brick 2×2", part: "3003", qty: 1 },
-        ],
-          tip: "The hollow core is lighter but needs careful alignment. Keep the perimeter walls plumb (perfectly vertical) by pressing each course down firmly.",
+            { name: "Brick 1×3", part: "3622", qty: 2 },
+            { name: "Brick 1×2", part: "3004", qty: 2 },
+            { name: "Brick 2×2", part: "3003", qty: 1 },
+            { name: "Brick 1×2", part: "3004", qty: 3 },
+          ],
+          tip: "Second setback; from here the wings are single studs, all point.",
         },
         {
-          title: "Upper Tower — Perimeter Courses 29-30",
-          instruction:
-            "Place 1× Plate 2×4 — tower top platform, then 1× Plate 2×2 — tower top platform (rear). Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Tower courses 27-28",
+          instruction: "Place 1× Brick 2×2 (tower y-plan course); 2× Tile 1×2 Grille (tower vent course); 1× Brick 1×2 (tower spandrel course); 1× Brick 2×4 (tower y-plan course); 1× Brick 1×2 (tower y-plan course); 1× Plate 2×6 (tower floor band); 1× Plate 2×2 (tower floor band); and 4× Cheese Slope 1×1×⅔ (serrated fin); toward the rear of the model, about 29 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Plate 2×4", part: "3020", qty: 1 },
-          { name: "Plate 2×2", part: "3022", qty: 1 },
-        ],
-          tip: "These are the highest brick courses in the tower. Press firmly — any looseness at this height will cause visible lean.",
+            { name: "Brick 2×2", part: "3003", qty: 1 },
+            { name: "Tile 1×2 Grille", part: "2412b", qty: 2 },
+            { name: "Brick 1×2", part: "3004", qty: 1 },
+            { name: "Brick 2×4", part: "3001", qty: 1 },
+            { name: "Brick 1×2", part: "3004", qty: 1 },
+            { name: "Plate 2×6", part: "3795", qty: 1 },
+            { name: "Plate 2×2", part: "3022", qty: 1 },
+            { name: "Cheese Slope 1×1×⅔", part: "54200", qty: 4 },
+          ],
+          tip: "Rotate the 3D model to see this step from behind before you place anything.",
         },
         {
-          title: "Upper Tower — Structural Plates",
-          instruction:
-            "Place 1× Brick 2×4 — crown base, then 1× Brick 2×2 — crown base (rear). Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Tower courses 29-30",
+          instruction: "Place 2× Brick 1×3 (tower y-plan course); 2× Brick 1×2 (tower y-plan course); 1× Brick 2×2 (tower y-plan course); 2× Tile 1×2 Grille (tower vent course); and 1× Brick 1×2 (tower spandrel course); toward the rear of the model, about 31 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 2×4", part: "3001", qty: 1 },
-          { name: "Brick 2×2", part: "3003", qty: 1 },
-        ],
-          tip: "Without structural plates, the thin perimeter walls can spread apart under their own weight. These plates are the difference between a tower that stands and one that leans.",
+            { name: "Brick 1×3", part: "3622", qty: 2 },
+            { name: "Brick 1×2", part: "3004", qty: 2 },
+            { name: "Brick 2×2", part: "3003", qty: 1 },
+            { name: "Tile 1×2 Grille", part: "2412b", qty: 2 },
+            { name: "Brick 1×2", part: "3004", qty: 1 },
+          ],
+          tip: "Top courses. Each real tower finishes with two or three floors of penthouses.",
         },
         {
-          title: "Upper Tower — Final Visible Courses",
-          instruction:
-            "Place 1× Brick 2×4 — crown course, then 1× Brick 2×2 — crown course (rear). Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Top platform",
+          instruction: "Place 1× Plate 2×4 (tower top platform) and 1× Plate 2×2 (tower top platform (rear)); toward the rear of the model, about 33 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 2×4", part: "3001", qty: 1 },
-          { name: "Brick 2×2", part: "3003", qty: 1 },
-        ],
-          tip: "Step back and look at the tower from the side. It should be perfectly vertical — any lean is visible at this height. If it leans, gently straighten it now before adding facade pieces.",
+            { name: "Plate 2×4", part: "3020", qty: 1 },
+            { name: "Plate 2×2", part: "3022", qty: 1 },
+          ],
+          tip: "Plates cap the shaft and carry the penthouse block.",
         },
       ],
     },
@@ -1280,121 +988,39 @@ const barbicanPanorama: Build = {
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-tower-facade",
-      title: "Phase 9 — Tower: Facade & Window Bands",
-      concept: "Grid & Repetition",
+      title: "Phase 9: Tower Penthouse & Trims",
+      concept: "The Top Floors",
       color: "#0891B2",
       icon: "📐",
-      time: "30–40 min",
+      time: "10\u201315 min",
       location:
-        "The tower's facade is a strict grid of horizontal concrete bands and vertical window strips. Unlike the terrace's textured wall, the tower reads as a stack of identical floor plates — the same apartment repeated 42 times. This repetition is deliberate: it expresses the democratic ideal of social housing where every resident gets the same quality of space. Front corner SNOT bricks were placed in Phase 8; this phase covers the remaining visible faces.",
+        "The top two or three floors of each tower hold just three penthouse flats apiece, the estate's grandest addresses, with London laid out below their wraparound terraces. A solid penthouse block and the last trims finish the shaft you just raised.",
       steps: [
         {
-          title: "Rear Corner SNOT — 4-Sided Bricks",
-          instruction:
-            "Place 3× Grille Brick 1×2 — tower spandrel band, then 3× Trans-Clear Brick 1×2 — tower window band. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Penthouse base course",
+          instruction: "Place 1× Brick 2×4 (crown base) and 1× Brick 2×2 (crown base (rear)); toward the rear of the model, about 34 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Grille Brick 1×2", part: "2877", qty: 3 },
-          { name: "Trans-Clear Brick 1×2", part: "3065", qty: 3 },
-        ],
-          tip: "The 4-sided SNOT brick handles corners where two cladding planes meet. It provides attachment in all four cardinal directions.",
-          highlight: true,
+            { name: "Brick 2×4", part: "3001", qty: 1 },
+            { name: "Brick 2×2", part: "3003", qty: 1 },
+          ],
+          tip: "The top floors of each tower hold three penthouse flats apiece; the Barbican's grandest addresses. A solid course starts ours.",
         },
         {
-          title: "Rear Corner SNOT — Additional",
-          instruction:
-            "Place 3× Grille Brick 1×2 — tower spandrel band, then 3× Trans-Clear Brick 1×2 — tower window band. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Penthouse upper course",
+          instruction: "Place 1× Brick 2×4 (crown course) and 1× Brick 2×2 (crown course (rear)); toward the rear of the model, about 35 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Grille Brick 1×2", part: "2877", qty: 3 },
-          { name: "Trans-Clear Brick 1×2", part: "3065", qty: 3 },
-        ],
-          tip: "More SNOT mounting points mean smoother cladding attachment. The real tower has continuous cladding — not intermittent patches.",
+            { name: "Brick 2×4", part: "3001", qty: 1 },
+            { name: "Brick 2×2", part: "3003", qty: 1 },
+          ],
+          tip: "A second course brings the penthouse to height.",
         },
         {
-          title: "Edge SNOT — 2-Sided Bricks",
-          instruction:
-            "Place 3× Grille Brick 1×2 — tower spandrel band, then 3× Trans-Clear Brick 1×2 — tower window band. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Band edge tiles",
+          instruction: "Place 2× Tile 1×1 (band edge tile); toward the rear of the model, about 31 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Grille Brick 1×2", part: "2877", qty: 3 },
-          { name: "Trans-Clear Brick 1×2", part: "3065", qty: 3 },
-        ],
-          tip: "The 2-sided SNOT brick is the workhorse of tower facades — it provides cladding attachment along flat faces while the 4-sided brick handles corners.",
-        },
-        {
-          title: "Edge SNOT — Remaining",
-          instruction:
-            "Place 3× Grille Brick 1×2 — tower spandrel band, then 3× Trans-Clear Brick 1×2 — tower window band. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Grille Brick 1×2", part: "2877", qty: 3 },
-          { name: "Trans-Clear Brick 1×2", part: "3065", qty: 3 },
-        ],
-          tip: "Together, the 4-sided and 2-sided SNOT bricks create a complete wrapping surface around the tower. Every visible face can now receive cladding.",
-        },
-        {
-          title: "Horizontal Banding — Lower Grilles",
-          instruction:
-            "Place 3× Grille Brick 1×2 — tower spandrel band, then 3× Trans-Clear Brick 1×2 — tower window band. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Grille Brick 1×2", part: "2877", qty: 3 },
-          { name: "Trans-Clear Brick 1×2", part: "3065", qty: 3 },
-        ],
-          tip: "Horizontal banding expresses the floor plates — each line says 'a floor slab is here.' This honest expression of structure is a core Brutalist principle.",
-        },
-        {
-          title: "Horizontal Banding — Upper Grilles",
-          instruction:
-            "Place 3× Brick 1×2 — tower spandrel course; 2× Tile 1×2 Grille — tower vent course; and 1× Brick 1×2 — tower vent course. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Brick 1×2", part: "3004", qty: 3 },
-          { name: "Tile 1×2 Grille", part: "2412b", qty: 2 },
-          { name: "Brick 1×2", part: "3004", qty: 1 },
-        ],
-          tip: "The unbroken horizontal lines from base to top express the tower as a single continuous structure — not separate sections. This continuity is powerful.",
-        },
-        {
-          title: "Staggered Windows — Jumper Plates",
-          instruction:
-            "Place 2× Tile 1×2 Grille — tower spandrel course, then 1× Brick 1×2 — tower spandrel course. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Tile 1×2 Grille", part: "2412b", qty: 2 },
-          { name: "Brick 1×2", part: "3004", qty: 1 },
-        ],
-          tip: "Jumper plates are the subtlest detail — a half-stud offset is almost invisible but it breaks the grid just enough to create visual interest. Architects call this 'syncopation.'",
-        },
-        {
-          title: "Staggered Windows — Upper Jumpers",
-          instruction:
-            "Place 4× Cheese Slope 1×1×⅔ — serrated fin. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Cheese Slope 1×1×⅔", part: "54200", qty: 4 },
-        ],
-          tip: "The staggered pattern should be consistent from bottom to top — same rhythm, same offset. The eye picks up any irregularity instantly at this height.",
-        },
-        {
-          title: "Smooth Floor Bands — Lower 1×2 Tiles",
-          instruction:
-            "Place 4× Cheese Slope 1×1×⅔ — serrated fin. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Cheese Slope 1×1×⅔", part: "54200", qty: 4 },
-        ],
-          tip: "The grille/tile alternation creates a moiré effect when viewed from a distance — the bands seem to shimmer, exactly as the real tower's facade does from the lakeside.",
-        },
-        {
-          title: "Smooth Floor Bands — Lower 2×2 Tiles",
-          instruction:
-            "Place 2× Cheese Slope 1×1×⅔ — serrated fin. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Cheese Slope 1×1×⅔", part: "54200", qty: 2 },
-        ],
-          tip: "The mix of 1×2 and 2×2 tiles prevents a monotonous texture — the variation in tile size creates subtle visual interest within each smooth band.",
-        },
-        {
-          title: "Smooth Floor Bands — Upper Tiles",
-          instruction:
-            "Place 2× Tile 1×1 — band edge tile. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Tile 1×1", part: "3070b", qty: 2 },
-        ],
-          tip: "Stand back and view the tower from across the room. The banding should be visible as alternating light and dark horizontal lines — the tower's signature rhythm against the sky.",
+            { name: "Tile 1×1", part: "3070b", qty: 2 },
+          ],
+          tip: "Smooth tiles trim the topmost band where it shows.",
         },
       ],
     },
@@ -1404,105 +1030,72 @@ const barbicanPanorama: Build = {
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-tower-crown",
-      title: "Phase 10 — Tower: Serrated Edges & Crown",
-      concept: "Silhouette & Skyline",
+      title: "Phase 10: Tower Crown",
+      concept: "Silhouette",
       color: "#4338CA",
       icon: "👑",
-      time: "25–35 min",
+      time: "15\u201320 min",
       location:
-        "The tower's most distinctive feature is its serrated profile — the saw-tooth balcony edges that give the Barbican towers their jagged silhouette against the sky. The crown (top few storeys) steps back progressively, creating the characteristic tapered profile visible from miles away across the City of London.",
+        "A Barbican tower is recognisable from a mile away by its crown: plant rooms, tank rooms and window-washing rigs wrapped in the same serrated concrete as the balconies below. The mast and its aircraft beacon top out the model at the scale equivalent of 123 metres.",
       steps: [
         {
-          title: "Serrated Left Edge — Wedge Plates",
-          instruction:
-            "Place 1× Plate 2×4 — crown platform, then 1× Plate 2×2 — crown platform (rear). Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Crown platform",
+          instruction: "Place 1× Plate 2×4 (crown platform) and 1× Plate 2×2 (crown platform (rear)); toward the rear of the model, about 36 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Plate 2×4", part: "3020", qty: 1 },
-          { name: "Plate 2×2", part: "3022", qty: 1 },
-        ],
-          tip: "The wedge pairs MUST mirror each other — left on left, right on right. Stand behind the build and sight along the tower's edge: you should see a zigzag silhouette like shark's teeth.",
-          highlight: true,
+            { name: "Plate 2×4", part: "3020", qty: 1 },
+            { name: "Plate 2×2", part: "3022", qty: 1 },
+          ],
+          tip: "Plates over the penthouse form the roof terrace.",
         },
         {
-          title: "Serrated Right Edge — Wedge Plates",
-          instruction:
-            "Place 1× Brick 2×2 — crown core. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Crown core, first course",
+          instruction: "Place 1× Brick 2×2 (crown core); toward the rear of the model, about 36 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 2×2", part: "3003", qty: 1 },
-        ],
-          tip: "Check the symmetry by looking straight down at the tower from above. Both edges should zigzag identically — any mismatch breaks the tower's visual balance.",
+            { name: "Brick 2×2", part: "3003", qty: 1 },
+          ],
+          tip: "The lift motor room rises from the centre of the platform.",
         },
         {
-          title: "Fine Serration — Left Edge",
-          instruction:
-            "Place 1× Brick 2×2 — crown core. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Crown core, second course",
+          instruction: "Place 1× Brick 2×2 (crown core); toward the rear of the model, about 37 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 2×2", part: "3003", qty: 1 },
-        ],
-          tip: "Cheese slopes create the delicate micro-serration between the larger wedge teeth — a fractal detail where the small pattern echoes the large one.",
+            { name: "Brick 2×2", part: "3003", qty: 1 },
+          ],
+          tip: "One more course; the real towers' crowns hold plant, tanks and window-washing rigs.",
         },
         {
-          title: "Fine Serration — Right Edge",
-          instruction:
-            "Place 2× Cheese Slope 1×1×⅔ — crown serration. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Crown serrations",
+          instruction: "Place 4× Cheese Slope 1×1×⅔ (crown serration); toward the rear of the model, about 36 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Cheese Slope 1×1×⅔", part: "54200", qty: 2 },
-        ],
-          tip: "The combined effect of large wedges and small cheese slopes creates a complex serrated profile — the signature of Barbican tower design visible from every angle.",
+            { name: "Cheese Slope 1×1×⅔", part: "54200", qty: 4 },
+          ],
+          tip: "Cheese slopes ring the core so even the crown keeps the saw-tooth profile.",
         },
         {
-          title: "Crown — Main 45-Degree Slopes",
-          instruction:
-            "Place 2× Cheese Slope 1×1×⅔ — crown serration. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Rear platform trim",
+          instruction: "Place 2× Tile 1×1 (platform trim tile); toward the rear of the model, about 36 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Cheese Slope 1×1×⅔", part: "54200", qty: 2 },
-        ],
-          tip: "The crown taper serves a practical purpose — it houses mechanical equipment while creating the distinctive pointed profile. Form follows function.",
+            { name: "Tile 1×1", part: "3070b", qty: 2 },
+          ],
+          tip: "Tiles finish the rear terrace smooth.",
         },
         {
-          title: "Crown Transition — Large Gentle Slopes",
-          instruction:
-            "Place 2× Tile 1×1 — platform trim tile. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Crown ridge",
+          instruction: "Place 2× Slope 1×2 (45°) (crown ridge); toward the rear of the model, about 38 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Tile 1×1", part: "3070b", qty: 2 },
-        ],
-          tip: "Using multiple slope angles (45 degrees, then 25 degrees) creates a compound curve — the crown appears to taper smoothly rather than ending in a blunt pyramid.",
+            { name: "Slope 1×2 (45°)", part: "3040", qty: 2 },
+          ],
+          tip: "Paired slopes close the motor room with a tiny duo-pitch.",
         },
         {
-          title: "Crown Transition — Medium Slopes",
-          instruction:
-            "Place 2× Slope 1×2 (45°) — crown ridge. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Mast and beacon",
+          instruction: "Place 1× Round Brick 1×1 (mast base); 2× Plate 1×1 Round (mast ring); and 1× Plate 1×1 Round (mast beacon); toward the rear of the model, about 36 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Slope 1×2 (45°)", part: "3040", qty: 2 },
-        ],
-          tip: "This compound tapering is a signature of 1960s tower design — the crown narrows in stages rather than one abrupt angle.",
-        },
-        {
-          title: "Crown Peak — 65-Degree Slopes",
-          instruction:
-            "Place 1× Round Brick 1×1 — mast base. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Round Brick 1×1", part: "3062b", qty: 1 },
-        ],
-          tip: "The transition from 25 degrees to 65 degrees creates a dramatic acceleration — the crown appears to shoot upward in its final few storeys.",
-        },
-        {
-          title: "Crown Peak — 75-Degree Slopes",
-          instruction:
-            "Place 2× Plate 1×1 Round — mast ring. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Plate 1×1 Round", part: "4073", qty: 2 },
-        ],
-          tip: "A tower's crown is its signature against the skyline — like a person's hat defines their silhouette. The Barbican towers are recognisable from any angle because of this distinctive compound taper.",
-        },
-        {
-          title: "Crown Peak — Final Point",
-          instruction:
-            "Place 1× Plate 1×1 Round — mast beacon. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Plate 1×1 Round", part: "4073", qty: 1 },
-        ],
-          tip: "Stand at the base of the model and look straight up at the tower. The crown's compound taper should create a dramatic, soaring silhouette that draws the eye upward. This is the emotional climax of the build.",
+            { name: "Round Brick 1×1", part: "3062b", qty: 1 },
+            { name: "Plate 1×1 Round", part: "4073", qty: 2 },
+            { name: "Plate 1×1 Round", part: "4073", qty: 1 },
+          ],
+          tip: "A slim mast with its aircraft beacon tops out at the equivalent of 123 metres. Cromwell Tower's real beacon blinks over the City every night.",
         },
       ],
     },
@@ -1512,135 +1105,92 @@ const barbicanPanorama: Build = {
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-conservatory",
-      title: "Phase 11 — The Conservatory",
-      concept: "Light & Enclosure",
+      title: "Phase 11: The Conservatory",
+      concept: "The Hidden Greenhouse",
       color: "#16A34A",
       icon: "🌿",
-      time: "25–30 min",
+      time: "25\u201330 min",
       location:
-        "The Barbican Conservatory is the second-largest greenhouse in London, built atop the fly tower of the Barbican Arts Centre. It is a tropical garden enclosed in a curved glass roof — a complete contrast to the heavy concrete around it. You are building this glass jewel atop the right end of the terrace block, where it catches the light and offers views across the lake.",
+        "London's second-largest conservatory exists to solve an embarrassment: the Barbican Theatre's fly tower stuck up above the roofline, so the architects wrapped it in glass and filled it with plants. Planted in 1980-81 and opened in 1984, it holds about 1,500 species under 23,000 square feet of steel and glass, some now rare or extinct in the wild.",
       steps: [
         {
-          title: "Curved Walls — Front Arc",
-          instruction:
-            "Place 1× Plate 4×4 — conservatory base, then 1× Plate 2×4 — conservatory base. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Conservatory base",
+          instruction: "Place 1× Plate 4×4 (conservatory base) and 1× Plate 2×4 (conservatory base); on the east side, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Plate 4×4", part: "3031", qty: 1 },
-          { name: "Plate 2×4", part: "3020", qty: 1 },
-        ],
-          tip: "The conservatory's organic curved form is deliberate contrast to the rectilinear concrete blocks. This tension between curve and straight line runs through the entire Barbican design.",
-          highlight: true,
+            { name: "Plate 4×4", part: "3031", qty: 1 },
+            { name: "Plate 2×4", part: "3020", qty: 1 },
+          ],
+          tip: "London's second-largest conservatory (after Kew's Princess of Wales house) exists for a sly reason: to hide the Barbican Theatre's fly tower. Scenery drops from inside it to a stage six storeys below.",
         },
         {
-          title: "Curved Walls — Side Arcs",
-          instruction:
-            "Place 4× Brick 1×1 — corner post. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Corner posts, lower",
+          instruction: "Place 4× Brick 1×1 (corner post); on the east side, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 1×1", part: "3005", qty: 4 },
-        ],
-          tip: "The curved walls should wrap around at least 270 degrees — the conservatory is almost fully enclosed, with only the terrace-facing side open.",
+            { name: "Brick 1×1", part: "3005", qty: 4 },
+          ],
+          tip: "Four posts set out the steel frame.",
         },
         {
-          title: "Curved Walls — Back Arc",
-          instruction:
-            "Place 4× Brick 1×1 — corner post. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Corner posts, upper",
+          instruction: "Place 4× Brick 1×1 (corner post); on the east side, about 4 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Brick 1×1", part: "3005", qty: 4 },
-        ],
-          tip: "The complete curve should read as a continuous wall when viewed from above — a smooth oval against the rectangular terrace block.",
+            { name: "Brick 1×1", part: "3005", qty: 4 },
+          ],
+          tip: "Double-height posts match the glazing panels' height.",
         },
         {
-          title: "Corner Infill — Left Side",
-          instruction:
-            "Place 2× Trans-Clear Panel 1×2×2 — side glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Glazing panels all round",
+          instruction: "Place 2× Trans-Clear Panel 1×2×2 (side glazing); 2× Trans-Clear Panel 1×2×2 (rear glazing); and 2× Trans-Clear Panel 1×2×2 (front glazing); on the east side, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Trans-Clear Panel 1×2×2", part: "87552", qty: 2 },
-        ],
-          tip: "Corner bricks make the curve appear continuous — without them, the conservatory walls would have visible gaps at every quarter-turn.",
+            { name: "Trans-Clear Panel 1×2×2", part: "87552", qty: 2 },
+            { name: "Trans-Clear Panel 1×2×2", part: "87552", qty: 2 },
+            { name: "Trans-Clear Panel 1×2×2", part: "87552", qty: 2 },
+          ],
+          tip: "Trans-clear wall panels close the glass house. The real steel-and-glass roof covers 23,000 square feet over hand-mixed soil beds.",
         },
         {
-          title: "Corner Infill — Right Side",
-          instruction:
-            "Place 2× Trans-Clear Panel 1×2×2 — rear glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Ring beam",
+          instruction: "Place 1× Plate 1×6 (ring plate (front)); 1× Plate 1×6 (ring plate (back)); and 2× Plate 1×2 (ring plate (side)); on the east side, about 5 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Trans-Clear Panel 1×2×2", part: "87552", qty: 2 },
-        ],
-          tip: "The completed wall frame should feel solid and self-supporting. It needs to hold glazing and support the roof slopes.",
+            { name: "Plate 1×6", part: "3666", qty: 1 },
+            { name: "Plate 1×6", part: "3666", qty: 1 },
+            { name: "Plate 1×2", part: "3023w", qty: 2 },
+          ],
+          tip: "Plates over the panels form the ring beam that carries the glass roof.",
         },
         {
-          title: "Glazing — Front Windows",
-          instruction:
-            "Place 2× Trans-Clear Panel 1×2×2 — front glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Planting",
+          instruction: "Place 5× Plate 1×1 Round (conservatory planting); on the east side, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Trans-Clear Panel 1×2×2", part: "87552", qty: 2 },
-        ],
-          tip: "The white curved bricks represent the steel frame, the transparent bricks represent the glass. This frame-and-infill logic is the same as a curtain wall.",
+            { name: "Plate 1×1 Round", part: "4073", qty: 5 },
+          ],
+          tip: "Around 1,500 species grow inside, planted in 1980-81 before opening in 1984; some now rare or extinct in the wild. Green round plates are your finger palms and tree ferns.",
         },
         {
-          title: "Glazing — Side & Back Windows",
-          instruction:
-            "Place 1× Plate 1×6 — ring plate (front); 1× Plate 1×6 — ring plate (back); and 2× Plate 1×2 — ring plate (side). Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Paths and entry",
+          instruction: "Place 1× Tile 1×2 (interior path); 1× Tile 1×1 (interior path); and 1× Tile 1×2 (conservatory entry); on the east side, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Plate 1×6", part: "3666", qty: 1 },
-          { name: "Plate 1×6", part: "3666", qty: 1 },
-          { name: "Plate 1×2", part: "3023w", qty: 2 },
-        ],
-          tip: "The conservatory should now glow with transparency — a glass jewel set against the heavy concrete of the terrace block.",
+            { name: "Tile 1×2", part: "3069b", qty: 1 },
+            { name: "Tile 1×1", part: "3070b", qty: 1 },
+            { name: "Tile 1×2", part: "3069b", qty: 1 },
+          ],
+          tip: "Dark tiles thread a visitor path through the beds and mark the entrance outside.",
         },
         {
-          title: "Interior Planting — Dense Clusters",
-          instruction:
-            "Place 3× Plate 1×1 Round — conservatory planting. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Glass roof, front half",
+          instruction: "Place 6× Trans-Clear Plate 1×2 (glass roof); on the east side, about 6 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Plate 1×1 Round", part: "4073", qty: 3 },
-        ],
-          tip: "Place the planting before the roof goes on — once the roof is in place, you cannot reach inside. Clustered round plates suggest dense tropical planting from above.",
+            { name: "Trans-Clear Plate 1×2", part: "3023", qty: 6 },
+          ],
+          tip: "Trans-clear plates lie flat across the ring beam; each pane anchors on the ring at one end.",
         },
         {
-          title: "Interior Planting — Scattered",
-          instruction:
-            "Place 2× Plate 1×1 Round — conservatory planting. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Glass roof, rear half",
+          instruction: "Place 6× Trans-Clear Plate 1×2 (glass roof); on the east side, about 6 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Plate 1×1 Round", part: "4073", qty: 2 },
-        ],
-          tip: "Sparse planting around the edges contrasts with the dense clusters inside. This creates the feel of cultivation grading into wildness.",
-        },
-        {
-          title: "Interior Floor Sections",
-          instruction:
-            "Place 1× Tile 1×2 — interior path, then 1× Tile 1×1 — interior path. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Tile 1×2", part: "3069b", qty: 1 },
-          { name: "Tile 1×1", part: "3070b", qty: 1 },
-        ],
-          tip: "The contrast between dense plant clusters and open floor areas creates the feel of a real botanical garden — paths winding between planted beds.",
-        },
-        {
-          title: "Glass Roof",
-          instruction:
-            "Place 6× Trans-Clear Plate 1×2 — glass roof. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Trans-Clear Plate 1×2", part: "3023", qty: 6 },
-        ],
-          tip: "An 18-degree pitch is typical of greenhouse roofs — steep enough to shed rain, shallow enough to admit winter sun at London's latitude.",
-        },
-        {
-          title: "Rooftop Platform — Round Corners",
-          instruction:
-            "Place 6× Trans-Clear Plate 1×2 — glass roof. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Trans-Clear Plate 1×2", part: "3023", qty: 6 },
-        ],
-          tip: "The round corner plates create an organic terrace outline that contrasts with the rectangular platform below — another instance of the Barbican's curve-vs-straight dialogue.",
-        },
-        {
-          title: "Platform Connections — Pin Plates",
-          instruction:
-            "Place 1× Tile 1×2 — conservatory entry. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Tile 1×2", part: "3069b", qty: 1 },
-        ],
-          tip: "The pin connections prevent the conservatory from sliding or rotating on the terrace surface. This is essential — the conservatory sits at the exposed end of the terrace block where it is most vulnerable to bumps.",
+            { name: "Trans-Clear Plate 1×2", part: "3023", qty: 6 },
+          ],
+          tip: "The rear panes complete the canopy over the planting.",
         },
       ],
     },
@@ -1650,319 +1200,139 @@ const barbicanPanorama: Build = {
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-landscaping",
-      title: "Phase 12 — Landscaping & Details",
-      concept: "Context & Completion",
+      title: "Phase 12: Landscaping & Details",
+      concept: "Making a Place",
       color: "#65A30D",
       icon: "🌳",
-      time: "30–40 min",
+      time: "30\u201340 min",
       location:
-        "The final phase ties everything together with landscaping, walkway surfaces, and finishing details. The Barbican's landscape design is as deliberate as its architecture — every tree, bench, and paving pattern was specified by the architects. This phase transforms your diorama from a collection of buildings into a place.",
+        "The landscape was designed as deliberately as the towers: every tree, bench and paving line was specified by the architects. Fragments of the Roman and medieval London Wall survive inside the estate, the ancient barbican, or fortified gateway, that gave the place its name. Finished, the estate houses over 4,000 residents in more than 2,000 flats, and the whole complex has been Grade II listed since September 2001.",
       steps: [
         {
-          title: "Garden Grade Changes — Terrace Base",
-          instruction:
-            "Place 3× Tile 1×4 — deck paving. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Deck paving",
+          instruction: "Place 5× Tile 1×4 (deck paving); in the centre of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Tile 1×4", part: "2431", qty: 3 },
-        ],
-          tip: "Grade changes (gentle slopes in the ground plane) are what make a landscape feel natural. Even 1-plate height differences create shadow lines that read as terrain.",
+            { name: "Tile 1×4", part: "2431", qty: 5 },
+          ],
+          tip: "Dark tile runs across the podium mark the pedestrian desire lines to the Centre.",
         },
         {
-          title: "Garden Grade Changes — Tower Base",
-          instruction:
-            "Place 2× Tile 1×4 — deck paving. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Lakeside promenade",
+          instruction: "Place 1× Tile 1×4 (promenade (west)); 1× Tile 1×2 (promenade (west)); 1× Tile 1×4 (promenade (east)); and 1× Tile 1×2 (promenade (east)); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Tile 1×4", part: "2431", qty: 2 },
-        ],
-          tip: "The tower base should feel grounded in landscape — not just sitting on a flat plate. Slopes create the visual anchor that connects building to earth.",
+            { name: "Tile 1×4", part: "2431", qty: 1 },
+            { name: "Tile 1×2", part: "3069b", qty: 1 },
+            { name: "Tile 1×4", part: "2431", qty: 1 },
+            { name: "Tile 1×2", part: "3069b", qty: 1 },
+          ],
+          tip: "The promenade along the water is the estate's social spine; cafe tables from the Centre spill onto the real one.",
         },
         {
-          title: "Walkway Tiles — Podium Surface",
-          instruction:
-            "Place 1× Tile 1×4 — promenade (west), then 1× Tile 1×2 — promenade (west). Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Bollards",
+          instruction: "Place 6× Plate 1×1 Round (bollard); toward the front of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Tile 1×4", part: "2431", qty: 1 },
-          { name: "Tile 1×2", part: "3069b", qty: 1 },
-        ],
-          tip: "Smooth tiles on the ground plane vs. rough studs on buildings: this contrast tells the viewer what is 'floor' and what is 'wall' — a fundamental architectural distinction.",
+            { name: "Plate 1×1 Round", part: "4073", qty: 6 },
+          ],
+          tip: "Round plates as bollards edge the water; the only traffic they stop is pigeons.",
         },
         {
-          title: "Walkway Tiles — Ground Level",
-          instruction:
-            "Place 1× Tile 1×4 — promenade (east), then 1× Tile 1×2 — promenade (east). Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Lakeside walks",
+          instruction: "Place 2× Tile 1×6 (lakeside walk); toward the front of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Tile 1×4", part: "2431", qty: 1 },
-          { name: "Tile 1×2", part: "3069b", qty: 1 },
-        ],
-          tip: "Every smooth tile is a signal that says 'walk here.' The studded areas say 'this is structure, not path.' This distinction is legible even at micro scale.",
+            { name: "Tile 1×6", part: "6636", qty: 2 },
+          ],
+          tip: "Long tiles run the walks down both lake flanks.",
         },
         {
-          title: "Walkway Tiles — Lake Edge",
-          instruction:
-            "Place 3× Plate 1×1 Round — bollard. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Waterfront trim",
+          instruction: "Place 4× Tile 1×2 (waterfront trim) and 2× Tile 1×2 (waterfront strip); toward the front of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Plate 1×1 Round", part: "4073", qty: 3 },
-        ],
-          tip: "The lakeside path is the Barbican's most popular walk — residents, tourists, and office workers all converge here. Dense tiling signals high traffic.",
+            { name: "Tile 1×2", part: "3069b", qty: 4 },
+            { name: "Tile 1×2", part: "3069b", qty: 2 },
+          ],
+          tip: "Short tiles finish the water's outer edges, including strips on the front edge beams.",
         },
         {
-          title: "Walkway Tiles — Conservatory Entrance",
-          instruction:
-            "Place 3× Plate 1×1 Round — bollard. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Highwalk extensions",
+          instruction: "Place 2× Tile 1×2 (highwalk extension); on the west side, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Plate 1×1 Round", part: "4073", qty: 3 },
-        ],
-          tip: "The conservatory entrance is a key gathering point — people pause here to transition from the open podium to the enclosed tropical garden.",
+            { name: "Tile 1×2", part: "3069b", qty: 2 },
+          ],
+          tip: "Two more tile runs extend the podium routes westward.",
         },
         {
-          title: "Long Walkway Strips",
-          instruction:
-            "Place 1× Tile 1×6 — lakeside walk. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Boundary wall",
+          instruction: "Place 4× Brick 1×3 (boundary wall) and 1× Brick 1×2 (boundary wall); at the rear west of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Tile 1×6", part: "6636", qty: 1 },
-        ],
-          tip: "Long tile strips create directional flow — they lead the eye from one end of the podium to the other. Paving direction is a landscape architect's primary tool for guiding movement.",
+            { name: "Brick 1×3", part: "3622", qty: 4 },
+            { name: "Brick 1×2", part: "3004", qty: 1 },
+          ],
+          tip: "A low wall closes the western edge. Fragments of the Roman and medieval London Wall survive inside the real estate; the ancient barbican that named the place.",
         },
         {
-          title: "Plaza Sections",
-          instruction:
-            "Place 1× Tile 1×6 — lakeside walk. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Boundary details",
+          instruction: "Place 1× Brick 2×2 (boundary junction); 1× Brick 1×1 (boundary marker); and 1× Brick 1×3 (service block); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Tile 1×6", part: "6636", qty: 1 },
-        ],
-          tip: "Plazas (wide, open plate areas) mark social gathering points. In the real Barbican, every junction has a small widening where people pause, meet, and orient themselves.",
+            { name: "Brick 2×2", part: "3003", qty: 1 },
+            { name: "Brick 1×1", part: "3005", qty: 1 },
+            { name: "Brick 1×3", part: "3622", qty: 1 },
+          ],
+          tip: "A junction block, an eastern marker and a service block behind the tower finish the estate edge.",
         },
         {
-          title: "Ground Plane — 1×1 Infill (Centre)",
-          instruction:
-            "Place 1× Tile 1×2 — waterfront trim. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Threshold and walkway cap",
+          instruction: "Place 1× Tile 1×2 (entrance threshold) and 1× Tile 1×2 (walkway cap); in the centre of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Tile 1×2", part: "3069b", qty: 1 },
-        ],
-          tip: "A continuous ground plane with no gaps is essential — every exposed hole in the base reads as an unfinished area.",
+            { name: "Tile 1×2", part: "3069b", qty: 1 },
+            { name: "Tile 1×2", part: "3069b", qty: 1 },
+          ],
+          tip: "Dark tiles mark the Centre's entrance threshold on the deck.",
         },
         {
-          title: "Ground Plane — 1×1 Infill (Edges)",
-          instruction:
-            "Place 1× Tile 1×2 — waterfront trim. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Waterside trees, west",
+          instruction: "Place 2× Round Brick 1×1 (tree trunk); 2× Plate 2×2 Round (tree canopy); and 2× Plate 1×1 Round (tree crown); at the rear west of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Tile 1×2", part: "3069b", qty: 1 },
-        ],
-          tip: "Edge infill is the last line of defence against an unfinished-looking base. Every stud sealed contributes to the overall polish.",
+            { name: "Round Brick 1×1", part: "3062b", qty: 2 },
+            { name: "Plate 2×2 Round", part: "4032", qty: 2 },
+            { name: "Plate 1×1 Round", part: "4073", qty: 2 },
+          ],
+          tip: "Trees soften the hard landscape; every planting position on the estate was specified by the architects.",
         },
         {
-          title: "Ground Plane — 1×2 Infill (Podium)",
-          instruction:
-            "Place 1× Tile 1×2 — waterfront trim. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Waterside trees, east",
+          instruction: "Place 2× Round Brick 1×1 (tree trunk); 2× Plate 2×2 Round (tree canopy); and 2× Plate 1×1 Round (tree crown); at the rear east of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Tile 1×2", part: "3069b", qty: 1 },
-        ],
-          tip: "Larger infill plates create a smoother surface. The podium deck is the most visible horizontal surface — keep it clean.",
+            { name: "Round Brick 1×1", part: "3062b", qty: 2 },
+            { name: "Plate 2×2 Round", part: "4032", qty: 2 },
+            { name: "Plate 1×1 Round", part: "4073", qty: 2 },
+          ],
+          tip: "The eastern pair mirrors the west bank.",
         },
         {
-          title: "Ground Plane — 1×2 Infill (Perimeter)",
-          instruction:
-            "Place 1× Tile 1×2 — waterfront trim. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Landscaped banks",
+          instruction: "Place 2× Slope 2×3 (25°) (landscaped bank); toward the rear of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Tile 1×2", part: "3069b", qty: 1 },
-        ],
-          tip: "A sealed perimeter is the final touch that makes the model look finished. No raw plate edges should be visible from any angle.",
+            { name: "Slope 2×3 (25°)", part: "3298", qty: 2 },
+          ],
+          tip: "Two more green banks blend the boundary into the gardens.",
         },
         {
-          title: "Highwalk Extensions",
-          instruction:
-            "Place 1× Tile 1×2 — highwalk extension. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Plinth extensions",
+          instruction: "Place 4× Slope 1×2 Inverted (plinth extension); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Tile 1×2", part: "3069b", qty: 1 },
-        ],
-          tip: "The Barbican's highwalk system is its most radical urban feature — a complete pedestrian network elevated above street level. Your extensions suggest this city-scale ambition.",
+            { name: "Slope 1×2 Inverted", part: "3665", qty: 4 },
+          ],
+          tip: "Extra inverted slopes stretch the waterside plinth along the deck front.",
         },
         {
-          title: "Terrace Extensions & Details",
-          instruction:
-            "Place 1× Tile 1×2 — highwalk extension. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Rear trees",
+          instruction: "Place 2× Round Brick 1×1 (tree trunk); 2× Plate 2×2 Round (tree canopy); and 2× Plate 1×1 Round (tree crown); toward the rear of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-          { name: "Tile 1×2", part: "3069b", qty: 1 },
-        ],
-          tip: "Edge plates give the ground plane a finished perimeter — no raw plate edges visible from the outside.",
-        },
-        {
-          title: "Edge Reinforcement — Long Bricks",
-          instruction:
-            "Place 1× Brick 1×3 — boundary wall. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Brick 1×3", part: "3622", qty: 1 },
-        ],
-          tip: "Edge reinforcement prevents the model from looking unfinished at its perimeter. Every sealed gap is one less visual distraction.",
-        },
-        {
-          title: "Edge Reinforcement — Short Bricks",
-          instruction:
-            "Place 1× Brick 1×3 — boundary wall. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Brick 1×3", part: "3622", qty: 1 },
-        ],
-          tip: "Small bricks at junctions act like structural mortar — they lock adjacent elements together and prevent racking.",
-        },
-        {
-          title: "Wall Details — 1×3 Bricks",
-          instruction:
-            "Place 1× Brick 1×3 — boundary wall. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Brick 1×3", part: "3622", qty: 1 },
-        ],
-          tip: "Mid-length bricks bridge over joints in the courses below — they tie the wall together and prevent individual bricks from working loose.",
-        },
-        {
-          title: "Wall Details — 1×6 Bricks",
-          instruction:
-            "Place 1× Brick 1×3 — boundary wall. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Brick 1×3", part: "3622", qty: 1 },
-        ],
-          tip: "Long bricks at this stage act like structural stitching — they bind sections of the wall that were built separately.",
-        },
-        {
-          title: "Wall Details — Junction Bricks",
-          instruction:
-            "Place 1× Brick 1×2 — boundary wall. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Brick 1×2", part: "3004", qty: 1 },
-        ],
-          tip: "2×2 bricks are excellent at junctions where two walls meet — they span the gap and lock both walls together.",
-        },
-        {
-          title: "Wall Details — Corner Fill",
-          instruction:
-            "Place 1× Brick 2×2 — boundary junction. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Brick 2×2", part: "3003", qty: 1 },
-        ],
-          tip: "The smallest bricks fill the tiniest gaps. At this stage, you are polishing — sealing every last opening in the structure.",
-        },
-        {
-          title: "Final Brick Infill",
-          instruction:
-            "Place 1× Brick 1×1 — boundary marker. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Brick 1×1", part: "3005", qty: 1 },
-        ],
-          tip: "These are the last bricks in the model. Place them where you see gaps or weakness — every builder's model will be slightly different at this final stage.",
-        },
-        {
-          title: "Entrance Thresholds & Walkway Caps",
-          instruction:
-            "Place 1× Brick 1×3 — service block. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Brick 1×3", part: "3622", qty: 1 },
-        ],
-          tip: "Thresholds mark the transition from exterior to interior — a smooth tile at every doorway signals 'enter here.' This is one of the oldest architectural gestures.",
-        },
-        {
-          title: "Walkway Caps & Bollards",
-          instruction:
-            "Place 1× Tile 1×2 — entrance threshold. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Tile 1×2", part: "3069b", qty: 1 },
-        ],
-          tip: "Long smooth tiles along the podium edge create a clean visual termination — the equivalent of a polished stone coping on a real wall.",
-        },
-        {
-          title: "Tree & Planting Positions",
-          instruction:
-            "Place 1× Tile 1×2 — walkway cap. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Tile 1×2", part: "3069b", qty: 1 },
-        ],
-          tip: "Each round plate is a tree or planting point. Cluster some together for groves, scatter others individually for specimen trees.",
-        },
-        {
-          title: "Curved Edges & Plaza Extension",
-          instruction:
-            "Place 2× Round Brick 1×1 — tree trunk; 2× Plate 2×2 Round — tree canopy; and 2× Plate 1×1 Round — tree crown. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Round Brick 1×1", part: "3062b", qty: 2 },
-          { name: "Plate 2×2 Round", part: "4032", qty: 2 },
-          { name: "Plate 1×1 Round", part: "4073", qty: 2 },
-        ],
-          tip: "The curved edges soften the rectangular platform and echo the conservatory's organic form — the Barbican's signature curve-vs-straight dialogue.",
-        },
-        {
-          title: "Landscape Slopes — Terrain Grading",
-          instruction:
-            "Place 2× Round Brick 1×1 — tree trunk; 2× Plate 2×2 Round — tree canopy; and 2× Plate 1×1 Round — tree crown. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Round Brick 1×1", part: "3062b", qty: 2 },
-          { name: "Plate 2×2 Round", part: "4032", qty: 2 },
-          { name: "Plate 1×1 Round", part: "4073", qty: 2 },
-        ],
-          tip: "Terrain slopes soften the transition between ground plane and vertical structure. Without them, buildings look like they have been dropped onto a table.",
-        },
-        {
-          title: "Landscape Slopes — Edge Transitions",
-          instruction:
-            "Place 1× Slope 2×3 (25°) — landscaped bank. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Slope 2×3 (25°)", part: "3298", qty: 1 },
-        ],
-          tip: "Multiple slope angles in the landscape create a natural, undulating ground plane — not a flat sterile surface.",
-        },
-        {
-          title: "Structural Soffits — Exposed Deck Edges",
-          instruction:
-            "Place 1× Slope 2×3 (25°) — landscaped bank. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Slope 2×3 (25°)", part: "3298", qty: 1 },
-        ],
-          tip: "The inverted slopes underneath deck edges create the deep shadow lines that distinguish the Barbican's layered horizontal planes. They are the most Brutalist detail in the model.",
-        },
-        {
-          title: "Steep Terrain Features",
-          instruction:
-            "Place 2× Slope 1×2 Inverted — plinth extension. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Slope 1×2 Inverted", part: "3665", qty: 2 },
-        ],
-          tip: "Steep slopes suggest the dramatic terrain change at the estate boundary — the Barbican sits on a raised podium above the surrounding City streets.",
-        },
-        {
-          title: "Final Edge Infill",
-          instruction:
-            "Place 2× Slope 1×2 Inverted — plinth extension. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Slope 1×2 Inverted", part: "3665", qty: 2 },
-        ],
-          tip: "These final infill plates complete the continuous ground surface. No exposed holes should remain anywhere on the base.",
-        },
-        {
-          title: "Final Walkway Strips",
-          instruction:
-            "Place 1× Tile 1×2 — waterfront strip. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Tile 1×2", part: "3069b", qty: 1 },
-        ],
-          tip: "Jumper plates at intersections create half-stud offsets — the walkway appears to shift alignment where paths cross, just as real paving patterns change at junctions.",
-        },
-        {
-          title: "Final Planting Beds",
-          instruction:
-            "Place 1× Tile 1×2 — waterfront strip. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Tile 1×2", part: "3069b", qty: 1 },
-        ],
-          tip: "The final planting dots complete the landscape. Each one represents a tree, shrub, or planting bed that softens the hard concrete geometry.",
-        },
-        {
-          title: "Final Structural Completion",
-          instruction:
-            "Place 2× Round Brick 1×1 — tree trunk; 2× Plate 2×2 Round — tree canopy; and 2× Plate 1×1 Round — tree crown. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-          { name: "Round Brick 1×1", part: "3062b", qty: 2 },
-          { name: "Plate 2×2 Round", part: "4032", qty: 2 },
-          { name: "Plate 1×1 Round", part: "4073", qty: 2 },
-        ],
-          tip: "Step back and view the completed diorama from lake level — at eye height with the podium. You should see the full Barbican composition: lake reflecting towers, terraces screening the base, podium columns creating rhythm, and the conservatory catching light at the end. This is the view that made the Barbican an icon of Brutalist urbanism.",
-          highlight: true,
+            { name: "Round Brick 1×1", part: "3062b", qty: 2 },
+            { name: "Plate 2×2 Round", part: "4032", qty: 2 },
+            { name: "Plate 1×1 Round", part: "4073", qty: 2 },
+          ],
+          tip: "Two last trees behind the tower complete the estate; home today to more than 4,000 residents in over 2,000 flats, Grade II listed since September 2001.",
         },
       ],
     },
@@ -2019,41 +1389,29 @@ const frobisherSection: Build = {
         "Frobisher Crescent sits on the same raised podium as the rest of the estate, so this build starts where the panorama started: with a flat datum. Six 6×8-stud plates make an 18×12 platform. These six plates are the largest pieces the Lakeside Panorama never touches, which is exactly why this build can stand beside it rather than replace it.",
       steps: [
         {
-          title: "Back Row — Three Baseplates",
-          instruction:
-            "Place 3× Plate 6×6 — site platform. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Site baseplates",
+          instruction: "Place 6× Plate 6×6 (site platform); in the centre of the model, directly on the table. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Plate 6×6", part: "3958", qty: 3 },
+            { name: "Plate 6×6", part: "3958", qty: 6 },
           ],
-          tip: "Lay the back row first and press every stud home. A base that rocks will telegraph all the way up to the roofline eighteen layers later.",
+          tip: "Frobisher Crescent curves between the two podium levels of the estate, on the line of Jewin Crescent; a street destroyed in the Blitz whose sweep the architects kept.",
         },
         {
-          title: "Front Row — Three Baseplates",
-          instruction:
-            "Place 3× Plate 6×6 — site platform. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-            { name: "Plate 6×6", part: "3958", qty: 3 },
-          ],
-          tip: "Butt the front row hard against the back row. The seam along z = 6 runs the full width; the next two steps exist purely to lock it.",
-        },
-        {
-          title: "Mid Seam Ties",
-          instruction:
-            "Place 2× Plate 4×8 — seam tie (mid). Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Mid seam ties",
+          instruction: "Place 2× Plate 4×8 (seam tie (mid)); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Plate 4×8", part: "3035", qty: 2 },
           ],
-          tip: "Two 4×8 plates laid across the middle bridge the long seam and both short ones at once. This is the standard LEGO fix for a plate-tiled base: never let a seam run uninterrupted through a load path.",
+          tip: "Plates across the joints lock the six baseplates into one site slab.",
         },
         {
-          title: "Back and Front Seam Ties",
-          instruction:
-            "Place 2× Plate 2×8 — seam tie (back), then 2× Plate 2×8 — seam tie (front). Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Back and front seam ties",
+          instruction: "Place 2× Plate 2×8 (seam tie (back)) and 2× Plate 2×8 (seam tie (front)); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Plate 2×8", part: "3034", qty: 2 },
             { name: "Plate 2×8", part: "3034", qty: 2 },
           ],
-          tip: "Four more plates finish the tie course. Everything above lands on this layer, so check now that the platform sits dead flat on the table.",
+          tip: "Two more tie courses finish the raft. Press every tie down along its full length.",
         },
       ],
     },
@@ -2068,68 +1426,47 @@ const frobisherSection: Build = {
         "The Barbican's ground floor is not the ground. Chamberlin, Powell & Bon lifted the whole estate onto a podium and left the real ground level as a shadowed undercroft of columns and service routes. You are building that condition literally: two full-depth party walls, a back wall between them, four slender columns on the facade line, and a deck slab over the top.",
       steps: [
         {
-          title: "Party Walls — Full Depth",
-          instruction:
-            "Place 2× Brick 2×6 — party wall. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Party walls and back wall",
+          instruction: "Place 2× Brick 2×6 (party wall) and 1× Brick 1×8 (undercroft back wall); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Brick 2×6", part: "2456", qty: 2 },
-          ],
-          tip: "The two 2×6 bricks are the spine of this build. Every level repeats them in exactly the same place, and they project one stud past the facade line as the fins you see running up the real crescent.",
-        },
-        {
-          title: "Undercroft Back Wall",
-          instruction:
-            "Place 1× Brick 1×8 — undercroft back wall. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
             { name: "Brick 1×8", part: "3008", qty: 1 },
           ],
-          tip: "One 1×8 brick spans between the party walls. Slot it in flush — the deck slab above needs its studs to land on.",
+          tip: "In-situ concrete cross-walls carry every terrace block; the two party walls here will run unbroken to the roof. The back wall closes the section.",
         },
         {
-          title: "Colonnade Columns",
-          instruction:
-            "Place 4× Brick 1×1 — undercroft column. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Colonnade columns",
+          instruction: "Place 4× Brick 1×1 (undercroft column); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Brick 1×1", part: "3005", qty: 4 },
           ],
-          tip: "Four 1×1 bricks on the facade line. They look impossibly thin under a whole block, which is precisely the effect the architects wanted at street level.",
+          tip: "Four slim columns hold the facade line over the open undercroft; the crescent stands on legs, like most of the estate.",
         },
         {
-          title: "Podium Deck — Rear Span",
-          instruction:
-            "Place 1× Plate 4×8 — podium deck (rear), then 1× Plate 4×4 — podium deck (rear). Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-            { name: "Plate 4×8", part: "3035", qty: 1 },
-            { name: "Plate 4×4", part: "3031", qty: 1 },
-          ],
-          tip: "The rear slab bears on the back wall and both party walls. Note how the 4×8 and 4×4 plates split at x = 10 rather than mid-span; a joint over a support is stronger than a joint over air.",
-        },
-        {
-          title: "Podium Deck — Over the Colonnade",
-          instruction:
-            "Place 2× Plate 2×6 — podium deck (front). Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-            { name: "Plate 2×6", part: "3795", qty: 2 },
-          ],
-          tip: "Two 2×6 plates finish the deck, carried on the four columns. The deck top is layer 6, and every storey above is pitched four layers: three for the brick course, one for the floor slab.",
-        },
-        {
-          title: "Undercroft Paving",
-          instruction:
-            "Place 3× Tile 2×2 — undercroft paving. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Undercroft paving",
+          instruction: "Place 3× Tile 2×2 (undercroft paving); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Tile 2×2", part: "3068b", qty: 3 },
           ],
-          tip: "Grey 2×2 tiles read as the poured concrete of the service level. Tiles have no studs, so nothing will ever be built on them — they are the finished floor.",
+          tip: "Pave the undercroft floor NOW, while it is still open from above. Once the podium deck goes on in the next step, these three tiles become unreachable; the deck seals the space for good.",
         },
         {
-          title: "Service Shafts",
-          instruction:
-            "Place 2× Slope 1×2×3 (75°) — service shaft. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Podium deck",
+          instruction: "Place 1× Plate 4×8 (podium deck (rear)); 1× Plate 4×4 (podium deck (rear)); and 2× Plate 2×6 (podium deck (front)); in the centre of the model, about 2 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Plate 4×8", part: "3035", qty: 1 },
+            { name: "Plate 4×4", part: "3031", qty: 1 },
+            { name: "Plate 2×6", part: "3795", qty: 2 },
+          ],
+          tip: "The deck spans walls and columns and becomes the level everyone walks on. Below it: services, parking, and your freshly-paved undercroft.",
+        },
+        {
+          title: "Service shafts",
+          instruction: "Place 2× Slope 1×2×3 (75°) (service shaft); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Slope 1×2×3 (75°)", part: "4460b", qty: 2 },
           ],
-          tip: "Two 75° slopes flank the block as the tall ventilation shafts that punctuate the real estate. At nine layers each they rise past the second floor, which is the correct, slightly alarming proportion.",
+          tip: "Steep slopes flank the block as vent shafts; the estate breathes through towers like these.",
         },
       ],
     },
@@ -2144,95 +1481,70 @@ const frobisherSection: Build = {
         "Now the section proper begins. Each floor is the same seven moves: two party walls, a back wall, four facade piers, panel tiles clipped to the piers, glazing in the slots between, a floor slab, and a balcony. The interior is deliberately left open — this is a cutaway, and you should be able to look straight through the flats from the plaza to the back wall.",
       steps: [
         {
-          title: "Party Walls",
-          instruction:
-            "Place 2× Brick 2×6 — party wall (first floor). Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Walls, first floor",
+          instruction: "Place 2× Brick 2×6 (party wall (first floor)) and 1× Brick 1×8 (back wall (first floor)); in the centre of the model, about 2 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Brick 2×6", part: "2456", qty: 2 },
-          ],
-          tip: "Same position, same part, every floor. Building the repeat elements first gives you the datum to align everything else against.",
-        },
-        {
-          title: "Back Wall",
-          instruction:
-            "Place 1× Brick 1×8 — back wall (first floor). Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
             { name: "Brick 1×8", part: "3008", qty: 1 },
           ],
-          tip: "One brick, spanning between the party walls, stacked directly on the one below.",
+          tip: "Frobisher Crescent was built mainly as offices; only in 2010-11 were its top three floors converted into 69 flats.",
         },
         {
-          title: "Facade Piers",
-          instruction:
-            "Place 4× Brick 1×1 Studs 2 Sides — facade pier. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Facade piers, first floor",
+          instruction: "Place 4× Brick 1×1 Studs 2 Sides (facade pier); in the centre of the model, about 2 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Brick 1×1 Studs 2 Sides", part: "47905", qty: 4 },
           ],
-          tip: "These 1×1 bricks with studs on two sides are the reason the panorama left them in the box. Point the side studs out toward the plaza — they are about to carry the facade skin.",
+          tip: "These piers carry studs on their sides; SNOT (studs not on top) work. The facade panels will clip onto them facing outward.",
         },
         {
-          title: "Facade Panels — Studs Not On Top",
-          instruction:
-            "Place 4× Tile 1×1 — facade panel, clipped onto the side studs. The clipped pieces face outward, not upward — press them squarely onto the studs.",
+          title: "Facade panels, first floor",
+          instruction: "Place 4× Tile 1×1 (facade panel); in the centre of the model, about 2 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Tile 1×1", part: "3070b", qty: 4 },
           ],
-          tip: "Clip a 1×1 tile onto each pier's side stud. The tile face is smooth and vertical, giving you the poured-concrete panel that a top-studded brick never can. This is the whole SNOT technique in one move.",
+          tip: "Clip a smooth tile onto each pier's side studs, face outward. These are the pick-hammered concrete panels; on the estate, six men hand-hammered over 200,000 square metres of them.",
         },
         {
-          title: "Window Glazing — Lower Pane",
-          instruction:
-            "Place 4× Trans-Clear Plate 1×1 — window glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Glazing, first floor",
+          instruction: "Place 8× Trans-Clear Plate 1×1 (window glazing); in the centre of the model, about 2 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Trans-Clear Plate 1×1", part: "3024", qty: 4 },
+            { name: "Trans-Clear Plate 1×1", part: "3024", qty: 8 },
           ],
-          tip: "Trans-clear plates drop into the one-stud slots between the piers. Barbican windows are deep, narrow and recessed, not picture windows.",
+          tip: "Two panes stack in each slot between the piers. Deep reveals and narrow glass are what make the crescent's windows read as arrow slits in a concrete wall.",
         },
         {
-          title: "Window Glazing — Upper Pane",
-          instruction:
-            "Place 4× Trans-Clear Plate 1×1 — window glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-            { name: "Trans-Clear Plate 1×1", part: "3024", qty: 4 },
-          ],
-          tip: "A second course of trans plates finishes each slot. Leave the top layer of the slot empty: that shadow gap is what makes the window read as recessed.",
-        },
-        {
-          title: "Floor Slab",
-          instruction:
-            "Place 1× Plate 4×8 — floor slab. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Floor slab, first floor",
+          instruction: "Place 1× Plate 4×8 (floor slab); toward the rear of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Plate 4×8", part: "3035", qty: 1 },
           ],
-          tip: "A single 4×8 plate roofs the flats and becomes the floor above. It bears on the back wall — check it is fully down before you load it.",
+          tip: "One big plate is this storey's cast floor slab.",
         },
         {
-          title: "Party Wall Caps",
-          instruction:
-            "Place 4× Plate 1×3 — party wall cap, then 4× Plate 1×1 — party wall cap. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Party wall caps, first floor",
+          instruction: "Place 4× Plate 1×3 (party wall cap) and 4× Plate 1×1 (party wall cap); in the centre of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Plate 1×3", part: "3623", qty: 4 },
             { name: "Plate 1×1", part: "3024w", qty: 4 },
           ],
-          tip: "Plates over the party walls bring them level with the floor slab. Without these the next brick course would sit a plate low and the whole facade would step.",
+          tip: "Cap plates keep the party walls level with the slab so the next course seats cleanly.",
         },
         {
-          title: "Balcony Slab",
-          instruction:
-            "Place 2× Plate 2×6 — balcony slab. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Balcony slab, first floor",
+          instruction: "Place 2× Plate 2×6 (balcony slab); in the centre of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Plate 2×6", part: "3795", qty: 2 },
           ],
-          tip: "Two 2×6 plates project one stud past the facade. That single stud of overhang is the entire balcony, and it casts the horizontal shadow line that defines the elevation.",
+          tip: "The balcony projects one stud past the facade; every flat in the estate got private outdoor space, radical for its day.",
         },
         {
-          title: "Balcony Grille Decking",
-          instruction:
-            "Place 4× Tile 1×2 Grille — balcony grille decking. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Balcony decking, first floor",
+          instruction: "Place 4× Tile 1×2 Grille (balcony grille decking); in the centre of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Tile 1×2 Grille", part: "2412b", qty: 4 },
           ],
-          tip: "Grille tiles give the balcony floor its ribbed texture and read at this scale as the open metal decking on the real building.",
+          tip: "Grille tiles deck the balcony now, before the next storey closes over it; the same reach-under trap as the undercroft, avoided the same way.",
         },
       ],
     },
@@ -2247,95 +1559,70 @@ const frobisherSection: Build = {
         "The second floor repeats the first exactly, with one substitution: the piers are 1×1 bricks with studs on all four sides instead of two. Nothing changes structurally, but up close the middle band of the facade catches light differently. Real repetitive housing does this constantly — the module holds, the detail shifts.",
       steps: [
         {
-          title: "Party Walls",
-          instruction:
-            "Place 2× Brick 2×6 — party wall (second floor). Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Walls, second floor",
+          instruction: "Place 2× Brick 2×6 (party wall (second floor)) and 1× Brick 1×8 (back wall (second floor)); in the centre of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Brick 2×6", part: "2456", qty: 2 },
-          ],
-          tip: "Straight onto the caps you laid at the end of the last phase. If they rock, the caps are not fully seated.",
-        },
-        {
-          title: "Back Wall",
-          instruction:
-            "Place 1× Brick 1×8 — back wall (second floor). Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
             { name: "Brick 1×8", part: "3008", qty: 1 },
           ],
-          tip: "One brick again. Four identical courses of this by the time you top out.",
+          tip: "Below the real crescent you can still find the architects' concrete test panels: sample finishes hammered up for the Corporation to choose from.",
         },
         {
-          title: "Facade Piers",
-          instruction:
-            "Place 4× Brick 1×1 Studs 4 Sides — facade pier. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Facade piers, second floor",
+          instruction: "Place 4× Brick 1×1 Studs 4 Sides (facade pier); in the centre of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Brick 1×1 Studs 4 Sides", part: "4733", qty: 4 },
           ],
-          tip: "Four-sided side-stud bricks this time. Only the plaza face gets used here, but the extra studs catch light in the window reveals.",
+          tip: "This floor's piers have studs on all four sides; the model uses a different side-stud brick each storey so the coursing reads up close.",
         },
         {
-          title: "Facade Panels — Studs Not On Top",
-          instruction:
-            "Place 4× Tile 1×1 — facade panel, clipped onto the side studs. The clipped pieces face outward, not upward — press them squarely onto the studs.",
+          title: "Facade panels, second floor",
+          instruction: "Place 4× Tile 1×1 (facade panel); in the centre of the model, about 4 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Tile 1×1", part: "3070b", qty: 4 },
           ],
-          tip: "Same clip-on tiles as the floor below. Line them up by eye against the first-floor panels — a half-millimetre of tilt is visible across four bays.",
+          tip: "Clip a smooth tile onto each pier's side studs, face outward. These are the pick-hammered concrete panels; on the estate, six men hand-hammered over 200,000 square metres of them.",
         },
         {
-          title: "Window Glazing — Lower Pane",
-          instruction:
-            "Place 4× Trans-Clear Plate 1×1 — window glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Glazing, second floor",
+          instruction: "Place 8× Trans-Clear Plate 1×1 (window glazing); in the centre of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Trans-Clear Plate 1×1", part: "3024", qty: 4 },
+            { name: "Trans-Clear Plate 1×1", part: "3024", qty: 8 },
           ],
-          tip: "Trans plates into the slots.",
+          tip: "Two panes stack in each slot between the piers. Deep reveals and narrow glass are what make the crescent's windows read as arrow slits in a concrete wall.",
         },
         {
-          title: "Window Glazing — Upper Pane",
-          instruction:
-            "Place 4× Trans-Clear Plate 1×1 — window glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-            { name: "Trans-Clear Plate 1×1", part: "3024", qty: 4 },
-          ],
-          tip: "And the second course. The glazing band should now read as a continuous horizontal line across both floors.",
-        },
-        {
-          title: "Floor Slab",
-          instruction:
-            "Place 1× Plate 4×8 — floor slab. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Floor slab, second floor",
+          instruction: "Place 1× Plate 4×8 (floor slab); toward the rear of the model, about 4 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Plate 4×8", part: "3035", qty: 1 },
           ],
-          tip: "The 4×8 plate again. This is the last floor with a balcony above it.",
+          tip: "One big plate is this storey's cast floor slab.",
         },
         {
-          title: "Party Wall Caps",
-          instruction:
-            "Place 4× Plate 1×3 — party wall cap, then 4× Plate 1×1 — party wall cap. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Party wall caps, second floor",
+          instruction: "Place 4× Plate 1×3 (party wall cap) and 4× Plate 1×1 (party wall cap); in the centre of the model, about 4 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Plate 1×3", part: "3623", qty: 4 },
             { name: "Plate 1×1", part: "3024w", qty: 4 },
           ],
-          tip: "Level the party walls off ready for the top storey.",
+          tip: "Cap plates keep the party walls level with the slab so the next course seats cleanly.",
         },
         {
-          title: "Balcony Slab",
-          instruction:
-            "Place 2× Plate 2×6 — balcony slab. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Balcony slab, second floor",
+          instruction: "Place 2× Plate 2×6 (balcony slab); in the centre of the model, about 4 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Plate 2×6", part: "3795", qty: 2 },
           ],
-          tip: "Second balcony, identical projection. Sight along the facade from the side: the two overhangs should be exactly aligned.",
+          tip: "The balcony projects one stud past the facade; every flat in the estate got private outdoor space, radical for its day.",
         },
         {
-          title: "Balcony Grille Decking",
-          instruction:
-            "Place 4× Tile 1×2 Grille — balcony grille decking. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Balcony decking, second floor",
+          instruction: "Place 4× Tile 1×2 Grille (balcony grille decking); in the centre of the model, about 5 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Tile 1×2 Grille", part: "2412b", qty: 4 },
           ],
-          tip: "Grille tiles to finish.",
+          tip: "Grille tiles deck the balcony now, before the next storey closes over it; the same reach-under trap as the undercroft, avoided the same way.",
         },
       ],
     },
@@ -2350,85 +1637,61 @@ const frobisherSection: Build = {
         "The top floor loses its balcony — above it there is roof instead. The piers change again, this time to headlight bricks, whose recessed side stud pulls the panel tiles a fraction deeper into the wall. On the real crescent the uppermost band sits slightly shadowed under the vaults, and this is the cheapest way to suggest it.",
       steps: [
         {
-          title: "Party Walls",
-          instruction:
-            "Place 2× Brick 2×6 — party wall (third floor). Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Walls, third floor",
+          instruction: "Place 2× Brick 2×6 (party wall (third floor)) and 1× Brick 1×8 (back wall (third floor)); in the centre of the model, about 5 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Brick 2×6", part: "2456", qty: 2 },
-          ],
-          tip: "Third and final brick course for the spine.",
-        },
-        {
-          title: "Back Wall",
-          instruction:
-            "Place 1× Brick 1×8 — back wall (third floor). Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
             { name: "Brick 1×8", part: "3008", qty: 1 },
           ],
-          tip: "The last 1×8. Four courses, four bricks, one for each level.",
+          tip: "Top floor. The crescent's uppermost flats have barrel-vaulted ceilings following the roof above your next phase.",
         },
         {
-          title: "Facade Piers",
-          instruction:
-            "Place 4× Headlight Brick 1×1 — facade pier. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Facade piers, third floor",
+          instruction: "Place 4× Headlight Brick 1×1 (facade pier); in the centre of the model, about 5 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Headlight Brick 1×1", part: "4070", qty: 4 },
           ],
-          tip: "Headlight bricks. The side stud is recessed into the body, so the panel tiles will sit marginally deeper than on the floors below.",
+          tip: "Headlight bricks finish the pier set; their recessed faces double as window reveals.",
         },
         {
-          title: "Facade Panels — Studs Not On Top",
-          instruction:
-            "Place 4× Tile 1×1 — facade panel, clipped onto the side studs. The clipped pieces face outward, not upward — press them squarely onto the studs.",
+          title: "Facade panels, third floor",
+          instruction: "Place 4× Tile 1×1 (facade panel); in the centre of the model, about 5 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Tile 1×1", part: "3070b", qty: 4 },
           ],
-          tip: "Clip the last four tiles on. Step back and look along the facade: three bands, three subtly different depths.",
+          tip: "Clip a smooth tile onto each pier's side studs, face outward. These are the pick-hammered concrete panels; on the estate, six men hand-hammered over 200,000 square metres of them.",
         },
         {
-          title: "Window Glazing — Lower Pane",
-          instruction:
-            "Place 4× Trans-Clear Plate 1×1 — window glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Glazing, third floor",
+          instruction: "Place 8× Trans-Clear Plate 1×1 (window glazing); in the centre of the model, about 5 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Trans-Clear Plate 1×1", part: "3024", qty: 4 },
+            { name: "Trans-Clear Plate 1×1", part: "3024", qty: 8 },
           ],
-          tip: "Trans plates into the top-floor slots.",
+          tip: "Two panes stack in each slot between the piers. Deep reveals and narrow glass are what make the crescent's windows read as arrow slits in a concrete wall.",
         },
         {
-          title: "Window Glazing — Upper Pane",
-          instruction:
-            "Place 4× Trans-Clear Plate 1×1 — window glazing. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-            { name: "Trans-Clear Plate 1×1", part: "3024", qty: 4 },
-          ],
-          tip: "Twenty-four trans plates across the whole facade by now, and not one of them is holding anything up.",
-        },
-        {
-          title: "Floor Slab",
-          instruction:
-            "Place 1× Plate 4×8 — floor slab. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Floor slab, third floor",
+          instruction: "Place 1× Plate 4×8 (floor slab); toward the rear of the model, about 6 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Plate 4×8", part: "3035", qty: 1 },
           ],
-          tip: "This slab is also the roof deck. The barrel vault lands on it in the next phase, so it needs to be fully seated.",
+          tip: "One big plate is this storey's cast floor slab.",
         },
         {
-          title: "Party Wall Caps",
-          instruction:
-            "Place 4× Plate 1×4 — party wall cap. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Party wall caps, third floor",
+          instruction: "Place 4× Plate 1×4 (party wall cap); toward the rear of the model, about 6 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Plate 1×4", part: "3710", qty: 4 },
           ],
-          tip: "Four 1×4 plates rather than the 1×3-and-1×1 pairs used below, because the panorama leaves exactly four of them.",
+          tip: "Cap plates keep the party walls level with the slab so the next course seats cleanly.",
         },
         {
-          title: "Balcony Slab",
-          instruction:
-            "Place 2× Plate 2×6 — balcony slab. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Balcony slab, third floor",
+          instruction: "Place 2× Plate 2×6 (balcony slab); in the centre of the model, about 6 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Plate 2×6", part: "3795", qty: 2 },
           ],
-          tip: "No balcony above this one, so this projection becomes the eaves the vault springs from.",
+          tip: "The balcony projects one stud past the facade; every flat in the estate got private outdoor space, radical for its day.",
         },
       ],
     },
@@ -2443,58 +1706,28 @@ const frobisherSection: Build = {
         "This is the reason to build Frobisher rather than any other block. The crescent is capped with barrel vaults running the length of the building, and the set's twelve curved 3×1 slopes — untouched by the panorama — make exactly six ribs. Two slopes back to back form one vault: one facing the plaza, one facing the rear, meeting at a ridge over the middle of the plan.",
       steps: [
         {
-          title: "Barrel Vault — Rear Ribs, West",
-          instruction:
-            "Place 3× Curved Slope 3×1 — barrel vault rib. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Vault ribs, rear half",
+          instruction: "Place 6× Curved Slope 3×1 (barrel vault rib); toward the rear of the model, about 6 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Curved Slope 3×1", part: "50950", qty: 3 },
+            { name: "Curved Slope 3×1", part: "50950", qty: 6 },
           ],
-          tip: "Each rib is two curved slopes meeting at a ridge. Lay all the rear-facing halves first; getting them in a straight line is easier before the front halves crowd them.",
+          tip: "The white barrel vaults come straight from Le Corbusier's Maison Jaoul and the church roofs of the Greek islands; the crowning motif of all thirteen terrace blocks.",
         },
         {
-          title: "Barrel Vault — Rear Ribs, East",
-          instruction:
-            "Place 3× Curved Slope 3×1 — barrel vault rib. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Vault ribs, front half",
+          instruction: "Place 6× Curved Slope 3×1 (barrel vault rib); in the centre of the model, about 6 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Curved Slope 3×1", part: "50950", qty: 3 },
+            { name: "Curved Slope 3×1", part: "50950", qty: 6 },
           ],
-          tip: "Three more. The curve should now read continuously across six studs of width.",
+          tip: "The opposing ribs meet at the crown to complete the vault.",
         },
         {
-          title: "Barrel Vault — Front Ribs, West",
-          instruction:
-            "Place 3× Curved Slope 3×1 — barrel vault rib. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Flat roof decks",
+          instruction: "Place 6× Tile 1×6 (flat roof deck); in the centre of the model, about 6 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Curved Slope 3×1", part: "50950", qty: 3 },
+            { name: "Tile 1×6", part: "6636", qty: 6 },
           ],
-          tip: "Now the plaza-facing halves, back to back with the rear ones. The ridge line falls between z = 4 and z = 5.",
-        },
-        {
-          title: "Barrel Vault — Front Ribs, East",
-          instruction:
-            "Place 3× Curved Slope 3×1 — barrel vault rib. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-            { name: "Curved Slope 3×1", part: "50950", qty: 3 },
-          ],
-          tip: "The last three ribs. All twelve curved slopes in the set are now on this roof, which is the clearest possible argument that this build and the panorama were meant to coexist.",
-        },
-        {
-          title: "West Flat Roof",
-          instruction:
-            "Place 3× Tile 1×6 — flat roof deck. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-            { name: "Tile 1×6", part: "6636", qty: 3 },
-          ],
-          tip: "The end flats get a flat roof rather than a vault — true of the real crescent, where the vaults run over the central spine only. Three 1×6 tiles cover it in one pass.",
-        },
-        {
-          title: "East Flat Roof",
-          instruction:
-            "Place 3× Tile 1×6 — flat roof deck. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-            { name: "Tile 1×6", part: "6636", qty: 3 },
-          ],
-          tip: "Three more tiles and the building is topped out. Look at it end-on: flat, vaulted, flat. That silhouette is Frobisher.",
+          tip: "Dark tiles finish the end bays flat, framing the vault the way the real roofline alternates.",
         },
       ],
     },
@@ -2509,116 +1742,57 @@ const frobisherSection: Build = {
         "The last phase is everything that is not the building: the promenade in front, the retaining wall holding the podium up, and the planting and street furniture that make the estate habitable. It is also where the remaining odd parts finally get used — macaroni bricks for the rounded site corners, round corner plates for the aprons, corner bricks for the planters.",
       steps: [
         {
-          title: "Promenade Paving — Back Run",
-          instruction:
-            "Place 1× Tile 1×8 — promenade paving, then 1× Tile 1×6 — promenade paving. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Promenade paving",
+          instruction: "Place 2× Tile 1×8 (promenade paving) and 2× Tile 1×6 (promenade paving); toward the front of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Tile 1×8", part: "4162", qty: 1 },
-            { name: "Tile 1×6", part: "6636", qty: 1 },
+            { name: "Tile 1×8", part: "4162", qty: 2 },
+            { name: "Tile 1×6", part: "6636", qty: 2 },
           ],
-          tip: "Long tiles along the front edge of the site. Tiles rather than plates because a promenade should read as smooth and finished.",
+          tip: "The crescent wraps a raised court that was drawn as a Sculpture Court; never fully realised, and used today for installations and performances.",
         },
         {
-          title: "Promenade Paving — Front Run",
-          instruction:
-            "Place 1× Tile 1×8 — promenade paving, then 1× Tile 1×6 — promenade paving. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Podium retaining walls",
+          instruction: "Place 4× Slope 1×2×2 (65°) (podium retaining wall); toward the front of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Tile 1×8", part: "4162", qty: 1 },
-            { name: "Tile 1×6", part: "6636", qty: 1 },
+            { name: "Slope 1×2×2 (65°)", part: "60481", qty: 4 },
           ],
-          tip: "The second run completes the walkway.",
+          tip: "Steep slopes step the podium down toward the promenade; the two podium levels of the estate differ by several metres.",
         },
         {
-          title: "Podium Retaining Wall — West",
-          instruction:
-            "Place 2× Slope 1×2×2 (65°) — podium retaining wall. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-            { name: "Slope 1×2×2 (65°)", part: "60481", qty: 2 },
-          ],
-          tip: "Steep 65° slopes hold up the podium edge. The Barbican's podium walls are near-vertical with a slight batter, and this is that angle in one part.",
-        },
-        {
-          title: "Podium Retaining Wall — East",
-          instruction:
-            "Place 2× Slope 1×2×2 (65°) — podium retaining wall. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-            { name: "Slope 1×2×2 (65°)", part: "60481", qty: 2 },
-          ],
-          tip: "Two more to finish the run.",
-        },
-        {
-          title: "Rounded Plaza Aprons",
-          instruction:
-            "Place 2× Plate 4×4 Round Corner — plaza apron. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Plaza aprons and planting",
+          instruction: "Place 2× Plate 4×4 Round Corner (plaza apron) and 1× Plate 4×4 Round w/ Pin (plaza planting bed); toward the front of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Plate 4×4 Round Corner", part: "30565", qty: 2 },
-          ],
-          tip: "Round corner plates sweep the paving out into the plaza. Set the two facings opposite each other so the curves mirror.",
-        },
-        {
-          title: "Circular Planting Bed",
-          instruction:
-            "Place 1× Plate 4×4 Round w/ Pin — plaza planting bed. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
             { name: "Plate 4×4 Round w/ Pin", part: "60474", qty: 1 },
           ],
-          tip: "A 4×4 round plate on top of the west apron makes a raised bed. Tiering a round plate onto a round corner plate is a cheap way to get a two-level landscape feature.",
+          tip: "Quarter-round plates sweep the plaza's corners, with a circular planting bed set into the western one.",
         },
         {
-          title: "Rounded Site Corners — Back",
-          instruction:
-            "Place 2× Macaroni Brick 2×2 — rounded site corner. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Rounded site corners",
+          instruction: "Place 4× Macaroni Brick 2×2 (rounded site corner); toward the rear of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Macaroni Brick 2×2", part: "85080", qty: 2 },
+            { name: "Macaroni Brick 2×2", part: "85080", qty: 4 },
           ],
-          tip: "Macaroni bricks round off the corners of the site. Their missing inner cell tucks neatly over the tie-plate edge, which is why they fit here and nowhere else.",
+          tip: "Macaroni bricks round off the site; the crescent's geometry is all curves meeting straight party walls.",
         },
         {
-          title: "Rounded Site Corners — Flanks",
-          instruction:
-            "Place 2× Macaroni Brick 2×2 — rounded site corner. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
-            { name: "Macaroni Brick 2×2", part: "85080", qty: 2 },
-          ],
-          tip: "Two more on the flanks. Watch the facing on each: the arc has to open outward or the corner reads inside out.",
-        },
-        {
-          title: "Planter Walls",
-          instruction:
-            "Place 2× Brick 2×2 Corner — planter wall. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Podium furniture",
+          instruction: "Place 2× Brick 2×2 Corner (planter wall); 4× Panel 1×1×1 Corner (bollard); and 2× Panel 1×4×1 Rounded (podium bench); toward the rear of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Brick 2×2 Corner", part: "2357", qty: 2 },
-          ],
-          tip: "L-shaped corner bricks at the promenade ends. Three cells of brick from one part, and no seam at the corner.",
-        },
-        {
-          title: "Bollards",
-          instruction:
-            "Place 4× Panel 1×1×1 Corner — bollard. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
             { name: "Panel 1×1×1 Corner", part: "6231", qty: 4 },
-          ],
-          tip: "Corner panels along the back service strip. At this scale a 1×1 panel is convincingly a bollard.",
-        },
-        {
-          title: "Podium Benches",
-          instruction:
-            "Place 2× Panel 1×4×1 Rounded — podium bench. Every piece sits on the stud grid — press each one down fully before moving on.",
-          pieces: [
             { name: "Panel 1×4×1 Rounded", part: "30413", qty: 2 },
           ],
-          tip: "Two rounded 1×4 panels become benches facing the block. Every Barbican photograph has someone sitting on one of these.",
+          tip: "Planter walls, bollards and benches; the estate's street furniture was designed by the same hands as its towers.",
         },
         {
-          title: "Gratings and Lamps",
-          instruction:
-            "Place 2× Tile 1×2 Grille — podium grating, then 2× Trans-Clear Plate 1×2 — plaza lamp. Every piece sits on the stud grid — press each one down fully before moving on.",
+          title: "Gratings and lamps",
+          instruction: "Place 2× Tile 1×2 Grille (podium grating) and 2× Trans-Clear Plate 1×2 (plaza lamp); toward the front of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Tile 1×2 Grille", part: "2412b", qty: 2 },
             { name: "Trans-Clear Plate 1×2", part: "3023", qty: 2 },
           ],
-          tip: "Grille tiles for the drainage gratings, trans plates for the lamps. Stand the finished section next to the panorama: same set, same estate, opposite ends of the zoom lens.",
-          highlight: true,
+          tip: "Grille gratings vent the undercroft, and trans plates stand in for the podium's globe lamps.",
         },
       ],
     },
@@ -2628,7 +1802,267 @@ const frobisherSection: Build = {
 
 // ─── Export ──────────────────────────────────────────────────────────
 
-export const ALL_BUILDS: Build[] = [barbicanPanorama, frobisherSection];
+
+// <<< LONDONWALL START >>>
+// ═══════════════════════════════════════════════════════════════════
+// LONDON WALL & BASTION — the third build (steps generated by
+// scripts/gen-builds.mjs from src/model-londonwall.ts)
+// ═══════════════════════════════════════════════════════════════════
+
+const londonWall: Build = {
+  id: "london-wall",
+  title: "London Wall & Bastion",
+  subtitle: "The ruin inside the estate: the ancient barbican the Barbican is named for",
+  description:
+    "Inside the concrete megastructure stands something fifteen centuries older: a fragment of the Roman and medieval London Wall with a round bastion, preserved as the centrepiece of a sunken garden. This build recreates it from the pieces the other two models leave in the box, slopes, wedges, corner plates and macaroni bricks, which happen to be exactly the palette of a ruin. Build all three and the full set stands on your shelf at once: estate, section, and the ancient gate that named them.",
+  difficulty: 1,
+  estimatedTime: "45–60 min",
+  pieceCount: 73,
+  concept: "Ruins, Memory & the Name",
+  heroPhoto: SHARED_PHOTOS.aerial.url,
+  photos: {
+    aerial: SHARED_PHOTOS.aerial,
+    lakeside: SHARED_PHOTOS.lakeside,
+    podium: SHARED_PHOTOS.podium,
+  },
+  phasePhotos: {
+    "lw-base": ["aerial"],
+    "lw-bastion": ["aerial", "podium"],
+    "lw-wall": ["podium"],
+    "lw-garden": ["lakeside"],
+    "lw-plaza": ["podium", "aerial"],
+  },
+  phases: [
+    {
+      id: "lw-base",
+      title: "Phase 1: The Site",
+      concept: "Two Levels",
+      color: "#6B7280",
+      icon: "🧱",
+      time: "10 min",
+      location:
+        "The wall fragment stands in a sunken garden below podium level, so the site has two heights from the start: a paved plaza on the city side and lawns a level lower on the garden side. When the Blitz levelled Cripplegate it exposed stretches of ancient wall that buildings had hidden for centuries; the architects designed the estate around them.",
+      steps: [
+        {
+          title: "Plaza pads",
+          instruction: "Place 4× Plate 2×8 (plaza pad); toward the rear of the model, directly on the table. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Plate 2×8", part: "3034", qty: 4 },
+          ],
+          tip: "This corner of the estate is the Barbican's oldest resident: a stretch of the Roman and medieval city wall that survived the Great Fire, the Victorians and the Blitz.",
+        },
+        {
+          title: "Garden pads and lower lawns",
+          instruction: "Place 1× Plate 2×8 (garden pad); 2× Plate 4×4 (garden pad); 1× Wedge 2×4 Left (lower lawn); and 1× Wedge 2×4 Right (lower lawn); toward the front of the model, directly on the table. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Plate 2×8", part: "3034", qty: 1 },
+            { name: "Plate 4×4", part: "3031", qty: 2 },
+            { name: "Wedge 2×4 Left", part: "41768", qty: 1 },
+            { name: "Wedge 2×4 Right", part: "41767", qty: 1 },
+          ],
+          tip: "The garden side sits a level below the plaza. The front wedge plates go straight on the table as lawn; the estate's gardeners keep this bed green so the masonry always reads against planting.",
+        },
+      ],
+    },
+    {
+      id: "lw-bastion",
+      title: "Phase 2: The Bastion",
+      concept: "The Drum",
+      color: "#8B5CF6",
+      icon: "🏰",
+      time: "10–15 min",
+      location:
+        "Bastion 12 is one of the round towers the medieval city added to the Roman wall, a drum of ragstone that now rises out of Barbican lawn. Four macaroni bricks per course make the circle; the estate's residents look down on the real one from their podium balconies.",
+      steps: [
+        {
+          title: "Bastion ring, first course",
+          instruction: "Place 4× Macaroni Brick 2×2 (bastion wall); at the rear west of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Macaroni Brick 2×2", part: "85080", qty: 4 },
+          ],
+          tip: "Bastion 12 is a round medieval tower on the wall line, kept as a garden feature after the war. Four macaroni bricks make a perfect drum; point each arc outward.",
+        },
+        {
+          title: "Bastion ring, second course",
+          instruction: "Place 4× Macaroni Brick 2×2 (bastion wall); at the rear west of the model, about 1 brick up. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Macaroni Brick 2×2", part: "85080", qty: 4 },
+          ],
+          tip: "Stack the second ring directly on the first, arcs aligned; each quarter grips the two studs at its neighbour's arc ends.",
+        },
+        {
+          title: "Bastion cap",
+          instruction: "Place 1× Plate 4×4 (bastion cap); at the rear west of the model, about 2 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Plate 4×4", part: "3031", qty: 1 },
+          ],
+          tip: "A square plate caps the drum. Medieval bastions were open platforms for archers, so the top stays low and flat.",
+        },
+        {
+          title: "Parapet stubs",
+          instruction: "Place 4× Plate 1×1 (parapet stub) and 2× Tile 1×1 (platform tile); at the rear west of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Plate 1×1", part: "3024w", qty: 4 },
+            { name: "Tile 1×1", part: "3070b", qty: 2 },
+          ],
+          tip: "Single plates at the corners are the eroded parapet; two tiles smooth the fighting platform.",
+        },
+      ],
+    },
+    {
+      id: "lw-wall",
+      title: "Phase 3: The Wall & Gate",
+      concept: "Fifteen Centuries",
+      color: "#F59E0B",
+      icon: "🏛️",
+      time: "20–25 min",
+      location:
+        "The Romans walled Londinium around 200 AD and the city kept patching the wall for 1,500 years; the surviving fragment shows Roman tile courses under medieval stone. The word barbican means a fortified outer gateway, and a gate through this wall is the ancient structure the whole estate inherited its name from. Your ruin breaks off mid-air on the east, exactly as the real one does.",
+      steps: [
+        {
+          title: "Wall, first course",
+          instruction: "Place 1× Brick 2×6 (wall course) and 1× Brick 2×4 (wall course); toward the rear of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Brick 2×6", part: "2456", qty: 1 },
+            { name: "Brick 2×4", part: "3001", qty: 1 },
+          ],
+          tip: "The wall runs east from the bastion, two studs thick, with a two-stud gap for the ruined gateway. London's wall was begun by the Romans around 200 AD and patched for 1,500 years.",
+        },
+        {
+          title: "Wall, second course with putlog bricks",
+          instruction: "Place 2× Brick 1×4 Side Studs (putlog course); 2× Brick 1×1 (wall course); and 1× Brick 2×3 (wall course); toward the rear of the model, about 1 brick up. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Brick 1×4 Side Studs", part: "30414", qty: 2 },
+            { name: "Brick 1×1", part: "3005", qty: 2 },
+            { name: "Brick 2×3", part: "3002", qty: 1 },
+          ],
+          tip: "The side-stud bricks go in studs-out: read the exposed studs as putlog holes, the scaffolding sockets medieval masons left in every wall they raised.",
+        },
+        {
+          title: "The ruined gate",
+          instruction: "Place 2× Arch 1×4 (gate arch); at the rear east of the model, about 1 brick up. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Arch 1×4", part: "3659", qty: 2 },
+          ],
+          tip: "Two arches span the gap, one behind the other: a fortified gateway. 'Barbican' comes from the Latin barbecana, an outer defence of a city gate. This little ruin is the piece of history the whole estate is named for.",
+        },
+        {
+          title: "Wall, third course",
+          instruction: "Place 2× Brick 1×8 (wall course); toward the rear of the model, about 2 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Brick 1×8", part: "3008", qty: 2 },
+          ],
+          tip: "Two long bricks bond over the gate and the putlog course; only this western stretch survives to full height.",
+        },
+        {
+          title: "Standing shards",
+          instruction: "Place 2× Slope 1×2×2 (65°) (wall shard) and 1× Slope 1×2×3 (75°) (wall shard); at the rear east of the model, about 2 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Slope 1×2×2 (65°)", part: "60481", qty: 2 },
+            { name: "Slope 1×2×3 (75°)", part: "4460b", qty: 1 },
+          ],
+          tip: "Steep slopes rise from the eastern stump as freestanding shards, the way the real fragment breaks off mid-air where the bombs bit through.",
+        },
+        {
+          title: "Weathered head and battlement",
+          instruction: "Place 2× Slope 1×3 (25°) (weathered wall head); 1× Plate 2×2 Corner (battlement tooth); and 1× Slope 1×2 (45°) (weathered wall head); toward the rear of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Slope 1×3 (25°)", part: "4286", qty: 2 },
+            { name: "Plate 2×2 Corner", part: "2420", qty: 1 },
+            { name: "Slope 1×2 (45°)", part: "3040", qty: 1 },
+          ],
+          tip: "Slopes cascade the intact wall head down toward the break, with one corner plate as the last tooth of battlement.",
+        },
+      ],
+    },
+    {
+      id: "lw-garden",
+      title: "Phase 4: The Wall-side Garden",
+      concept: "Green Against Stone",
+      color: "#22C55E",
+      icon: "🌿",
+      time: "15 min",
+      location:
+        "The garden below the wall is one of the estate's quietest corners: lawns, a fig tree that thrives against the heat-holding masonry, cold frames, and the globe lamps that floodlight the fragment at night. The contrast was deliberate; the architects wanted the new concrete and the old stone read together across green.",
+      steps: [
+        {
+          title: "Upper lawns and the fig tree",
+          instruction: "Place 1× Wedge 2×4 Left (upper lawn); 1× Wedge 2×4 Right (upper lawn); 1× Round Brick 1×1 (fig tree trunk); and 2× Plate 1×1 Round (fig tree crown); on the west side, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Wedge 2×4 Left", part: "41768", qty: 1 },
+            { name: "Wedge 2×4 Right", part: "41767", qty: 1 },
+            { name: "Round Brick 1×1", part: "3062b", qty: 1 },
+            { name: "Plate 1×1 Round", part: "4073", qty: 2 },
+          ],
+          tip: "Two more wedges lay the upper lawn, and the estate's fig tree roots beside the bastion; gardeners planted figs here because the old wall traps warmth like a Roman courtyard.",
+        },
+        {
+          title: "Grass embankment",
+          instruction: "Place 2× Slope 3×4 (25°) (grass embankment); at the front east of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Slope 3×4 (25°)", part: "3297", qty: 2 },
+          ],
+          tip: "Long slopes bank the garden up toward the podium behind the wall.",
+        },
+        {
+          title: "Cold frames",
+          instruction: "Place 2× Trans-Clear Panel 1×2×2 (cold frame back); 2× Trans-Clear Panel 1×2×2 (cold frame front); and 4× Trans-Clear Plate 1×2 (cold frame roof); at the front west of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Trans-Clear Panel 1×2×2", part: "87552", qty: 2 },
+            { name: "Trans-Clear Panel 1×2×2", part: "87552", qty: 2 },
+            { name: "Trans-Clear Plate 1×2", part: "3023", qty: 4 },
+          ],
+          tip: "Two trans-clear cold frames grow salad crops against the south light, glass roofs laid flat like the real garden's frames.",
+        },
+        {
+          title: "Stepping stones and globe lamps",
+          instruction: "Place 3× Jumper Plate 1×2 (stepping stone); 2× Plate 1×1 (lamp post); and 2× Trans-Clear Plate 1×1 (globe lamp); at the front east of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Jumper Plate 1×2", part: "15573", qty: 3 },
+            { name: "Plate 1×1", part: "3024w", qty: 2 },
+            { name: "Trans-Clear Plate 1×1", part: "3024", qty: 2 },
+          ],
+          tip: "Jumper plates, one centred stud each, step across the garden; two trans studs on white bases are the estate's globe lamps, which floodlight the fragment at night.",
+        },
+      ],
+    },
+    {
+      id: "lw-plaza",
+      title: "Phase 5: Plaza & Rubble",
+      concept: "Ruin as Object",
+      color: "#EF4444",
+      icon: "🪨",
+      time: "10 min",
+      location:
+        "On the city side the wall meets office-lunch London: paving, benches, and the polite scatter of conserved rubble that archaeologists left where it fell. Finishing details make the fragment read as a curated ruin rather than a broken wall, which is precisely what it is.",
+      steps: [
+        {
+          title: "Plaza paving",
+          instruction: "Place 1× Tile 1×8 (plaza paving); 1× Tile 1×6 (plaza paving); and 1× Tile 2×2 (plaza paving); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Tile 1×8", part: "4162", qty: 1 },
+            { name: "Tile 1×6", part: "6636", qty: 1 },
+            { name: "Tile 2×2", part: "3068b", qty: 1 },
+          ],
+          tip: "Long tiles pave the walk along the wall's city side, where office workers eat lunch against fifteen centuries of masonry.",
+        },
+        {
+          title: "Fallen rubble",
+          instruction: "Place 4× Cheese Slope 1×1×⅔ (rubble); 1× Brick 1×1 Studs 4 Sides (fallen block); and 1× Brick 1×1 Studs 2 Sides (fallen block); on the east side, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Cheese Slope 1×1×⅔", part: "54200", qty: 4 },
+            { name: "Brick 1×1 Studs 4 Sides", part: "4733", qty: 1 },
+            { name: "Brick 1×1 Studs 2 Sides", part: "47905", qty: 1 },
+          ],
+          tip: "Cheese slopes and loose blocks scatter where the wall failed; the side-stud blocks lie stud-out like ashlar tipped off the wall head.",
+        },
+      ],
+    },
+  ],
+};
+// <<< LONDONWALL END >>>
+
+export const ALL_BUILDS: Build[] = [barbicanPanorama, frobisherSection, londonWall];
 
 export function getBuildById(id: string): Build | undefined {
   return ALL_BUILDS.find((b) => b.id === id);

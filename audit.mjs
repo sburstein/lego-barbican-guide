@@ -1,5 +1,5 @@
 // Audit script: verify builds.ts against inventory.ts
-// Reports each build separately and both together, because the two builds are
+// Reports each build separately and all together, because the builds are
 // designed to be buildable at the same time from one copy of set 21050.
 // Run with: node audit.mjs
 
@@ -51,8 +51,8 @@ for (const b of perBuild) {
 
 for (const b of perBuild)
   console.log(`  ${b.id.padEnd(20)} ${String(b.total).padStart(4)} pieces, ${b.map.size} distinct part types`);
-console.log(`\nBoth builds use ${usage.size} distinct part types`);
-console.log(`Both builds use ${totalPieces} total pieces\n`);
+console.log(`\nAll builds together use ${usage.size} distinct part types`);
+console.log(`All builds together use ${totalPieces} total pieces\n`);
 
 // Check 1: All parts exist in inventory
 const invParts = new Set(invEntries.map(e => e.partNumber));
@@ -81,7 +81,7 @@ if (overused.length > 0) {
   console.log(`\nERROR: ${overused.length} parts EXCEED inventory limit:`);
   overused.forEach(p => console.log(`  - ${p.partNumber} "${p.name}": used ${p.used} / ${p.totalInSet}`));
 } else {
-  console.log(`PASS: No part exceeds its totalInSet limit — both builds fit the set at once`);
+  console.log(`PASS: No part exceeds its totalInSet limit; all builds fit the set at once`);
 }
 
 // Check 3: Unused part types

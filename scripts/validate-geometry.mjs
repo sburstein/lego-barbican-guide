@@ -1,66 +1,60 @@
-// Physical-buildability validator for both Barbican LEGO models.
-// Run: node scripts/validate-geometry.mjs
-// Requires Node 23.6+ (native TypeScript type stripping).
+// Physical-buildability validator for all Barbican LEGO models.
+// Checks, per build:
+//   1. every placement is a real part, on-grid, collision-free, supported
+//   2. every step is reachable in build order (nothing slides in under
+//      already-placed pieces)
+//   3. builds.ts (the guide text) matches the model step-for-step and
+//      piece-for-piece, so the app can never drift from the geometry
+// Run: node scripts/validate-geometry.mjs  (Node 23.6+, native TS stripping)
 
 import { validateBuild } from "../src/lego-model.ts";
 import { BUILD_IDS, modelFor, phaseOrderFor } from "../src/build-models.ts";
-
-const EXPECTED_STEPS = {
-  "barbican-panorama": {
-    "bp-foundation": 10,
-    "bp-lake": 8,
-    "bp-podium": 8,
-    "bp-terrace-core": 28,
-    "bp-terrace-facade": 13,
-    "bp-terrace-balconies": 11,
-    "bp-barrel-vault": 10,
-    "bp-tower-core": 12,
-    "bp-tower-facade": 11,
-    "bp-tower-crown": 10,
-    "bp-conservatory": 13,
-    "bp-landscaping": 33,
-  },
-  "frobisher-section": {
-    "fc-base": 4,
-    "fc-undercroft": 7,
-    "fc-storey-1": 10,
-    "fc-storey-2": 10,
-    "fc-storey-3": 9,
-    "fc-roof": 6,
-    "fc-plaza": 12,
-  },
-};
+import { ALL_BUILDS } from "../src/builds.ts";
 
 let failed = false;
 
 for (const buildId of BUILD_IDS) {
   const build = modelFor(buildId);
-  const expected = EXPECTED_STEPS[buildId] ?? {};
+  const guide = ALL_BUILDS.find((b) => b.id === buildId);
   let totalPieces = 0;
+  let totalSteps = 0;
 
   console.log(`\n══ ${buildId} ══`);
-  console.log("── Step counts ──");
   for (const pid of phaseOrderFor(buildId)) {
     const steps = build[pid] ?? [];
-    const pieces = steps.reduce((s, st) => s + st.length, 0);
-    totalPieces += pieces;
-    const exp = expected[pid];
-    const ok = steps.length === exp;
-    if (!ok) failed = true;
-    console.log(
-      `${ok ? "  " : "✗ "}${pid}: ${steps.length} steps (expected ${exp}), ${pieces} pieces`
-    );
+    totalSteps += steps.length;
+    totalPieces += steps.reduce((s, st) => s + st.length, 0);
+    const guidePhase = guide?.phases.find((p) => p.id === pid);
+    if (!guidePhase) {
+      console.log(`✗ ${pid}: missing from builds.ts`);
+      failed = true;
+      continue;
+    }
+    if (guidePhase.steps.length !== steps.length) {
+      console.log(
+        `✗ ${pid}: builds.ts has ${guidePhase.steps.length} steps, model has ${steps.length} — run scripts/gen-builds.mjs`
+      );
+      failed = true;
+      continue;
+    }
+    for (let si = 0; si < steps.length; si++) {
+      const modelQty = steps[si].length;
+      const guideQty = guidePhase.steps[si].pieces.reduce((s, p) => s + p.qty, 0);
+      if (modelQty !== guideQty) {
+        console.log(`✗ ${pid} step ${si}: guide lists ${guideQty} pieces, model places ${modelQty}`);
+        failed = true;
+      }
+    }
   }
-  console.log(`Total pieces: ${totalPieces}`);
+  console.log(`${totalSteps} steps, ${totalPieces} pieces; guide text in sync`);
 
-  console.log("── Physical validation ──");
   const errors = validateBuild(build);
   if (errors.length === 0) {
-    console.log("✓ All placements are real parts, on-grid, collision-free, and supported.");
+    console.log("✓ Physical + sequential validation clean.");
   } else {
     failed = true;
-    for (const e of errors.slice(0, 80)) console.log("✗ " + e);
-    if (errors.length > 80) console.log(`… and ${errors.length - 80} more`);
+    for (const e of errors.slice(0, 60)) console.log("✗ " + e);
+    if (errors.length > 60) console.log(`… and ${errors.length - 60} more`);
     console.log(`${errors.length} violations`);
   }
 }
