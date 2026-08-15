@@ -35,11 +35,15 @@ can never drift from the geometry.
 ## Scripts
 
 ```bash
-npx vite                              # dev server
-node scripts/validate-geometry.mjs    # physics + build-order + guide sync
-node audit.mjs                        # piece usage vs. the set inventory
-node scripts/gen-builds.mjs           # regenerate builds.ts step text
+npx vite                                       # dev server
+node scripts/validate-geometry.mjs             # physics + build-order + guide sync
+node audit.mjs                                 # piece usage vs. the set inventory
+node scripts/gen-builds.mjs                    # regenerate builds.ts step text
+node scripts/generate-manual.mjs <build-id>    # print-ready HTML booklet
 ```
+
+Build ids: `barbican-panorama`, `frobisher-section`, `london-wall`. Manuals
+land in `manual/` and are gitignored; regenerate rather than commit them.
 
 Step titles and tips are authored in the model files via
 `b.step(title, tip)`; instructions and piece lists derive from the
