@@ -1,0 +1,7 @@
+{
+  "enabled": false,
+  "reason": "this is the static public site; the designer runs on a server that holds the API key (npm run designer:serve)",
+  "model": "claude-opus-5-5",
+  "effort": "xhigh",
+  "busy": false
+}

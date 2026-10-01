@@ -83,7 +83,7 @@ export function DesignerPanel() {
         <p>
           New designs are made by Claude Opus 5.5 working with the architecture compiler and an independent
           reviewer. It runs on a server that holds the API key and headless Chrome
-          {health !== "off" && health.reason ? ` (this server: ${health.reason})` : " (this static site has no server)"}.
+          {health !== "off" && health.reason ? `. Here: ${health.reason}` : "; this site has no such server"}.
           Designs it approves are published here as builds marked AI.
         </p>
       </div>

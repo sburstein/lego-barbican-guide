@@ -1,0 +1,3 @@
+# Static host: answer the designer health probe with a plain "disabled"
+# (servers with the real /api/design route never reach this file).
+/api/design/health  /designer-unavailable.json  200
