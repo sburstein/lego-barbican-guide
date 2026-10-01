@@ -55,6 +55,7 @@ netlify api restoreSiteDeploy --data '{"site_id":"67225a16-eab6-4ba7-b136-b5f534
 | `6a7ffb1fc278571ce2db6228` | 2026-08-15 | The August models, as printed in the booklet |
 | `6abe3c122d1a6565a9214cf3` | 2026-10-01 10:55 | The engine repair (September 30 review) |
 | `6abeb1ea5c0cd5453f2b3685` | 2026-10-01 19:19 | v2.0.1 (`b7c7f52`): compiler, designer route, booklets; verified as a draft, then published unchanged |
+| `6abed88720866024552e94b8` | 2026-10-01 22:04 | v2.1.0 (`4b37ef8`): one Barbican design, the Panorama; designer local only |
 
 In git, the August state is tagged `august-2026-booklet`. Releases are
 tagged `vX.Y.Z` on the commit that was deployed.
