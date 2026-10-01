@@ -61,7 +61,8 @@ netlify api restoreSiteDeploy --data '{"site_id":"67225a16-eab6-4ba7-b136-b5f534
 | Deploy | Date (UTC) | What it is |
 |---|---|---|
 | `6a7ffb1fc278571ce2db6228` | 2026-08-15 | The August models, as printed in the booklet |
-| `6abe3c122d1a6565a9214cf3` | 2026-10-01 | The engine repair (September 30 review) |
+| `6abe3c122d1a6565a9214cf3` | 2026-10-01 10:55 | The engine repair (September 30 review) |
+| `6abeb1ea5c0cd5453f2b3685` | 2026-10-01 19:19 | v2.0.1 (`b7c7f52`): compiler, designer route, booklets; verified as a draft, then published unchanged |
 
 In git, the August state is tagged `august-2026-booklet`. Releases are
 tagged `vX.Y.Z` on the commit that was deployed.
