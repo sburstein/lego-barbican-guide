@@ -15,13 +15,15 @@
 // Run: node scripts/generate-manual.mjs [buildId] [--print]
 // ═══════════════════════════════════════════════════════════════════════
 
-import { writeFileSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { modelFor, phaseOrderFor } from "../src/build-models.ts";
 import { FULL_INVENTORY } from "../src/inventory.ts";
 import { ALL_BUILDS } from "../src/builds.ts";
+import { compileDesign } from "../src/design/compile.ts";
+import { designToBuild } from "../src/design/guide.ts";
 import {
   ACCENT, C30, K, SET_COLOR, boundsOf, createSymbols, fitAspect,
   occupancy, painterOrder, sceneSvg as isoScene, useTag as isoUse, vbStr, visible,
@@ -32,7 +34,11 @@ const OUT_DIR = resolve(HERE, "../manual");
 
 const args = process.argv.slice(2);
 const PRINT = args.includes("--print");
-const BUILD_ID = args.find((a) => !a.startsWith("--")) ?? "barbican-panorama";
+// --spec <file.json>: a booklet for any design spec, compiled on the spot
+// (for previewing designs that are not yet approved, and for tests).
+const SPEC_FILE = args.includes("--spec") ? args[args.indexOf("--spec") + 1] : null;
+const SPEC = SPEC_FILE ? JSON.parse(readFileSync(SPEC_FILE, "utf8")) : null;
+const BUILD_ID = SPEC?.id ?? args.find((a, i) => !a.startsWith("--") && args[i - 1] !== "--spec") ?? "barbican-panorama";
 
 // Screen/home-print: exact A4 landscape trim. Professional POD (--print):
 // A4 landscape plus 3.175mm bleed on every edge, per Lulu's spec.
@@ -65,9 +71,22 @@ function partIcon(src) {
 
 // ─── Data ──────────────────────────────────────────────────────────────
 
-const model = modelFor(BUILD_ID);
-const phaseOrder = phaseOrderFor(BUILD_ID);
-const meta = ALL_BUILDS.find((b) => b.id === BUILD_ID);
+let model, phaseOrder, meta;
+if (SPEC) {
+  const compiled = compileDesign(SPEC);
+  if (!compiled.ok) {
+    console.error(`spec does not compile:\n${compiled.errors.join("\n")}`);
+    process.exit(1);
+  }
+  model = compiled.build;
+  phaseOrder = compiled.phaseOrder;
+  meta = designToBuild({ spec: SPEC, subject: SPEC.title, model: "", effort: "", approvedAt: "", runId: "", costUsd: 0,
+    review: { guess: "", quality: 0, fidelity: 0, recognisable: false, verdict: "", strengths: [], issues: [] } }, compiled);
+} else {
+  model = modelFor(BUILD_ID);
+  phaseOrder = phaseOrderFor(BUILD_ID);
+  meta = ALL_BUILDS.find((b) => b.id === BUILD_ID);
+}
 const phaseMeta = new Map((meta?.phases ?? []).map((ph) => [ph.id, ph]));
 
 const allPieces = phaseOrder.flatMap((id) => (model[id] ?? []).flat());

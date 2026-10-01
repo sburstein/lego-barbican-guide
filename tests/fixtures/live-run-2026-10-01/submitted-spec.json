@@ -1,0 +1,2446 @@
+{
+  "id": "barbican-estate",
+  "title": "Barbican Estate",
+  "subtitle": "City of London, 1965-1976",
+  "description": "Chamberlin, Powell and Bon's Brutalist Barbican: three serrated residential towers rise behind a lakeside terrace block crowned by barrel vaults. Everything stands on the raised pedestrian podium.",
+  "concept": "A city within the city, raised on a podium beside the water.",
+  "site": {
+    "w": 32,
+    "d": 20
+  },
+  "elements": [
+    {
+      "id": "lake",
+      "name": "Barbican Lake",
+      "type": "surface",
+      "material": "water",
+      "rects": [
+        {
+          "x": 1,
+          "z": 14,
+          "w": 28,
+          "d": 5
+        }
+      ],
+      "concept": "Water as a soft foil to the concrete.",
+      "about": "The lake runs along the heart of the estate, and the terrace blocks are grouped around it and the gardens. Its still surface reflects the concrete and softens it.",
+      "facts": [
+        "Water features and gardens were planned as a soft visual foil to the concrete.",
+        "The estate was built in 1965-1976 on a site bombed in the Second World War."
+      ]
+    },
+    {
+      "id": "quay",
+      "name": "Lakeside edge",
+      "type": "parts",
+      "concept": "A crisp rim to the water.",
+      "about": "A one-plate rim along the front edge of the lake. It finishes the display and ties the base plates together.",
+      "facts": [
+        "Tip: lay the long plates so that each one spans a joint between base plates."
+      ],
+      "items": [
+        {
+          "kind": "plate",
+          "w": 10,
+          "d": 1,
+          "x": 0,
+          "z": 19,
+          "desc": "quay"
+        },
+        {
+          "kind": "plate",
+          "w": 10,
+          "d": 1,
+          "x": 10,
+          "z": 19,
+          "desc": "quay"
+        },
+        {
+          "kind": "plate",
+          "w": 10,
+          "d": 1,
+          "x": 20,
+          "z": 19,
+          "desc": "quay"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 1,
+          "x": 30,
+          "z": 19,
+          "desc": "quay"
+        }
+      ]
+    },
+    {
+      "id": "podium",
+      "name": "Podium",
+      "type": "podium",
+      "rect": {
+        "x": 0,
+        "z": 0,
+        "w": 32,
+        "d": 13
+      },
+      "levels": 1,
+      "style": "colonnade",
+      "spacing": 3,
+      "concept": "A pedestrian city above the street.",
+      "about": "The podium is the raised deck that links the whole estate and keeps people on foot away from traffic. The towers and terraces rise from it on concrete columns.",
+      "facts": [
+        "Terrace blocks rise up to seven floors above the podium level.",
+        "Most blocks stand on immense cylindrical concrete columns.",
+        "Tip: set the columns first, then bridge the deck plates across them."
+      ]
+    },
+    {
+      "id": "cromwell",
+      "name": "Cromwell Tower",
+      "type": "parts",
+      "concept": "Serrated balconies, floor by floor.",
+      "about": "The westernmost tower, rising from the podium behind the lake. One of the Barbican's three residential towers, which dominate the City skyline at 42 storeys and about 123 m. Their jagged outline comes from balconies that wrap every floor, so the silhouette changes as you walk round.",
+      "facts": [
+        "The towers are triangular in plan, with serrated balcony silhouettes.",
+        "Balcony edges are shaped like a boat hull, which reduces wind resistance.",
+        "The topmost floors hold penthouse flats.",
+        "Tip: turn each balcony slab 90 degrees from the one below to make the sawtooth edge."
+      ],
+      "items": [
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 1,
+          "x": 2,
+          "z": 2,
+          "color": "trans",
+          "desc": "glass entrance lobby"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 1,
+          "x": 4,
+          "z": 2,
+          "color": "trans",
+          "desc": "glass entrance lobby"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 1,
+          "x": 2,
+          "z": 5,
+          "color": "trans",
+          "desc": "glass entrance lobby"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 1,
+          "x": 4,
+          "z": 5,
+          "color": "trans",
+          "desc": "glass entrance lobby"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 2,
+          "x": 2,
+          "z": 3,
+          "color": "trans",
+          "desc": "glass entrance lobby"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 2,
+          "x": 5,
+          "z": 3,
+          "color": "trans",
+          "desc": "glass entrance lobby"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 2,
+          "x": 2,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 2,
+          "x": 2,
+          "z": 4,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 6,
+          "d": 4,
+          "x": 1,
+          "z": 2,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 3,
+          "d": 1,
+          "x": 2,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 3,
+          "x": 5,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 3,
+          "d": 1,
+          "x": 3,
+          "z": 5,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 3,
+          "x": 2,
+          "z": 3,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 3,
+          "x": 2,
+          "z": 1,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 3,
+          "x": 2,
+          "z": 4,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 3,
+          "x": 4,
+          "z": 1,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 3,
+          "x": 4,
+          "z": 4,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 1,
+          "x": 2,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 1,
+          "x": 2,
+          "z": 5,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 2,
+          "x": 2,
+          "z": 3,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 2,
+          "x": 5,
+          "z": 3,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 2,
+          "x": 1,
+          "z": 2,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 2,
+          "x": 1,
+          "z": 4,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 2,
+          "x": 3,
+          "z": 2,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 2,
+          "x": 3,
+          "z": 4,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 2,
+          "x": 5,
+          "z": 2,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 2,
+          "x": 5,
+          "z": 4,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 4,
+          "x": 2,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 4,
+          "x": 4,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 4,
+          "x": 2,
+          "z": 1,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 2,
+          "x": 2,
+          "z": 5,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 2,
+          "x": 3,
+          "z": 1,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 4,
+          "x": 3,
+          "z": 3,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 4,
+          "x": 4,
+          "z": 1,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 2,
+          "x": 4,
+          "z": 5,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 2,
+          "x": 5,
+          "z": 1,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 4,
+          "x": 5,
+          "z": 3,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 1,
+          "x": 2,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 3,
+          "x": 2,
+          "z": 3,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 3,
+          "x": 4,
+          "z": 3,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 4,
+          "x": 1,
+          "z": 2,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 4,
+          "x": 5,
+          "z": 2,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 4,
+          "x": 2,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 4,
+          "x": 5,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 1,
+          "x": 3,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 1,
+          "x": 3,
+          "z": 5,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 2,
+          "x": 2,
+          "z": 1,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 2,
+          "x": 2,
+          "z": 3,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 2,
+          "x": 2,
+          "z": 5,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 2,
+          "x": 2,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 2,
+          "x": 2,
+          "z": 4,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 2,
+          "x": 4,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 2,
+          "x": 4,
+          "z": 4,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 1,
+          "x": 1,
+          "z": 2,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 1,
+          "x": 5,
+          "z": 2,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 1,
+          "x": 1,
+          "z": 3,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 1,
+          "x": 3,
+          "z": 3,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 1,
+          "x": 1,
+          "z": 4,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 1,
+          "x": 5,
+          "z": 4,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 1,
+          "x": 1,
+          "z": 5,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 1,
+          "x": 3,
+          "z": 5,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 3,
+          "x": 2,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 3,
+          "d": 1,
+          "x": 3,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 3,
+          "x": 5,
+          "z": 3,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 3,
+          "d": 1,
+          "x": 2,
+          "z": 5,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 6,
+          "x": 2,
+          "z": 1,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 6,
+          "x": 4,
+          "z": 1,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 1,
+          "x": 2,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 1,
+          "x": 2,
+          "z": 5,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 2,
+          "x": 2,
+          "z": 3,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 2,
+          "x": 5,
+          "z": 3,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 1,
+          "x": 1,
+          "z": 2,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 1,
+          "x": 5,
+          "z": 2,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 1,
+          "x": 1,
+          "z": 3,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 1,
+          "x": 3,
+          "z": 3,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 1,
+          "x": 1,
+          "z": 4,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 1,
+          "x": 5,
+          "z": 4,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 1,
+          "x": 1,
+          "z": 5,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 1,
+          "x": 3,
+          "z": 5,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 2,
+          "x": 2,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 2,
+          "x": 2,
+          "z": 4,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 6,
+          "x": 2,
+          "z": 1,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 6,
+          "x": 4,
+          "z": 1,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 1,
+          "x": 2,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 3,
+          "x": 2,
+          "z": 3,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 3,
+          "x": 4,
+          "z": 3,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 6,
+          "d": 2,
+          "x": 1,
+          "z": 2,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 6,
+          "d": 2,
+          "x": 1,
+          "z": 4,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 4,
+          "x": 2,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 4,
+          "x": 5,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 1,
+          "x": 3,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 1,
+          "x": 3,
+          "z": 5,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 6,
+          "x": 2,
+          "z": 1,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "tile",
+          "w": 1,
+          "d": 6,
+          "x": 2,
+          "z": 1,
+          "desc": "roof"
+        },
+        {
+          "kind": "tile",
+          "w": 1,
+          "d": 6,
+          "x": 5,
+          "z": 1,
+          "desc": "roof"
+        },
+        {
+          "kind": "tile",
+          "w": 1,
+          "d": 2,
+          "x": 3,
+          "z": 1,
+          "desc": "roof"
+        },
+        {
+          "kind": "tile",
+          "w": 1,
+          "d": 2,
+          "x": 4,
+          "z": 1,
+          "desc": "roof"
+        },
+        {
+          "kind": "tile",
+          "w": 1,
+          "d": 2,
+          "x": 3,
+          "z": 5,
+          "desc": "roof"
+        },
+        {
+          "kind": "tile",
+          "w": 1,
+          "d": 2,
+          "x": 4,
+          "z": 5,
+          "desc": "roof"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 2,
+          "x": 3,
+          "z": 3,
+          "desc": "plant room"
+        },
+        {
+          "kind": "tile",
+          "w": 2,
+          "d": 2,
+          "x": 3,
+          "z": 3,
+          "desc": "roof"
+        }
+      ]
+    },
+    {
+      "id": "shakespeare",
+      "name": "Shakespeare Tower",
+      "type": "parts",
+      "concept": "Serrated balconies, floor by floor.",
+      "about": "The tower set furthest back, framed between its two neighbours. One of the Barbican's three residential towers, which dominate the City skyline at 42 storeys and about 123 m. Their jagged outline comes from balconies that wrap every floor, so the silhouette changes as you walk round.",
+      "facts": [
+        "The towers are triangular in plan, with serrated balcony silhouettes.",
+        "Balcony edges are shaped like a boat hull, which reduces wind resistance.",
+        "The topmost floors hold penthouse flats.",
+        "Tip: turn each balcony slab 90 degrees from the one below to make the sawtooth edge."
+      ],
+      "items": [
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 1,
+          "x": 13,
+          "z": 1,
+          "color": "trans",
+          "desc": "glass entrance lobby"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 1,
+          "x": 15,
+          "z": 1,
+          "color": "trans",
+          "desc": "glass entrance lobby"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 1,
+          "x": 13,
+          "z": 4,
+          "color": "trans",
+          "desc": "glass entrance lobby"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 1,
+          "x": 15,
+          "z": 4,
+          "color": "trans",
+          "desc": "glass entrance lobby"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 2,
+          "x": 13,
+          "z": 2,
+          "color": "trans",
+          "desc": "glass entrance lobby"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 2,
+          "x": 16,
+          "z": 2,
+          "color": "trans",
+          "desc": "glass entrance lobby"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 1,
+          "x": 13,
+          "z": 1,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 3,
+          "x": 13,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 3,
+          "x": 15,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 4,
+          "x": 12,
+          "z": 1,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 4,
+          "x": 16,
+          "z": 1,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 4,
+          "x": 13,
+          "z": 1,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 4,
+          "x": 16,
+          "z": 1,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 1,
+          "x": 14,
+          "z": 1,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 1,
+          "x": 14,
+          "z": 4,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 2,
+          "x": 13,
+          "z": 0,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 2,
+          "x": 13,
+          "z": 2,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 2,
+          "x": 13,
+          "z": 4,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 2,
+          "x": 13,
+          "z": 1,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 2,
+          "x": 13,
+          "z": 3,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 3,
+          "d": 1,
+          "x": 12,
+          "z": 1,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 3,
+          "d": 1,
+          "x": 12,
+          "z": 2,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 3,
+          "d": 1,
+          "x": 12,
+          "z": 3,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 3,
+          "d": 1,
+          "x": 12,
+          "z": 4,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 3,
+          "d": 1,
+          "x": 15,
+          "z": 1,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 3,
+          "d": 1,
+          "x": 15,
+          "z": 2,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 3,
+          "d": 1,
+          "x": 15,
+          "z": 3,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 3,
+          "d": 1,
+          "x": 15,
+          "z": 4,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 3,
+          "d": 1,
+          "x": 13,
+          "z": 1,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 3,
+          "x": 16,
+          "z": 1,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 3,
+          "d": 1,
+          "x": 14,
+          "z": 4,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 3,
+          "x": 13,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 6,
+          "x": 13,
+          "z": 0,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 4,
+          "x": 14,
+          "z": 0,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 2,
+          "x": 14,
+          "z": 4,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 2,
+          "x": 15,
+          "z": 0,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 4,
+          "x": 15,
+          "z": 2,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 6,
+          "x": 16,
+          "z": 0,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 1,
+          "x": 13,
+          "z": 1,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 1,
+          "x": 13,
+          "z": 4,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 2,
+          "x": 13,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 2,
+          "x": 16,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 6,
+          "d": 2,
+          "x": 12,
+          "z": 1,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 6,
+          "d": 2,
+          "x": 12,
+          "z": 3,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 4,
+          "x": 13,
+          "z": 1,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 4,
+          "x": 15,
+          "z": 1,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 6,
+          "x": 13,
+          "z": 0,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 6,
+          "x": 14,
+          "z": 0,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 6,
+          "x": 15,
+          "z": 0,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 6,
+          "x": 16,
+          "z": 0,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 3,
+          "x": 13,
+          "z": 1,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 3,
+          "d": 1,
+          "x": 14,
+          "z": 1,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 3,
+          "x": 16,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 3,
+          "d": 1,
+          "x": 13,
+          "z": 4,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 6,
+          "d": 4,
+          "x": 12,
+          "z": 1,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 2,
+          "x": 13,
+          "z": 1,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 2,
+          "x": 13,
+          "z": 3,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 2,
+          "x": 15,
+          "z": 1,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 2,
+          "x": 15,
+          "z": 3,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 3,
+          "x": 13,
+          "z": 0,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 3,
+          "x": 13,
+          "z": 3,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 3,
+          "x": 15,
+          "z": 0,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 3,
+          "x": 15,
+          "z": 3,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 4,
+          "x": 13,
+          "z": 1,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 4,
+          "x": 16,
+          "z": 1,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 1,
+          "x": 14,
+          "z": 1,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 1,
+          "x": 14,
+          "z": 4,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 6,
+          "d": 4,
+          "x": 12,
+          "z": 1,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 2,
+          "x": 13,
+          "z": 1,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 2,
+          "x": 13,
+          "z": 3,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 6,
+          "x": 13,
+          "z": 0,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 3,
+          "d": 1,
+          "x": 13,
+          "z": 1,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 3,
+          "x": 16,
+          "z": 1,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 3,
+          "d": 1,
+          "x": 14,
+          "z": 4,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 3,
+          "x": 13,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 6,
+          "d": 4,
+          "x": 12,
+          "z": 1,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 1,
+          "x": 13,
+          "z": 1,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 1,
+          "x": 13,
+          "z": 4,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 2,
+          "x": 13,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 2,
+          "x": 16,
+          "z": 2,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 6,
+          "x": 13,
+          "z": 0,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "tile",
+          "w": 1,
+          "d": 6,
+          "x": 13,
+          "z": 0,
+          "desc": "roof"
+        },
+        {
+          "kind": "tile",
+          "w": 1,
+          "d": 6,
+          "x": 16,
+          "z": 0,
+          "desc": "roof"
+        },
+        {
+          "kind": "tile",
+          "w": 1,
+          "d": 2,
+          "x": 14,
+          "z": 0,
+          "desc": "roof"
+        },
+        {
+          "kind": "tile",
+          "w": 1,
+          "d": 2,
+          "x": 15,
+          "z": 0,
+          "desc": "roof"
+        },
+        {
+          "kind": "tile",
+          "w": 1,
+          "d": 2,
+          "x": 14,
+          "z": 4,
+          "desc": "roof"
+        },
+        {
+          "kind": "tile",
+          "w": 1,
+          "d": 2,
+          "x": 15,
+          "z": 4,
+          "desc": "roof"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 2,
+          "x": 14,
+          "z": 2,
+          "desc": "plant room"
+        },
+        {
+          "kind": "tile",
+          "w": 2,
+          "d": 2,
+          "x": 14,
+          "z": 2,
+          "desc": "roof"
+        }
+      ]
+    },
+    {
+      "id": "lauderdale",
+      "name": "Lauderdale Tower",
+      "type": "parts",
+      "concept": "Serrated balconies, floor by floor.",
+      "about": "The tower standing at the end of the lake, clear of the terraces. One of the Barbican's three residential towers, which dominate the City skyline at 42 storeys and about 123 m. Their jagged outline comes from balconies that wrap every floor, so the silhouette changes as you walk round.",
+      "facts": [
+        "The towers are triangular in plan, with serrated balcony silhouettes.",
+        "Balcony edges are shaped like a boat hull, which reduces wind resistance.",
+        "The topmost floors hold penthouse flats.",
+        "Tip: turn each balcony slab 90 degrees from the one below to make the sawtooth edge."
+      ],
+      "items": [
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 1,
+          "x": 26,
+          "z": 6,
+          "color": "trans",
+          "desc": "glass entrance lobby"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 1,
+          "x": 28,
+          "z": 6,
+          "color": "trans",
+          "desc": "glass entrance lobby"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 1,
+          "x": 26,
+          "z": 9,
+          "color": "trans",
+          "desc": "glass entrance lobby"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 1,
+          "x": 28,
+          "z": 9,
+          "color": "trans",
+          "desc": "glass entrance lobby"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 2,
+          "x": 26,
+          "z": 7,
+          "color": "trans",
+          "desc": "glass entrance lobby"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 2,
+          "x": 29,
+          "z": 7,
+          "color": "trans",
+          "desc": "glass entrance lobby"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 1,
+          "x": 26,
+          "z": 6,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 1,
+          "x": 26,
+          "z": 9,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 2,
+          "x": 26,
+          "z": 7,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 2,
+          "x": 29,
+          "z": 7,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 6,
+          "d": 2,
+          "x": 25,
+          "z": 6,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 6,
+          "d": 2,
+          "x": 25,
+          "z": 8,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 4,
+          "x": 26,
+          "z": 6,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 4,
+          "x": 28,
+          "z": 6,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 6,
+          "x": 26,
+          "z": 5,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 6,
+          "x": 27,
+          "z": 5,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 6,
+          "x": 28,
+          "z": 5,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 6,
+          "x": 29,
+          "z": 5,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 1,
+          "x": 26,
+          "z": 6,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 3,
+          "x": 26,
+          "z": 7,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 3,
+          "x": 28,
+          "z": 7,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 2,
+          "x": 25,
+          "z": 6,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 2,
+          "x": 25,
+          "z": 8,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 2,
+          "x": 29,
+          "z": 6,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 2,
+          "x": 29,
+          "z": 8,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 4,
+          "x": 27,
+          "z": 6,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 4,
+          "x": 28,
+          "z": 6,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 3,
+          "x": 26,
+          "z": 6,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 3,
+          "d": 1,
+          "x": 27,
+          "z": 6,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 3,
+          "x": 29,
+          "z": 7,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 3,
+          "d": 1,
+          "x": 26,
+          "z": 9,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 6,
+          "x": 26,
+          "z": 5,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 2,
+          "x": 26,
+          "z": 6,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 2,
+          "x": 26,
+          "z": 8,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 3,
+          "d": 2,
+          "x": 25,
+          "z": 6,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 3,
+          "d": 2,
+          "x": 28,
+          "z": 6,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 3,
+          "d": 2,
+          "x": 25,
+          "z": 8,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 3,
+          "d": 2,
+          "x": 28,
+          "z": 8,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 4,
+          "x": 26,
+          "z": 6,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 4,
+          "x": 29,
+          "z": 6,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 1,
+          "x": 27,
+          "z": 6,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 1,
+          "x": 27,
+          "z": 9,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 3,
+          "x": 26,
+          "z": 5,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 3,
+          "x": 27,
+          "z": 5,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 3,
+          "x": 28,
+          "z": 5,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 3,
+          "x": 29,
+          "z": 5,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 3,
+          "x": 26,
+          "z": 8,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 3,
+          "x": 27,
+          "z": 8,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 3,
+          "x": 28,
+          "z": 8,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 1,
+          "d": 3,
+          "x": 29,
+          "z": 8,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 3,
+          "d": 1,
+          "x": 26,
+          "z": 6,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 3,
+          "x": 29,
+          "z": 6,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 3,
+          "d": 1,
+          "x": 27,
+          "z": 9,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 3,
+          "x": 26,
+          "z": 7,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 4,
+          "x": 25,
+          "z": 6,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 4,
+          "x": 29,
+          "z": 6,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 1,
+          "x": 26,
+          "z": 6,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 1,
+          "x": 26,
+          "z": 9,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 2,
+          "x": 26,
+          "z": 7,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 2,
+          "x": 29,
+          "z": 7,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 2,
+          "x": 26,
+          "z": 5,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 2,
+          "x": 26,
+          "z": 7,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 2,
+          "x": 26,
+          "z": 9,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 2,
+          "x": 26,
+          "z": 6,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 2,
+          "x": 26,
+          "z": 8,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 2,
+          "x": 28,
+          "z": 6,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 2,
+          "x": 28,
+          "z": 8,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 4,
+          "x": 25,
+          "z": 6,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 4,
+          "x": 29,
+          "z": 6,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 4,
+          "x": 26,
+          "z": 6,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 4,
+          "x": 28,
+          "z": 6,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 4,
+          "x": 26,
+          "z": 5,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 2,
+          "x": 26,
+          "z": 9,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 4,
+          "d": 1,
+          "x": 26,
+          "z": 6,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 3,
+          "x": 26,
+          "z": 7,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 3,
+          "x": 28,
+          "z": 7,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 4,
+          "x": 25,
+          "z": 6,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "plate",
+          "w": 2,
+          "d": 4,
+          "x": 29,
+          "z": 6,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 4,
+          "x": 26,
+          "z": 6,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 1,
+          "d": 4,
+          "x": 29,
+          "z": 6,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 1,
+          "x": 27,
+          "z": 6,
+          "desc": "core"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 1,
+          "x": 27,
+          "z": 9,
+          "desc": "core"
+        },
+        {
+          "kind": "plate",
+          "w": 4,
+          "d": 6,
+          "x": 26,
+          "z": 5,
+          "desc": "balcony slab"
+        },
+        {
+          "kind": "tile",
+          "w": 1,
+          "d": 6,
+          "x": 26,
+          "z": 5,
+          "desc": "roof"
+        },
+        {
+          "kind": "tile",
+          "w": 1,
+          "d": 6,
+          "x": 29,
+          "z": 5,
+          "desc": "roof"
+        },
+        {
+          "kind": "tile",
+          "w": 1,
+          "d": 2,
+          "x": 27,
+          "z": 5,
+          "desc": "roof"
+        },
+        {
+          "kind": "tile",
+          "w": 1,
+          "d": 2,
+          "x": 28,
+          "z": 5,
+          "desc": "roof"
+        },
+        {
+          "kind": "tile",
+          "w": 1,
+          "d": 2,
+          "x": 27,
+          "z": 9,
+          "desc": "roof"
+        },
+        {
+          "kind": "tile",
+          "w": 1,
+          "d": 2,
+          "x": 28,
+          "z": 9,
+          "desc": "roof"
+        },
+        {
+          "kind": "brick",
+          "w": 2,
+          "d": 2,
+          "x": 27,
+          "z": 7,
+          "desc": "plant room"
+        },
+        {
+          "kind": "tile",
+          "w": 2,
+          "d": 2,
+          "x": 27,
+          "z": 7,
+          "desc": "roof"
+        }
+      ]
+    },
+    {
+      "id": "terrace",
+      "name": "Terrace block",
+      "type": "block",
+      "rect": {
+        "x": 2,
+        "z": 9,
+        "w": 18,
+        "d": 4
+      },
+      "levels": 4,
+      "pilotis": true,
+      "facade": {
+        "S": "glass",
+        "N": "solid",
+        "E": "solid",
+        "W": "solid"
+      },
+      "balconies": [
+        "S",
+        "N"
+      ],
+      "bands": true,
+      "roof": {
+        "type": "vaults",
+        "axis": "ns",
+        "count": 3,
+        "rows": 2
+      },
+      "concept": "Horizontal balconies under a rhythm of vaults.",
+      "about": "A long terrace block facing the lake, lifted on columns, with deep balcony bands running its whole length. Its top floor of penthouses is roofed by white barrel vaults, the estate's signature skyline.",
+      "facts": [
+        "There are 13 seven-storey terrace blocks, all topped with white barrel-vaulted roofs.",
+        "The vaulted penthouses show the architects' Italian influences.",
+        "Tip: the curved slopes pair up into arches that face the lake."
+      ]
+    }
+  ]
+}

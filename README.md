@@ -26,7 +26,9 @@ Beyond the hand-built models, Claude Opus 5.5 (xhigh effort) can design new
 architectural models for the same set. The pieces are split:
 
 - **Spec:** the model writes an architectural spec (`src/design/spec.ts`):
-  site, water, podiums, blocks with facades and balconies, roofs, trees.
+  site, water, podiums, blocks with facades and balconies, triangular or
+  square towers with serrated balconies, roofs (including vaults and small
+  scalloped vaults), trees.
 - **Compiler:** a deterministic compiler (`src/design/compile.ts`) turns it
   into bricks drawn from one 21050 box. It reports any shortage by part and
   count, and the engine validator checks physics, connectivity and build
@@ -79,7 +81,7 @@ node scripts/validate-geometry.mjs             # physics + build-order + guide s
 node audit.mjs                                 # piece usage vs. the set inventory
 npm test                                       # renderer agreement + validator regressions
 node scripts/gen-builds.mjs                    # regenerate builds.ts step text
-node scripts/generate-manual.mjs <build-id>    # print-ready HTML booklet
+node scripts/generate-manual.mjs <build-id>    # print-ready HTML booklet (or --spec file.json)
 node scripts/render-views.mjs <build-id>       # four-side review render (PNG)
 node scripts/harness.mjs api                   # one real Opus 5.5 call (about a cent)
 npm run build                                  # typecheck, booklets (HTML + PDF), bundle

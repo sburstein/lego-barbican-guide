@@ -178,3 +178,28 @@ historical record of what was built.
   compiler (including shortages), every designer loop exit with a scripted
   client, and the HTTP route.
 
+## Offline geometry from the first live review (2026-10-02)
+
+The first real design run reached the review gate. The blind reviewer named
+the Barbican but scored 5/10 and listed fixes. Before any further paid runs,
+the compiler gained the vocabulary those fixes need. All of it is checked
+offline; DESIGNER-STATUS.md has the details and the live checks still owed.
+
+- **`tower` element:** a triangular (rasterised equilateral) or square plan,
+  with walls laid course by course. Each course is the best of a hollow ring
+  or a solid course, scanned by rows or columns, so a stepped edge no longer
+  burns 1×1 bricks. Balcony slabs serrate N/S then E/W, and an optional
+  crown of fins leans outward.
+- **Roof `scallops`:** a fine rhythm of small vaults.
+- **Podium `parapet`:** railing panels along the free deck edges.
+- **Stranded plates:** slabs are re-tiled locally, then by an exact cover
+  search that settles the most constrained cell first, so cantilevered
+  balcony corners always grip something. Compiles stay fast; the review-led
+  fixture compiles in about 0.25 s.
+- **Ground ties:** surfaces on the ground weigh spanning the base plates'
+  joints above part size, so paved strips no longer leave base plates loose.
+- **Booklets for unapproved designs:** `generate-manual --spec` prints any
+  design for review, and it is tested.
+- **Tests:** 71, including renderer agreement on compiled fixtures and the
+  live run's reviewed spec as a regression fixture.
+

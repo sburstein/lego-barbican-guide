@@ -1,0 +1,16 @@
+{
+  "status": "failed",
+  "subject": "the Barbican Estate, City of London (Chamberlin, Powell and Bon): the three triangular towers with serrated balconies, the terrace blocks with barrel-vaulted roofs over the lake, the podium",
+  "cost": {
+    "usd": 9.26,
+    "tokens": {
+      "input": 80,
+      "output": 221765,
+      "cacheWrite": 586965,
+      "cacheRead": 4680340,
+      "searches": 2
+    }
+  },
+  "seconds": 2420,
+  "reason": "API error: {\"type\":\"error\",\"error\":{\"details\":null,\"type\":\"invalid_request_error\",\"message\":\"Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.\"},\"request_id\":\"req_011Cfc3QqFXkh4Pq7MkLbWqP\"}"
+}

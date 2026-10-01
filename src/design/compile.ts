@@ -24,6 +24,7 @@ import {
 import { components, connectionGraph, validateBuild } from "../engine/validate.ts";
 import { FULL_INVENTORY } from "../inventory.ts";
 import { checkSpec, type DesignSpec, type Element, type Facade, type Rect, type Roof, type Side, type Tint } from "./spec.ts";
+import { boundary, cellSet, dilate, DIR, key as ckey, planCells, runs, type Cell } from "./footprint.ts";
 
 export type CompiledPhase = {
   id: string;
@@ -197,7 +198,7 @@ class Ctx {
    * Larger parts first; among equals, parts that span joints in the layer
    * below (ties) and parts that have studs to grip win.
    */
-  planTiles(cells: [number, number][], layer: number, family: "plate" | "tile", color: ColorKey): { plan: Cand[]; missing: [number, number][]; blocked: [number, number][] } {
+  planTiles(cells: [number, number][], layer: number, family: "plate" | "tile" | "brick", color: ColorKey, colMajor = false): { plan: Cand[]; missing: [number, number][]; blocked: [number, number][] } {
     // cells something else already fills are reported, not tiled
     const blocked = cells.filter(([x, z]) => !this.freeAt(x, z, layer));
     const region = new Set(cells.filter(([x, z]) => this.freeAt(x, z, layer)).map(([x, z]) => k2(x, z)));
@@ -212,7 +213,7 @@ class Ctx {
       if (def.W !== def.D) sizes.push({ kind: def.kind, w: def.D, d: def.W, pn });
     }
     sizes.sort((a, b) => b.w * b.d - a.w * a.d || Math.min(b.w, b.d) - Math.min(a.w, a.d));
-    const order = cells.filter(([x, z]) => region.has(k2(x, z))).sort((a, b) => a[1] - b[1] || a[0] - b[0]);
+    const order = cells.filter(([x, z]) => region.has(k2(x, z))).sort((a, b) => (colMajor ? a[0] - b[0] || a[1] - b[1] : a[1] - b[1] || a[0] - b[0]));
     const plan: Cand[] = [];
     const missing: [number, number][] = [];
     for (const [x, z] of order) {
@@ -233,7 +234,10 @@ class Ctx {
             if (t && t.layer === layer) below.add(t.p);
           }
         if (!ok) continue;
-        const score = s.w * s.d * 4 + (below.size - 1) * 3 + (support > 0 || layer === 0 ? 0 : -400);
+        // On the ground layer, spanning the base plates' joints is what holds
+        // the site together, so it outweighs part size there.
+        const tieWeight = layer === 1 ? 20 : 3;
+        const score = s.w * s.d * 4 + (below.size - 1) * tieWeight + (support > 0 || layer === 0 ? 0 : -400);
         if (score > bestScore) {
           bestScore = score;
           best = { kind: s.kind, w: s.w, d: s.d, x, z, pn: s.pn, supported: support > 0 || layer === 0 };
@@ -248,48 +252,99 @@ class Ctx {
       reserved.set(best.pn, (reserved.get(best.pn) ?? 0) + 1);
       for (let i = 0; i < best.w; i++) for (let j = 0; j < best.d; j++) covered.add(k2(x + i, z + j));
     }
-    // Greedy can strand a plate where nothing holds it (a balcony row tiled
-    // on its own). For small areas, search for a cover where every plate
-    // grips something, fewest plates first.
-    if (layer > 0 && region.size <= 48 && plan.some((c) => !c.supported)) {
+    // Greedy can strand a plate where nothing holds it (a balcony corner
+    // tiled on its own). First repair locally: re-tile the stranded plate
+    // with its neighbours so that every plate grips something.
+    for (let guard = 0; layer > 0 && guard < 40; guard++) {
+      const bad = plan.find((c) => !c.supported);
+      if (!bad) break;
+      const touches = (a: Cand, b: Cand) => a.x <= b.x + b.w && b.x <= a.x + a.w && a.z <= b.z + b.d && b.z <= a.z + a.d &&
+        !((a.x === b.x + b.w || b.x === a.x + a.w) && (a.z === b.z + b.d || b.z === a.z + a.d)); // edge contact, not corner
+      let group = [bad, ...plan.filter((c) => c !== bad && touches(bad, c))];
+      let fix: Cand[] | null = null;
+      for (let ring = 0; ring < 2 && !fix; ring++) {
+        const cellsOf = group.flatMap((c) => Array.from({ length: c.w * c.d }, (_, i) => [c.x + (i % c.w), c.z + Math.floor(i / c.w)] as [number, number]));
+        if (cellsOf.length <= 32) fix = this.exactSupported(cellsOf, layer, sizes);
+        if (!fix) group = [...new Set([...group, ...plan.filter((c) => !group.includes(c) && group.some((g) => touches(g, c)))])];
+      }
+      if (!fix) break;
+      for (const g of group) {
+        const i = plan.indexOf(g);
+        if (i >= 0) { plan.splice(i, 1); reserved.set(g.pn, (reserved.get(g.pn) ?? 1) - 1); }
+      }
+      for (const f of fix) { plan.push(f); reserved.set(f.pn, (reserved.get(f.pn) ?? 0) + 1); }
+    }
+    // Still stranded: for small areas, search the whole cover.
+    if (layer > 0 && region.size <= 64 && plan.some((c) => !c.supported)) {
       const exact = this.exactSupported([...region].map((k) => k.split(",").map(Number) as [number, number]), layer, sizes);
       if (exact) return { plan: exact, missing: [], blocked };
     }
     return { plan, missing, blocked };
   }
 
-  /** Bounded exact search for a cover in which every plate is supported. */
+  /**
+   * Bounded exact search for a cover in which every plate is supported.
+   * Most-constrained cell first: the cell with the fewest plates that could
+   * cover it is decided next, so awkward corners are settled early.
+   */
   exactSupported(cells: [number, number][], layer: number, sizes: { kind: PartKind; w: number; d: number; pn: string }[]): Cand[] | null {
     const region = new Set(cells.map(([x, z]) => k2(x, z)));
-    const order = [...cells].sort((a, b) => a[1] - b[1] || a[0] - b[0]);
     const covered = new Set<string>();
     const used = new Map<string, number>();
     const cur: Cand[] = [];
     let best: Cand[] | null = null;
     let nodes = 0;
-    const go = () => {
-      if (++nodes > 40000 || (best && cur.length >= best.length)) return;
-      const next = order.find(([x, z]) => !covered.has(k2(x, z)));
-      if (!next) { best = [...cur]; return; }
-      const [x, z] = next;
-      for (const s of sizes) {
-        if (this.left(s.pn) - (used.get(s.pn) ?? 0) <= 0) continue;
-        let ok = true, support = 0;
-        for (let i = 0; i < s.w && ok; i++)
-          for (let j = 0; j < s.d && ok; j++) {
-            const key = k2(x + i, z + j);
-            if (!region.has(key) || covered.has(key)) ok = false;
-            else if (this.studAt(x + i, z + j, layer)) support++;
+    // every legal placement (inside the region, gripping something), built
+    // once and indexed by the cells it covers
+    const xs = cells.map((c) => c[0]), zs = cells.map((c) => c[1]);
+    const [x0, x1, z0, z1] = [Math.min(...xs), Math.max(...xs), Math.min(...zs), Math.max(...zs)];
+    const byCell = new Map<string, { c: Cand; keys: string[] }[]>();
+    for (const s of sizes) {
+      if (s.w > x1 - x0 + 1 || s.d > z1 - z0 + 1 || this.left(s.pn) <= 0) continue;
+      for (let ax = x0; ax + s.w - 1 <= x1; ax++)
+        for (let az = z0; az + s.d - 1 <= z1; az++) {
+          const keys: string[] = [];
+          let support = 0, ok = true;
+          for (let a = 0; a < s.w && ok; a++)
+            for (let b = 0; b < s.d; b++) {
+              const k = k2(ax + a, az + b);
+              if (!region.has(k)) { ok = false; break; }
+              keys.push(k);
+              if (this.studAt(ax + a, az + b, layer)) support++;
+            }
+          if (!ok || support === 0) continue;
+          const entry = { c: { kind: s.kind, w: s.w, d: s.d, x: ax, z: az, pn: s.pn, supported: true } as Cand, keys };
+          for (const k of keys) {
+            if (!byCell.has(k)) byCell.set(k, []);
+            byCell.get(k)!.push(entry);
           }
-        if (!ok || support === 0) continue;
-        const cand: Cand = { kind: s.kind, w: s.w, d: s.d, x, z, pn: s.pn, supported: true };
-        for (let i = 0; i < s.w; i++) for (let j = 0; j < s.d; j++) covered.add(k2(x + i, z + j));
-        used.set(s.pn, (used.get(s.pn) ?? 0) + 1);
-        cur.push(cand);
+        }
+    }
+    for (const list of byCell.values()) list.sort((p, q) => q.c.w * q.c.d - p.c.w * p.c.d);
+    const options = (x: number, z: number): Cand[] =>
+      (byCell.get(k2(x, z)) ?? [])
+        .filter((e) => this.left(e.c.pn) - (used.get(e.c.pn) ?? 0) > 0 && e.keys.every((k) => !covered.has(k)))
+        .map((e) => e.c);
+    const go = () => {
+      if (++nodes > 5000 || (best && cur.length >= best.length)) return;
+      let pick: Cand[] | null = null;
+      for (const [x, z] of cells) {
+        if (covered.has(k2(x, z))) continue;
+        const o = options(x, z);
+        if (!o.length) return; // dead end
+        if (!pick || o.length < pick.length) pick = o;
+        if (pick.length === 1) break;
+      }
+      if (!pick) { best = [...cur]; return; }
+      for (const c of pick) {
+        for (let i = 0; i < c.w; i++) for (let j = 0; j < c.d; j++) covered.add(k2(c.x + i, c.z + j));
+        used.set(c.pn, (used.get(c.pn) ?? 0) + 1);
+        cur.push(c);
         go();
         cur.pop();
-        used.set(s.pn, used.get(s.pn)! - 1);
-        for (let i = 0; i < s.w; i++) for (let j = 0; j < s.d; j++) covered.delete(k2(x + i, z + j));
+        used.set(c.pn, used.get(c.pn)! - 1);
+        for (let i = 0; i < c.w; i++) for (let j = 0; j < c.d; j++) covered.delete(k2(c.x + i, c.z + j));
+        if (nodes > 5000) return;
       }
     };
     go();
@@ -524,7 +579,11 @@ function columnRing(r: Rect, spacing: number): [number, number][] {
  * placed before them (in the current step).
  */
 function band(ctx: Ctx, area: Rect, layer: number, color: ColorKey, desc: string, supportFrom: number | null, stepTitle: string) {
-  const { plan, missing, blocked } = ctx.planTiles(rectCells(area), layer, "plate", color);
+  bandCells(ctx, rectCells(area), layer, color, desc, supportFrom, stepTitle);
+}
+
+function bandCells(ctx: Ctx, cells: [number, number][], layer: number, color: ColorKey, desc: string, supportFrom: number | null, stepTitle: string) {
+  const { plan, missing, blocked } = ctx.planTiles(cells, layer, "plate", color);
   if (blocked.length) {
     const other = ctx.occ.get(k3(blocked[0][0], blocked[0][1], layer));
     ctx.errors.push(`${desc}: ${blocked.length} cells at layer ${layer} are already taken${other ? ` by ${other.info.description}` : ""} (first at ${blocked[0][0]},${blocked[0][1]})`);
@@ -599,6 +658,19 @@ function roof(ctx: Ctx, el: Extract<Element, { type: "block" }>, wr: Rect, top: 
           ctx.put("curvedSlope", 1, 3, x, z0 + 6 * v + 3, layer, color, `${name} vault`, "S");
         }
     }
+    return;
+  }
+  if (r.type === "scallops") {
+    // a fine vault rhythm: one curved-top hump every 2 studs, humps leaning
+    // outward from the middle so the roofline reads symmetric
+    ctx.step(`${name}: scalloped roof`);
+    const n = Math.floor(wr.w / 2);
+    if (n < 1) return void ctx.errors.push(`${name}: scallops need walls at least 2 studs long`);
+    const x0 = wr.x + Math.floor((wr.w - 2 * n) / 2);
+    const rows = r.edges === "both" && wr.d > 1 ? [wr.z + wr.d - 1, wr.z] : [wr.z + wr.d - 1];
+    for (const z of rows)
+      for (let i = 0; i < n; i++)
+        ctx.put("curvedTop", 2, 1, x0 + 2 * i, z, layer, color, `${name} scallop`, i < n / 2 ? "W" : "E");
     return;
   }
   if (r.type === "rounded") {
@@ -693,6 +765,127 @@ function compileBlock(ctx: Ctx, el: Extract<Element, { type: "block" }>) {
     lastBand = wr;
   }
   roof(ctx, el, wr, lastBand, topLayer);
+}
+
+/**
+ * Lay a course over arbitrary wall cells. Plain courses are tiled as an area
+ * with the largest bricks that fit (2-wide at the steps of a stepped edge),
+ * preferring bricks that span the joints below; glazed courses and anything
+ * the area tiler leaves go in straight runs, direction alternating by course.
+ */
+function courseCells(ctx: Ctx, cells: Cell[], layer: number, parity: number, color: ColorKey, desc: string, prev: Map<string, Set<string>>, glass = false, solid: Cell[] | null = null) {
+  const made = new Map<string, Set<string>>([["x", new Set()], ["z", new Set()]]);
+  if (!glass) {
+    // try the ring and the solid course, scanning by rows and by columns;
+    // keep the cover with the fewest 1×1 bricks, then the fewest parts
+    const options = [cells, ...(solid ? [solid] : [])].flatMap((area) => [false, true].map((col) => ({ area, ...ctx.planTiles(area, layer, "brick", color, col) })));
+    const cost = (o: (typeof options)[number]) => o.plan.filter((c) => c.w * c.d === 1).length * 10 + o.missing.length * 10 + o.plan.length;
+    options.sort((a, b) => cost(a) - cost(b));
+    const best = options[0];
+    cells = best.area;
+    const { plan, missing } = best;
+    // keep 1×1s for where nothing else fits: drop single-cell bricks from the plan
+    const keep = plan.filter((c) => c.w * c.d > 1);
+    ctx.commit(keep, layer, color, desc);
+    const done = new Set(keep.flatMap((c) => Array.from({ length: c.w * c.d }, (_, i) => ckey(c.x + (i % c.w), c.z + Math.floor(i / c.w)))));
+    cells = cells.filter(([x, z]) => !done.has(ckey(x, z)));
+    void missing;
+  }
+  for (const run of runs(cells, parity % 2 === 0 ? "x" : "z")) {
+    const ax = run.axis;
+    const fixed = ax === "x" ? run.cells[0][1] : run.cells[0][0];
+    if (glass) {
+      for (let i = 0; i + 1 < run.cells.length; i += 2) {
+        const [x, z] = run.cells[i];
+        ctx.put("brick", ax === "x" ? 2 : 1, ax === "x" ? 1 : 2, x, z, layer, "trans", `${desc} glazing`);
+      }
+      if (run.cells.length % 2) {
+        const [x, z] = run.cells[run.cells.length - 1];
+        ctx.oneByOne(x, z, layer, color, desc);
+      }
+      continue;
+    }
+    // joints of the course below on this same line are avoided
+    const forbidden = new Set<number>();
+    for (const k of prev.get(ax) ?? []) {
+      const [x, z] = k.split(",").map(Number);
+      if ((ax === "x" ? z : x) === fixed) forbidden.add(ax === "x" ? x : z);
+    }
+    for (const j of ctx.fillRun(run.cells, ax, layer, color, desc, forbidden))
+      made.get(ax)!.add(ax === "x" ? ckey(j, fixed) : ckey(fixed, j));
+  }
+  return made;
+}
+
+/** Steep-slope fins standing round the edge of a top slab, every other stud. */
+function crownFins(ctx: Ctx, area: Cell[], layer: number, color: ColorKey, name: string) {
+  ctx.step(`${name}: crown`);
+  const inArea = cellSet(area);
+  const cx = area.reduce((s, c) => s + c[0], 0) / area.length;
+  const cz = area.reduce((s, c) => s + c[1], 0) / area.length;
+  const edge = boundary(area).sort((a, b) => Math.atan2(a[1] - cz, a[0] - cx) - Math.atan2(b[1] - cz, b[0] - cx));
+  const taken = new Set<string>();
+  let placed = 0, skip = false;
+  for (const b of edge) {
+    if (skip) { skip = false; continue; }
+    // face the open side that points most directly away from the centre
+    const away = [b[0] + 0.5 - cx - 0.5, b[1] + 0.5 - cz - 0.5];
+    const sides = (["N", "S", "E", "W"] as Side[])
+      .filter((sd) => DIR[sd][0] * away[0] + DIR[sd][1] * away[1] > 0)
+      .sort((p, q) => DIR[q][0] * away[0] + DIR[q][1] * away[1] - (DIR[p][0] * away[0] + DIR[p][1] * away[1]));
+    for (const side of sides) {
+      const [dx, dz] = DIR[side];
+      if (inArea.has(ckey(b[0] + dx, b[1] + dz))) continue; // not an outward face
+      const back: Cell = [b[0] - dx, b[1] - dz];
+      if (!inArea.has(ckey(...back)) || taken.has(ckey(...b)) || taken.has(ckey(...back))) continue;
+      if (!ctx.freeAt(b[0], b[1], layer, 9) || !ctx.freeAt(back[0], back[1], layer, 9)) continue;
+      if (!ctx.studAt(b[0], b[1], layer) && !ctx.studAt(back[0], back[1], layer)) continue;
+      const tall = placed % 2 === 0;
+      const kind: PartKind = tall && ctx.left("4460b") > 0 ? "steepSlope3" : ctx.left("60481") > 0 ? "steepSlope2" : ctx.left("4460b") > 0 ? "steepSlope3" : "brick";
+      if (kind === "brick") { ctx.warnings.push(`${name}: the set's steep slopes ran out after ${placed} crown fins`); return; }
+      const x = Math.min(b[0], back[0]), z = Math.min(b[1], back[1]);
+      const p = ctx.put(kind, dx ? 2 : 1, dz ? 2 : 1, x, z, layer, color, `${name} crown fin`, side);
+      if (p) { taken.add(ckey(...b)); taken.add(ckey(...back)); placed++; skip = true; }
+      break;
+    }
+  }
+}
+
+function compileTower(ctx: Ctx, el: Extract<Element, { type: "tower" }>) {
+  const core = planCells(el.plan, el.size, el.point ?? "N", el.at[0], el.at[1]);
+  const off = core.find(([x, z]) => !ctx.inSite(x, z));
+  if (off) return void ctx.errors.push(`${el.name}: the plan runs off the site at ${off[0]},${off[1]}`);
+  const heights = new Set(core.map(([x, z]) => ctx.heightAt(x, z)));
+  if (heights.size > 1) return void ctx.errors.push(`${el.name}: the ground under the tower is uneven (layers ${[...heights].sort((a, b) => a - b).join(", ")}); give it one surface`);
+  const base = [...heights][0];
+  const color = tintColor(el.tint);
+  const bandColor = tintColor(el.bandTint ?? el.tint);
+  const balconies = el.balconies !== false;
+  const serrate = el.serrate !== false;
+  const edge = boundary(core);
+  const hollow = edge.length < core.length;
+  const walls = hollow ? edge : core;
+  const courses = el.courses ?? 1;
+  const levelH = 3 * courses + 1;
+  let prev = new Map<string, Set<string>>();
+  let area: Cell[] = core;
+  for (let k = 0; k < el.levels; k++) {
+    const L = base + levelH * k;
+    ctx.step(el.levels > 1 ? `${el.name}: level ${k + 1} walls` : `${el.name}: walls`);
+    for (let c = 0; c < courses; c++)
+      prev = courseCells(ctx, walls, L + 3 * c, k * courses + c, color, `${el.name} wall`, prev, k === 0 && c === 0 && !!el.lobby, hollow ? core : null);
+    const sides: Side[] = !balconies ? [] : !serrate ? ["N", "S", "E", "W"] : k % 2 === 0 ? ["N", "S"] : ["E", "W"];
+    area = dilate(core, sides).filter(([x, z]) => ctx.inSite(x, z));
+    bandCells(ctx, area, L + 3 * courses, bandColor, `${el.name} balcony slab`, L, el.levels > 1 ? `${el.name}: level ${k + 1} balcony slab` : `${el.name}: slab`);
+  }
+  const top = base + levelH * el.levels;
+  if (el.crown === "fins") crownFins(ctx, area, top, color, el.name);
+  else if (el.crown === "tiles") {
+    ctx.step(`${el.name}: roof tiles`);
+    const { plan, missing } = ctx.planTiles(area, top, "tile", bandColor);
+    ctx.commit(plan, top, bandColor, `${el.name} roof tiles`);
+    if (missing.length) ctx.warnings.push(`${el.name}: tiles ran out, so ${missing.length} roof cells keep their studs`);
+  }
 }
 
 function compilePodium(ctx: Ctx, el: Extract<Element, { type: "podium" }>) {
@@ -849,6 +1042,7 @@ function compileParts(ctx: Ctx, el: Extract<Element, { type: "parts" }>) {
  */
 function finishing(ctx: Ctx, spec: DesignSpec, phases: CompiledPhase[]) {
   const targets: { name: string; cells: [number, number][] }[] = [];
+  const parapets = spec.elements.filter((el): el is Extract<Element, { type: "podium" }> => el.type === "podium" && !!el.parapet);
   for (const el of spec.elements) {
     if (el.type !== "podium" || el.finish !== "tiles") continue;
     const deck = ctx.pieces.filter((p) => p.info.description === `${el.name} deck`);
@@ -865,12 +1059,15 @@ function finishing(ctx: Ctx, spec: DesignSpec, phases: CompiledPhase[]) {
       for (let x = 0; x < spec.site.w; x++) if (ctx.heightAt(x, z) === 1) cells.push([x, z]);
     targets.push({ name: "Site", cells });
   }
-  if (!targets.length) return;
+  if (!targets.length && !parapets.length) return;
   const id = `${spec.id}-finish`;
   phases.push({ id, elementId: "finish", type: "parts", name: "Finishing", concept: "Smooth surfaces",
     about: "Official LEGO Architecture sets hide most studs on their ground and decks; tiles make the model read as architecture rather than toy." });
   ctx.beginPhase(id, ["Slide each tile on squarely; a tile seated half a stud off will lift its neighbours."]);
+  for (const el of parapets) parapet(ctx, el);
   for (const t of targets) {
+    // recompute: a parapet may now stand on some of these cells
+    t.cells = t.cells.filter(([x, z]) => ctx.top.get(k2(x, z))?.stud);
     if (!t.cells.length) continue;
     const layer = ctx.heightAt(t.cells[0][0], t.cells[0][1]);
     const same = t.cells.filter(([x, z]) => ctx.heightAt(x, z) === layer);
@@ -879,6 +1076,50 @@ function finishing(ctx: Ctx, spec: DesignSpec, phases: CompiledPhase[]) {
     ctx.commit(plan, layer, "white", `${t.name} finish`);
     if (missing.length) ctx.warnings.push(`${t.name}: tiles ran out, so ${missing.length} of ${same.length} cells keep their studs`);
   }
+}
+
+/**
+ * Railing panels round a podium deck's free edges: 1×4 panels facing out,
+ * corner panels at the corners. Only edge cells the deck still shows are
+ * used, so buildings standing on the edge keep their place.
+ */
+function parapet(ctx: Ctx, el: Extract<Element, { type: "podium" }>) {
+  const r = el.rect;
+  ctx.step(`${el.name}: parapet`);
+  const deckTop = (x: number, z: number) => {
+    const t = ctx.top.get(k2(x, z));
+    return t && t.stud && t.p.info.description === `${el.name} deck` ? t.layer : null;
+  };
+  const x1 = r.x + r.w - 1, z1 = r.z + r.d - 1;
+  const corners: [number, number, Facing][] = [[x1, z1, "S"], [x1, r.z, "E"], [r.x, r.z, "N"], [r.x, z1, "W"]];
+  for (const [x, z, f] of corners) {
+    const l = deckTop(x, z);
+    if (l !== null && ctx.left("6231") > 0) ctx.put("panel", 1, 1, x, z, l, tintColor(el.tint), `${el.name} parapet`, f);
+  }
+  const sides: { cells: [number, number][]; axis: "x" | "z"; facing: Facing }[] = [
+    { cells: Array.from({ length: r.w - 2 }, (_, i) => [r.x + 1 + i, z1] as [number, number]), axis: "x", facing: "S" },
+    { cells: Array.from({ length: r.w - 2 }, (_, i) => [r.x + 1 + i, r.z] as [number, number]), axis: "x", facing: "N" },
+    { cells: Array.from({ length: r.d - 2 }, (_, i) => [x1, r.z + 1 + i] as [number, number]), axis: "z", facing: "E" },
+    { cells: Array.from({ length: r.d - 2 }, (_, i) => [r.x, r.z + 1 + i] as [number, number]), axis: "z", facing: "W" },
+  ];
+  for (const side of sides) {
+    let run: [number, number][] = [];
+    const flush = () => {
+      for (let i = 0; i + 4 <= run.length && ctx.left("30413") > 0; i += 4) {
+        const [x, z] = run[i];
+        const l = deckTop(x, z)!;
+        ctx.put("panel", side.axis === "x" ? 4 : 1, side.axis === "x" ? 1 : 4, x, z, l, tintColor(el.tint), `${el.name} parapet`, side.facing);
+      }
+      run = [];
+    };
+    for (const c of side.cells) {
+      const l = deckTop(c[0], c[1]);
+      if (l !== null && (!run.length || deckTop(run[0][0], run[0][1]) === l)) run.push(c);
+      else { flush(); if (l !== null) run.push(c); }
+    }
+    flush();
+  }
+  if (ctx.left("30413") <= 0) ctx.warnings.push(`${el.name}: the set's 10 railing panels ran out before the whole edge was railed`);
 }
 
 // ─── connectivity: tie loose site plates ───
@@ -962,6 +1203,7 @@ export function compileDesign(spec: DesignSpec): Compiled {
       case "surface": compileSurface(ctx, el); break;
       case "podium": compilePodium(ctx, el); break;
       case "block": compileBlock(ctx, el); break;
+      case "tower": compileTower(ctx, el); break;
       case "glasshouse": compileGlasshouse(ctx, el); break;
       case "trees": compileTrees(ctx, el); break;
       case "walkway": compileWalkway(ctx, el); break;

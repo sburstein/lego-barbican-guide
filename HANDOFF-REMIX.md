@@ -102,3 +102,36 @@ transfer to Remix's set-to-build flow.
 - **Testing:** a scripted fake client (`tests/designer.test.mjs`) covers
   every loop exit without spend. Snapshot `messages` when recording calls;
   the array keeps growing after the call returns.
+
+## 8. Non-rectangular walls without 1×1 bricks (added 2026-10-02)
+
+**Found:** stepped edges, such as triangular plans or any diagonal, isolate
+the step-corner cell inside a one-stud wall ring. Tiled as a ring, every
+course needs 1×1 bricks there, which are the scarcest bricks in most sets.
+
+**Fix:** for each course, plan several covers and keep the one with the
+fewest 1×1s, then the fewest parts. The candidates are the ring and the
+solid course, each scanned row-major and column-major. A solid course spans
+the steps with 2×N bricks. In `courseCells` in `src/design/compile.ts`, this
+cut a three-tower model from 378 1×1s to 2.
+
+## 9. Supported tiling for cantilevers (added 2026-10-02)
+
+**Found:** greedy largest-first plate tiling of an overhanging slab can
+leave a plate entirely on the overhang, holding nothing.
+
+**Fix,** in `planTiles` and `exactSupported`, in two stages:
+
+1. **Local repair:** re-tile just the stranded plate and its edge
+   neighbours, requiring every plate to touch a stud below.
+2. **Exact cover:** if that fails, search for a cover of the whole slab,
+   choosing the most constrained cell next. Precompute every legal placement
+   once and index it by cell; that took the stock-exhausted worst case from
+   68 s to about 1 s.
+
+## 10. Ground surfaces must tie the base
+
+On the ground layer, weight "spans a joint between base plates" above part
+size when choosing tiles. Otherwise long tiles laid parallel to a base joint
+leave a whole strip of baseplate loose.
+

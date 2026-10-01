@@ -25,7 +25,9 @@ export type Roof =
   | { type: "vaults"; axis?: "ns" | "ew"; count?: number; rows?: number; at?: number }
   | { type: "rounded" }
   | { type: "pitched"; ridge?: "ew" | "ns" }
-  | { type: "glass" };
+  | { type: "glass" }
+  /** A fine rhythm of small vaults: curved-top bricks along the front (and back) edge, one hump every 2 studs. */
+  | { type: "scallops"; edges?: "front" | "both" };
 
 type Common = {
   id: string;
@@ -57,6 +59,32 @@ export type Element =
       deckTint?: Tint;
       /** Tile the deck's exposed studs at the end (as far as tiles last). */
       finish?: "studs" | "tiles";
+      /** Railing panels along the deck's free edges, added at the end. */
+      parapet?: boolean;
+    })
+  | (Common & {
+      type: "tower";
+      /** Min corner of the plan's bounding box. */
+      at: [number, number];
+      /** "triangle": equilateral, rasterised; "square": size × size. */
+      plan: "triangle" | "square";
+      /** Base width (triangle) or side (square), 4 to 12 studs. */
+      size: number;
+      /** Which way the triangle's apex points, default N. */
+      point?: Side;
+      levels: number;
+      /** Brick courses per level between slabs, 1 or 2 (default 1). Two halves the plates per height. */
+      courses?: number;
+      /** Floor slabs project one stud past the walls (default true). */
+      balconies?: boolean;
+      /** Alternate the projection N/S then E/W, level by level (default true). */
+      serrate?: boolean;
+      /** Glass lobby on the first level. */
+      lobby?: boolean;
+      /** Top: steep-slope fins around the edge, smooth tiles, or bare studs. */
+      crown?: "fins" | "tiles" | "flat";
+      tint?: Tint;
+      bandTint?: Tint;
     })
   | (Common & {
       type: "block";
@@ -180,7 +208,16 @@ export function checkSpec(spec: DesignSpec): string[] {
         facadeOk(el.groundFacade, `${where}.groundFacade`);
         if (el.balconies !== undefined && el.balconies !== "all" && (!Array.isArray(el.balconies) || el.balconies.some((s) => !SIDES.has(s))))
           e.push(`${where}: balconies must be "all" or a list of sides`);
-        if (el.roof && !["flat", "vaults", "rounded", "pitched", "glass"].includes(el.roof.type)) e.push(`${where}: unknown roof type`);
+        if (el.roof && !["flat", "vaults", "rounded", "pitched", "glass", "scallops"].includes(el.roof.type)) e.push(`${where}: unknown roof type`);
+        break;
+      case "tower":
+        if (!Array.isArray(el.at) || el.at.length !== 2 || !el.at.every(int)) e.push(`${where}: at must be [x, z] integers`);
+        if (!["triangle", "square"].includes(el.plan)) e.push(`${where}: plan must be triangle or square`);
+        if (!int(el.size) || el.size < 4 || el.size > 12) e.push(`${where}: size must be 4 to 12`);
+        if (el.point !== undefined && !SIDES.has(el.point)) e.push(`${where}: point must be N, S, E or W`);
+        if (!int(el.levels) || el.levels < 1 || el.levels > 40) e.push(`${where}: levels must be 1 to 40`);
+        if (el.crown !== undefined && !["fins", "tiles", "flat"].includes(el.crown)) e.push(`${where}: crown must be fins, tiles or flat`);
+        if (el.courses !== undefined && el.courses !== 1 && el.courses !== 2) e.push(`${where}: courses must be 1 or 2`);
         break;
       case "glasshouse":
         inSite(el.rect, where);

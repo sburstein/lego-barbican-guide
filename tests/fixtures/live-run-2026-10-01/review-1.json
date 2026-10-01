@@ -1,0 +1,39 @@
+{
+  "pass": false,
+  "guess": "Barbican Estate, London (the three residential towers, Cromwell, Shakespeare and Lauderdale, with a barrel-vaulted terrace block and the lake)",
+  "confidence": 0.92,
+  "quality": 5,
+  "fidelity": 5,
+  "recognisable": true,
+  "strengths": [
+    "The label and the model agree. The barrel-vaulted roof on the long terrace block is the Barbican's most recognisable signature after the towers, and it reads clearly.",
+    "Stacked, alternating-width plates give the towers a convincing horizontal balcony rhythm, close to the real cantilevered concrete balconies.",
+    "The trans-clear lake strip beside the terrace is a good, economical use of the limited palette and anchors the composition.",
+    "The raised podium on stilts suggests the elevated highwalk and pilotis, which is accurate to the estate's layered circulation.",
+    "Trans-clear tower bases read as recessed, glazed ground floors and lift the towers visually.",
+    "The all-white palette suits the Architecture line's monochrome aesthetic."
+  ],
+  "problems": [
+    "The towers are square stacks. The real Barbican towers are triangular in plan with sawtooth balcony edges, the single most important identifying feature, so they read as generic apartment towers.",
+    "Tower heights are visibly unequal, while the real three towers are nearly identical (around 123 m). Their tops lack the distinctive jagged concrete crowns.",
+    "The podium is a sea of exposed studs. Official Architecture sets tile almost all ground surfaces, so this looks unfinished and toy-like.",
+    "There is only one short terrace block. The real estate's long terrace slabs wrap the lake to form courtyards, so the sense of enclosure and scale is lost.",
+    "Key landmarks are missing: the Barbican Centre (arts centre and conservatory) and St Giles' Cripplegate church, which would add context and interest.",
+    "There is no tiled nameplate or plinth edge treatment, which every official Architecture set includes.",
+    "Tower construction is highly repetitive, with little variation in technique. It would make for a monotonous build at around 500 pieces.",
+    "Scale is inconsistent. The terrace block looks too tall and chunky relative to the towers, and the lake reads small."
+  ],
+  "issues": [
+    "Tower plans are square; the real towers are triangular. All four views show stacked rectangular plates. Rebuild each core on a triangular footprint using wedge plates, so each tower presents a sharp corner and a flat face.",
+    "The serrated balcony edge is missing. The offset plates read as generic horizontal banding, not the saw-tooth cantilevered balcony fronts. Let the balcony slabs project past the triangle's corners and step their ends, so the silhouette is jagged in View 1 and View 3.",
+    "Tower heights are unequal. In View 1 and View 4 one tower clearly overtops the other two, but Cromwell, Shakespeare and Lauderdale are essentially the same height (about 42–44 storeys). Make all three equal.",
+    "The tower-to-terrace proportion is too squat. In View 4 the vaulted terrace block reaches roughly 40% of tower height, while the real 7-storey terraces are under a fifth of the 123 m towers. Raise the towers by several balcony bands or drop the terrace block by one or two courses.",
+    "The tower crowns are underplayed. Each tower ends in a single small cap brick. The real towers finish in a tall, jagged crown of projecting concrete fins. Add a 2–3-band crown that steps outward with pointed fins.",
+    "The tower layout reads as a grid. The towers are clustered in one corner, all aligned parallel (View 2). Rotate them relative to each other and spread them around the podium so they read as freestanding markers at the estate's edges.",
+    "There is only one short terrace block. The Barbican's terraces form long ranges enclosing the courtyards and lakes. Add at least a second block at right angles, so the composition reads as an enclosed precinct rather than one slab beside three towers.",
+    "The barrel-vault rhythm is too coarse. Three large humps (View 1, View 4) read as a single feature. The real roofline is a long rhythm of many smaller penthouse vaults. Use more, smaller curved arch pieces running the full length of the block.",
+    "The terrace does not cross the water. The lake is a narrow canal running alongside the block. The signature image is Gilbert House carried on pilotis across a broad lake. Widen the water and run the terrace block over it on visible columns.",
+    "The podium reads as a table on legs. The columns sit around the baseplate perimeter. Consider infilling some bays and adding a highwalk edge or balustrade, so it reads as a raised pedestrian deck. Optionally add the Arts Centre lakeside terrace or St Giles Cripplegate as a scale anchor."
+  ],
+  "verdict": "Recognisable as the Barbican from the overall recipe: three balconied towers, a barrel-vaulted terrace, water and a raised podium. The blind reviewer named it correctly. But the towers are square, unequal and too short, the crowns and serrated edges are missing, and the single terrace sits beside the lake rather than spanning it. Fidelity rests on the composition, not the architecture. Triangular serrated towers of equal height and a longer vaulted terrace over the water would lift it substantially."
+}

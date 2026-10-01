@@ -12,19 +12,29 @@ import { canonicalToLocal, defOf, footprintCells, validateBuild } from "../src/l
 import { partSolids, topHeightAt } from "../src/engine/shapes.ts";
 import { buildPiece } from "../src/lego-geometry.ts";
 import { pieceSolids, turnPieces, PLATE } from "../scripts/lib/iso.mjs";
+import { readFileSync } from "node:fs";
+import { compileDesign } from "../src/design/compile.ts";
 
-const pieces = (id) => Object.values(modelFor(id)).flatMap((ph) => ph.flat());
+// the hand-built models plus compiled design fixtures, which exercise the
+// compiler's facings (fins, scallops, parapets, vaults) in every direction
+const MODELS = new Map(BUILD_IDS.map((id) => [id, () => modelFor(id)]));
+for (const f of ["barbican-hand.json", "barbican-critique.json"]) {
+  const spec = JSON.parse(readFileSync(new URL(`./fixtures/${f}`, import.meta.url), "utf8"));
+  let built;
+  MODELS.set(`fixture ${spec.id}`, () => (built ??= compileDesign(spec).build));
+}
+const pieces = (id) => Object.values(MODELS.get(id)()).flatMap((ph) => ph.flat());
 const label = (p) => `${p.info.name} @ ${p.x},${p.z},L${p.layer} facing ${p.facing}`;
 
-for (const id of BUILD_IDS) {
+for (const id of MODELS.keys()) {
   test(`${id}: validates with no errors`, () => {
-    assert.deepEqual(validateBuild(modelFor(id)), []);
+    assert.deepEqual(validateBuild(MODELS.get(id)()), []);
   });
 
   test(`${id}: stays valid when turned a quarter, half and three-quarter turn`, () => {
     for (const q of [1, 2, 3]) {
       const turned = {};
-      for (const [ph, steps] of Object.entries(modelFor(id))) turned[ph] = steps.map((st) => turnPieces(st, q));
+      for (const [ph, steps] of Object.entries(MODELS.get(id)())) turned[ph] = steps.map((st) => turnPieces(st, q));
       assert.deepEqual(validateBuild(turned), [], `turn ${q}`);
     }
   });

@@ -1,0 +1,177 @@
+{
+  "id": "barbican-critique",
+  "title": "The Barbican Estate (review-led compiler test)",
+  "subtitle": "The reviewer's critique of the first AI design, expressed with the new tower, scallop and parapet recipes",
+  "description": "Three equal triangular towers with serrated balconies and finned crowns stand on a tiled, railed podium. A long terrace crosses the lake on columns under a fine rhythm of small vaults, and a second terrace closes the east side.",
+  "concept": "Equal triangular towers, terraces over water",
+  "site": {
+    "w": 32,
+    "d": 24
+  },
+  "elements": [
+    {
+      "type": "surface",
+      "id": "lake",
+      "name": "The lake",
+      "material": "water",
+      "rects": [
+        {
+          "x": 2,
+          "z": 15,
+          "w": 24,
+          "d": 5
+        }
+      ]
+    },
+    {
+      "type": "surface",
+      "id": "lawn",
+      "name": "Lakeside lawn",
+      "material": "lawn",
+      "rects": [
+        {
+          "x": 27,
+          "z": 15,
+          "w": 5,
+          "d": 5
+        }
+      ]
+    },
+    {
+      "type": "surface",
+      "id": "walk",
+      "name": "Front walk",
+      "material": "paving",
+      "rects": [
+        {
+          "x": 0,
+          "z": 21,
+          "w": 32,
+          "d": 3
+        }
+      ]
+    },
+    {
+      "type": "podium",
+      "id": "podium",
+      "name": "Podium",
+      "rect": {
+        "x": 0,
+        "z": 0,
+        "w": 26,
+        "d": 13
+      },
+      "style": "colonnade",
+      "spacing": 4,
+      "parapet": true,
+      "finish": "tiles"
+    },
+    {
+      "type": "tower",
+      "id": "cromwell",
+      "name": "Cromwell Tower",
+      "at": [
+        2,
+        2
+      ],
+      "plan": "triangle",
+      "size": 6,
+      "point": "N",
+      "levels": 5,
+      "lobby": true,
+      "crown": "fins",
+      "courses": 2
+    },
+    {
+      "type": "tower",
+      "id": "shakespeare",
+      "name": "Shakespeare Tower",
+      "at": [
+        12,
+        2
+      ],
+      "plan": "triangle",
+      "size": 6,
+      "point": "E",
+      "levels": 5,
+      "crown": "fins",
+      "courses": 2
+    },
+    {
+      "type": "tower",
+      "id": "lauderdale",
+      "name": "Lauderdale Tower",
+      "at": [
+        20,
+        2
+      ],
+      "plan": "triangle",
+      "size": 6,
+      "point": "W",
+      "levels": 5,
+      "crown": "fins",
+      "courses": 2
+    },
+    {
+      "type": "block",
+      "id": "gilbert",
+      "name": "Gilbert House",
+      "rect": {
+        "x": 5,
+        "z": 16,
+        "w": 18,
+        "d": 3
+      },
+      "levels": 2,
+      "pilotis": true,
+      "facade": {
+        "S": "glass"
+      },
+      "balconies": [
+        "S"
+      ],
+      "roof": {
+        "type": "scallops"
+      }
+    },
+    {
+      "type": "block",
+      "id": "east-terrace",
+      "name": "East terrace",
+      "rect": {
+        "x": 27,
+        "z": 1,
+        "w": 5,
+        "d": 12
+      },
+      "levels": 2,
+      "facade": {
+        "W": "glass"
+      },
+      "balconies": [
+        "W"
+      ],
+      "roof": {
+        "type": "vaults",
+        "axis": "ew",
+        "count": 2,
+        "rows": 3
+      }
+    },
+    {
+      "type": "trees",
+      "id": "trees",
+      "name": "Lawn trees",
+      "at": [
+        [
+          28,
+          16
+        ],
+        [
+          30,
+          18
+        ]
+      ]
+    }
+  ]
+}
