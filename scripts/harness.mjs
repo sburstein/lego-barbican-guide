@@ -72,7 +72,8 @@ const COMMANDS = {
       console.log(`model ${r.model}  stop ${r.stop_reason}  reply ${JSON.stringify(text.trim())}  tokens ${r.usage.input_tokens}/${r.usage.output_tokens}`);
       return r.stop_reason === "end_turn";
     } catch (err) {
-      console.log(`! API error ${err.status ?? ""} ${err.message}`);
+      const { apiReason } = await import("./lib/designer.mjs");
+      console.log(`! ${apiReason(err)}`);
       return false;
     }
   },

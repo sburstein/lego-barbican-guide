@@ -55,6 +55,8 @@ export type Element =
       arcadeSide?: Side;
       tint?: Tint;
       deckTint?: Tint;
+      /** Tile the deck's exposed studs at the end (as far as tiles last). */
+      finish?: "studs" | "tiles";
     })
   | (Common & {
       type: "block";
@@ -117,7 +119,8 @@ export type DesignSpec = {
   subtitle: string;
   description: string;
   concept: string;
-  site: { w: number; d: number };
+  /** finish "tiles": tile the bare ground at the end, as far as tiles last. */
+  site: { w: number; d: number; finish?: "studs" | "tiles" };
   elements: Element[];
 };
 

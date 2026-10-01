@@ -35,10 +35,11 @@ Aim for an official LEGO Architecture set: the subject must be recognisable from
 Studs. x runs east, z runs south. South (+z) is the front: render View 1 looks at the south and east faces from the south-east. The site is a rectangle w × d (8 to 48 studs each) of base plates at layer 0. Ground level is layer 1. Heights are in plate layers (a brick is 3). A "level" is one brick course plus a one-plate floor band (4 layers).
 
 # Spec (JSON)
-{ "id": "lowercase-dashes", "title", "subtitle", "description" (2-3 sentences for the guide), "concept" (a short line), "site": {"w","d"}, "elements": [...] }
+{ "id": "lowercase-dashes", "title", "subtitle", "description" (2-3 sentences for the guide), "concept" (a short line), "site": {"w","d","finish":"studs"|"tiles"}, "elements": [...] }
+Official sets tile most ground and decks: "finish":"tiles" on the site or a podium smooths exposed studs at the end, as far as the set's tiles last (about 360 cells; the rest keeps studs).
 Elements are built in order; each element sits on whatever is beneath its footprint, so list them bottom-up (ground surfaces first, then podiums, then buildings on them, then trees and details). Every element has "id", "name", and optional "concept" (one line), "about" (2-3 sentences: where this is in the real building and why it matters) and "facts" (2-5 short researched facts, shown as building tips).
 - surface: {"type":"surface","material":"water"|"lawn"|"paving","rects":[{x,z,w,d}]} lies on the bare site at layer 1. Water uses trans-clear 1×1 and 1×2 plates only (140 cells at most, shared with glass roofs). Paving uses tiles (about 360 cells), then studded plates.
-- podium: {"type":"podium","rect","levels":1-6,"style":"colonnade"|"solid"|"arcade","spacing":3,"arcadeSide":"S"} a raised deck on columns or walls. Its deck carries later elements.
+- podium: {"type":"podium","rect","levels":1-6,"style":"colonnade"|"solid"|"arcade","spacing":3,"arcadeSide":"S","finish":"tiles"} a raised deck on columns or walls. Its deck carries later elements.
 - block: {"type":"block","rect","levels":n,"facade": name or {"N":..,"S":..,"E":..,"W":..},"groundFacade":..,"pilotis":bool,"bands":true,"balconies":"all"|["S",..],"serrate":bool,"roof":{..},"tint":"white"|"dark","bandTint":..}
   The rect is the outer envelope. Balcony sides inset the walls by 1 stud, so floor bands project as balcony slabs; "serrate" alternates them N/S then E/W level by level (the jagged look of Barbican towers). Walls are hollow 1-stud rings; footprints 2 studs or narrower are solid.
   Facades: "solid" (white running bond), "glass" (2-stud trans windows between 1-stud piers), "ribbon" (continuous glass between corners), "open" (piers every other stud with voids: loggias, undercrofts), "grille" (ribbed grille bricks), "arches" (1×4 arch bricks, first level only). "pilotis": true stands the first level on round columns.
@@ -49,7 +50,7 @@ Elements are built in order; each element sits on whatever is beneath its footpr
 - parts: {"type":"parts","items":[{"kind","w","d","x","z","layer"?,"color"?,"facing"?,"desc"}]} raw parts for small details; omit layer to drop onto what is below. Kinds: brick, plate, tile, slope45, slope33, steepSlope2, steepSlope3, invSlope, curvedSlope, cheese, slopeCorner, curvedTop, roundBrick, roundPlate, roundCornerPlate, macaroni, cornerPlate, cornerBrick, arch, panel, glassPanel, profile, headlight, jumper, wedgeL, wedgeR. Facing turns directional parts (slopes fall toward their facing).
 
 # The set (scarce parts matter most)
-Glass is scarce: 40 Trans-Clear Brick 1×2, 40 Trans-Clear Plate 1×1, 50 Trans-Clear Plate 1×2, 16 Panel 1×2×2. 1×1 bricks of all kinds: about 96. Large plates are few and the site base uses them first. Full inventory: ${stockLines()}.
+Plans are rectangles: there is no triangular or curved footprint, so suggest such forms with serrated balconies, setbacks and massing. Glass is scarce: 40 Trans-Clear Brick 1×2, 40 Trans-Clear Plate 1×1, 50 Trans-Clear Plate 1×2, 16 Panel 1×2×2. 1×1 bricks of all kinds: about 96. Large plates are few and the site base uses them first. Full inventory: ${stockLines()}.
 
 # Process
 1. If you are unsure of the subject's massing, use web_search (a few queries at most).
@@ -94,6 +95,16 @@ function parseJson(text) {
   const m = text.match(/\{[\s\S]*\}/);
   if (!m) throw new Error("no JSON object in reviewer reply");
   return JSON.parse(m[0]);
+}
+
+/** A sentence for an API failure; the SDK's message carries the raw body. */
+export function apiReason(err) {
+  const detail = err?.error?.error?.message ?? err?.message ?? String(err);
+  if (/credit balance is too low/i.test(detail)) return "the Anthropic account is out of API credit (add credit under Plans & Billing in the Console, then retry)";
+  if (err?.status === 401) return "the API key was rejected (401)";
+  if (err?.status === 429) return "rate limited by the API (429) after retries";
+  if (err?.status >= 500) return `the API is unavailable (${err.status}) after retries`;
+  return `API error${err?.status ? ` ${err.status}` : ""}: ${detail}`;
 }
 
 const textOf = (msg) => msg.content.filter((b) => b.type === "text").map((b) => b.text).join("\n");
@@ -262,7 +273,7 @@ export async function runDesigner({
       msg = await call(client, { system: DESIGNER_SYSTEM, tools, messages }, budget, signal);
     } catch (err) {
       if (signal?.aborted) return finish("failed", { reason: "cancelled" });
-      return finish("failed", { reason: `API error: ${err.status ? `${err.status} ` : ""}${err.message}` });
+      return finish("failed", { reason: apiReason(err) });
     }
     emit("turn", { stop: msg.stop_reason, usd: Math.round(budget.usd * 100) / 100, text: textOf(msg).slice(0, 400) });
     if (msg.stop_reason === "refusal") return finish("failed", { reason: "the model declined the request" });

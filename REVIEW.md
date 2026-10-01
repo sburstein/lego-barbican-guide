@@ -143,3 +143,38 @@ too heavy for software WebGL in a screenshot).
 - **Not deployed.** The live site still shows the August models.
 - The inventory and the part table name two parts differently (6091 and
   60474). This is cosmetic; part numbers match.
+
+---
+
+# October 2026: AI designer and release (2026-10-01)
+
+This section adds to the September record above; it changes nothing in it.
+The August booklet in `print/` and the tag `august-2026-booklet` remain the
+historical record of what was built.
+
+## Added
+
+- **Compiler:** an architecture compiler (`src/design/`) turns a spec into
+  validated placements. It provides stock-aware recipes, bands and decks
+  tiled across the joints below, exact supported tiling for small slabs,
+  2-wide cores, hidden support piers, seam ties, tiled finishing, and errors
+  that name the part and the count.
+- **Designer:** `scripts/lib/designer.mjs` runs `claude-opus-5-5` at
+  `xhigh` effort with the server-side refusal fallback. Its tools are
+  compile and render (images go back to the model), submit and web search.
+  A blind review gate checks the result. The loop has budget, time, compile
+  and review limits, and it handles refusals, truncation, API errors and
+  cancellation.
+- **Server route:** `/api/design` runs in the Vite dev server and in
+  `scripts/designer-server.mjs`. Writes need a same-origin header, one job
+  runs at a time, and the key never reaches the browser.
+- **App:** the build switcher lists any number of builds. AI builds show
+  their review record. A designer panel appears, which disables itself on
+  static hosts. Every build has booklet downloads, and the footer carries a
+  version stamp.
+- **Build:** `npm run build` writes HTML and PDF booklets for every build,
+  plus `version.json`.
+- **Tests:** 51 tests: renderer agreement, validator regressions, the
+  compiler (including shortages), every designer loop exit with a scripted
+  client, and the HTTP route.
+

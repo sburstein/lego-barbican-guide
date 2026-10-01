@@ -16,8 +16,34 @@ LEGO Architecture Studio set (21050), with a live 3D model for every step.
 All three are designed to stand at the same time: together they use 908 of the
 set's 1,210 pieces with no part over its real quantity.
 
-The live site still shows the August versions; see REVIEW.md for the
-September repairs and what changed for anyone who built from the booklet.
+Every build has a downloadable booklet (PDF and HTML) generated from the same
+placements as the 3D guide. REVIEW.md records what changed from the August
+booklet; RELEASE.md covers deploys and rollback.
+
+## AI designs
+
+Beyond the hand-built models, Claude Opus 5.5 (xhigh effort) can design new
+architectural models for the same set. The pieces are split:
+
+- **Spec:** the model writes an architectural spec (`src/design/spec.ts`):
+  site, water, podiums, blocks with facades and balconies, roofs, trees.
+- **Compiler:** a deterministic compiler (`src/design/compile.ts`) turns it
+  into bricks drawn from one 21050 box. It reports any shortage by part and
+  count, and the engine validator checks physics, connectivity and build
+  order.
+- **Review gate:** a reviewer shown only the renders must recognise the
+  subject and score it 7/10 or better, with fidelity 7/10 or better. Only
+  then is the design saved to `src/designs/` and shown in the app as an AI
+  build, with its own guide and booklet.
+
+```bash
+npm run design -- "Habitat 67, Montreal" --budget 20
+```
+
+The command reads `ANTHROPIC_API_KEY` from the environment or `.env`. The
+same designer runs from the app's panel under `npm run dev`, or
+`npm run designer:serve` after a build. The static public site does not run
+it (see RELEASE.md).
 
 ## How correctness is enforced
 
@@ -55,6 +81,8 @@ npm test                                       # renderer agreement + validator 
 node scripts/gen-builds.mjs                    # regenerate builds.ts step text
 node scripts/generate-manual.mjs <build-id>    # print-ready HTML booklet
 node scripts/render-views.mjs <build-id>       # four-side review render (PNG)
+node scripts/harness.mjs api                   # one real Opus 5.5 call (about a cent)
+npm run build                                  # typecheck, booklets (HTML + PDF), bundle
 ```
 
 Deep link to any step: `/?build=<build-id>&step=<phase-id>-<n>`.

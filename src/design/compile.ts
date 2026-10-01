@@ -248,7 +248,52 @@ class Ctx {
       reserved.set(best.pn, (reserved.get(best.pn) ?? 0) + 1);
       for (let i = 0; i < best.w; i++) for (let j = 0; j < best.d; j++) covered.add(k2(x + i, z + j));
     }
+    // Greedy can strand a plate where nothing holds it (a balcony row tiled
+    // on its own). For small areas, search for a cover where every plate
+    // grips something, fewest plates first.
+    if (layer > 0 && region.size <= 48 && plan.some((c) => !c.supported)) {
+      const exact = this.exactSupported([...region].map((k) => k.split(",").map(Number) as [number, number]), layer, sizes);
+      if (exact) return { plan: exact, missing: [], blocked };
+    }
     return { plan, missing, blocked };
+  }
+
+  /** Bounded exact search for a cover in which every plate is supported. */
+  exactSupported(cells: [number, number][], layer: number, sizes: { kind: PartKind; w: number; d: number; pn: string }[]): Cand[] | null {
+    const region = new Set(cells.map(([x, z]) => k2(x, z)));
+    const order = [...cells].sort((a, b) => a[1] - b[1] || a[0] - b[0]);
+    const covered = new Set<string>();
+    const used = new Map<string, number>();
+    const cur: Cand[] = [];
+    let best: Cand[] | null = null;
+    let nodes = 0;
+    const go = () => {
+      if (++nodes > 40000 || (best && cur.length >= best.length)) return;
+      const next = order.find(([x, z]) => !covered.has(k2(x, z)));
+      if (!next) { best = [...cur]; return; }
+      const [x, z] = next;
+      for (const s of sizes) {
+        if (this.left(s.pn) - (used.get(s.pn) ?? 0) <= 0) continue;
+        let ok = true, support = 0;
+        for (let i = 0; i < s.w && ok; i++)
+          for (let j = 0; j < s.d && ok; j++) {
+            const key = k2(x + i, z + j);
+            if (!region.has(key) || covered.has(key)) ok = false;
+            else if (this.studAt(x + i, z + j, layer)) support++;
+          }
+        if (!ok || support === 0) continue;
+        const cand: Cand = { kind: s.kind, w: s.w, d: s.d, x, z, pn: s.pn, supported: true };
+        for (let i = 0; i < s.w; i++) for (let j = 0; j < s.d; j++) covered.add(k2(x + i, z + j));
+        used.set(s.pn, (used.get(s.pn) ?? 0) + 1);
+        cur.push(cand);
+        go();
+        cur.pop();
+        used.set(s.pn, used.get(s.pn)! - 1);
+        for (let i = 0; i < s.w; i++) for (let j = 0; j < s.d; j++) covered.delete(k2(x + i, z + j));
+      }
+    };
+    go();
+    return best;
   }
 
   commit(plan: Cand[], layer: number, color: ColorKey, desc: string) {
@@ -353,8 +398,10 @@ const OUT: Record<Side, Facing> = { N: "N", S: "S", E: "E", W: "W" };
 
 function wallCourse(ctx: Ctx, wr: Rect, layer: number, parity: number, facade: (s: Side) => Facade, color: ColorKey, desc: string, state: WallState) {
   if (wr.w <= 2 || wr.d <= 2) {
-    // too narrow for a hollow ring: fill solid
+    // too narrow for a hollow ring: fill solid, with 2-wide bricks where the
+    // strip is 2 wide (a 2×2 core is one brick, not four 1×1s)
     const along: "x" | "z" = wr.w >= wr.d ? "x" : "z";
+    if (Math.min(wr.w, wr.d) === 2 && fillWide(ctx, wr, along, layer, color, desc, parity)) return;
     const rows = along === "x" ? wr.d : wr.w;
     for (let r = 0; r < rows; r++) {
       const cells: [number, number][] = [];
@@ -431,6 +478,35 @@ function wallCourse(ctx: Ctx, wr: Rect, layer: number, parity: number, facade: (
   }
 }
 
+/**
+ * Fill a 2-wide strip with 2×L bricks (L = 6, 4, 3, 2), offsetting joints
+ * course by course. Returns false if the stock cannot do it.
+ */
+function fillWide(ctx: Ctx, r: Rect, along: "x" | "z", layer: number, color: ColorKey, desc: string, parity: number): boolean {
+  const len = along === "x" ? r.w : r.d;
+  const lens = [6, 4, 3, 2].filter((L) => ctx.left(partNumberFor(partDef("brick", 2, L)!, "white")!) > 0);
+  // offset the first joint on odd courses so joints do not stack
+  const plan: number[] = [];
+  let at = 0;
+  if (parity % 2 && len >= 5 && lens.includes(3)) { plan.push(3); at = 3; }
+  while (at < len) {
+    const L = lens.find((l) => at + l <= len && (len - at - l === 0 || len - at - l >= 2));
+    if (!L) return false;
+    plan.push(L);
+    at += L;
+  }
+  const need = new Map<number, number>();
+  for (const L of plan) need.set(L, (need.get(L) ?? 0) + 1);
+  for (const [L, q] of need) if (q > ctx.left(partNumberFor(partDef("brick", 2, L)!, "white")!)) return false;
+  at = 0;
+  for (const L of plan) {
+    if (along === "x") ctx.put("brick", L, 2, r.x + at, r.z, layer, color, desc);
+    else ctx.put("brick", 2, L, r.x, r.z + at, layer, color, desc);
+    at += L;
+  }
+  return true;
+}
+
 /** Ring of columns around a rect at a spacing, plus all four corners. */
 function columnRing(r: Rect, spacing: number): [number, number][] {
   const out = new Set<string>();
@@ -464,7 +540,11 @@ function band(ctx: Ctx, area: Rect, layer: number, color: ColorKey, desc: string
         if (ctx.column(x, z, supportFrom, layer, color, `${desc} support`)) { fixed = true; break; }
       }
     }
-    if (!fixed) ctx.errors.push(`${desc}: a ${c.w}×${c.d} plate at ${c.x},${c.z} has nothing under it to grip`);
+    if (!fixed) {
+      const small = ["3023w", "3022", "3020", "3021", "3710", "3623"].filter((pn) => ctx.left(pn) <= 0).length;
+      ctx.errors.push(`${desc}: a ${c.w}×${c.d} plate at ${c.x},${c.z} (layer ${layer}) has nothing under it to grip` +
+        (small >= 3 ? "; the set's small plates are used up, so use fewer levels, smaller balconies or fewer bands elsewhere" : "; reach it from a wall or column below"));
+    }
   }
   ctx.step(stepTitle);
   ctx.commit(plan, layer, color, desc);
@@ -760,6 +840,47 @@ function compileParts(ctx: Ctx, el: Extract<Element, { type: "parts" }>) {
   });
 }
 
+// ─── finishing: smooth tiles over exposed studs ───
+
+/**
+ * Official sets tile their ground and decks. Tiles go on last, so they never
+ * block a later element; they also tie the plate joints beneath them. Only
+ * as many cells are tiled as the set's tiles allow; the rest stay studded.
+ */
+function finishing(ctx: Ctx, spec: DesignSpec, phases: CompiledPhase[]) {
+  const targets: { name: string; cells: [number, number][] }[] = [];
+  for (const el of spec.elements) {
+    if (el.type !== "podium" || el.finish !== "tiles") continue;
+    const deck = ctx.pieces.filter((p) => p.info.description === `${el.name} deck`);
+    const cells: [number, number][] = [];
+    for (const p of deck) for (const [x, z] of footprintCells(p)) {
+      const t = ctx.top.get(k2(x, z));
+      if (t && t.p === p && t.stud) cells.push([x, z]);
+    }
+    targets.push({ name: `${el.name} deck`, cells });
+  }
+  if (spec.site.finish === "tiles") {
+    const cells: [number, number][] = [];
+    for (let z = 0; z < spec.site.d; z++)
+      for (let x = 0; x < spec.site.w; x++) if (ctx.heightAt(x, z) === 1) cells.push([x, z]);
+    targets.push({ name: "Site", cells });
+  }
+  if (!targets.length) return;
+  const id = `${spec.id}-finish`;
+  phases.push({ id, elementId: "finish", type: "parts", name: "Finishing", concept: "Smooth surfaces",
+    about: "Official LEGO Architecture sets hide most studs on their ground and decks; tiles make the model read as architecture rather than toy." });
+  ctx.beginPhase(id, ["Slide each tile on squarely; a tile seated half a stud off will lift its neighbours."]);
+  for (const t of targets) {
+    if (!t.cells.length) continue;
+    const layer = ctx.heightAt(t.cells[0][0], t.cells[0][1]);
+    const same = t.cells.filter(([x, z]) => ctx.heightAt(x, z) === layer);
+    ctx.step(`Tile the ${t.name.toLowerCase()}`);
+    const { plan, missing } = ctx.planTiles(same, layer, "tile", t.name === "Site" ? "white" : "white");
+    ctx.commit(plan, layer, "white", `${t.name} finish`);
+    if (missing.length) ctx.warnings.push(`${t.name}: tiles ran out, so ${missing.length} of ${same.length} cells keep their studs`);
+  }
+}
+
 // ─── connectivity: tie loose site plates ───
 
 function toBuild(ctx: Ctx): { build: BuildPlacements; meta: BuildMeta; order: string[] } {
@@ -797,9 +918,11 @@ function tieSite(ctx: Ctx, tieStep: StepRec) {
         for (const [dx, dz] of [[1, 0], [0, 1]] as const) {
           const b = ctx.occ.get(k3(x + dx, z + dz, 0));
           if (!b || compOf.get(a) === compOf.get(b)) continue;
-          if (ctx.heightAt(x, z) !== 1 || ctx.heightAt(x + dx, z + dz) !== 1) continue;
+          // free at layer 1 is enough: ties go in before anything else, so a
+          // deck or overhang built later above them does not block them
+          if (ctx.occ.has(k3(x, z, 1)) || ctx.occ.has(k3(x + dx, z + dz, 1))) continue;
           ctx.cur = tieStep;
-          ctx.put("tile", dx ? 2 : 1, dz ? 2 : 1, x, z, 1, "dark", "Seam tie");
+          ctx.put("tile", dx ? 2 : 1, dz ? 2 : 1, x, z, 1, "white", "Seam tie");
           tied = true;
           break outer;
         }
@@ -845,10 +968,14 @@ export function compileDesign(spec: DesignSpec): Compiled {
       case "parts": compileParts(ctx, el); break;
     }
   }
+  finishing(ctx, spec, phases);
   tieSite(ctx, tieStep);
 
   const { build, meta, order } = toBuild(ctx);
-  const errors = [...ctx.errors];
+  // identical messages (one per level, say) are grouped with a count
+  const counts = new Map<string, number>();
+  for (const e of ctx.errors) counts.set(e, (counts.get(e) ?? 0) + 1);
+  const errors = [...counts].map(([e, n]) => (n > 1 ? `${e} (×${n})` : e));
   const validation = validateBuild(build);
   // summarise the validator: first few of each kind
   const byKind = new Map<string, string[]>();

@@ -125,7 +125,15 @@ test("an API error fails the run with the status", async () => {
   const err = Object.assign(new Error("overloaded"), { status: 529 });
   const r = await run(client([err]));
   assert.equal(r.status, "failed");
-  assert.match(r.reason, /API error: 529 overloaded/);
+  assert.match(r.reason, /the API is unavailable \(529\)/);
+});
+
+test("an out-of-credit account is reported in plain words", async () => {
+  const err = Object.assign(new Error('400 {"type":"error","error":{"type":"invalid_request_error","message":"Your credit balance is too low to access the Anthropic API."}}'),
+    { status: 400, error: { type: "error", error: { type: "invalid_request_error", message: "Your credit balance is too low to access the Anthropic API." } } });
+  const r = await run(client([err]));
+  assert.equal(r.status, "failed");
+  assert.match(r.reason, /out of API credit/);
 });
 
 test("the budget cap stops the run", async () => {
