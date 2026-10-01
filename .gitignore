@@ -29,3 +29,6 @@ bundle.html
 # Generated build manuals: regenerate with scripts/generate-manual.mjs.
 # These are 4-36 MB artifacts; keeping them tracked bloated the repo by ~70 MB.
 manual/
+
+# LDraw part cache and review renders (scripts/check-parts.mjs, render-views.mjs)
+.cache/

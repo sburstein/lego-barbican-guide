@@ -161,9 +161,9 @@ function buildStorey(b: Builder, s: number) {
   if (s < 2) {
     b.step(
       `Balcony decking, ${ord} floor`,
-      "Grille tiles deck the balcony now, before the next storey closes over it; the same reach-under trap as the undercroft, avoided the same way."
+      "Tile the balcony in front of each window slot now, before the next storey closes over it. Leave the stud in front of each pier bare: the next storey's clip-on panels hang down to just above it, and a tile there would block them."
     );
-    for (const x of PIER_XS) b.put("grilleTile", 2, 1, x, Z_BALC, slab + 1, "white", "Balcony grille decking");
+    for (const x of SLOT_XS) b.put("tile", 1, 1, x, Z_BALC, slab + 1, "white", "Balcony decking");
   }
 }
 
@@ -208,12 +208,6 @@ function buildPlaza(b: Builder) {
   b.put("roundCornerPlate", 4, 4, 5, 8, 2, "dark", "Plaza apron", "S");
   b.put("roundCornerPlate", 4, 4, 9, 8, 2, "dark", "Plaza apron", "W");
   b.put("roundPlate", 4, 4, 5, 8, 3, "green", "Plaza planting bed");
-
-  b.step("Rounded site corners", "Macaroni bricks round off the site; the crescent's geometry is all curves meeting straight party walls.");
-  b.put("macaroni", 2, 2, 0, 0, 1, "white", "Rounded site corner", "S");
-  b.put("macaroni", 2, 2, 16, 0, 1, "white", "Rounded site corner", "W");
-  b.put("macaroni", 2, 2, 0, 2, 1, "white", "Rounded site corner", "E");
-  b.put("macaroni", 2, 2, 16, 2, 1, "white", "Rounded site corner", "N");
 
   b.step("Podium furniture", "Planter walls, bollards and benches; the estate's street furniture was designed by the same hands as its towers.");
   b.put("cornerBrick", 2, 2, 0, 10, 1, "white", "Planter wall", "S");

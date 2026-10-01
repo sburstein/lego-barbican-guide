@@ -1,465 +1,19 @@
 // ═══════════════════════════════════════════════════════════════════════
-// LEGO PLACEMENT MODEL; Barbican Estate Lakeside Panorama
+// LAKESIDE PANORAMA: the hand-authored Barbican Estate model.
 //
-// Pure data layer (no three.js). Every piece in the build is a Placement:
-// a real LEGO part from the CATALOG, positioned by integer stud coordinates
-// (corner-based) and an integer plate-layer. A validator checks that every
-// placement is a real part, sits on the stud grid, collides with nothing,
-// and is supported by studs beneath it, exactly like physical LEGO.
-// Part usage is balanced to fit the Architecture Studio 21050 inventory.
-//
-// Units: 1 stud = 1 unit in x/z. 1 layer = 1 plate height (0.4 units).
-// A brick is 3 layers tall. Cell (x, z) spans coordinates x..x+1, z..z+1.
+// The part table, placement maths and validator live in src/engine/; this
+// file re-exports them so older imports keep working, and holds only the
+// Panorama's placements. Every piece is a real 21050 part on the integer
+// stud grid; `node scripts/validate-geometry.mjs` proves the build stands up
+// and can be followed step by step.
 // ═══════════════════════════════════════════════════════════════════════
 
-export type ColorKey = "white" | "dark" | "trans" | "green";
-export type Facing = "N" | "S" | "E" | "W"; // N = -z (back), S = +z (front)
+import { Builder, type BuildMeta, type BuildPlacements } from "./engine/model.ts";
 
-export type PartKind =
-  | "brick"
-  | "plate"
-  | "tile"
-  | "grilleTile" // 1×2 grille tile 2412b (smooth, ribbed)
-  | "roundBrick"
-  | "roundPlate"
-  | "cornerPlate" // 2×2 L-shaped corner plate 2420
-  | "cornerBrick" // 2×2 L-shaped corner brick 2357
-  | "macaroni" // 2×2 quarter-arc brick 85080
-  | "jumper" // 1×2 plate with a single centre stud 15573 (off-grid top)
-  | "sideStud2" // 1×1 brick, studs on 2 opposite sides 47905
-  | "sideStud4" // 1×1 brick, studs on 4 sides 4733
-  | "sideStudBrick" // 1×4 brick with side studs on one face 30414
-  | "steepSlope2" // 1×2×2 slope 65° (60481), 2 bricks tall
-  | "steepSlope3" // 1×2×3 slope 75° (4460b), 3 bricks tall
-  | "curvedSlope" // curved slopes 50950 (1×3) / 3045 (2×2 double)
-  | "wedgeL" // wedge plate 2×4 left 41768
-  | "wedgeR" // wedge plate 2×4 right 41767
-  | "roundCornerPlate" // plate 4×4 round corner 30565
-  | "slope45" // descends over the last stud, small top ledge, no studs
-  | "slope33" // descends over 2 studs, studded back row
-  | "invSlope" // inverted 45, full studded top
-  | "curvedTop" // brick 1×2 with half-cylinder top (6091), no studs
-  | "arch" // arch brick 1×4
-  | "panel" // 1×N×1 wall panel, studded top
-  | "glassPanel" // trans-clear panel 1×2×2 (87552), 2 bricks tall
-  | "profile" // profile/grille brick 1×2 (2877), studded top
-  | "headlight" // headlight brick 1×1 (4070), studded top
-  | "cheese"; // 1×1×2/3 slope, 2 layers, no top studs
+export * from "./engine/parts.ts";
+export * from "./engine/model.ts";
+export { validateBuild, analyzeBuild, connectionGraph, components } from "./engine/validate.ts";
 
-export type PieceInfo = {
-  name: string;
-  partNumber: string;
-  description: string;
-};
-
-export type Placement = {
-  kind: PartKind;
-  w: number; // studs along x (as placed)
-  d: number; // studs along z (as placed)
-  x: number; // min corner cell x (integer)
-  z: number; // min corner cell z (integer)
-  layer: number; // bottom layer index (integer, 0 = on table)
-  h: number; // height in layers (from catalog)
-  color: ColorKey;
-  facing: Facing;
-  info: PieceInfo;
-  /**
-   * SNOT attachment: the piece is clipped onto the side studs of the brick
-   * occupying its own (x, z, layer) cell and hangs into the empty cell in
-   * `facing`. It claims no grid cell of its own, so the validator checks a
-   * side-stud host instead of studs underneath.
-   */
-  attach?: boolean;
-};
-
-export type StepPlacements = Placement[];
-export type PhasePlacements = StepPlacements[];
-export type BuildPlacements = Record<string, PhasePlacements>;
-
-/** Authored title + tip for each step, parallel to BuildPlacements. */
-export type StepMeta = { title: string; tip?: string };
-export type BuildMeta = Record<string, StepMeta[]>;
-
-// ─── Part catalog: real parts only, with color-specific part numbers ───
-
-type CatalogEntry = {
-  name: string;
-  h: number;
-  pn: string | { white: string; trans: string };
-};
-
-const CAT: Record<string, CatalogEntry> = {};
-function reg(kind: PartKind, a: number, b: number, h: number, name: string, pn: CatalogEntry["pn"]) {
-  const [lo, hi] = a <= b ? [a, b] : [b, a];
-  CAT[`${kind}:${lo}x${hi}`] = { name, h, pn };
-}
-
-// Bricks (3 layers)
-reg("brick", 1, 1, 3, "Brick 1×1", "3005");
-reg("brick", 1, 2, 3, "Brick 1×2", { white: "3004", trans: "3065" });
-reg("brick", 1, 3, 3, "Brick 1×3", "3622");
-reg("brick", 1, 4, 3, "Brick 1×4", "3010");
-reg("brick", 1, 6, 3, "Brick 1×6", "3009");
-reg("brick", 1, 8, 3, "Brick 1×8", "3008");
-reg("brick", 2, 2, 3, "Brick 2×2", "3003");
-reg("brick", 2, 3, 3, "Brick 2×3", "3002");
-reg("brick", 2, 4, 3, "Brick 2×4", "3001");
-reg("brick", 2, 6, 3, "Brick 2×6", "2456");
-// Plates (1 layer)
-reg("plate", 1, 1, 1, "Plate 1×1", { white: "3024w", trans: "3024" });
-reg("plate", 1, 2, 1, "Plate 1×2", { white: "3023w", trans: "3023" });
-reg("plate", 1, 3, 1, "Plate 1×3", "3623");
-reg("plate", 1, 4, 1, "Plate 1×4", "3710");
-reg("plate", 1, 6, 1, "Plate 1×6", "3666");
-reg("plate", 1, 10, 1, "Plate 1×10", "4477");
-reg("plate", 2, 2, 1, "Plate 2×2", "3022");
-reg("plate", 2, 3, 1, "Plate 2×3", "3021");
-reg("plate", 2, 4, 1, "Plate 2×4", "3020");
-reg("plate", 2, 6, 1, "Plate 2×6", "3795");
-reg("plate", 2, 8, 1, "Plate 2×8", "3034");
-reg("plate", 4, 4, 1, "Plate 4×4", "3031");
-reg("plate", 4, 6, 1, "Plate 4×6", "3032");
-reg("plate", 4, 8, 1, "Plate 4×8", "3035");
-reg("plate", 6, 6, 1, "Plate 6×6", "3958");
-reg("plate", 6, 8, 1, "Plate 6×8", "3036");
-reg("plate", 6, 10, 1, "Plate 6×10", "3033");
-reg("plate", 8, 8, 1, "Plate 8×8", "41539");
-reg("cornerPlate", 2, 2, 1, "Plate 2×2 Corner", "2420");
-// Tiles (1 layer, smooth)
-reg("tile", 1, 1, 1, "Tile 1×1", "3070b");
-reg("tile", 1, 2, 1, "Tile 1×2", "3069b");
-reg("grilleTile", 1, 2, 1, "Tile 1×2 Grille", "2412b");
-reg("tile", 1, 4, 1, "Tile 1×4", "2431");
-reg("tile", 1, 6, 1, "Tile 1×6", "6636");
-reg("tile", 2, 2, 1, "Tile 2×2", "3068b");
-// Round parts
-reg("roundBrick", 1, 1, 3, "Round Brick 1×1", "3062b");
-reg("roundBrick", 2, 2, 3, "Brick 2×2 Round", "3941");
-reg("roundPlate", 1, 1, 1, "Plate 1×1 Round", "4073");
-reg("roundPlate", 2, 2, 1, "Plate 2×2 Round", "4032");
-// Slopes
-reg("slope45", 1, 2, 3, "Slope 1×2 (45°)", "3040");
-reg("slope45", 2, 2, 3, "Slope 2×2 (45°)", "3039");
-reg("slope45", 2, 4, 3, "Slope 2×4 (45°)", "3037");
-reg("slope33", 1, 3, 3, "Slope 1×3 (25°)", "4286");
-reg("slope33", 2, 3, 3, "Slope 2×3 (25°)", "3298");
-reg("invSlope", 1, 2, 3, "Slope 1×2 Inverted", "3665");
-reg("curvedTop", 1, 2, 3, "Curved Top Brick 1×2", "6091");
-reg("arch", 1, 4, 3, "Arch 1×4", "3659");
-reg("panel", 1, 1, 3, "Panel 1×1×1 Corner", "6231");
-reg("panel", 1, 4, 3, "Panel 1×4×1 Rounded", "30413");
-reg("glassPanel", 1, 2, 6, "Trans-Clear Panel 1×2×2", "87552");
-reg("profile", 1, 2, 3, "Grille Brick 1×2", "2877");
-reg("headlight", 1, 1, 3, "Headlight Brick 1×1", "4070");
-reg("cheese", 1, 1, 2, "Cheese Slope 1×1×⅔", "54200");
-// Parts left unused by the Lakeside Panorama; the Frobisher section's palette
-reg("tile", 1, 8, 1, "Tile 1×8", "4162");
-reg("roundPlate", 4, 4, 1, "Plate 4×4 Round w/ Pin", "60474");
-reg("roundCornerPlate", 4, 4, 1, "Plate 4×4 Round Corner", "30565");
-reg("cornerBrick", 2, 2, 3, "Brick 2×2 Corner", "2357");
-reg("macaroni", 2, 2, 3, "Macaroni Brick 2×2", "85080");
-reg("jumper", 1, 2, 1, "Jumper Plate 1×2", "15573");
-reg("sideStud2", 1, 1, 3, "Brick 1×1 Studs 2 Sides", "47905");
-reg("sideStud4", 1, 1, 3, "Brick 1×1 Studs 4 Sides", "4733");
-reg("sideStudBrick", 1, 4, 3, "Brick 1×4 Side Studs", "30414");
-reg("steepSlope2", 1, 2, 6, "Slope 1×2×2 (65°)", "60481");
-reg("steepSlope3", 1, 2, 9, "Slope 1×2×3 (75°)", "4460b");
-reg("curvedSlope", 1, 3, 3, "Curved Slope 3×1", "50950");
-reg("curvedSlope", 2, 2, 2, "Slope 2×2 Double Convex", "3045");
-reg("wedgeL", 2, 4, 1, "Wedge 2×4 Left", "41768");
-reg("wedgeR", 2, 4, 1, "Wedge 2×4 Right", "41767");
-reg("invSlope", 1, 3, 3, "Slope 1×3 Inverted", "4287");
-reg("invSlope", 2, 2, 3, "Slope 2×2 Inverted", "3660");
-reg("invSlope", 2, 3, 3, "Slope 2×3 Inverted", "3747b");
-reg("slope33", 3, 4, 3, "Slope 3×4 (25°)", "3297");
-reg("slope33", 2, 4, 3, "Slope 2×4 (18°)", "30363");
-
-export function catalogEntry(kind: PartKind, w: number, d: number): CatalogEntry | undefined {
-  const lo = Math.min(w, d);
-  const hi = Math.max(w, d);
-  return CAT[`${kind}:${lo}x${hi}`];
-}
-
-export function partNumberFor(entry: CatalogEntry, color: ColorKey): string | undefined {
-  if (typeof entry.pn === "string") return entry.pn;
-  if (color === "trans") return entry.pn.trans;
-  return entry.pn.white;
-}
-
-// Kinds whose entire top face carries usable studs
-const FULL_STUD_TOP = new Set<PartKind>([
-  "brick", "plate", "roundBrick", "roundPlate", "cornerPlate", "invSlope",
-  "panel", "glassPanel", "profile", "headlight", "arch",
-  "cornerBrick", "sideStud2", "sideStud4", "sideStudBrick",
-  "roundCornerPlate", "wedgeL", "wedgeR",
-]);
-
-/** L-shaped kinds: a 2×2 footprint with the inner corner cell missing. */
-const L_SHAPED = new Set<PartKind>(["cornerPlate", "cornerBrick", "macaroni"]);
-
-/** Kinds that carry studs on their vertical faces (SNOT hosts). */
-const SIDE_STUD_HOSTS = new Set<PartKind>([
-  "sideStud2", "sideStud4", "sideStudBrick", "headlight",
-]);
-
-/** Cell excluded from an L-shaped corner plate, by facing. */
-function cornerMissing(p: Placement): [number, number] {
-  switch (p.facing) {
-    case "S": return [p.x + 1, p.z + 1];
-    case "W": return [p.x, p.z + 1];
-    case "N": return [p.x, p.z];
-    case "E": return [p.x + 1, p.z];
-  }
-}
-
-/**
- * A 4×4 round corner plate is a quarter disc: the three cells beyond the
- * radius (measured from the inner corner, chosen by facing) are absent.
- */
-function roundCornerAbsent(p: Placement): [number, number][] {
-  // Local offsets of the three clipped cells for facing "S" (inner corner at
-  // the piece's min-x / min-z), then mirrored per facing.
-  const local: [number, number][] = [[3, 3], [2, 3], [3, 2]];
-  return local.map(([i, j]) => {
-    switch (p.facing) {
-      case "S": return [p.x + i, p.z + j] as [number, number];
-      case "W": return [p.x + (3 - i), p.z + j] as [number, number];
-      case "N": return [p.x + (3 - i), p.z + (3 - j)] as [number, number];
-      case "E": return [p.x + i, p.z + (3 - j)] as [number, number];
-    }
-  });
-}
-
-export function footprintCells(p: Placement): [number, number][] {
-  const cells: [number, number][] = [];
-  for (let i = 0; i < p.w; i++) for (let j = 0; j < p.d; j++) cells.push([p.x + i, p.z + j]);
-  if (L_SHAPED.has(p.kind)) {
-    const [mx, mz] = cornerMissing(p);
-    return cells.filter(([cx, cz]) => !(cx === mx && cz === mz));
-  }
-  if (p.kind === "roundCornerPlate") {
-    const absent = roundCornerAbsent(p);
-    return cells.filter(([cx, cz]) => !absent.some(([ax, az]) => ax === cx && az === cz));
-  }
-  return cells;
-}
-
-/**
- * A macaroni brick carries only two studs, at the ends of its arc; the two
- * cells of the L that are orthogonally adjacent to the missing inner corner.
- */
-function macaroniStudCells(p: Placement): [number, number][] {
-  const [mx, mz] = cornerMissing(p);
-  return footprintCells(p).filter(([cx, cz]) => cx === mx || cz === mz);
-}
-
-/** Which cells of a placement have studs on top (absolute cells). */
-export function topStudCells(p: Placement): [number, number][] {
-  if (p.kind === "macaroni") return macaroniStudCells(p);
-  return FULL_STUD_TOP.has(p.kind) ? footprintCells(p) : [];
-}
-
-/** Studded back row of a 25°/33° slope (opposite the facing). */
-export function slopeStudCells(p: Placement): [number, number][] {
-  const cells: [number, number][] = [];
-  if (p.facing === "S") for (let i = 0; i < p.w; i++) cells.push([p.x + i, p.z]);
-  else if (p.facing === "N") for (let i = 0; i < p.w; i++) cells.push([p.x + i, p.z + p.d - 1]);
-  else if (p.facing === "E") for (let j = 0; j < p.d; j++) cells.push([p.x, p.z + j]);
-  else for (let j = 0; j < p.d; j++) cells.push([p.x + p.w - 1, p.z + j]);
-  return cells;
-}
-
-export function studCells(p: Placement): [number, number][] {
-  if (p.kind === "slope33") return slopeStudCells(p);
-  return topStudCells(p);
-}
-
-// ─── Builder ───────────────────────────────────────────────────────────
-
-export class Builder {
-  build: BuildPlacements = {};
-  meta: BuildMeta = {};
-  private phaseId = "";
-  private stepArr: StepPlacements | null = null;
-
-  phase(id: string) {
-    this.phaseId = id;
-    this.build[id] = [];
-    this.meta[id] = [];
-  }
-  step(title = "Build step", tip?: string) {
-    this.stepArr = [];
-    this.build[this.phaseId].push(this.stepArr);
-    this.meta[this.phaseId].push({ title, tip });
-  }
-  put(
-    kind: PartKind,
-    w: number,
-    d: number,
-    x: number,
-    z: number,
-    layer: number,
-    color: ColorKey,
-    desc: string,
-    facing: Facing = "S"
-  ) {
-    const entry = catalogEntry(kind, w, d);
-    const h = entry ? entry.h : 0;
-    const pn = entry ? partNumberFor(entry, color) : undefined;
-    const baseName = entry ? entry.name : `UNKNOWN ${kind} ${w}×${d}`;
-    const name =
-      color === "trans" && entry && typeof entry.pn !== "string"
-        ? `Trans-Clear ${baseName.replace("Trans-Clear ", "")}`
-        : baseName;
-    const info: PieceInfo = {
-      name,
-      partNumber: pn ?? "?",
-      description: desc,
-    };
-    this.stepArr!.push({ kind, w, d, x, z, layer, h, color, facing, info });
-  }
-  /** Clip a 1×1 finishing piece onto the side studs of the brick at (x, z, layer). */
-  putAttached(
-    kind: PartKind,
-    x: number,
-    z: number,
-    layer: number,
-    color: ColorKey,
-    desc: string,
-    facing: Facing
-  ) {
-    this.put(kind, 1, 1, x, z, layer, color, desc, facing);
-    this.stepArr![this.stepArr!.length - 1].attach = true;
-  }
-}
-
-// ─── Validator ─────────────────────────────────────────────────────────
-
-export function validateBuild(build: BuildPlacements): string[] {
-  const errors: string[] = [];
-  const all: { p: Placement; where: string }[] = [];
-  for (const [pid, phases] of Object.entries(build)) {
-    phases.forEach((step, si) => {
-      step.forEach((p, pi) => {
-        all.push({ p, where: `${pid} step ${si} piece ${pi} (${p.info.name} @ ${p.x},${p.z},L${p.layer})` });
-      });
-    });
-  }
-
-  // Static checks
-  for (const { p, where } of all) {
-    const entry = catalogEntry(p.kind, p.w, p.d);
-    if (!entry) errors.push(`NO SUCH PART: ${p.kind} ${p.w}×${p.d}; ${where}`);
-    else if (!partNumberFor(entry, p.color))
-      errors.push(`NO ${p.color.toUpperCase()} VERSION of ${entry.name}; ${where}`);
-    if (![p.w, p.d, p.x, p.z, p.layer].every(Number.isInteger))
-      errors.push(`OFF GRID (non-integer): ${where}`);
-    if (p.layer < 0) errors.push(`BELOW TABLE: ${where}`);
-  }
-
-  // Occupancy + support (order by layer so lower pieces exist first).
-  // SNOT attachments are validated in a second pass: they need a side-stud
-  // host in their own cell and clear air in the cell they hang into.
-  const sorted = [...all]
-    .filter((a) => !a.p.attach)
-    .sort((a, b) => a.p.layer - b.p.layer);
-  const occ = new Map<string, string>();
-  const studs = new Map<string, boolean>();
-  const sideHosts = new Map<string, Placement>();
-
-  for (const { p, where } of sorted) {
-    if (!Number.isInteger(p.layer) || !Number.isInteger(p.x)) continue;
-    for (const [cx, cz] of footprintCells(p)) {
-      for (let l = p.layer; l < p.layer + p.h; l++) {
-        const k = `${cx},${cz},${l}`;
-        const prev = occ.get(k);
-        if (prev) errors.push(`COLLISION at cell (${cx},${cz}) layer ${l}: ${where} overlaps ${prev}`);
-        else occ.set(k, where);
-        if (SIDE_STUD_HOSTS.has(p.kind)) sideHosts.set(k, p);
-      }
-    }
-    if (p.layer > 0) {
-      const supported = footprintCells(p).some(([cx, cz]) => studs.get(`${cx},${cz},${p.layer}`));
-      if (!supported) errors.push(`FLOATING (no studs beneath): ${where}`);
-    }
-    for (const [cx, cz] of studCells(p)) {
-      studs.set(`${cx},${cz},${p.layer + p.h}`, true);
-    }
-  }
-
-  const DELTA: Record<Facing, [number, number]> = {
-    N: [0, -1], S: [0, 1], E: [1, 0], W: [-1, 0],
-  };
-  const OPPOSITE: Record<Facing, Facing> = { N: "S", S: "N", E: "W", W: "E" };
-
-  for (const { p, where } of all) {
-    if (!p.attach) continue;
-    if (p.w !== 1 || p.d !== 1)
-      errors.push(`ATTACHMENT TOO LARGE (must be 1×1): ${where}`);
-    const key = `${p.x},${p.z},${p.layer}`;
-    const host = sideHosts.get(key);
-    if (!host) {
-      errors.push(`NO SIDE-STUD HOST at (${p.x},${p.z}) layer ${p.layer}: ${where}`);
-      continue;
-    }
-    // 4733 has studs on all four sides; the others only on their facing
-    // (47905 also on the opposite face).
-    const ok =
-      host.kind === "sideStud4" ||
-      host.facing === p.facing ||
-      (host.kind === "sideStud2" && OPPOSITE[host.facing] === p.facing);
-    if (!ok)
-      errors.push(
-        `HOST HAS NO STUD FACING ${p.facing} (${host.info.name} faces ${host.facing}): ${where}`
-      );
-    const [dx, dz] = DELTA[p.facing];
-    const blocker = occ.get(`${p.x + dx},${p.z + dz},${p.layer}`);
-    if (blocker) errors.push(`ATTACHMENT BLOCKED by ${blocker}: ${where}`);
-  }
-
-  // Sequential accessibility: walking the build in authored order (phase by
-  // phase, step by step), every piece must be lowerable straight down onto
-  // its studs; no piece from an earlier step may occupy any cell of the
-  // column above it. This is what makes the on-screen order followable with
-  // real bricks. Pieces within one step may be placed in any order, and
-  // side-clipped SNOT attachments are exempt (they arrive from the side).
-  {
-    const placedCols = new Map<string, { lo: number; hi: number; who: string }[]>();
-    for (const [pid, phases] of Object.entries(build)) {
-      phases.forEach((step, si) => {
-        // check against earlier steps only
-        for (const [pi, p] of step.entries()) {
-          if (p.attach || !Number.isInteger(p.layer)) continue;
-          const top = p.layer + p.h;
-          for (const [cx, cz] of footprintCells(p)) {
-            const col = placedCols.get(`${cx},${cz}`);
-            if (!col) continue;
-            const blocker = col.find((seg) => seg.lo >= top);
-            if (blocker) {
-              errors.push(
-                `NOT REACHABLE: ${pid} step ${si} piece ${pi} (${p.info.name} @ ${p.x},${p.z},L${p.layer}) ` +
-                  `slides in under ${blocker.who} already built above (L${blocker.lo})`
-              );
-              break;
-            }
-          }
-        }
-        // then register this step's pieces
-        for (const p of step) {
-          if (p.attach || !Number.isInteger(p.layer)) continue;
-          for (const [cx, cz] of footprintCells(p)) {
-            const key = `${cx},${cz}`;
-            const col = placedCols.get(key) ?? [];
-            col.push({ lo: p.layer, hi: p.layer + p.h, who: `${pid} step ${si} ${p.info.name}` });
-            placedCols.set(key, col);
-          }
-        }
-      });
-    }
-  }
-
-  return errors;
-}
 // ═══════════════════════════════════════════════════════════════════════
 // THE BUILD; Lakeside Panorama, 12 phases
 // Layout key:
@@ -844,8 +398,11 @@ function buildTerraceCore(b: Builder) {
   );
   for (const x of [-10, -6, -2, 2, 6]) b.put("plate", 4, 6, x, -2, DECK_L, "white", "Podium deck");
 
-  b.step("Deck parapet", "Rounded panels edge the deck where it faces the lake; the estate's highwalks all carry this same continuous rail line.");
-  for (const x of [-10, -6, -2, 2, 6]) b.put("panel", 4, 1, x, 3, DECK_L + 1, "white", "Deck parapet", "S");
+  b.step(
+    "Deck upstand",
+    "A course of 1×4 bricks edges the deck where it faces the lake. It carries the highwalk later, so it has to be studded: a studless panel here would leave the walkway with nothing to grip."
+  );
+  for (const x of [-10, -6, -2, 2, 6]) b.put("brick", 4, 1, x, 3, DECK_L + 1, "white", "Deck upstand");
 
   b.step("Parapet corners", "Corner panels turn the rail around the deck's back corners.");
   for (const [x, z] of [[-10, -2], [9, -2], [-10, -1], [9, -1]] as const)
@@ -989,12 +546,15 @@ function buildBarrelVault(b: Builder) {
 
   b.step(
     "Barrel vaults, rear row",
-    "Curved-top bricks laid side by side are the Barbican's most famous motif in miniature: the repeated white barrel vaults that crown all thirteen terrace blocks."
+    "Curved-top bricks laid side by side are the Barbican's most famous motif in miniature: the white barrel vaults that crown the terrace blocks. Point each hump north, away from the lake; the flat end with the recessed stud faces the ridge."
   );
-  for (let x = 4; x < 10; x++) b.put("curvedTop", 1, 2, x, -6, L + 4, "white", "Barrel vault cap", "E");
+  for (let x = 4; x < 10; x++) b.put("curvedTop", 1, 2, x, -6, L + 4, "white", "Barrel vault cap", "N");
 
-  b.step("Barrel vaults, front row", "A second row completes the vaulted roofscape.");
-  for (let x = 4; x < 10; x++) b.put("curvedTop", 1, 2, x, -4, L + 4, "white", "Barrel vault cap", "E");
+  b.step(
+    "Barrel vaults, front row",
+    "The front row faces the other way, humps toward the lake, so the two rows meet back to back and read as one continuous vault."
+  );
+  for (let x = 4; x < 10; x++) b.put("curvedTop", 1, 2, x, -4, L + 4, "white", "Barrel vault cap", "S");
 }
 
 function buildTowerCore(b: Builder) {
@@ -1065,9 +625,9 @@ function buildTowerCrown(b: Builder) {
   b.put("tile", 1, 1, -1, -11, L + 1, "white", "Platform trim tile");
   b.put("tile", 1, 1, 0, -11, L + 1, "white", "Platform trim tile");
 
-  b.step("Crown ridge", "Paired slopes close the motor room with a tiny duo-pitch.");
-  b.put("slope45", 2, 1, -1, -9, L + 7, "white", "Crown ridge", "N");
-  b.put("slope45", 2, 1, -1, -8, L + 7, "white", "Crown ridge", "S");
+  b.step("Crown roof", "Two slopes side by side close the motor room with a single pitch falling toward the lake.");
+  b.put("slope45", 1, 2, -1, -9, L + 7, "white", "Crown roof", "S");
+  b.put("slope45", 1, 2, 0, -9, L + 7, "white", "Crown roof", "S");
 
   b.step(
     "Mast and beacon",

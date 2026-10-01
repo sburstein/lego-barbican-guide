@@ -17,7 +17,12 @@
 //   Bastion   x 0..4,  z 0..4  (macaroni ring, pads beneath)
 //   Wall      x 4..16, z 0..2  (courses L1/L4/L7, gate opening x 10..12)
 //   Plaza     x 4..16, z 2..4  (paving, rubble, fallen blocks)
-//   Garden    x 0..16, z 4..8  (lawns, embankment, fig tree, cold frames)
+//   Garden    x 0..16, z 4..8  (lawn, fig tree, cold frames, gate path,
+//             front walk, embankment)
+//
+// The garden's base is seven plates. Nothing at layer 1 may leave one of
+// them loose, so the lawn plates, the gate path and the front walk are laid
+// across their joints: they are the garden's tie course.
 // ═══════════════════════════════════════════════════════════════════════
 
 import { Builder, type BuildPlacements, type BuildMeta } from "./lego-model.ts";
@@ -39,14 +44,13 @@ function buildSite(b: Builder) {
   b.put("plate", 8, 2, 8, 2, 0, "white", "Plaza pad");
 
   b.step(
-    "Garden pads and lower lawns",
-    "The garden side sits a level below the plaza. The front wedge plates go straight on the table as lawn; the estate's gardeners keep this bed green so the masonry always reads against planting."
+    "Garden pads",
+    "The garden side gets a long plate, two squares and four small plates. They are separate for now; the lawn and paths you lay in the garden phase bridge every joint."
   );
   b.put("plate", 8, 2, 0, 4, 0, "white", "Garden pad");
   b.put("plate", 4, 4, 8, 4, 0, "white", "Garden pad");
   b.put("plate", 4, 4, 12, 4, 0, "white", "Garden pad");
-  b.put("wedgeL", 4, 2, 0, 6, 0, "green", "Lower lawn");
-  b.put("wedgeR", 4, 2, 4, 6, 0, "green", "Lower lawn");
+  for (const x of [0, 2, 4, 6]) b.put("plate", 2, 2, x, 6, 0, "white", "Garden pad");
 }
 
 // ─── Phase 2: the bastion ──────────────────────────────────────────────
@@ -118,11 +122,11 @@ function buildWall(b: Builder) {
 
   b.step(
     "Standing shards",
-    "Steep slopes rise from the eastern stump as freestanding shards, the way the real fragment breaks off mid-air where the bombs bit through."
+    "Steep slopes rise from the eastern stump as freestanding shards, the way the real fragment breaks off mid-air where the bombs bit through. Alternate their faces, garden side, city side, garden side, so the break reads ragged from both sides."
   );
-  b.put("steepSlope2", 1, 2, 13, 0, WALL_L(2), "white", "Wall shard", "W");
-  b.put("steepSlope3", 1, 2, 14, 0, WALL_L(2), "white", "Wall shard", "E");
-  b.put("steepSlope2", 1, 2, 15, 0, WALL_L(2), "white", "Wall shard", "E");
+  b.put("steepSlope2", 1, 2, 13, 0, WALL_L(2), "white", "Wall shard", "S");
+  b.put("steepSlope3", 1, 2, 14, 0, WALL_L(2), "white", "Wall shard", "N");
+  b.put("steepSlope2", 1, 2, 15, 0, WALL_L(2), "white", "Wall shard", "S");
 
   b.step(
     "Weathered head and battlement",
@@ -131,7 +135,7 @@ function buildWall(b: Builder) {
   b.put("slope33", 3, 1, 4, 0, WALL_L(3), "white", "Weathered wall head", "E");
   b.put("slope33", 3, 1, 4, 1, WALL_L(3), "white", "Weathered wall head", "E");
   b.put("cornerPlate", 2, 2, 8, 0, WALL_L(3), "white", "Battlement tooth", "N");
-  b.put("slope45", 1, 2, 10, 0, WALL_L(3), "white", "Weathered wall head", "E");
+  b.put("slope45", 1, 2, 10, 0, WALL_L(3), "white", "Weathered wall head", "S");
 }
 
 // ─── Phase 4: the garden ───────────────────────────────────────────────
@@ -140,39 +144,55 @@ function buildGarden(b: Builder) {
   b.phase("lw-garden");
 
   b.step(
-    "Upper lawns and the fig tree",
-    "Two more wedges lay the upper lawn, and the estate's fig tree roots beside the bastion; gardeners planted figs here because the old wall traps warmth like a Roman courtyard."
+    "The lawn",
+    "Two quarter-round plates make one lawn with rounded front corners, and they bridge the joints in the garden base below. The estate's gardeners keep this bed green so the masonry always reads against planting."
   );
-  b.put("wedgeL", 4, 2, 0, 4, 1, "green", "Upper lawn");
-  b.put("wedgeR", 4, 2, 4, 4, 1, "green", "Upper lawn");
-  b.put("roundBrick", 1, 1, 2, 4, 2, "dark", "Fig tree trunk");
-  b.put("roundPlate", 1, 1, 2, 4, 5, "green", "Fig tree crown");
-  b.put("roundPlate", 1, 1, 2, 4, 6, "green", "Fig tree crown");
+  b.put("roundCornerPlate", 4, 4, 0, 4, 1, "green", "Lawn", "W");
+  b.put("roundCornerPlate", 4, 4, 4, 4, 1, "green", "Lawn", "S");
 
-  b.step("Grass embankment", "Long slopes bank the garden up toward the podium behind the wall.");
-  b.put("slope33", 4, 3, 8, 4, 1, "green", "Grass embankment", "S");
+  b.step(
+    "Gate path and front walk",
+    "A path runs south from the ruined gate, then the front walk turns east along the garden edge. Both are laid across plate joints, so they hold the garden to the plaza and to itself."
+  );
+  b.put("tile", 2, 2, 10, 3, 1, "dark", "Gate path");
+  b.put("tile", 2, 2, 10, 5, 1, "dark", "Gate path");
+  b.put("tile", 8, 1, 7, 7, 1, "dark", "Front walk");
+
+  b.step(
+    "The fig tree",
+    "The estate's fig tree roots in the lawn beside the bastion; gardeners planted figs here because the old wall traps warmth like a Roman courtyard."
+  );
+  b.put("roundBrick", 1, 1, 2, 5, 2, "dark", "Fig tree trunk");
+  b.put("roundPlate", 1, 1, 2, 5, 5, "green", "Fig tree crown");
+  b.put("roundPlate", 1, 1, 2, 5, 6, "green", "Fig tree crown");
+
+  b.step("Stepping stones", "Jumper plates, one centred stud each, cross the lawn from the front walk toward the fig tree.");
+  for (const z of [5, 6, 7]) b.put("jumper", 2, 1, 3, z, 2, "dark", "Stepping stone");
+
+  b.step("Grass embankment", "A long slope banks the garden up toward the podium behind the wall.");
   b.put("slope33", 4, 3, 12, 4, 1, "green", "Grass embankment", "S");
 
   b.step(
     "Cold frames",
-    "Two trans-clear cold frames grow salad crops against the south light, glass roofs laid flat like the real garden's frames."
+    "Two trans-clear cold frames grow salad crops against the south light: one on the paving by the path, one on the lawn. Each is two glass panels back to back, walls outward."
   );
-  for (const x of [1, 5]) {
-    b.put("glassPanel", 2, 1, x, 6, 1, "trans", "Cold frame back");
-    b.put("glassPanel", 2, 1, x, 7, 1, "trans", "Cold frame front");
-    b.put("plate", 2, 1, x, 6, 7, "trans", "Cold frame roof");
-    b.put("plate", 2, 1, x, 7, 7, "trans", "Cold frame roof");
+  for (const [x, l] of [[8, 1], [5, 2]] as const) {
+    b.put("glassPanel", 2, 1, x, 4, l, "trans", "Cold frame back", "N");
+    b.put("glassPanel", 2, 1, x, 5, l, "trans", "Cold frame front", "S");
+  }
+
+  b.step("Cold frame lids", "Trans plates lie flat across the panel tops as the frames' glass lids.");
+  for (const [x, l] of [[8, 1], [5, 2]] as const) {
+    b.put("plate", 2, 1, x, 4, l + 6, "trans", "Cold frame lid");
+    b.put("plate", 2, 1, x, 5, l + 6, "trans", "Cold frame lid");
   }
 
   b.step(
-    "Stepping stones and globe lamps",
-    "Jumper plates, one centred stud each, step across the garden; two trans studs on white bases are the estate's globe lamps, which floodlight the fragment at night."
+    "Globe lamps",
+    "Two trans studs on white bases are the estate's globe lamps, which floodlight the fragment at night."
   );
-  b.put("jumper", 2, 1, 10, 7, 1, "dark", "Stepping stone");
-  b.put("jumper", 2, 1, 13, 7, 1, "dark", "Stepping stone");
-  b.put("jumper", 2, 1, 4, 5, 2, "dark", "Stepping stone");
-  b.put("plate", 1, 1, 9, 7, 1, "white", "Lamp post");
-  b.put("plate", 1, 1, 9, 7, 2, "trans", "Globe lamp");
+  b.put("plate", 1, 1, 9, 6, 1, "white", "Lamp post");
+  b.put("plate", 1, 1, 9, 6, 2, "trans", "Globe lamp");
   b.put("plate", 1, 1, 15, 7, 1, "white", "Lamp post");
   b.put("plate", 1, 1, 15, 7, 2, "trans", "Globe lamp");
 }
@@ -188,7 +208,7 @@ function buildPlaza(b: Builder) {
   );
   b.put("tile", 8, 1, 4, 2, 1, "dark", "Plaza paving");
   b.put("tile", 6, 1, 4, 3, 1, "dark", "Plaza paving");
-  b.put("tile", 2, 2, 12, 2, 1, "dark", "Plaza paving");
+  b.put("grilleTile", 2, 1, 12, 2, 1, "dark", "Plaza drain");
 
   b.step(
     "Fallen rubble",
@@ -196,10 +216,10 @@ function buildPlaza(b: Builder) {
   );
   b.put("cheese", 1, 1, 14, 2, 1, "white", "Rubble", "S");
   b.put("cheese", 1, 1, 15, 3, 1, "white", "Rubble", "E");
-  b.put("cheese", 1, 1, 10, 3, 1, "white", "Rubble", "W");
+  b.put("cheese", 1, 1, 12, 3, 1, "white", "Rubble", "W");
   b.put("cheese", 1, 1, 14, 3, 1, "white", "Rubble", "N");
   b.put("sideStud4", 1, 1, 15, 2, 1, "white", "Fallen block", "S");
-  b.put("sideStud2", 1, 1, 11, 3, 1, "white", "Fallen block", "E");
+  b.put("sideStud2", 1, 1, 13, 3, 1, "white", "Fallen block", "E");
 }
 
 // ─── Entry point ───────────────────────────────────────────────────────

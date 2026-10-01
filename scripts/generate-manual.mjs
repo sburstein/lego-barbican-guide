@@ -6,21 +6,26 @@
 // following LEGO instruction-manual conventions: fixed camera, per-step
 // parts callouts, cumulative renders, phase dividers, parts inventory.
 //
-// Rendering is isometric SVG rather than a raster 3D render: every piece
-// is an axis-aligned solid on an integer grid, so vector output is exact,
-// stays crisp at any print size, and keeps the file small via <use> reuse.
+// Rendering is isometric SVG (scripts/lib/iso.mjs) rather than a raster 3D
+// render: vector output stays crisp at any print size and stays small via
+// <use> reuse. Part shapes, rotations and studs come from the engine
+// (src/engine/shapes.ts, canonicalToLocal), the same functions the
+// validator and the 3D viewer use, so the booklet draws parts as checked.
 //
-// Run: node scripts/generate-manual.mjs [buildId]
+// Run: node scripts/generate-manual.mjs [buildId] [--print]
 // ═══════════════════════════════════════════════════════════════════════
 
 import { writeFileSync, mkdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { studCells } from "../src/lego-model.ts";
 import { modelFor, phaseOrderFor } from "../src/build-models.ts";
 import { FULL_INVENTORY } from "../src/inventory.ts";
 import { ALL_BUILDS } from "../src/builds.ts";
+import {
+  ACCENT, C30, K, SET_COLOR, boundsOf, createSymbols, fitAspect,
+  occupancy, painterOrder, sceneSvg as isoScene, useTag as isoUse, vbStr, visible,
+} from "./lib/iso.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const OUT_DIR = resolve(HERE, "../manual");
@@ -34,396 +39,25 @@ const BUILD_ID = args.find((a) => !a.startsWith("--")) ?? "barbican-panorama";
 const SHEET_W = PRINT ? 303 : 297;
 const SHEET_H = PRINT ? 216 : 210;
 
-// ─── Projection ────────────────────────────────────────────────────────
-// Classic 30° isometric. 1 stud = 1 world unit in x/z; 1 plate = 0.4 units.
-
-const C30 = Math.cos(Math.PI / 6);
-const S30 = 0.5;
-const PLATE = 0.4;
-const K = 10; // world units -> SVG user units
-
-const proj = (x, z, y) => [(x - z) * C30 * K, ((x + z) * S30 - y) * K];
-
-// Light direction for face shading (above, slightly front-right).
-const LIGHT = (() => {
-  const v = [0.42, 0.86, 0.3];
-  const m = Math.hypot(...v);
-  return v.map((c) => c / m);
-})();
-
-// ─── Palette ───────────────────────────────────────────────────────────
-// The 21050 set is white and trans-clear only. The model tints some pieces
-// "dark" and "green" purely as a reading aid; the manual keeps that tint in
-// the renders (it makes zones legible) but the callouts state the real
-// set colour, which is always White or Trans-Clear.
-
-const BASE = {
-  white: [246, 246, 244],
-  dark: [124, 129, 133],
-  trans: [206, 231, 241],
-  green: [111, 162, 79],
-};
-
-const SET_COLOR = { white: "White", dark: "White", trans: "Trans-Clear", green: "White" };
-
-const ACCENT = "#E2571E";
-const shadeHex = (rgb, f, mute) => {
-  const g = mute ? 0.42 : 0; // blend toward paper for already-built work
-  const c = rgb.map((v) => {
-    const s = Math.max(0, Math.min(255, v * f));
-    return Math.round(s + (255 - s) * g);
-  });
-  return `#${c.map((v) => v.toString(16).padStart(2, "0")).join("")}`;
-};
-
-// ─── Solid decomposition ───────────────────────────────────────────────
-// Every part becomes one or more convex sub-solids expressed as polygon
-// faces in piece-local world coordinates. Outward normals are recovered by
-// pushing each face away from its sub-solid's centre, which is exact for
-// convex pieces, so slopes and cylinders shade correctly at any facing.
-
-/** Map canonical (span u, run v) coords to local (x, z) for a facing. */
-function axes(facing, w, d) {
-  switch (facing) {
-    case "S": return { U: w, V: d, m: (u, v) => [u, v] };
-    case "N": return { U: w, V: d, m: (u, v) => [u, d - v] };
-    case "E": return { U: d, V: w, m: (u, v) => [v, u] };
-    default:  return { U: d, V: w, m: (u, v) => [w - v, u] }; // W
-  }
-}
-
-const box = (x0, x1, z0, z1, y0, y1) => ({
-  faces: [
-    [[x0, z0, y1], [x1, z0, y1], [x1, z1, y1], [x0, z1, y1]], // top
-    [[x0, z0, y0], [x1, z0, y0], [x1, z1, y0], [x0, z1, y0]], // bottom
-    [[x1, z0, y0], [x1, z1, y0], [x1, z1, y1], [x1, z0, y1]], // +x
-    [[x0, z0, y0], [x0, z1, y0], [x0, z1, y1], [x0, z0, y1]], // -x
-    [[x0, z1, y0], [x1, z1, y0], [x1, z1, y1], [x0, z1, y1]], // +z
-    [[x0, z0, y0], [x1, z0, y0], [x1, z0, y1], [x0, z0, y1]], // -z
-  ],
-});
-
-/** Vertical n-gon prism (round bricks and plates, and stud bodies). */
-function prism(cx, cz, r, y0, y1, seg = 14) {
-  const ring = [];
-  for (let i = 0; i < seg; i++) {
-    const a = (i / seg) * Math.PI * 2;
-    ring.push([cx + r * Math.cos(a), cz + r * Math.sin(a)]);
-  }
-  const faces = [ring.map(([x, z]) => [x, z, y1]), ring.map(([x, z]) => [x, z, y0])];
-  for (let i = 0; i < seg; i++) {
-    const [ax, az] = ring[i];
-    const [bx, bz] = ring[(i + 1) % seg];
-    faces.push([[ax, az, y0], [bx, bz, y0], [bx, bz, y1], [ax, az, y1]]);
-  }
-  return { faces };
-}
-
-/** Wedge: flat top out to run vk, then a slope down to the deck at run V. */
-function wedge(ax, hh, vk) {
-  const { U, V, m } = ax;
-  const p = (u, v, y) => { const [x, z] = m(u, v); return [x, z, y]; };
-  return {
-    faces: [
-      [p(0, 0, hh), p(U, 0, hh), p(U, vk, hh), p(0, vk, hh)],       // top flat
-      [p(0, vk, hh), p(U, vk, hh), p(U, V, 0), p(0, V, 0)],          // slope
-      [p(0, 0, 0), p(U, 0, 0), p(U, V, 0), p(0, V, 0)],              // bottom
-      [p(0, 0, 0), p(U, 0, 0), p(U, 0, hh), p(0, 0, hh)],            // back
-      [p(0, 0, 0), p(0, V, 0), p(0, vk, hh), p(0, 0, hh)],           // side u=0
-      [p(U, 0, 0), p(U, V, 0), p(U, vk, hh), p(U, 0, hh)],           // side u=U
-    ],
-  };
-}
-
-/** Inverted wedge: flat studded top, underside cut away toward the run end. */
-function invWedge(ax, hh) {
-  const { U, V, m } = ax;
-  const vk = Math.max(0, V - 1);
-  const p = (u, v, y) => { const [x, z] = m(u, v); return [x, z, y]; };
-  return {
-    faces: [
-      [p(0, 0, hh), p(U, 0, hh), p(U, V, hh), p(0, V, hh)],          // top
-      [p(0, 0, 0), p(U, 0, 0), p(U, vk, 0), p(0, vk, 0)],            // bottom flat
-      [p(0, vk, 0), p(U, vk, 0), p(U, V, hh), p(0, V, hh)],          // underside slope
-      [p(0, 0, 0), p(U, 0, 0), p(U, 0, hh), p(0, 0, hh)],            // back
-      [p(0, 0, 0), p(0, vk, 0), p(0, V, hh), p(0, 0, hh)],           // side u=0
-      [p(U, 0, 0), p(U, vk, 0), p(U, V, hh), p(U, 0, hh)],           // side u=U
-    ],
-  };
-}
-
-/** Half-cylinder cap extruded along the piece's longer axis. */
-function curvedTopSolid(w, d, hh) {
-  const alongX = w >= d;
-  const r = (alongX ? d : w) / 2;
-  const body = box(0, w, 0, d, 0, Math.max(0, hh - r));
-  const y0 = Math.max(0, hh - r);
-  const seg = 10;
-  const arc = [];
-  for (let i = 0; i <= seg; i++) {
-    const a = Math.PI * (i / seg);
-    arc.push([r - r * Math.cos(a), y0 + r * Math.sin(a)]);
-  }
-  const faces = [];
-  const at = (t, s, y) => (alongX ? [t, s, y] : [s, t, y]);
-  const L = alongX ? w : d;
-  for (let i = 0; i < seg; i++) {
-    const [s0, ya] = arc[i];
-    const [s1, yb] = arc[i + 1];
-    faces.push([at(0, s0, ya), at(L, s0, ya), at(L, s1, yb), at(0, s1, yb)]);
-  }
-  faces.push(arc.map(([s, y]) => at(0, s, y)));
-  faces.push(arc.map(([s, y]) => at(L, s, y)));
-  return [body, { faces }];
-}
-
-/** Thin wall hugging the facing edge of the piece's footprint. */
-function panelSolid(w, d, hh, facing, t = 0.38) {
-  switch (facing) {
-    case "N": return box(0, w, 0, t, 0, hh);
-    case "E": return box(w - t, w, 0, d, 0, hh);
-    case "W": return box(0, t, 0, d, 0, hh);
-    default:  return box(0, w, d - t, d, 0, hh);
-  }
-}
-
-/** Arch: two legs and a head beam (the opening reads at print scale). */
-function archSolid(w, d, hh) {
-  const leg = Math.max(1, Math.round(w * 0.25));
-  const head = hh * 0.42;
-  return [
-    box(0, leg, 0, d, 0, hh - head),
-    box(w - leg, w, 0, d, 0, hh - head),
-    box(0, w, 0, d, hh - head, hh),
-  ];
-}
-
-/** L-shaped 2x2 corner plate, as two overlapping bars. */
-function cornerSolid(w, d, hh, facing) {
-  switch (facing) {
-    case "S": return [box(0, w, 0, 1, 0, hh), box(0, 1, 0, d, 0, hh)];
-    case "W": return [box(0, w, 0, 1, 0, hh), box(w - 1, w, 0, d, 0, hh)];
-    case "N": return [box(0, w, d - 1, d, 0, hh), box(w - 1, w, 0, d, 0, hh)];
-    default:  return [box(0, w, d - 1, d, 0, hh), box(0, 1, 0, d, 0, hh)];
-  }
-}
-
-function solidsFor(p) {
-  const { kind, w, d, facing } = p;
-  const hh = p.h * PLATE;
-  const ax = axes(facing, w, d);
-  switch (kind) {
-    case "roundBrick":
-    case "roundPlate":
-      return [prism(w / 2, d / 2, Math.min(w, d) / 2, 0, hh)];
-    case "slope45":  return [wedge(ax, hh, Math.max(0, ax.V - 1))];
-    case "slope33":  return [wedge(ax, hh, 1)];
-    case "cheese":   return [wedge(ax, hh, 0)];
-    case "invSlope": return [invWedge(ax, hh)];
-    case "curvedTop": return curvedTopSolid(w, d, hh);
-    case "arch":     return archSolid(w, d, hh);
-    case "cornerPlate":
-    case "cornerBrick": return cornerSolid(w, d, hh, facing);
-    case "panel":
-    case "glassPanel":  return [panelSolid(w, d, hh, facing)];
-    default: return [box(0, w, 0, d, 0, hh)];
-  }
-}
-
-// ─── Symbol emission ───────────────────────────────────────────────────
-
-const symbols = new Map(); // key -> svg markup
-
-function symbolKey(p, variant) {
-  return `p_${p.kind}_${p.w}x${p.d}_${p.h}_${p.color}_${p.facing}_${variant}`;
-}
-
-/** Build the <g> body for one piece at local origin. */
-function renderPiece(p, variant) {
-  const mute = variant === "o";
-  const isNew = variant === "n";
-  const studded = variant === "n" || variant === "i" || variant === "f";
-  const base = BASE[p.color] ?? BASE.white;
-  const solids = solidsFor(p);
-  const drawn = [];
-
-  for (const solid of solids) {
-    // Sub-solid centre, used to orient face normals outward.
-    let cx = 0, cy = 0, cz = 0, n = 0;
-    for (const f of solid.faces) for (const v of f) { cx += v[0]; cz += v[1]; cy += v[2]; n++; }
-    cx /= n; cz /= n; cy /= n;
-
-    for (const f of solid.faces) {
-      const [a, b, c] = f;
-      const u = [b[0] - a[0], b[1] - a[1], b[2] - a[2]];
-      const v = [c[0] - b[0], c[1] - b[1], c[2] - b[2]];
-      let nx = u[1] * v[2] - u[2] * v[1];
-      let ny = u[2] * v[0] - u[0] * v[2];
-      let nz = u[0] * v[1] - u[1] * v[0];
-      const len = Math.hypot(nx, ny, nz) || 1;
-      nx /= len; ny /= len; nz /= len;
-      // Face centroid, then flip the normal outward.
-      let fx = 0, fy = 0, fz = 0;
-      for (const q of f) { fx += q[0]; fz += q[1]; fy += q[2]; }
-      fx /= f.length; fz /= f.length; fy /= f.length;
-      if (nx * (fx - cx) + nz * (fz - cz) + ny * (fy - cy) < 0) { nx = -nx; ny = -ny; nz = -nz; }
-      // Cull back faces: the camera looks down the (1,1,1) diagonal. Note the
-      // normal's world axes are (x, z, y) -> screen depth uses x + z + y.
-      const facing = nx + nz + ny;
-      if (facing <= 0.0005) continue;
-
-      const lambert = Math.max(0, nx * LIGHT[0] + ny * LIGHT[1] + nz * LIGHT[2]);
-      const shade = 0.52 + 0.48 * lambert;
-      const pts = f.map(([x, z, y]) => proj(x, z, y));
-      const depth = fx + fz + fy;
-      drawn.push({ depth, pts, fill: shadeHex(base, shade, mute) });
-    }
-  }
-
-  drawn.sort((a, b) => a.depth - b.depth);
-
-  const edge = shadeHex(base, 0.55, mute);
-  const strokeW = isNew ? 0.9 : 0.55;
-  const stroke = isNew ? ACCENT : edge;
-  const op = p.color === "trans" ? (mute ? 0.4 : 0.66) : 1;
-
-  let out = `<g${op !== 1 ? ` opacity="${op}"` : ""}>`;
-  for (const f of drawn) {
-    const dstr = f.pts.map(([x, y], i) => `${i ? "L" : "M"}${x.toFixed(1)} ${y.toFixed(1)}`).join("") + "Z";
-    out += `<path d="${dstr}" fill="${f.fill}" stroke="${stroke}" stroke-width="${strokeW}" stroke-linejoin="round"/>`;
-  }
-
-  // Studs, drawn only where the piece actually presents them. Omitted on
-  // already-built work: at full-model scale they add noise and a large node
-  // count, and the muted massing reads better for a concrete building.
-  if (studded) {
-    const cells = studCells({ ...p, x: 0, z: 0 });
-    const top = p.h * PLATE;
-    const rx = 0.3 * Math.SQRT2 * C30 * K;
-    const ry = 0.3 * Math.SQRT2 * S30 * K;
-    const fill = shadeHex(base, 1.02, false);
-    for (const [sx, sz] of cells) {
-      const [px, py] = proj(sx + 0.5, sz + 0.5, top + 0.2);
-      out += `<ellipse cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" rx="${rx.toFixed(1)}" ry="${ry.toFixed(1)}" fill="${fill}" stroke="${stroke}" stroke-width="${(strokeW * 0.8).toFixed(2)}"/>`;
-    }
-  }
-  return out + "</g>";
-}
-
-function symbolFor(p, variant) {
-  const key = symbolKey(p, variant);
-  if (!symbols.has(key)) symbols.set(key, `<g id="${key}">${renderPiece(p, variant)}</g>`);
-  return key;
-}
-
-// ─── Scene assembly ────────────────────────────────────────────────────
-
-/** SNOT pieces hang into the neighbouring cell; nudge them there to draw. */
-const SNOT_DELTA = { N: [0, -0.62], S: [0, 0.62], E: [0.62, 0], W: [-0.62, 0] };
-
-function placeOf(p) {
-  if (!p.attach) return [p.x, p.z];
-  const [dx, dz] = SNOT_DELTA[p.facing];
-  return [p.x + dx, p.z + dz];
-}
-
-/** Painter's algorithm: draw far pieces first. Min corner is the stable key
- *  for grid-aligned solids (a max-corner key hides small parts under the
- *  large baseplate they sit on). */
-const depthKey = (p) => { const [x, z] = placeOf(p); return x + z + p.layer * PLATE; };
-
-function useTag(p, variant) {
-  const id = symbolFor(p, variant);
-  const [x, z] = placeOf(p);
-  const [sx, sy] = proj(x, z, p.layer * PLATE);
-  return `<use href="#${id}" x="${sx.toFixed(1)}" y="${sy.toFixed(1)}"/>`;
-}
-
-/** Occupancy of every 1x1x1-plate cell, used for cheap occlusion culling. */
-function occupancy(pieces) {
-  const set = new Set();
-  for (const p of pieces) {
-    if (p.attach) continue;
-    for (let i = 0; i < p.w; i++)
-      for (let j = 0; j < p.d; j++)
-        for (let l = p.layer; l < p.layer + p.h; l++)
-          set.add(`${p.x + i},${p.z + j},${l}`);
-  }
-  return set;
-}
-
-/** A piece is invisible when every cell it owns is blocked above, to +x and
- *  to +z. Culls buried foundation and tower interior without touching
- *  anything the builder can actually see. */
-function visible(p, occ) {
-  if (p.attach) return true;
-  const topL = p.layer + p.h;
-  for (let i = 0; i < p.w; i++) {
-    for (let j = 0; j < p.d; j++) {
-      const x = p.x + i, z = p.z + j;
-      for (let l = p.layer; l < topL; l++) {
-        if (!occ.has(`${x + 1},${z},${l}`)) return true;
-        if (!occ.has(`${x},${z + 1},${l}`)) return true;
-      }
-      if (!occ.has(`${x},${z},${topL}`)) return true;
-    }
-  }
-  return false;
-}
-
-function sceneSvg(built, fresh, viewBox, extraMarkup = "", freshVariant = "n") {
-  const occ = occupancy([...built, ...fresh]);
-  const items = [];
-  for (const p of built) if (visible(p, occ)) items.push({ p, v: "o" });
-  for (const p of fresh) if (freshVariant !== "f" || visible(p, occ)) items.push({ p, v: freshVariant });
-  items.sort((a, b) => depthKey(a.p) - depthKey(b.p) || a.p.layer - b.p.layer);
-  return `<svg class="scene" viewBox="${viewBox}" xmlns="http://www.w3.org/2000/svg">${
-    items.map(({ p, v }) => useTag(p, v)).join("")
-  }${extraMarkup}</svg>`;
-}
-
-function boundsOf(pieces, pad = 1.2) {
-  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
-  for (const p of pieces) {
-    const [bx, bz] = placeOf(p);
-    for (const [x, z, y] of [
-      [bx, bz, p.layer * PLATE], [bx + p.w, bz, p.layer * PLATE],
-      [bx, bz + p.d, p.layer * PLATE], [bx + p.w, bz + p.d, p.layer * PLATE],
-      [bx, bz, (p.layer + p.h) * PLATE], [bx + p.w, bz, (p.layer + p.h) * PLATE],
-      [bx, bz + p.d, (p.layer + p.h) * PLATE], [bx + p.w, bz + p.d, (p.layer + p.h) * PLATE],
-    ]) {
-      const [sx, sy] = proj(x, z, y);
-      x0 = Math.min(x0, sx); x1 = Math.max(x1, sx);
-      y0 = Math.min(y0, sy); y1 = Math.max(y1, sy);
-    }
-  }
-  const px = pad * K, py = pad * K;
-  return { x: x0 - px, y: y0 - py, w: x1 - x0 + 2 * px, h: y1 - y0 + 2 * py };
-}
-
-const vbStr = (b) => `${b.x.toFixed(1)} ${b.y.toFixed(1)} ${b.w.toFixed(1)} ${b.h.toFixed(1)}`;
-
-/** Grow a bounding box to a target aspect ratio so it fills the stage. */
-const STAGE_ASPECT = 0.83;
-function fitAspect(b, aspect = STAGE_ASPECT) {
-  let { x, y, w, h } = b;
-  if (w / h < aspect) { const nw = h * aspect; x -= (nw - w) / 2; w = nw; }
-  else { const nh = w / aspect; y -= (nh - h) * 0.74; h = nh; }
-  return { x, y, w, h };
-}
+// Rendering lives in scripts/lib/iso.mjs and takes every shape, rotation and
+// stud from the engine, so the booklet draws parts the way they were checked.
+const sym = createSymbols();
+const symbols = sym.symbols;
+const sceneSvg = (built, fresh, viewBox, extra = "", variant = "n") => isoScene(sym, built, fresh, viewBox, extra, variant);
+const useTag = (p, variant) => isoUse(sym, p, variant);
 
 // ─── Part icons for callouts ───────────────────────────────────────────
 
 const iconCache = new Map();
 function partIcon(src) {
-  // Callout and inventory icons must show the colour you actually pick up, so
+  // Callout and inventory icons show the colour you actually pick up, so
   // they ignore the guide tint the scene uses for water, paving and planting.
-  const p = { ...src, color: src.color === "trans" ? "trans" : "white" };
+  // Attached parts are drawn lying flat, the way they come out of the box.
+  const p = { ...src, color: src.color === "trans" ? "trans" : "white", attach: false, x: 0, z: 0, layer: 0 };
   const key = `${p.kind}_${p.w}x${p.d}_${p.h}_${p.color}_${p.facing}`;
   if (!iconCache.has(key)) {
-    const id = `i_${key}`;
-    symbols.set(id, `<g id="${id}">${renderPiece({ ...p, x: 0, z: 0, layer: 0 }, "i")}</g>`);
-    const b = boundsOf([{ ...p, x: 0, z: 0, layer: 0 }], 0.35);
+    const id = sym.idFor(p, "i");
+    const b = boundsOf([p], 0.35);
     iconCache.set(key, `<svg class="pico" viewBox="${vbStr(b)}" xmlns="http://www.w3.org/2000/svg"><use href="#${id}"/></svg>`);
   }
   return iconCache.get(key);
@@ -516,8 +150,7 @@ function stepPanel(step, cumulative, cam) {
       const b = boundsOf([p], 0);
       return b.x < nb.x + nb.w && b.x + b.w > nb.x && b.y < nb.y + nb.h && b.y + b.h > nb.y && visible(p, occ);
     });
-    const items = [...near.map((p) => ({ p, v: "i" })), ...step.pieces.map((p) => ({ p, v: "n" }))]
-      .sort((a, b) => depthKey(a.p) - depthKey(b.p) || a.p.layer - b.p.layer);
+    const items = painterOrder([...near.map((p) => ({ p, v: "i" })), ...step.pieces.map((p) => ({ p, v: "n" }))]);
     const midNew = (nb.x + nb.w / 2 - cam.b.x) / cam.b.w;
     const side = midNew > 0.5 ? " left" : "";
     inset = `<div class="inset${side}"><div class="inset-lbl">Detail</div><svg class="scene" viewBox="${vbStr(nb)}" xmlns="http://www.w3.org/2000/svg">${items.map(({ p, v }) => useTag(p, v)).join("")}</svg></div>`;
@@ -746,7 +379,7 @@ const html = `<!DOCTYPE html>
 <title>${esc(meta?.title ?? BUILD_ID)} — Building Instructions</title>
 <style>${CSS}${PRINT ? PRINT_CSS : ""}</style></head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>${[...symbols.values()].join("")}</defs></svg>
+${sym.defs()}
 ${pages.join("\n")}
 </body></html>`;
 

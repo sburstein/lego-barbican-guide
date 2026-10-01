@@ -187,8 +187,7 @@ const barbicanPanorama: Build = {
           title: "Seam ties, west and east",
           instruction: "Place 1× Plate 2×4 (seam tie (west)) and 1× Plate 2×4 (seam tie (east)); toward the rear of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Plate 2×4", part: "3020", qty: 1 },
-            { name: "Plate 2×4", part: "3020", qty: 1 },
+            { name: "Plate 2×4", part: "3020", qty: 2 },
           ],
           tip: "Plates bridging a joint lock two baseplates into one slab; the same job the podium's expansion joints and ties do across the estate.",
         },
@@ -204,13 +203,9 @@ const barbicanPanorama: Build = {
           title: "Edge beams around the rim",
           instruction: "Place 2× Plate 1×10 (front edge beam); 1× Plate 1×4 (front edge beam); 2× Plate 1×6 (back edge beam); 1× Plate 1×10 (left edge beam); 1× Plate 1×6 (left edge beam); 1× Plate 1×10 (right edge beam); and 1× Plate 1×6 (right edge beam); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Plate 1×10", part: "4477", qty: 2 },
+            { name: "Plate 1×10", part: "4477", qty: 4 },
             { name: "Plate 1×4", part: "3710", qty: 1 },
-            { name: "Plate 1×6", part: "3666", qty: 2 },
-            { name: "Plate 1×10", part: "4477", qty: 1 },
-            { name: "Plate 1×6", part: "3666", qty: 1 },
-            { name: "Plate 1×10", part: "4477", qty: 1 },
-            { name: "Plate 1×6", part: "3666", qty: 1 },
+            { name: "Plate 1×6", part: "3666", qty: 4 },
           ],
           tip: "The estate reads as a walled city; its name comes from the Latin barbecana, a fortified outer gateway. These dark beams start that defensive edge.",
         },
@@ -218,8 +213,7 @@ const barbicanPanorama: Build = {
           title: "Tower raft foundation",
           instruction: "Place 3× Plate 4×6 (tower reinforcement l1) and 2× Plate 4×6 (tower reinforcement l2); toward the rear of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Plate 4×6", part: "3032", qty: 3 },
-            { name: "Plate 4×6", part: "3032", qty: 2 },
+            { name: "Plate 4×6", part: "3032", qty: 5 },
           ],
           tip: "Ove Arup's engineers gave each tower a massive raft so 43 storeys of concrete could stand beside Underground tunnels. Two stacked plate layers are your raft.",
         },
@@ -251,10 +245,8 @@ const barbicanPanorama: Build = {
           title: "Lake border",
           instruction: "Place 3× Plate 1×4 (lake border (back)); 3× Plate 1×4 (lake border (front)); 1× Plate 1×3 (lake border (left)); and 1× Plate 1×3 (lake border (right)); toward the front of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Plate 1×4", part: "3710", qty: 3 },
-            { name: "Plate 1×4", part: "3710", qty: 3 },
-            { name: "Plate 1×3", part: "3623", qty: 1 },
-            { name: "Plate 1×3", part: "3623", qty: 1 },
+            { name: "Plate 1×4", part: "3710", qty: 6 },
+            { name: "Plate 1×3", part: "3623", qty: 2 },
           ],
           tip: "The dark border is the lake's concrete lip. In the real thing, fountains run along the terrace side and residents' balconies look straight down onto the water.",
         },
@@ -438,12 +430,12 @@ const barbicanPanorama: Build = {
           tip: "The deck drops onto the column capitals and turns the colonnade into an undercroft. On the estate this level is where all pedestrian life happens; no cars anywhere above ground.",
         },
         {
-          title: "Deck parapet",
-          instruction: "Place 5× Panel 1×4×1 Rounded (deck parapet); in the centre of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          title: "Deck upstand",
+          instruction: "Place 5× Brick 1×4 (deck upstand); in the centre of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Panel 1×4×1 Rounded", part: "30413", qty: 5 },
+            { name: "Brick 1×4", part: "3010", qty: 5 },
           ],
-          tip: "Rounded panels edge the deck where it faces the lake; the estate's highwalks all carry this same continuous rail line.",
+          tip: "A course of 1×4 bricks edges the deck where it faces the lake. It carries the highwalk later, so it has to be studded: a studless panel here would leave the walkway with nothing to grip.",
         },
         {
           title: "Parapet corners",
@@ -523,9 +515,8 @@ const barbicanPanorama: Build = {
           instruction: "Place 2× Brick 1×6 (terrace back wall); 2× Brick 1×4 (terrace back wall); 2× Brick 1×2 (terrace end wall); and 5× Brick 1×4 (spandrel course); toward the rear of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Brick 1×6", part: "3009", qty: 2 },
-            { name: "Brick 1×4", part: "3010", qty: 2 },
+            { name: "Brick 1×4", part: "3010", qty: 7 },
             { name: "Brick 1×2", part: "3004", qty: 2 },
-            { name: "Brick 1×4", part: "3010", qty: 5 },
           ],
           tip: "The terrace blocks are seven storeys in real life; three here. The spandrel course uses 1×4 bricks; read them as the pick-hammered concrete panels between windows.",
         },
@@ -579,9 +570,8 @@ const barbicanPanorama: Build = {
           instruction: "Place 2× Brick 1×6 (terrace back wall); 2× Brick 1×4 (terrace back wall); 2× Brick 1×2 (terrace end wall); and 5× Brick 1×4 (spandrel course); toward the rear of the model, about 5 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Brick 1×6", part: "3009", qty: 2 },
-            { name: "Brick 1×4", part: "3010", qty: 2 },
+            { name: "Brick 1×4", part: "3010", qty: 7 },
             { name: "Brick 1×2", part: "3004", qty: 2 },
-            { name: "Brick 1×4", part: "3010", qty: 5 },
           ],
           tip: "The estate's exposed concrete was hand-finished: after 21 days' curing, workers with pick hammers chipped the whole surface to expose the Penlee granite aggregate; over 200,000 m² of it, reportedly by a team of six.",
         },
@@ -635,9 +625,8 @@ const barbicanPanorama: Build = {
           instruction: "Place 2× Brick 1×6 (terrace back wall); 2× Brick 1×4 (terrace back wall); 2× Brick 1×2 (terrace end wall); and 5× Brick 1×4 (spandrel course); toward the rear of the model, about 7 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Brick 1×6", part: "3009", qty: 2 },
-            { name: "Brick 1×4", part: "3010", qty: 2 },
+            { name: "Brick 1×4", part: "3010", qty: 7 },
             { name: "Brick 1×2", part: "3004", qty: 2 },
-            { name: "Brick 1×4", part: "3010", qty: 5 },
           ],
           tip: "Top storey. In the real blocks the uppermost flats are the prized ones, tucked directly under the barrel vaults.",
         },
@@ -720,8 +709,7 @@ const barbicanPanorama: Build = {
           title: "Deck planters",
           instruction: "Place 2× Plate 1×1 Round (deck planter) and 2× Plate 1×1 Round (deck planting); in the centre of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Plate 1×1 Round", part: "4073", qty: 2 },
-            { name: "Plate 1×1 Round", part: "4073", qty: 2 },
+            { name: "Plate 1×1 Round", part: "4073", qty: 4 },
           ],
           tip: "Round planters with greenery break up the podium paving, matching the estate's raised beds.",
         },
@@ -795,19 +783,19 @@ const barbicanPanorama: Build = {
         },
         {
           title: "Barrel vaults, rear row",
-          instruction: "Place 6× Curved Top Brick 1×2 (barrel vault cap); at the rear east of the model, about 11 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          instruction: "Place 6× Slope Curved 2×1×1⅓ (barrel vault cap); at the rear east of the model, about 11 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Curved Top Brick 1×2", part: "6091", qty: 6 },
+            { name: "Slope Curved 2×1×1⅓", part: "6091", qty: 6 },
           ],
-          tip: "Curved-top bricks laid side by side are the Barbican's most famous motif in miniature: the repeated white barrel vaults that crown all thirteen terrace blocks.",
+          tip: "Curved-top bricks laid side by side are the Barbican's most famous motif in miniature: the white barrel vaults that crown the terrace blocks. Point each hump north, away from the lake; the flat end with the recessed stud faces the ridge.",
         },
         {
           title: "Barrel vaults, front row",
-          instruction: "Place 6× Curved Top Brick 1×2 (barrel vault cap); on the east side, about 11 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          instruction: "Place 6× Slope Curved 2×1×1⅓ (barrel vault cap); on the east side, about 11 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Curved Top Brick 1×2", part: "6091", qty: 6 },
+            { name: "Slope Curved 2×1×1⅓", part: "6091", qty: 6 },
           ],
-          tip: "A second row completes the vaulted roofscape.",
+          tip: "The front row faces the other way, humps toward the lake, so the two rows meet back to back and read as one continuous vault.",
         },
       ],
     },
@@ -938,9 +926,8 @@ const barbicanPanorama: Build = {
           instruction: "Place 2× Brick 1×3 (tower y-plan course); 2× Brick 1×2 (tower y-plan course); 1× Brick 2×2 (tower y-plan course); and 3× Brick 1×2 (tower spandrel course); toward the rear of the model, about 27 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Brick 1×3", part: "3622", qty: 2 },
-            { name: "Brick 1×2", part: "3004", qty: 2 },
+            { name: "Brick 1×2", part: "3004", qty: 5 },
             { name: "Brick 2×2", part: "3003", qty: 1 },
-            { name: "Brick 1×2", part: "3004", qty: 3 },
           ],
           tip: "Second setback; from here the wings are single studs, all point.",
         },
@@ -950,9 +937,8 @@ const barbicanPanorama: Build = {
           pieces: [
             { name: "Brick 2×2", part: "3003", qty: 1 },
             { name: "Tile 1×2 Grille", part: "2412b", qty: 2 },
-            { name: "Brick 1×2", part: "3004", qty: 1 },
+            { name: "Brick 1×2", part: "3004", qty: 2 },
             { name: "Brick 2×4", part: "3001", qty: 1 },
-            { name: "Brick 1×2", part: "3004", qty: 1 },
             { name: "Plate 2×6", part: "3795", qty: 1 },
             { name: "Plate 2×2", part: "3022", qty: 1 },
             { name: "Cheese Slope 1×1×⅔", part: "54200", qty: 4 },
@@ -964,10 +950,9 @@ const barbicanPanorama: Build = {
           instruction: "Place 2× Brick 1×3 (tower y-plan course); 2× Brick 1×2 (tower y-plan course); 1× Brick 2×2 (tower y-plan course); 2× Tile 1×2 Grille (tower vent course); and 1× Brick 1×2 (tower spandrel course); toward the rear of the model, about 31 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Brick 1×3", part: "3622", qty: 2 },
-            { name: "Brick 1×2", part: "3004", qty: 2 },
+            { name: "Brick 1×2", part: "3004", qty: 3 },
             { name: "Brick 2×2", part: "3003", qty: 1 },
             { name: "Tile 1×2 Grille", part: "2412b", qty: 2 },
-            { name: "Brick 1×2", part: "3004", qty: 1 },
           ],
           tip: "Top courses. Each real tower finishes with two or three floors of penthouses.",
         },
@@ -1080,20 +1065,19 @@ const barbicanPanorama: Build = {
           tip: "Tiles finish the rear terrace smooth.",
         },
         {
-          title: "Crown ridge",
-          instruction: "Place 2× Slope 1×2 (45°) (crown ridge); toward the rear of the model, about 38 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          title: "Crown roof",
+          instruction: "Place 2× Slope 1×2 (45°) (crown roof); toward the rear of the model, about 38 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Slope 1×2 (45°)", part: "3040", qty: 2 },
           ],
-          tip: "Paired slopes close the motor room with a tiny duo-pitch.",
+          tip: "Two slopes side by side close the motor room with a single pitch falling toward the lake.",
         },
         {
           title: "Mast and beacon",
           instruction: "Place 1× Round Brick 1×1 (mast base); 2× Plate 1×1 Round (mast ring); and 1× Plate 1×1 Round (mast beacon); toward the rear of the model, about 36 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Round Brick 1×1", part: "3062b", qty: 1 },
-            { name: "Plate 1×1 Round", part: "4073", qty: 2 },
-            { name: "Plate 1×1 Round", part: "4073", qty: 1 },
+            { name: "Plate 1×1 Round", part: "4073", qty: 3 },
           ],
           tip: "A slim mast with its aircraft beacon tops out at the equivalent of 123 metres. Cromwell Tower's real beacon blinks over the City every night.",
         },
@@ -1142,9 +1126,7 @@ const barbicanPanorama: Build = {
           title: "Glazing panels all round",
           instruction: "Place 2× Trans-Clear Panel 1×2×2 (side glazing); 2× Trans-Clear Panel 1×2×2 (rear glazing); and 2× Trans-Clear Panel 1×2×2 (front glazing); on the east side, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Trans-Clear Panel 1×2×2", part: "87552", qty: 2 },
-            { name: "Trans-Clear Panel 1×2×2", part: "87552", qty: 2 },
-            { name: "Trans-Clear Panel 1×2×2", part: "87552", qty: 2 },
+            { name: "Trans-Clear Panel 1×2×2", part: "87552", qty: 6 },
           ],
           tip: "Trans-clear wall panels close the glass house. The real steel-and-glass roof covers 23,000 square feet over hand-mixed soil beds.",
         },
@@ -1152,8 +1134,7 @@ const barbicanPanorama: Build = {
           title: "Ring beam",
           instruction: "Place 1× Plate 1×6 (ring plate (front)); 1× Plate 1×6 (ring plate (back)); and 2× Plate 1×2 (ring plate (side)); on the east side, about 5 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Plate 1×6", part: "3666", qty: 1 },
-            { name: "Plate 1×6", part: "3666", qty: 1 },
+            { name: "Plate 1×6", part: "3666", qty: 2 },
             { name: "Plate 1×2", part: "3023w", qty: 2 },
           ],
           tip: "Plates over the panels form the ring beam that carries the glass roof.",
@@ -1170,9 +1151,8 @@ const barbicanPanorama: Build = {
           title: "Paths and entry",
           instruction: "Place 1× Tile 1×2 (interior path); 1× Tile 1×1 (interior path); and 1× Tile 1×2 (conservatory entry); on the east side, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Tile 1×2", part: "3069b", qty: 1 },
+            { name: "Tile 1×2", part: "3069b", qty: 2 },
             { name: "Tile 1×1", part: "3070b", qty: 1 },
-            { name: "Tile 1×2", part: "3069b", qty: 1 },
           ],
           tip: "Dark tiles thread a visitor path through the beds and mark the entrance outside.",
         },
@@ -1220,10 +1200,8 @@ const barbicanPanorama: Build = {
           title: "Lakeside promenade",
           instruction: "Place 1× Tile 1×4 (promenade (west)); 1× Tile 1×2 (promenade (west)); 1× Tile 1×4 (promenade (east)); and 1× Tile 1×2 (promenade (east)); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Tile 1×4", part: "2431", qty: 1 },
-            { name: "Tile 1×2", part: "3069b", qty: 1 },
-            { name: "Tile 1×4", part: "2431", qty: 1 },
-            { name: "Tile 1×2", part: "3069b", qty: 1 },
+            { name: "Tile 1×4", part: "2431", qty: 2 },
+            { name: "Tile 1×2", part: "3069b", qty: 2 },
           ],
           tip: "The promenade along the water is the estate's social spine; cafe tables from the Centre spill onto the real one.",
         },
@@ -1247,8 +1225,7 @@ const barbicanPanorama: Build = {
           title: "Waterfront trim",
           instruction: "Place 4× Tile 1×2 (waterfront trim) and 2× Tile 1×2 (waterfront strip); toward the front of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Tile 1×2", part: "3069b", qty: 4 },
-            { name: "Tile 1×2", part: "3069b", qty: 2 },
+            { name: "Tile 1×2", part: "3069b", qty: 6 },
           ],
           tip: "Short tiles finish the water's outer edges, including strips on the front edge beams.",
         },
@@ -1283,8 +1260,7 @@ const barbicanPanorama: Build = {
           title: "Threshold and walkway cap",
           instruction: "Place 1× Tile 1×2 (entrance threshold) and 1× Tile 1×2 (walkway cap); in the centre of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Tile 1×2", part: "3069b", qty: 1 },
-            { name: "Tile 1×2", part: "3069b", qty: 1 },
+            { name: "Tile 1×2", part: "3069b", qty: 2 },
           ],
           tip: "Dark tiles mark the Centre's entrance threshold on the deck.",
         },
@@ -1358,7 +1334,7 @@ const frobisherSection: Build = {
     "The Lakeside Panorama is the wide shot. This is the close-up: a single bay of Frobisher Crescent cut open like an architect's section drawing, so you can read the podium undercroft, three floors of flats, the recessed window bands and the barrel-vaulted roof all at once. It uses 167 pieces, every one of them left over after the panorama is built — including the twelve curved slopes, the side-stud bricks and the macaroni bricks the panorama never touches. Build it second and the two models sit together as a pair; build it alone and you still have most of the set spare.",
   difficulty: 2,
   estimatedTime: "2–3 hours",
-  pieceCount: 167,
+  pieceCount: 163,
   concept: "Section, Surface & Repetition",
   heroPhoto: SHARED_PHOTOS.terrace.url,
   photos: {
@@ -1408,8 +1384,7 @@ const frobisherSection: Build = {
           title: "Back and front seam ties",
           instruction: "Place 2× Plate 2×8 (seam tie (back)) and 2× Plate 2×8 (seam tie (front)); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Plate 2×8", part: "3034", qty: 2 },
-            { name: "Plate 2×8", part: "3034", qty: 2 },
+            { name: "Plate 2×8", part: "3034", qty: 4 },
           ],
           tip: "Two more tie courses finish the raft. Press every tie down along its full length.",
         },
@@ -1540,11 +1515,11 @@ const frobisherSection: Build = {
         },
         {
           title: "Balcony decking, first floor",
-          instruction: "Place 4× Tile 1×2 Grille (balcony grille decking); in the centre of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          instruction: "Place 4× Tile 1×1 (balcony decking); in the centre of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Tile 1×2 Grille", part: "2412b", qty: 4 },
+            { name: "Tile 1×1", part: "3070b", qty: 4 },
           ],
-          tip: "Grille tiles deck the balcony now, before the next storey closes over it; the same reach-under trap as the undercroft, avoided the same way.",
+          tip: "Tile the balcony in front of each window slot now, before the next storey closes over it. Leave the stud in front of each pier bare: the next storey's clip-on panels hang down to just above it, and a tile there would block them.",
         },
       ],
     },
@@ -1618,11 +1593,11 @@ const frobisherSection: Build = {
         },
         {
           title: "Balcony decking, second floor",
-          instruction: "Place 4× Tile 1×2 Grille (balcony grille decking); in the centre of the model, about 5 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          instruction: "Place 4× Tile 1×1 (balcony decking); in the centre of the model, about 5 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Tile 1×2 Grille", part: "2412b", qty: 4 },
+            { name: "Tile 1×1", part: "3070b", qty: 4 },
           ],
-          tip: "Grille tiles deck the balcony now, before the next storey closes over it; the same reach-under trap as the undercroft, avoided the same way.",
+          tip: "Tile the balcony in front of each window slot now, before the next storey closes over it. Leave the stud in front of each pier bare: the next storey's clip-on panels hang down to just above it, and a tile there would block them.",
         },
       ],
     },
@@ -1739,7 +1714,7 @@ const frobisherSection: Build = {
       icon: "🌿",
       time: "20–25 min",
       location:
-        "The last phase is everything that is not the building: the promenade in front, the retaining wall holding the podium up, and the planting and street furniture that make the estate habitable. It is also where the remaining odd parts finally get used — macaroni bricks for the rounded site corners, round corner plates for the aprons, corner bricks for the planters.",
+        "The last phase is everything that is not the building: the promenade in front, the retaining wall holding the podium up, and the planting and street furniture that make the estate habitable. It is also where the remaining odd parts finally get used: round corner plates for the aprons, corner bricks for the planters.",
       steps: [
         {
           title: "Promenade paving",
@@ -1760,20 +1735,12 @@ const frobisherSection: Build = {
         },
         {
           title: "Plaza aprons and planting",
-          instruction: "Place 2× Plate 4×4 Round Corner (plaza apron) and 1× Plate 4×4 Round w/ Pin (plaza planting bed); toward the front of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
+          instruction: "Place 2× Plate 4×4 Round Corner (plaza apron) and 1× Plate 4×4 Round (plaza planting bed); toward the front of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Plate 4×4 Round Corner", part: "30565", qty: 2 },
-            { name: "Plate 4×4 Round w/ Pin", part: "60474", qty: 1 },
+            { name: "Plate 4×4 Round", part: "60474", qty: 1 },
           ],
           tip: "Quarter-round plates sweep the plaza's corners, with a circular planting bed set into the western one.",
-        },
-        {
-          title: "Rounded site corners",
-          instruction: "Place 4× Macaroni Brick 2×2 (rounded site corner); toward the rear of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
-          pieces: [
-            { name: "Macaroni Brick 2×2", part: "85080", qty: 4 },
-          ],
-          tip: "Macaroni bricks round off the site; the crescent's geometry is all curves meeting straight party walls.",
         },
         {
           title: "Podium furniture",
@@ -1814,10 +1781,10 @@ const londonWall: Build = {
   title: "London Wall & Bastion",
   subtitle: "The ruin inside the estate: the ancient barbican the Barbican is named for",
   description:
-    "Inside the concrete megastructure stands something fifteen centuries older: a fragment of the Roman and medieval London Wall with a round bastion, preserved as the centrepiece of a sunken garden. This build recreates it from the pieces the other two models leave in the box, slopes, wedges, corner plates and macaroni bricks, which happen to be exactly the palette of a ruin. Build all three and the full set stands on your shelf at once: estate, section, and the ancient gate that named them.",
+    "Inside the concrete megastructure stands something fifteen centuries older: a fragment of the Roman and medieval London Wall with a round bastion, preserved as the centrepiece of a sunken garden. This build recreates it from the pieces the other two models leave in the box, slopes, macaroni bricks, quarter-round and corner plates, which happen to be exactly the palette of a ruin. Build all three and the full set stands on your shelf at once: estate, section, and the ancient gate that named them.",
   difficulty: 1,
   estimatedTime: "45–60 min",
-  pieceCount: 73,
+  pieceCount: 77,
   concept: "Ruins, Memory & the Name",
   heroPhoto: SHARED_PHOTOS.aerial.url,
   photos: {
@@ -1836,12 +1803,12 @@ const londonWall: Build = {
     {
       id: "lw-base",
       title: "Phase 1: The Site",
-      concept: "Two Levels",
+      concept: "Wall and Garden",
       color: "#6B7280",
       icon: "🧱",
       time: "10 min",
       location:
-        "The wall fragment stands in a sunken garden below podium level, so the site has two heights from the start: a paved plaza on the city side and lawns a level lower on the garden side. When the Blitz levelled Cripplegate it exposed stretches of ancient wall that buildings had hidden for centuries; the architects designed the estate around them.",
+        "The wall fragment stands in a sunken garden below podium level, so the site is laid out in two zones from the start: a paved walk along the foot of the wall and a garden beyond it. When the Blitz levelled Cripplegate it exposed stretches of ancient wall that buildings had hidden for centuries; the architects designed the estate around them.",
       steps: [
         {
           title: "Plaza pads",
@@ -1852,15 +1819,14 @@ const londonWall: Build = {
           tip: "This corner of the estate is the Barbican's oldest resident: a stretch of the Roman and medieval city wall that survived the Great Fire, the Victorians and the Blitz.",
         },
         {
-          title: "Garden pads and lower lawns",
-          instruction: "Place 1× Plate 2×8 (garden pad); 2× Plate 4×4 (garden pad); 1× Wedge 2×4 Left (lower lawn); and 1× Wedge 2×4 Right (lower lawn); toward the front of the model, directly on the table. Match the coral pieces in the 3D view for exact positions.",
+          title: "Garden pads",
+          instruction: "Place 1× Plate 2×8 (garden pad); 2× Plate 4×4 (garden pad); and 4× Plate 2×2 (garden pad); toward the front of the model, directly on the table. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Plate 2×8", part: "3034", qty: 1 },
             { name: "Plate 4×4", part: "3031", qty: 2 },
-            { name: "Wedge 2×4 Left", part: "41768", qty: 1 },
-            { name: "Wedge 2×4 Right", part: "41767", qty: 1 },
+            { name: "Plate 2×2", part: "3022", qty: 4 },
           ],
-          tip: "The garden side sits a level below the plaza. The front wedge plates go straight on the table as lawn; the estate's gardeners keep this bed green so the masonry always reads against planting.",
+          tip: "The garden side gets a long plate, two squares and four small plates. They are separate for now; the lawn and paths you lay in the garden phase bridge every joint.",
         },
       ],
     },
@@ -1961,7 +1927,7 @@ const londonWall: Build = {
             { name: "Slope 1×2×2 (65°)", part: "60481", qty: 2 },
             { name: "Slope 1×2×3 (75°)", part: "4460b", qty: 1 },
           ],
-          tip: "Steep slopes rise from the eastern stump as freestanding shards, the way the real fragment breaks off mid-air where the bombs bit through.",
+          tip: "Steep slopes rise from the eastern stump as freestanding shards, the way the real fragment breaks off mid-air where the bombs bit through. Alternate their faces, garden side, city side, garden side, so the break reads ragged from both sides.",
         },
         {
           title: "Weathered head and battlement",
@@ -1986,43 +1952,71 @@ const londonWall: Build = {
         "The garden below the wall is one of the estate's quietest corners: lawns, a fig tree that thrives against the heat-holding masonry, cold frames, and the globe lamps that floodlight the fragment at night. The contrast was deliberate; the architects wanted the new concrete and the old stone read together across green.",
       steps: [
         {
-          title: "Upper lawns and the fig tree",
-          instruction: "Place 1× Wedge 2×4 Left (upper lawn); 1× Wedge 2×4 Right (upper lawn); 1× Round Brick 1×1 (fig tree trunk); and 2× Plate 1×1 Round (fig tree crown); on the west side, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
+          title: "The lawn",
+          instruction: "Place 2× Plate 4×4 Round Corner (lawn); at the front west of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Wedge 2×4 Left", part: "41768", qty: 1 },
-            { name: "Wedge 2×4 Right", part: "41767", qty: 1 },
+            { name: "Plate 4×4 Round Corner", part: "30565", qty: 2 },
+          ],
+          tip: "Two quarter-round plates make one lawn with rounded front corners, and they bridge the joints in the garden base below. The estate's gardeners keep this bed green so the masonry always reads against planting.",
+        },
+        {
+          title: "Gate path and front walk",
+          instruction: "Place 2× Tile 2×2 (gate path) and 1× Tile 1×8 (front walk); at the front east of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Tile 2×2", part: "3068b", qty: 2 },
+            { name: "Tile 1×8", part: "4162", qty: 1 },
+          ],
+          tip: "A path runs south from the ruined gate, then the front walk turns east along the garden edge. Both are laid across plate joints, so they hold the garden to the plaza and to itself.",
+        },
+        {
+          title: "The fig tree",
+          instruction: "Place 1× Round Brick 1×1 (fig tree trunk) and 2× Plate 1×1 Round (fig tree crown); at the front west of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
             { name: "Round Brick 1×1", part: "3062b", qty: 1 },
             { name: "Plate 1×1 Round", part: "4073", qty: 2 },
           ],
-          tip: "Two more wedges lay the upper lawn, and the estate's fig tree roots beside the bastion; gardeners planted figs here because the old wall traps warmth like a Roman courtyard.",
+          tip: "The estate's fig tree roots in the lawn beside the bastion; gardeners planted figs here because the old wall traps warmth like a Roman courtyard.",
+        },
+        {
+          title: "Stepping stones",
+          instruction: "Place 3× Jumper Plate 1×2 (stepping stone); at the front west of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Jumper Plate 1×2", part: "15573", qty: 3 },
+          ],
+          tip: "Jumper plates, one centred stud each, cross the lawn from the front walk toward the fig tree.",
         },
         {
           title: "Grass embankment",
-          instruction: "Place 2× Slope 3×4 (25°) (grass embankment); at the front east of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
+          instruction: "Place 1× Slope 3×4 (25°) (grass embankment); at the front east of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Slope 3×4 (25°)", part: "3297", qty: 2 },
+            { name: "Slope 3×4 (25°)", part: "3297", qty: 1 },
           ],
-          tip: "Long slopes bank the garden up toward the podium behind the wall.",
+          tip: "A long slope banks the garden up toward the podium behind the wall.",
         },
         {
           title: "Cold frames",
-          instruction: "Place 2× Trans-Clear Panel 1×2×2 (cold frame back); 2× Trans-Clear Panel 1×2×2 (cold frame front); and 4× Trans-Clear Plate 1×2 (cold frame roof); at the front west of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
+          instruction: "Place 2× Trans-Clear Panel 1×2×2 (cold frame back) and 2× Trans-Clear Panel 1×2×2 (cold frame front); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Trans-Clear Panel 1×2×2", part: "87552", qty: 2 },
-            { name: "Trans-Clear Panel 1×2×2", part: "87552", qty: 2 },
-            { name: "Trans-Clear Plate 1×2", part: "3023", qty: 4 },
+            { name: "Trans-Clear Panel 1×2×2", part: "87552", qty: 4 },
           ],
-          tip: "Two trans-clear cold frames grow salad crops against the south light, glass roofs laid flat like the real garden's frames.",
+          tip: "Two trans-clear cold frames grow salad crops against the south light: one on the paving by the path, one on the lawn. Each is two glass panels back to back, walls outward.",
         },
         {
-          title: "Stepping stones and globe lamps",
-          instruction: "Place 3× Jumper Plate 1×2 (stepping stone); 2× Plate 1×1 (lamp post); and 2× Trans-Clear Plate 1×1 (globe lamp); at the front east of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
+          title: "Cold frame lids",
+          instruction: "Place 4× Trans-Clear Plate 1×2 (cold frame lid); in the centre of the model, about 2 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Jumper Plate 1×2", part: "15573", qty: 3 },
+            { name: "Trans-Clear Plate 1×2", part: "3023", qty: 4 },
+          ],
+          tip: "Trans plates lie flat across the panel tops as the frames' glass lids.",
+        },
+        {
+          title: "Globe lamps",
+          instruction: "Place 2× Plate 1×1 (lamp post) and 2× Trans-Clear Plate 1×1 (globe lamp); at the front east of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
             { name: "Plate 1×1", part: "3024w", qty: 2 },
             { name: "Trans-Clear Plate 1×1", part: "3024", qty: 2 },
           ],
-          tip: "Jumper plates, one centred stud each, step across the garden; two trans studs on white bases are the estate's globe lamps, which floodlight the fragment at night.",
+          tip: "Two trans studs on white bases are the estate's globe lamps, which floodlight the fragment at night.",
         },
       ],
     },
@@ -2038,11 +2032,11 @@ const londonWall: Build = {
       steps: [
         {
           title: "Plaza paving",
-          instruction: "Place 1× Tile 1×8 (plaza paving); 1× Tile 1×6 (plaza paving); and 1× Tile 2×2 (plaza paving); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
+          instruction: "Place 1× Tile 1×8 (plaza paving); 1× Tile 1×6 (plaza paving); and 1× Tile 1×2 Grille (plaza drain); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Tile 1×8", part: "4162", qty: 1 },
             { name: "Tile 1×6", part: "6636", qty: 1 },
-            { name: "Tile 2×2", part: "3068b", qty: 1 },
+            { name: "Tile 1×2 Grille", part: "2412b", qty: 1 },
           ],
           tip: "Long tiles pave the walk along the wall's city side, where office workers eat lunch against fifteen centuries of masonry.",
         },

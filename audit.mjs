@@ -113,3 +113,6 @@ for (const entry of invEntries) {
   const flag = used > entry.totalInSet ? ' *** OVER ***' : used === 0 ? ' --- UNUSED ---' : '';
   console.log(`  ${entry.partNumber.padEnd(8)} ${entry.name.padEnd(30)} ${String(used).padStart(3)} / ${String(entry.totalInSet).padStart(3)} (${pct.padStart(3)}%)${flag}`);
 }
+
+// Fail the harness when a part is unknown or a build needs more than one set.
+process.exit(unknownParts.length || overused.length ? 1 : 0);

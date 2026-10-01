@@ -1,5 +1,12 @@
 # LEGO Geometry Audit
 
+> **2026-09-30 re-audit.** The July record below is kept as written. A
+> stricter engine (LDraw-verified parts, real orientations, one-piece
+> connectivity, side-stud heights) found 136 violations the July validator
+> could not see, all now repaired. The renderers now share one shape table.
+> Details and the change list are in REVIEW.md; current checks are under
+> "Checks (September 2026)" at the end of this file.
+
 **Status: resolved (July 2026 rebuild).** The issues catalogued in earlier
 versions of this document (fractional brick sizes, half-stud misalignments,
 floating pieces, scaled arches, colliding plates) were fixed by replacing the
@@ -65,3 +72,25 @@ jumpers and ruin-shaped slopes.
 
 The validator also runs in dev mode (console warning on regression), so any
 future edit to the model that breaks buildability is caught immediately.
+
+## Checks (September 2026)
+
+The engine now lives in `src/engine/`: `parts.ts` (the part table, every
+entry checked against LDraw), `shapes.ts` (part bodies for both renderers),
+`model.ts` (placement and rotation) and `validate.ts`.
+
+```
+node scripts/harness.mjs all     # every check below, then manuals, renders and the app build
+node scripts/check-parts.mjs     # part table and shapes vs LDraw
+node scripts/validate-geometry.mjs
+node audit.mjs                   # exits 1 if the builds need more than one set
+npm test                         # renderer agreement + validator regressions
+```
+
+| Build | Pieces | Steps | Phases |
+|---|---|---|---|
+| Lakeside Panorama | 668 | 108 | 12 |
+| Frobisher Crescent Section | 163 | 39 | 7 |
+| London Wall & Bastion | 77 | 22 | 5 |
+
+Zero violations in each build; 908 of 1,210 pieces together.

@@ -21,8 +21,30 @@ import {
 } from "./inventory";
 
 // ─── App ────────────────────────────────────────────────────────────
+/**
+ * Deep link: ?build=<id>&step=<phaseId>-<n> opens a build at one step with
+ * everything before it shown as built, without touching saved progress. The
+ * print manual and review renders link here so a page and the 3D view match.
+ */
+function readLink(): { build?: string; phase?: string; step?: number } {
+  try {
+    const q = new URLSearchParams(window.location.search);
+    const build = ALL_BUILDS.find((b) => b.id === q.get("build"));
+    if (!build) return {};
+    const m = (q.get("step") ?? "").match(/^(.+)-(\d+)$/);
+    const phase = m && build.phases.find((p) => p.id === m[1]);
+    if (!phase) return { build: build.id };
+    const step = Math.min(Number(m[2]), phase.steps.length - 1);
+    return { build: build.id, phase: phase.id, step };
+  } catch {
+    return {};
+  }
+}
+const LINK = readLink();
+
 export default function App() {
   const [buildId, setBuildId] = useState<string>(() => {
+    if (LINK.build) return LINK.build;
     try {
       const saved = localStorage.getItem("barbican-active-build");
       return saved && ALL_BUILDS.some((b) => b.id === saved) ? saved : ALL_BUILDS[0].id;
@@ -44,7 +66,10 @@ export default function App() {
   };
 
   const [completed, setCompleted] = useState<Set<string>>(() => readProgress(storageKey));
-  const [activePhase, setActivePhase] = useState(build.phases[0].id);
+  const [activePhase, setActivePhase] = useState(LINK.phase ?? build.phases[0].id);
+  // While a deep link is being shown, the 3D view treats every step before
+  // the linked one as built. Any interaction returns to saved progress.
+  const [linkPreview, setLinkPreview] = useState(LINK.phase !== undefined);
 
   // On the render where the build changes, `activePhase` still holds the old
   // build's phase id (the state adjustment above re-renders after this pass),
@@ -54,7 +79,7 @@ export default function App() {
     ? activePhase
     : build.phases[0].id;
 
-  const [activeStepIndex, setActiveStepIndex] = useState(0);
+  const [activeStepIndex, setActiveStepIndex] = useState(LINK.step ?? 0);
   const [selectedPiece, setSelectedPiece] = useState<PieceInfo | null>(null);
   const [showInventory, setShowInventory] = useState(false);
 
@@ -69,6 +94,7 @@ export default function App() {
     setActivePhase(build.phases[0].id);
     setActiveStepIndex(-1);
     setSelectedPiece(null);
+    setLinkPreview(false);
   }
 
   useEffect(() => {
@@ -79,9 +105,15 @@ export default function App() {
     localStorage.setItem("barbican-active-build", build.id);
   }, [build.id]);
 
-  // Reset step index when phase changes — start at -1 (no step active yet)
+  // Reset step index when the phase actually changes; start at -1 (no step
+  // active yet). Comparing with the last phase, rather than skipping a first
+  // run, keeps a deep link's step under React's doubled dev-mode effects.
+  const lastPhase = useRef(activePhase);
   useEffect(() => {
+    if (lastPhase.current === activePhase) return;
+    lastPhase.current = activePhase;
     setActiveStepIndex(-1);
+    setLinkPreview(false);
   }, [activePhase]);
 
   const stepsColumnRef = useRef<HTMLDivElement>(null);
@@ -121,7 +153,14 @@ export default function App() {
     [allStepIds, completed]
   );
 
+  const viewCompleted = useMemo(() => {
+    if (!linkPreview) return completed;
+    const idx = allStepIds.indexOf(`${currentPhase}-${activeStepIndex}`);
+    return new Set(idx > 0 ? allStepIds.slice(0, idx) : []);
+  }, [linkPreview, completed, allStepIds, currentPhase, activeStepIndex]);
+
   const toggleStep = (id: string) => {
+    setLinkPreview(false);
     setCompleted((prev) => {
       const next = new Set(prev);
       if (next.has(id)) {
@@ -364,7 +403,7 @@ export default function App() {
                               <div className="flex flex-wrap gap-1.5">
                                 {step.pieces.map((p) => (
                                   <span
-                                    key={p.part}
+                                    key={`${p.part}|${p.name}`}
                                     className="inline-flex items-center gap-1 bg-white border border-stone-200 rounded px-1.5 py-0.5 text-[11px]"
                                   >
                                     <span
@@ -455,7 +494,7 @@ export default function App() {
                           buildId={build.id}
                           phaseId={currentPhase}
                           stepIndex={activeStepIndex}
-                          completedSteps={completed}
+                          completedSteps={viewCompleted}
                           onPieceSelect={handlePieceSelect}
                         />
 
@@ -468,7 +507,7 @@ export default function App() {
                             </p>
                             <div className="space-y-1">
                               {activePhaseData.steps[activeStepIndex].pieces.map((p) => (
-                                <div key={p.part} className="flex items-center gap-1.5">
+                                <div key={`${p.part}|${p.name}`} className="flex items-center gap-1.5">
                                   <span
                                     className="w-3 h-3 rounded-sm border flex-shrink-0"
                                     style={{

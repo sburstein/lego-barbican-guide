@@ -86,8 +86,14 @@ function stepsSource(phaseSteps, phaseMeta, bounds, indent) {
     .map((step, si) => {
       const meta = phaseMeta[si] ?? { title: `Step ${si + 1}` };
       const tip = meta.tip ?? GENERIC_TIPS[genericIdx++ % GENERIC_TIPS.length];
-      const entries = stepEntries(step);
-      const pieces = entries
+      // The parts list merges entries that differ only in their role (a
+      // 1×10 plate used as a seam tie and as a deck edge is one pile to grab).
+      const merged = new Map();
+      for (const e of stepEntries(step)) {
+        const k = `${e.name}|${e.part}`;
+        merged.set(k, { ...e, qty: (merged.get(k)?.qty ?? 0) + e.qty });
+      }
+      const pieces = [...merged.values()]
         .map((e) => `${indent}    { name: ${JSON.stringify(e.name)}, part: ${JSON.stringify(e.part)}, qty: ${e.qty} },`)
         .join("\n");
       return (
