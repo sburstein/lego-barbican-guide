@@ -1,5 +1,10 @@
 # AI designer: status and checkpoint (2026-10-02)
 
+> **Decision, 2026-10-02:** one Barbican design is needed, and it is the
+> repaired Lakeside Panorama. Frobisher Section and London Wall are retired
+> from the site, and the AI designer stays a local tool. Nothing below is
+> needed for the site; it records where the local designer stands.
+
 The guide, booklets and release (v2.0.1, live) are unaffected by this work.
 The AI designer is built and tested offline, but it is **not production
 ready**. No real design has passed its review gate. It is disabled on the
@@ -58,23 +63,11 @@ RELEASE.md steps (draft deploy, checks, publish). The release adds the
 approved design and its booklet to the public site; the designer itself
 stays off there.
 
-## Decisions for Scott
+## Decisions
 
-1. **API credit:** add credit to the Anthropic account behind the key in
-   `.env`, or supply another key. Budget about $10 to $20 per design request
-   at `xhigh` effort.
-2. **Public designer, or local only:** the static Netlify site cannot run
-   it, because runs take minutes and need the key and headless Chrome.
-   Running it publicly needs all of:
-   - a Node host such as Fly or Render, running `npm run designer:serve`;
-   - the key set as a server secret there;
-   - headless Chrome on that host;
-   - an access gate (login or shared token) and a spend cap, so strangers
-     cannot run up the bill.
-
-   That is a new paid service and a credential placement, so it is not done.
-   The local path works today.
-3. **`main` branch:** releases live on `repair/engine-2026-09-30`, tagged
-   `v2.0.0` and `v2.0.1`. `main` is still the August record
-   (`august-2026-booklet`). Merge when you want GitHub's default branch to
-   show the current guide.
+1. **Settled 2026-10-02:** one Barbican design (the Panorama). No public
+   designer and no AI gallery.
+2. **Open, only if the local designer is wanted again:** API credit for the
+   key in `.env`.
+3. **Open:** merging `repair/engine-2026-09-30` into `main` (still the August
+   record) when GitHub's default branch should show the current guide.

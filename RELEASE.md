@@ -7,20 +7,14 @@ repo `sburstein/lego-barbican-guide`.
 
 ## What runs where
 
-| Feature | Netlify (public, static) | Local or Node host (`npm run dev`, `npm run designer:serve`) |
+| Feature | Netlify (public) | Local (`npm run dev`, `npm run design`) |
 |---|---|---|
-| 3D step-by-step guide, all builds | yes | yes |
-| Downloadable booklets (HTML, PDF) | yes | yes |
-| Approved AI designs | yes | yes |
-| AI designer (Opus 5.5) | no: the panel says so | yes, with `ANTHROPIC_API_KEY` and headless Chrome |
+| 3D step-by-step guide: the Lakeside Panorama | yes | yes |
+| Downloadable booklet (HTML, PDF) | yes | yes |
+| AI designer (Opus 5.5) | no, by decision (2026-10-02) | yes, with `ANTHROPIC_API_KEY` and headless Chrome |
 
-The designer needs a long-running server process: a run takes several
-minutes, it holds the API key server-side, and it renders with headless
-Chrome. The Netlify site is static. Netlify Functions time out long before a
-run finishes, and the CLI deploy carries no secrets. Running the designer
-publicly would need a Node host with the key, Chrome and an access gate
-(`scripts/designer-server.mjs` is that server, minus the gate). That is a
-deliberate deployment decision, so it is not switched on.
+The site carries one Barbican design, the Panorama. The designer is a local
+tool only; its panel is built only into the dev server.
 
 ## Release
 
@@ -41,11 +35,9 @@ Then verify live:
 ```bash
 curl -s https://lego-barbican-guide.netlify.app/version.json
 curl -s https://lego-barbican-guide.netlify.app/manuals/index.json
-curl -s -o /dev/null -w "%{http_code}\n" https://lego-barbican-guide.netlify.app/api/design/health
 ```
 
-The first two should show this build's commit and booklets. The third should
-return 404, since the static host has no designer route. Then open the site
+Both should show this build's commit and booklet. Then open the site
 and check a build, a step deep link and a booklet download.
 
 ## Rollback

@@ -203,3 +203,12 @@ offline; DESIGNER-STATUS.md has the details and the live checks still owed.
 - **Tests:** 71, including renderer agreement on compiled fixtures and the
   live run's reviewed spec as a regression fixture.
 
+## One design (2026-10-02)
+
+At Scott's direction the site now carries one Barbican design: the repaired
+Lakeside Panorama, the model built from the August booklet. The Frobisher
+Section and London Wall builds, their guide text and their booklets are
+retired; they remain recoverable from tag `v2.0.1`. The AI designer panel is
+built into the local dev server only. The September findings above about
+those two builds stay as historical record.
+

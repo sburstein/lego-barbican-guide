@@ -11,7 +11,7 @@
 //   test      unit tests (renderer agreement, validator, compiler, designer, API route)
 //   api       one minimal real Opus 5.5 call with this repo's key (not in `all`)
 //   guide     regenerate src/builds.ts step lists from the models
-//   manual    regenerate the three print manuals (manual/, gitignored)
+//   manual    regenerate the print manual (manual/, gitignored)
 //   render    four-side review renders of each build (.cache/renders)
 //   build     typecheck and bundle the web app (dist/)
 //   all       doctor, parts, validate, audit, test, manual, render, build
@@ -25,7 +25,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const BUILDS = ["barbican-panorama", "frobisher-section", "london-wall"];
+const BUILDS = ["barbican-panorama"];
 const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 
 const run = (cmd, args) => {

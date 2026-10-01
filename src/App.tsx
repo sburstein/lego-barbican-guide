@@ -242,6 +242,7 @@ export default function App() {
             </div>
           </div>
           <div className="flex items-center gap-3">
+            {ALL_BUILDS.length > 1 && (
             <div className="flex flex-wrap items-center gap-1 bg-stone-100 rounded p-0.5">
               {ALL_BUILDS.map((b) => (
                 <button
@@ -259,6 +260,7 @@ export default function App() {
                 </button>
               ))}
             </div>
+            )}
             <span className="text-[11px] text-stone-400 hidden sm:inline">
               {completedCount}/{totalSteps} steps
             </span>
@@ -766,8 +768,13 @@ export default function App() {
         </div>
         )}
 
-        <Separator className="my-6" />
-        <DesignerPanel />
+        {/* The AI designer is a local tool: shown on the dev server only */}
+        {import.meta.env.DEV && (
+          <>
+            <Separator className="my-6" />
+            <DesignerPanel />
+          </>
+        )}
 
         <footer className="text-center py-3 mt-6 text-[10px] text-stone-300 border-t border-stone-100">
           LEGO Architecture Studio 21050 · {build.pieceCount} pieces · {build.phases.length} phases · Photos via Wikimedia Commons (CC) · v{__APP_VERSION__}

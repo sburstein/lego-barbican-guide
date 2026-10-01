@@ -138,7 +138,7 @@ export function DesignerPanel() {
             {job.result && (
               <li className="pt-2 font-medium text-stone-800">
                 {job.result.status === "approved"
-                  ? <>Approved and saved. <a className="underline" href={`/?build=${job.designId}`}>Open it</a></>
+                  ? <>Approved and saved to src/designs/{job.designId}.ts. Print its booklet with generate-manual --spec.</>
                   : `Not saved: ${job.result.reason ?? job.result.status}`}
                 <span className="block font-normal text-stone-500">Cost ${job.result.cost.usd}, {job.result.seconds}s</span>
               </li>

@@ -7,8 +7,6 @@
 
 import { readFileSync, writeFileSync } from "fs";
 import { generateBuild, generateBuildMeta, BP_PHASE_ORDER } from "../src/lego-model.ts";
-import { generateFrobisher, generateFrobisherMeta, FC_PHASE_ORDER } from "../src/model-frobisher.ts";
-import { generateLondonWall, generateLondonWallMeta, LW_PHASE_ORDER } from "../src/model-londonwall.ts";
 
 const buildsPath = new URL("../src/builds.ts", import.meta.url).pathname;
 let src = readFileSync(buildsPath, "utf8");
@@ -129,11 +127,7 @@ function replaceSteps(buildModel, buildMeta, phaseOrder) {
 }
 
 const panorama = generateBuild();
-const frobisher = generateFrobisher();
 replaceSteps(panorama, generateBuildMeta(), BP_PHASE_ORDER);
-replaceSteps(frobisher, generateFrobisherMeta(), FC_PHASE_ORDER);
-const londonWall = generateLondonWall();
-replaceSteps(londonWall, generateLondonWallMeta(), LW_PHASE_ORDER);
 
 // Update the headline piece counts per build (count within each Build block)
 function countPieces(model) {
@@ -149,10 +143,8 @@ function setPieceCount(anchor, count) {
   src = src.slice(0, pcIdx) + `pieceCount: ${count}` + src.slice(end);
 }
 setPieceCount("const barbicanPanorama", countPieces(panorama));
-setPieceCount("const frobisherSection", countPieces(frobisher));
-setPieceCount("const londonWall", countPieces(londonWall));
 
 writeFileSync(buildsPath, src);
 console.log(
-  `builds.ts regenerated: panorama ${countPieces(panorama)}, frobisher ${countPieces(frobisher)}, london wall ${countPieces(londonWall)} pieces.`
+  `builds.ts regenerated: panorama ${countPieces(panorama)} pieces.`
 );

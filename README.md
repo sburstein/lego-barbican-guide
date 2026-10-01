@@ -5,24 +5,22 @@ LEGO Architecture Studio set (21050), with a live 3D model for every step.
 
 **Live site:** https://lego-barbican-guide.netlify.app
 
-## The three builds
+## The build
 
-| Build | Pieces | Steps | What it is |
-|---|---|---|---|
-| The Barbican Estate: Lakeside Panorama | 668 | 108 | The wide shot: lake, podium colonnade, terrace block with barrel vaults, Lauderdale Tower, conservatory, landscaping |
-| Frobisher Crescent: Facade Bay Section | 163 | 39 | The close-up: a cutaway bay with party walls, three floors, SNOT facade panels and a vaulted roof |
-| London Wall & Bastion | 77 | 22 | The dessert: the ancient wall fragment and bastion inside the estate, with a walled garden, built from the leftover slopes and macaroni bricks |
+**The Barbican Estate: Lakeside Panorama**, 668 pieces in 108 steps: the
+lake, the podium colonnade, a terrace block with barrel vaults, Lauderdale
+Tower, the conservatory and landscaping, all within one 21050 set.
 
-All three are designed to stand at the same time: together they use 908 of the
-set's 1,210 pieces with no part over its real quantity.
+It is the one Barbican design. The Frobisher Section and London Wall builds
+were retired on 2026-10-02; tag `v2.0.1` still has them.
 
-Every build has a downloadable booklet (PDF and HTML) generated from the same
+The build has a downloadable booklet (PDF and HTML) generated from the same
 placements as the 3D guide. REVIEW.md records what changed from the August
 booklet; RELEASE.md covers deploys and rollback.
 
-## AI designs
+## AI designer (local tool)
 
-Beyond the hand-built models, Claude Opus 5.5 (xhigh effort) can design new
+As a local tool, Claude Opus 5.5 (xhigh effort) can design new
 architectural models for the same set. The pieces are split:
 
 - **Spec:** the model writes an architectural spec (`src/design/spec.ts`):
@@ -35,17 +33,15 @@ architectural models for the same set. The pieces are split:
   order.
 - **Review gate:** a reviewer shown only the renders must recognise the
   subject and score it 7/10 or better, with fidelity 7/10 or better. Only
-  then is the design saved to `src/designs/` and shown in the app as an AI
-  build, with its own guide and booklet.
+  then is the design saved to `src/designs/`; it is not added to the site.
 
 ```bash
 npm run design -- "Habitat 67, Montreal" --budget 20
 ```
 
 The command reads `ANTHROPIC_API_KEY` from the environment or `.env`. The
-same designer runs from the app's panel under `npm run dev`, or
-`npm run designer:serve` after a build. The static public site does not run
-it (see RELEASE.md).
+same designer runs from the panel under `npm run dev`. The public site has
+no designer.
 
 ## How correctness is enforced
 
