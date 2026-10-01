@@ -1,3 +1,7 @@
+import { APPROVED_DESIGNS } from "./designs/index.ts";
+import { compiledDesign } from "./design/registry.ts";
+import { designToBuild } from "./design/guide.ts";
+
 // ─── Build Data: The Barbican Estate — Lakeside Panorama ─────────────
 // A single comprehensive build maximising the LEGO Architecture Studio
 // 21050 set (1,210 pieces). 671 pieces across 12 phases, 167 steps.
@@ -40,6 +44,8 @@ export type Photo = {
 export type Build = {
   id: string;
   title: string;
+  /** Label for the build switcher. */
+  shortTitle?: string;
   subtitle: string;
   description: string;
   difficulty: 1 | 2 | 3;
@@ -50,6 +56,17 @@ export type Build = {
   phases: Phase[];
   photos: Record<string, Photo>;
   phasePhotos: Record<string, string[]>;
+  /** Set for designs made by the AI designer and passed by its reviewer. */
+  ai?: {
+    model: string;
+    effort: string;
+    quality: number;
+    fidelity: number;
+    guess: string;
+    verdict: string;
+    approvedAt: string;
+    image?: string;
+  };
 };
 
 // ─── Shared Photos ──────────────────────────────────────────────────
@@ -104,6 +121,7 @@ const SHARED_PHOTOS: Record<string, Photo> = {
 
 const barbicanPanorama: Build = {
   id: "barbican-panorama",
+  shortTitle: "Panorama",
   title: "The Barbican Estate — Lakeside Panorama",
   subtitle:
     "The full lakeside composition: tower, terraces, conservatory, podium, and lake",
@@ -1327,6 +1345,7 @@ const barbicanPanorama: Build = {
 
 const frobisherSection: Build = {
   id: "frobisher-section",
+  shortTitle: "Frobisher Section",
   title: "Frobisher Crescent — Facade Bay Section",
   subtitle:
     "A cutaway slice through one block: party walls, three floors, and the barrel vault",
@@ -1778,6 +1797,7 @@ const frobisherSection: Build = {
 
 const londonWall: Build = {
   id: "london-wall",
+  shortTitle: "London Wall",
   title: "London Wall & Bastion",
   subtitle: "The ruin inside the estate: the ancient barbican the Barbican is named for",
   description:
@@ -2056,7 +2076,10 @@ const londonWall: Build = {
 };
 // <<< LONDONWALL END >>>
 
-export const ALL_BUILDS: Build[] = [barbicanPanorama, frobisherSection, londonWall];
+/** Approved AI designs, compiled from their specs (src/designs/). */
+export const AI_BUILDS: Build[] = APPROVED_DESIGNS.map((d) => designToBuild(d, compiledDesign(d.spec.id)));
+
+export const ALL_BUILDS: Build[] = [barbicanPanorama, frobisherSection, londonWall, ...AI_BUILDS];
 
 export function getBuildById(id: string): Build | undefined {
   return ALL_BUILDS.find((b) => b.id === id);

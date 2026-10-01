@@ -8,7 +8,8 @@
 //   parts     every part in the engine against real LDraw geometry
 //   validate  every build: physics, build order, guide text in sync
 //   audit     all builds together against one 21050 inventory
-//   test      unit tests (renderer/validator agreement, validator regressions)
+//   test      unit tests (renderer agreement, validator, compiler, designer, API route)
+//   api       one minimal real Opus 5.5 call with this repo's key (not in `all`)
 //   guide     regenerate src/builds.ts step lists from the models
 //   manual    regenerate the three print manuals (manual/, gitignored)
 //   render    four-side review renders of each build (.cache/renders)
@@ -19,7 +20,7 @@
 // in `parts`, which only runs for files missing from .cache/ldraw.
 
 import { spawnSync } from "node:child_process";
-import { existsSync, statfsSync } from "node:fs";
+import { existsSync, readdirSync, statfsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -55,19 +56,38 @@ const COMMANDS = {
   parts: () => node("scripts/check-parts.mjs"),
   validate: () => node("scripts/validate-geometry.mjs"),
   audit: () => node("audit.mjs"),
-  test: () => node("--test", "tests/agreement.test.mjs", "tests/validator.test.mjs"),
+  test: () => node("--test", ...readdirSync(join(ROOT, "tests")).filter((f) => f.endsWith(".test.mjs")).map((f) => `tests/${f}`)),
+  /** One minimal real call to Opus 5.5 with this repo's key (costs about a cent). */
+  api: async () => {
+    const { default: Anthropic } = await import("@anthropic-ai/sdk");
+    const { readEnvKey } = await import("./lib/design-api.mjs");
+    const key = readEnvKey(ROOT);
+    if (!key) { console.log("! no ANTHROPIC_API_KEY"); return false; }
+    try {
+      const r = await new Anthropic({ apiKey: key, maxRetries: 2 }).messages.create({
+        model: "claude-opus-5-5", max_tokens: 64, output_config: { effort: "low" },
+        messages: [{ role: "user", content: "Reply with the single word OK." }],
+      });
+      const text = r.content.filter((b) => b.type === "text").map((b) => b.text).join("");
+      console.log(`model ${r.model}  stop ${r.stop_reason}  reply ${JSON.stringify(text.trim())}  tokens ${r.usage.input_tokens}/${r.usage.output_tokens}`);
+      return r.stop_reason === "end_turn";
+    } catch (err) {
+      console.log(`! API error ${err.status ?? ""} ${err.message}`);
+      return false;
+    }
+  },
   guide: () => node("scripts/gen-builds.mjs"),
   manual: () => BUILDS.every((b) => node("scripts/generate-manual.mjs", b)),
   render: () => BUILDS.every((b) => node("scripts/render-views.mjs", b)),
   build: () => run("npm", ["run", "build", "--silent"]),
 };
-COMMANDS.all = () => {
+COMMANDS.all = async () => {
   const steps = ["doctor", "parts", "validate", "audit", "test", "manual", "render", "build"];
   const results = [];
   for (const s of steps) {
     console.log(`\n━━ ${s} ━━`);
     const t = Date.now();
-    const ok = COMMANDS[s]();
+    const ok = await COMMANDS[s]();
     results.push([s, ok, Date.now() - t]);
     if (!ok) break;
   }
@@ -78,7 +98,7 @@ COMMANDS.all = () => {
 
 const cmd = process.argv[2];
 if (!COMMANDS[cmd]) {
-  console.log("usage: node scripts/harness.mjs <doctor|parts|validate|audit|test|guide|manual|render|build|all>");
+  console.log("usage: node scripts/harness.mjs <doctor|parts|validate|audit|test|guide|manual|render|build|api|all>");
   process.exit(cmd ? 1 : 0);
 }
-process.exit(COMMANDS[cmd]() ? 0 : 1);
+process.exit((await COMMANDS[cmd]()) ? 0 : 1);

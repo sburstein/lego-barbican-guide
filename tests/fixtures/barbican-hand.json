@@ -1,0 +1,21 @@
+{
+  "id": "barbican-hand",
+  "title": "The Barbican Estate (compiler test)",
+  "subtitle": "Hand-written spec used to test the architecture compiler",
+  "description": "Terrace block on pilotis behind the lake, two balconied towers, the conservatory and the lakeside lawn.",
+  "concept": "Towers, terraces and water",
+  "site": { "w": 28, "d": 20 },
+  "elements": [
+    { "type": "surface", "id": "lake", "name": "The lake", "material": "water", "rects": [{ "x": 2, "z": 13, "w": 18, "d": 5 }] },
+    { "type": "surface", "id": "lawn", "name": "Lakeside lawn", "material": "lawn", "rects": [{ "x": 21, "z": 12, "w": 6, "d": 6 }] },
+    { "type": "surface", "id": "walk", "name": "Front walk", "material": "paving", "rects": [{ "x": 0, "z": 18, "w": 28, "d": 2 }] },
+    { "type": "block", "id": "terrace", "name": "Terrace block", "rect": { "x": 1, "z": 7, "w": 20, "d": 5 }, "levels": 3,
+      "pilotis": true, "facade": { "S": "glass" }, "balconies": ["S"], "roof": { "type": "vaults", "rows": 2 } },
+    { "type": "block", "id": "tower-a", "name": "Cromwell Tower", "rect": { "x": 3, "z": 0, "w": 6, "d": 6 }, "levels": 10,
+      "facade": { "S": "glass" }, "balconies": "all", "serrate": true },
+    { "type": "block", "id": "tower-b", "name": "Shakespeare Tower", "rect": { "x": 13, "z": 0, "w": 6, "d": 6 }, "levels": 8,
+      "facade": { "S": "glass" }, "balconies": "all", "serrate": true },
+    { "type": "glasshouse", "id": "conservatory", "name": "Conservatory", "rect": { "x": 22, "z": 3, "w": 5, "d": 5 } },
+    { "type": "trees", "id": "trees", "name": "Lawn trees", "at": [[22, 13], [25, 15], [22, 16]] }
+  ]
+}

@@ -28,7 +28,7 @@ const OUT = resolve(opt("--out", resolve(HERE, "../.cache/renders")));
 const SIZE = Number(opt("--size", "1600"));
 const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 
-export function viewsHtml(pieces, title, subtitle = "") {
+export function viewsHtml(pieces, title, subtitle = "", size = SIZE) {
   const sym = createSymbols();
   const labels = ["View 1 (front, from the south-east)", "View 2 (turned 90°)", "View 3 (turned 180°)", "View 4 (turned 270°)"];
   const cells = [0, 1, 2, 3].map((q) => {
@@ -36,13 +36,13 @@ export function viewsHtml(pieces, title, subtitle = "") {
     const vb = vbStr(boundsOf(turned, 1.5));
     return `<figure><figcaption>${labels[q]}</figcaption>${sceneSvg(sym, [], turned, vb, "", "f")}</figure>`;
   });
-  return page(title, subtitle, `<div class="grid">${cells.join("")}</div>`, sym);
+  return page(title, subtitle, `<div class="grid">${cells.join("")}</div>`, sym, size);
 }
 
-function page(title, subtitle, body, sym) {
+function page(title, subtitle, body, sym, size = SIZE) {
   return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${title}</title><style>
 *{box-sizing:border-box;margin:0}
-body{font:14px/1.3 -apple-system,Helvetica,Arial,sans-serif;background:#fff;color:#222;width:${SIZE}px;height:${Math.round(SIZE * 0.75)}px;padding:14px;display:flex;flex-direction:column}
+body{font:14px/1.3 -apple-system,Helvetica,Arial,sans-serif;background:#fff;color:#222;width:${size}px;height:${Math.round(size * 0.75)}px;padding:14px;display:flex;flex-direction:column}
 h1{font-size:18px;margin-bottom:2px}p{color:#777;font-size:12px;margin-bottom:8px}
 .grid{flex:1;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:10px;min-height:0}
 figure{border:1px solid #e4e2de;border-radius:6px;padding:6px;display:flex;flex-direction:column;min-height:0}

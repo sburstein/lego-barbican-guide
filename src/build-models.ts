@@ -5,6 +5,7 @@
 import { generateBuild, BP_PHASE_ORDER, type BuildPlacements } from "./lego-model.ts";
 import { generateFrobisher, FC_PHASE_ORDER } from "./model-frobisher.ts";
 import { generateLondonWall, LW_PHASE_ORDER } from "./model-londonwall.ts";
+import { DESIGN_IDS, compiledDesign } from "./design/registry.ts";
 
 export const BUILD_MODELS: Record<string, () => BuildPlacements> = {
   "barbican-panorama": generateBuild,
@@ -17,6 +18,12 @@ export const PHASE_ORDER: Record<string, string[]> = {
   "frobisher-section": FC_PHASE_ORDER,
   "london-wall": LW_PHASE_ORDER,
 };
+
+// Approved AI designs (src/designs/) join the hand-built models.
+for (const id of DESIGN_IDS) {
+  BUILD_MODELS[id] = () => compiledDesign(id).build;
+  PHASE_ORDER[id] = compiledDesign(id).phaseOrder;
+}
 
 export const BUILD_IDS = Object.keys(BUILD_MODELS);
 
