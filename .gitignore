@@ -32,3 +32,11 @@ manual/
 
 # LDraw part cache and review renders (scripts/check-parts.mjs, render-views.mjs)
 .cache/
+
+# The August 2026 print booklet (27 MB PDF). Kept locally as the historical
+# record; too large for git, and it blocked ~/tools/gh-sync.sh.
+print/
+
+# API keys for scripts/design.mjs
+.env
+.env.*
