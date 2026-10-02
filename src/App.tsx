@@ -299,7 +299,7 @@ export default function App() {
               {/* 3-column layout: steps | 3D viewer | photos */}
               {/* On xl: fixed-height container so left scrolls, center+right stay sticky */}
               <div className="flex flex-col xl:flex-row lg:flex-row gap-4 xl:h-[calc(100vh-120px)] lg:h-[calc(100vh-120px)]">
-                {/* LEFT: Steps — scrollable */}
+                {/* LEFT: Steps, scrollable */}
                 <div
                   ref={currentPhase === phase.id ? stepsColumnRef : undefined}
                   className="space-y-3 order-2 xl:order-1 lg:order-2 xl:w-[340px] lg:w-[320px] xl:flex-shrink-0 lg:flex-shrink-0 xl:overflow-y-auto lg:overflow-y-auto xl:pr-2 lg:pr-2"
@@ -499,7 +499,7 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* CENTER: 3D Viewer — sticky */}
+                {/* CENTER: 3D Viewer, sticky */}
                 <div className="order-1 xl:order-2 lg:order-1 xl:flex-1 lg:flex-1 xl:sticky lg:sticky xl:top-0 lg:top-0 xl:self-start lg:self-start">
                   <Card className="border-stone-200 bg-white overflow-hidden">
                     <CardContent className="p-0">
@@ -515,7 +515,7 @@ export default function App() {
                           onPieceSelect={handlePieceSelect}
                         />
 
-                        {/* Step Parts Callout Box — LEGO instruction style */}
+                        {/* Step Parts Callout Box, LEGO instruction style */}
                         {activeStepIndex >= 0 && activePhaseData.steps[activeStepIndex] &&
                           activePhaseData.steps[activeStepIndex].pieces.length > 0 && (
                           <div className="absolute bottom-12 right-3 bg-[#fdf6e3] border border-[#d4c9a8] rounded-lg shadow-md p-2.5 max-w-[200px]">
@@ -604,7 +604,7 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* RIGHT: Reference Photos — sticky */}
+                {/* RIGHT: Reference Photos, sticky */}
                 <div className="space-y-3 order-3 xl:w-[300px] xl:flex-shrink-0 xl:overflow-y-auto xl:pr-1">
                   {build.ai && (
                     <Card className="border-violet-200 bg-white overflow-hidden">
@@ -658,7 +658,7 @@ export default function App() {
 
         <Separator className="my-6" />
 
-        {/* Piece Inventory — Collapsible Section */}
+        {/* Piece Inventory, collapsible */}
         <div>
           <button
             onClick={() => setShowInventory(!showInventory)}
@@ -667,7 +667,7 @@ export default function App() {
             <span className={`transition-transform ${showInventory ? "rotate-90" : ""}`}>
               &#9656;
             </span>
-            Piece Inventory — Architecture Studio 21050
+            Piece Inventory: Architecture Studio 21050
             <Badge variant="outline" className="text-[9px] font-normal ml-2">
               {FULL_INVENTORY.reduce((a, p) => a + p.totalInSet, 0)} total pieces
             </Badge>
@@ -759,7 +759,7 @@ export default function App() {
           </h4>
           <p className="text-[11px] text-stone-300 leading-relaxed">
             Deeply controversial for decades, the Barbican received Grade II listed status in 2001.
-            It was designed as a complete world — every detail from door handles to lake edges by the
+            It was designed as a complete world: every detail from door handles to lake edges by the
             same architects. The barrel-vaulted roofline, once mocked, is now beloved. The
             pick-hammered concrete, once seen as cheap, is recognized as deeply crafted. This build
             captures this: raw geometric forms, massive but elevated on delicate columns, brutal

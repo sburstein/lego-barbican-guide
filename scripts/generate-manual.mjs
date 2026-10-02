@@ -92,7 +92,7 @@ const phaseMeta = new Map((meta?.phases ?? []).map((ph) => [ph.id, ph]));
 const allPieces = phaseOrder.flatMap((id) => (model[id] ?? []).flat());
 const FULL_VB = vbStr(boundsOf(allPieces, 1.6));
 
-// The camera holds still inside a phase and re-frames at phase boundaries —
+// The camera holds still inside a phase and re-frames at phase boundaries:
 // the LEGO convention, and necessary here because the tower is far taller
 // than the base is wide. Each phase frames everything standing at its end.
 const phaseCam = new Map();
@@ -186,6 +186,22 @@ function stepPanel(step, cumulative, cam) {
 </section>`;
 }
 
+// Edition record: which edition this is, and what changed for anyone who
+// built from an earlier one (the September 2026 repair, REVIEW.md).
+const EDITIONS = {
+  "barbican-panorama": {
+    edition: "October 2026 edition",
+    previous: "August 2026 edition",
+    changes: [
+      ["Step 29: deck upstand", "Five Brick 1×4 replace the five rounded Panel 1×4×1 along the deck edge. The panels have no studs on top, so the highwalk plates in steps 53 and 54 had nothing to grip."],
+      ["Steps 62 and 63: vault caps", "Point the curved humps outward: north on the rear row, south on the front row. The flat ends with the recessed stud meet in the middle."],
+      ["Step 84: crown roof", "Two Slope 1×2 (45°) sit side by side, studs to the north, both falling toward the lake. The earlier crossed pair could not physically fit."],
+    ],
+    parts: "Parts: 5 more Brick 1×4 (3010) and 5 fewer Panel 1×4×1 Rounded (30413). Everything else, and the step numbering, is unchanged.",
+  },
+};
+const EDITION = EDITIONS[BUILD_ID];
+
 const pages = [];
 const page = (cls, body) =>
   pages.push(`<div class="page ${pages.length % 2 === 0 ? "recto" : "verso"} ${cls}">${body}</div>`);
@@ -197,7 +213,7 @@ page("cover", `
     <div class="brandline">Building Instructions</div>
     <h1>${esc(meta?.title ?? "Barbican")}</h1>
     <p class="csub">${esc(meta?.subtitle ?? "")}</p>
-    <div class="cmeta"><span>${allPieces.length} pieces</span><span>${steps.length} steps</span><span>LEGO&reg; Architecture Studio 21050</span></div>
+    <div class="cmeta"><span>${allPieces.length} pieces</span><span>${steps.length} steps</span><span>LEGO&reg; Architecture Studio 21050</span>${EDITION ? `<span>${esc(EDITION.edition)}</span>` : ""}</div>
   </div>`);
 
 // About -----------------------------------------------------------------
@@ -234,6 +250,19 @@ page("essay legend", `
     <h3>If a piece will not sit flat</h3>
     <p>Check the step before it. Every piece in this model is validated against a physical-buildability check for collisions and support, so a piece that will not seat means something below it is one stud off.</p>
   </div>`);
+
+// Changes since the previous edition ---------------------------------------
+if (EDITION?.changes?.length) {
+  page("essay changes", `
+  <div class="ecol">
+    <h2>Changes from the ${esc(EDITION.previous)}</h2>
+    <p>If you built from the ${esc(EDITION.previous)}, three places differ. Each fixes a spot where the earlier instructions could not be built as drawn; every step in this edition has been checked for fit, grip and build order.</p>
+    <p>${esc(EDITION.parts)}</p>
+  </div>
+  <div class="ecol">
+    ${EDITION.changes.map(([t, d]) => `<h3>${esc(t)}</h3><p>${esc(d)}</p>`).join("")}
+  </div>`);
+}
 
 // Inventory -------------------------------------------------------------
 const perPage = 40;
@@ -395,7 +424,7 @@ const PRINT_CSS = `
 
 const html = `<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"/>
-<title>${esc(meta?.title ?? BUILD_ID)} — Building Instructions</title>
+<title>${esc(meta?.title ?? BUILD_ID)}: Building Instructions</title>
 <style>${CSS}${PRINT ? PRINT_CSS : ""}</style></head>
 <body>
 ${sym.defs()}

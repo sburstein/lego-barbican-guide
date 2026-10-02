@@ -1,4 +1,4 @@
-// ─── Build Data: The Barbican Estate — Lakeside Panorama ─────────────
+// ─── Build Data: The Barbican Estate: Lakeside Panorama ─────────────
 // A single comprehensive build maximising the LEGO Architecture Studio
 // 21050 set (1,210 pieces). 671 pieces across 12 phases, 167 steps.
 // Piece lists are generated from src/lego-model.ts (scripts/sync-builds.mjs)
@@ -70,63 +70,63 @@ const SHARED_PHOTOS: Record<string, Photo> = {
   lakeside: {
     url: "https://upload.wikimedia.org/wikipedia/commons/8/8f/Barbican.flats.london.arp.jpg",
     caption:
-      "The iconic lakeside view — towers behind terraces, lake in foreground",
+      "The iconic lakeside view: towers behind terraces, lake in foreground",
     credit: "Wikimedia Commons, Public Domain",
   },
   terrace: {
     url: "https://upload.wikimedia.org/wikipedia/commons/5/55/Barbican_tour%2C_Frobisher_Crescent_and_Shakespeare_Tower_-_geograph.org.uk_-_4144734.jpg",
     caption:
-      "Frobisher Crescent — barrel-vaulted roofline with Shakespeare Tower behind",
+      "Frobisher Crescent: barrel-vaulted roofline with Shakespeare Tower behind",
     credit: "Stephen Richards, CC BY-SA 2.0",
   },
   tower: {
     url: "https://upload.wikimedia.org/wikipedia/commons/c/c4/Lauderdale_Tower%2C_Barbican_Estate%2C_London.jpg",
     caption:
-      "Lauderdale Tower — serrated balconies, horizontal banding, triangular plan",
+      "Lauderdale Tower: serrated balconies, horizontal banding, triangular plan",
     credit: "Wikimedia Commons, CC BY-SA 3.0",
   },
   podium: {
     url: "https://upload.wikimedia.org/wikipedia/commons/3/30/Barbican_Estate_Frobisher_Crescent_City_of_London_2026_05.jpg",
-    caption: "Colonnade at podium level — concrete pilotis and raised walkways",
+    caption: "Colonnade at podium level: concrete pilotis and raised walkways",
     credit: "Wikimedia Commons, CC BY 4.0",
   },
   conservatory: {
     url: "https://upload.wikimedia.org/wikipedia/commons/2/21/Barbican_Conservatory_%2850715551858%29.jpg",
     caption:
-      "The Barbican Conservatory — second largest in London after Kew Gardens",
+      "The Barbican Conservatory: second largest in London after Kew Gardens",
     credit: "Wikimedia Commons, CC0",
   },
   aerial: {
     url: "https://upload.wikimedia.org/wikipedia/commons/e/ea/Barbicanestatefromabove.jpg",
     caption:
-      "Aerial view — three towers, terrace blocks forming perimeter, lake at center",
+      "Aerial view: three towers, terrace blocks forming perimeter, lake at center",
     credit: "Wikimedia Commons, CC BY 3.0",
   },
   balconies: {
     url: "https://upload.wikimedia.org/wikipedia/commons/9/94/Barbican_Balconies_-_geograph.org.uk_-_723870.jpg",
     caption:
-      "Balcony detail — contrasting profiles of Lauderdale Tower and Defoe House",
+      "Balcony detail: contrasting profiles of Lauderdale Tower and Defoe House",
     credit: "Stephen McKay, CC BY-SA 2.0",
   },
 };
 
 // ═══════════════════════════════════════════════════════════════════════
-// THE BARBICAN ESTATE — LAKESIDE PANORAMA
+// THE BARBICAN ESTATE: LAKESIDE PANORAMA
 // Full diorama: tower, terraces, conservatory, podium, highwalks, lake
 // ═══════════════════════════════════════════════════════════════════════
 
 const barbicanPanorama: Build = {
   id: "barbican-panorama",
   shortTitle: "Panorama",
-  title: "The Barbican Estate — Lakeside Panorama",
+  title: "The Barbican Estate: Lakeside Panorama",
   subtitle:
     "The full lakeside composition: tower, terraces, conservatory, podium, and lake",
   description:
-    "A large-scale diorama capturing the Barbican's most iconic composition — the full lakeside view with Lauderdale Tower rising behind barrel-vaulted terrace blocks, the colonnade podium, the Conservatory greenhouse, and the ornamental lake. This is a serious, multi-session build using grille-brick spandrels for bush-hammered concrete texture, inverted slopes for the waterside plinth, serrated balcony bands, and recessed window slots. Every piece is drawn from the set's actual white and trans-clear inventory; the 3D model tints water edging dark and planting green purely as a visual guide — on the table those are the same white parts. Designed to maximise the LEGO Architecture Studio 21050 set.",
+    "A large-scale diorama capturing the Barbican's most iconic composition: the full lakeside view with Lauderdale Tower rising behind barrel-vaulted terrace blocks, the colonnade podium, the Conservatory greenhouse, and the ornamental lake. This is a serious, multi-session build using grille-brick spandrels for bush-hammered concrete texture, inverted slopes for the waterside plinth, serrated balcony bands, and recessed window slots. Every piece is drawn from the set's actual white and trans-clear inventory; the 3D model tints water edging dark and planting green purely as a visual guide. On the table those are the same white parts. Designed to maximise the LEGO Architecture Studio 21050 set.",
   difficulty: 3,
   estimatedTime: "8–12 hours across multiple sessions",
   pieceCount: 668,
-  concept: "Brutalist Urbanism — Layers, Texture & Repetition",
+  concept: "Brutalist Urbanism: Layers, Texture & Repetition",
   heroPhoto: SHARED_PHOTOS.lakeside.url,
   photos: {
     lakeside: SHARED_PHOTOS.lakeside,
@@ -512,7 +512,7 @@ const barbicanPanorama: Build = {
     },
 
     // ════════════════════════════════════════════════════════════════════
-    // PHASE 5: TERRACE BLOCK — SNOT FACADE (12 steps, 72 pieces)
+    // PHASE 5: TERRACE BLOCK: SNOT FACADE (12 steps, 72 pieces)
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-terrace-facade",
@@ -691,7 +691,7 @@ const barbicanPanorama: Build = {
     },
 
     // ════════════════════════════════════════════════════════════════════
-    // PHASE 6: TERRACE BLOCK — BALCONIES & SOFFITS (10 steps, 52 pieces)
+    // PHASE 6: TERRACE BLOCK: BALCONIES & SOFFITS (10 steps, 52 pieces)
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-terrace-balconies",
@@ -815,7 +815,7 @@ const barbicanPanorama: Build = {
     },
 
     // ════════════════════════════════════════════════════════════════════
-    // PHASE 8: LAUDERDALE TOWER — ABOVE THE ROOFLINE (10 steps, 92 pieces)
+    // PHASE 8: LAUDERDALE TOWER: ABOVE THE ROOFLINE (10 steps, 92 pieces)
     // Lower shaft already built in Phase 4
     // ════════════════════════════════════════════════════════════════════
     {
@@ -983,7 +983,7 @@ const barbicanPanorama: Build = {
     },
 
     // ════════════════════════════════════════════════════════════════════
-    // PHASE 9: TOWER — FACADE & WINDOW BANDS (10 steps, 64 pieces)
+    // PHASE 9: TOWER: FACADE & WINDOW BANDS (10 steps, 64 pieces)
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-tower-facade",
@@ -1025,7 +1025,7 @@ const barbicanPanorama: Build = {
     },
 
     // ════════════════════════════════════════════════════════════════════
-    // PHASE 10: TOWER — SERRATED EDGES & CROWN (10 steps, 60 pieces)
+    // PHASE 10: TOWER: SERRATED EDGES & CROWN (10 steps, 60 pieces)
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-tower-crown",
