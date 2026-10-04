@@ -351,6 +351,195 @@ class Ctx {
     return best;
   }
 
+  /**
+   * Bounded search for a cover of `cells` whose parts cross the grid lines
+   * in `open`: "z:5" is the joint between rows z = 5 and z = 6, "x:3" the
+   * joint between columns 3 and 4, each with a weight. The cover minimises
+   * the weight left uncrossed, then 1×1s (scarce), then parts, and every
+   * part must grip something below. Returns null when nothing beats `bound`.
+   *
+   * The search first settles the heavy joints (weight 10 or more, the price
+   * of a 1×1), the one with the fewest ways across first: it lays a part
+   * across each or, last, gives it up. Light joints are only counted. The
+   * cells left fall apart into small pockets, each then covered on its own.
+   */
+  crossCover(cells: Cell[], layer: number, family: "plate" | "brick", color: ColorKey, open: Map<string, number>, bound = Infinity): { plan: Cand[]; cost: number } | null {
+    const idx = new Map<string, number>();
+    const order = cells.filter(([x, z]) => this.freeAt(x, z, layer)).sort((a, b) => a[1] - b[1] || a[0] - b[0]);
+    order.forEach(([x, z], i) => idx.set(k2(x, z), i));
+    if (!order.length) return null;
+    const joints = [...open.keys()];
+    const weight = joints.map((j) => open.get(j)!);
+    type Opt = { c: Cand; at: number[]; crosses: number[] };
+    // every legal placement, indexed by its first cell in scan order, by the
+    // cells it covers and by the joints it crosses
+    const byFirst: Opt[][] = order.map(() => []);
+    const byCell: Opt[][] = order.map(() => []);
+    const byJoint: Opt[][] = joints.map(() => []);
+    let maxArea = 1;
+    for (const def of allParts()) {
+      if (def.kind !== family || (color === "trans" && typeof def.pn === "string")) continue;
+      const pn = partNumberFor(def, color)!;
+      if (this.left(pn) <= 0) continue;
+      for (const [w, d] of def.W === def.D ? [[def.W, def.D]] : [[def.W, def.D], [def.D, def.W]]) {
+        for (const [x, z] of order) {
+          const at: number[] = [];
+          let support = 0;
+          for (let j = 0; j < d && at.length === j * w; j++)
+            for (let i = 0; i < w; i++) {
+              const n = idx.get(k2(x + i, z + j));
+              if (n === undefined) break;
+              at.push(n);
+              if (this.studAt(x + i, z + j, layer)) support++;
+            }
+          if (at.length !== w * d || (layer > 0 && support === 0)) continue;
+          const crosses = joints.flatMap((jt, n) => (crossesJoint({ x, z, w, d }, jt) ? [n] : []));
+          const o: Opt = { c: { kind: def.kind, w, d, x, z, pn, supported: true }, at, crosses };
+          byFirst[at[0]].push(o);
+          for (const n of at) byCell[n].push(o);
+          for (const n of crosses) byJoint[n].push(o);
+          maxArea = Math.max(maxArea, w * d);
+        }
+      }
+    }
+    const covered = new Uint8Array(order.length);
+    const crossed = new Uint16Array(joints.length);
+    const skipped = new Uint8Array(joints.length);
+    const used = new Map<string, number>();
+    const fits = (o: Opt) => this.left(o.c.pn) - (used.get(o.c.pn) ?? 0) > 0 && o.at.every((n) => !covered[n]);
+    const crossable = (n: number) => byJoint[n].some(fits);
+    // a cell nothing can cover any more (a balcony cell cut off from the
+    // walls that would hold its plate) dooms the cover
+    const dead = () => covered.some((c, n) => !c && !byCell[n].some(fits));
+    const take = (o: Opt, sign: 1 | -1) => {
+      for (const n of o.at) covered[n] = sign > 0 ? 1 : 0;
+      for (const n of o.crosses) crossed[n] += sign;
+      used.set(o.c.pn, (used.get(o.c.pn) ?? 0) + sign);
+    };
+    const neighbours = order.map(([x, z]) => [[1, 0], [-1, 0], [0, 1], [0, -1]].map(([dx, dz]) => idx.get(k2(x + dx, z + dz))).filter((n): n is number => n !== undefined));
+
+    // Pockets: cover the cells still open, one connected pocket at a time,
+    // fewest 1×1s then fewest parts. Exact within a node budget per pocket;
+    // the same pocket with the same stock comes up often, so it is kept.
+    const cover = (pocket: number[]): { opts: Opt[]; cost: number } | null => {
+      let best: Opt[] | null = null;
+      let bestCost = Infinity;
+      let nodes = 0;
+      const cur: Opt[] = [];
+      const most = Math.max(...pocket.flatMap((n) => byFirst[n].filter(fits).map((o) => o.at.length)), 1);
+      const dig = (cost: number, left: number) => {
+        if (++nodes > 500 || cost + Math.ceil(left / most) >= bestCost) return;
+        const first = pocket.find((n) => !covered[n]);
+        if (first === undefined) {
+          best = [...cur];
+          bestCost = cost;
+          return;
+        }
+        const opts = byFirst[first].filter(fits).sort((p, q) => q.at.length - p.at.length);
+        for (const o of opts) {
+          take(o, 1);
+          cur.push(o);
+          dig(cost + (o.at.length === 1 ? 11 : 1), left - o.at.length);
+          cur.pop();
+          take(o, -1);
+        }
+      };
+      dig(0, pocket.length);
+      return best ? { opts: best, cost: bestCost } : null;
+    };
+    const memo = new Map<string, { opts: Opt[]; cost: number } | null>();
+    const pockets = (): { opts: Opt[]; cost: number } | null => {
+      const seen = new Uint8Array(order.length);
+      const all: Opt[] = [];
+      let total = 0;
+      for (let s = 0; s < order.length; s++) {
+        if (covered[s] || seen[s]) continue;
+        const pocket: number[] = [];
+        for (const stack = [s]; stack.length; ) {
+          const n = stack.pop()!;
+          if (seen[n] || covered[n]) continue;
+          seen[n] = 1;
+          pocket.push(n);
+          stack.push(...neighbours[n]);
+        }
+        pocket.sort((a, b) => a - b);
+        const memoKey = `${pocket.join(",")}|${[...used].filter(([, q]) => q).sort().join(";")}`;
+        if (!memo.has(memoKey)) memo.set(memoKey, cover(pocket));
+        const got = memo.get(memoKey)!;
+        if (!got) {
+          total = Infinity;
+          break;
+        }
+        for (const o of got.opts) take(o, 1); // hold its stock for the next pocket
+        all.push(...got.opts);
+        total += got.cost;
+      }
+      for (const o of all) take(o, -1);
+      return total < Infinity ? { opts: all, cost: total } : null;
+    };
+
+    const cur: Opt[] = [];
+    let best: Opt[] | null = null;
+    let bestCost = bound;
+    let nodes = 0;
+    let left = order.length;
+    const settle = (cost: number) => {
+      if (++nodes > 300) return;
+      // lower bound: parts still needed, plus joints nothing left can cross
+      let stranded = 0;
+      for (let n = 0; n < joints.length; n++) if (!crossed[n] && !crossable(n)) stranded += weight[n];
+      if (cost + Math.ceil(left / maxArea) + stranded >= bestCost || dead()) return;
+      // the heavy joint with the fewest ways across goes first
+      let jn = -1;
+      let ways = Infinity;
+      for (let n = 0; n < joints.length; n++) {
+        if (weight[n] < 10 || crossed[n] || skipped[n]) continue;
+        const k = byJoint[n].filter(fits).length;
+        if (k && (k < ways || (k === ways && weight[n] > weight[jn]))) [jn, ways] = [n, k];
+      }
+      if (jn < 0) {
+        const rest = pockets();
+        if (!rest) return;
+        for (const o of rest.opts) take(o, 1);
+        let open = 0;
+        for (let n = 0; n < joints.length; n++) if (!crossed[n]) open += weight[n];
+        for (const o of rest.opts) take(o, -1);
+        if (cost + rest.cost + open < bestCost) {
+          bestCost = cost + rest.cost + open;
+          best = [...cur, ...rest.opts];
+        }
+        return;
+      }
+      // try first the parts that cross the most open weight without cutting
+      // off the last way across another joint, then the larger parts
+      const value = new Map<Opt, number>();
+      for (const o of byJoint[jn].filter(fits)) {
+        let v = 0;
+        for (const n of o.crosses) if (!crossed[n]) v += weight[n];
+        for (const n of o.at) covered[n] = 1;
+        for (let n = 0; n < joints.length; n++) if (!crossed[n] && !o.crosses.includes(n) && !crossable(n)) v -= weight[n];
+        for (const n of o.at) covered[n] = 0;
+        value.set(o, v);
+      }
+      const opts = [...value.keys()].sort((p, q) => value.get(q)! - value.get(p)! || q.at.length - p.at.length);
+      for (const o of opts) {
+        take(o, 1);
+        left -= o.at.length;
+        cur.push(o);
+        settle(cost + 1);
+        cur.pop();
+        left += o.at.length;
+        take(o, -1);
+        if (nodes > 300) return;
+      }
+      skipped[jn] = 1;
+      settle(cost);
+      skipped[jn] = 0;
+    };
+    settle(0);
+    return best ? { plan: (best as Opt[]).map((o) => o.c), cost: bestCost } : null;
+  }
+
   commit(plan: Cand[], layer: number, color: ColorKey, desc: string) {
     for (const c of plan) this.put(c.kind, c.w, c.d, c.x, c.z, layer, color, desc);
   }
@@ -582,8 +771,19 @@ function band(ctx: Ctx, area: Rect, layer: number, color: ColorKey, desc: string
   bandCells(ctx, rectCells(area), layer, color, desc, supportFrom, stepTitle);
 }
 
-function bandCells(ctx: Ctx, cells: [number, number][], layer: number, color: ColorKey, desc: string, supportFrom: number | null, stepTitle: string) {
-  const { plan, missing, blocked } = ctx.planTiles(cells, layer, "plate", color);
+function bandCells(ctx: Ctx, cells: [number, number][], layer: number, color: ColorKey, desc: string, supportFrom: number | null, stepTitle: string, open: Map<string, number> | null = null) {
+  const plain = ctx.planTiles(cells, layer, "plate", color);
+  const { blocked } = plain;
+  let { plan, missing } = plain;
+  if (open && openWeight(open, plan) > 0) {
+    // joints the walls left open: lay the slab across them if a cover can
+    const cost = plan.length + 10 * (plan.filter((c) => c.w * c.d === 1 || !c.supported).length + missing.length) + openWeight(open, plan);
+    const cross = ctx.crossCover(cells, layer, "plate", color, open, cost);
+    if (cross) {
+      plan = cross.plan;
+      missing = [];
+    }
+  }
   if (blocked.length) {
     const other = ctx.occ.get(k3(blocked[0][0], blocked[0][1], layer));
     ctx.errors.push(`${desc}: ${blocked.length} cells at layer ${layer} are already taken${other ? ` by ${other.info.description}` : ""} (first at ${blocked[0][0]},${blocked[0][1]})`);
@@ -767,20 +967,60 @@ function compileBlock(ctx: Ctx, el: Extract<Element, { type: "block" }>) {
   roof(ctx, el, wr, lastBand, topLayer);
 }
 
+// ─── joints: the grid lines a level must tie across ───
+
+type Span = { x: number; z: number; w: number; d: number };
+
+/** Does a part cross joint "z:r" (between rows r and r+1) or "x:c"? */
+function crossesJoint(p: Span, joint: string): boolean {
+  const r = Number(joint.slice(2));
+  const [lo, len] = joint[0] === "x" ? [p.x, p.w] : [p.z, p.d];
+  return lo <= r && r + 1 <= lo + len - 1;
+}
+
+/** Every joint between consecutive rows and columns of a plan. */
+function planJoints(cells: Cell[]): string[] {
+  const out: string[] = [];
+  for (const [ax, i] of [["z", 1], ["x", 0]] as const) {
+    const vals = new Set(cells.map((c) => c[i]));
+    for (const v of [...vals].sort((a, b) => a - b)) if (vals.has(v + 1)) out.push(`${ax}:${v}`);
+  }
+  return out;
+}
+
+/** The joints no part in `parts` crosses, with their weights. */
+function openJoints(weights: Map<string, number>, parts: Span[]): Map<string, number> {
+  return new Map([...weights].filter(([j]) => !parts.some((p) => crossesJoint(p, j))));
+}
+
+const openWeight = (open: Map<string, number> | null, parts: Span[]) =>
+  open ? [...openJoints(open, parts).values()].reduce((s, v) => s + v, 0) : 0;
+
 /**
  * Lay a course over arbitrary wall cells. Plain courses are tiled as an area
  * with the largest bricks that fit (2-wide at the steps of a stepped edge),
  * preferring bricks that span the joints below; glazed courses and anything
  * the area tiler leaves go in straight runs, direction alternating by course.
+ * Given `open` joints, the course is laid across as many of them as it can.
  */
-function courseCells(ctx: Ctx, cells: Cell[], layer: number, parity: number, color: ColorKey, desc: string, prev: Map<string, Set<string>>, glass = false, solid: Cell[] | null = null) {
+function courseCells(ctx: Ctx, cells: Cell[], layer: number, parity: number, color: ColorKey, desc: string, prev: Map<string, Set<string>>, glass = false, solid: Cell[] | null = null, open: Map<string, number> | null = null) {
   const made = new Map<string, Set<string>>([["x", new Set()], ["z", new Set()]]);
   if (!glass) {
     // try the ring and the solid course, scanning by rows and by columns;
-    // keep the cover with the fewest 1×1 bricks, then the fewest parts
-    const options = [cells, ...(solid ? [solid] : [])].flatMap((area) => [false, true].map((col) => ({ area, ...ctx.planTiles(area, layer, "brick", color, col) })));
-    const cost = (o: (typeof options)[number]) => o.plan.filter((c) => c.w * c.d === 1).length * 10 + o.missing.length * 10 + o.plan.length;
+    // keep the cover that leaves the fewest joints open, then the fewest
+    // 1×1 bricks, then the fewest parts
+    const areas = [cells, ...(solid ? [solid] : [])];
+    const options = areas.flatMap((area) => [false, true].map((col) => ({ area, ...ctx.planTiles(area, layer, "brick", color, col) })));
+    const cost = (o: (typeof options)[number]) => o.plan.filter((c) => c.w * c.d === 1).length * 10 + o.missing.length * 10 + o.plan.length + openWeight(open, o.plan);
     options.sort((a, b) => cost(a) - cost(b));
+    if (open?.size) {
+      // search for a cover laid across the open joints that beats the plain ones
+      for (const area of areas) {
+        const cross = ctx.crossCover(area, layer, "brick", color, open, cost(options[0]));
+        if (cross) options.unshift({ area, plan: cross.plan, missing: [], blocked: [] });
+      }
+      options.sort((a, b) => cost(a) - cost(b));
+    }
     const best = options[0];
     cells = best.area;
     const { plan, missing } = best;
@@ -791,7 +1031,16 @@ function courseCells(ctx: Ctx, cells: Cell[], layer: number, parity: number, col
     cells = cells.filter(([x, z]) => !done.has(ckey(x, z)));
     void missing;
   }
-  for (const run of runs(cells, parity % 2 === 0 ? "x" : "z")) {
+  let axis: "x" | "z" = parity % 2 === 0 ? "x" : "z";
+  if (glass && open?.size) {
+    // a glazed course can still tie its level: run the glass the way that
+    // leaves fewer of the open joints for the slab
+    const panes = (a: "x" | "z") => runs(cells, a).flatMap((run) =>
+      Array.from({ length: Math.floor(run.cells.length / 2) }, (_, i) => ({ x: run.cells[2 * i][0], z: run.cells[2 * i][1], w: run.axis === "x" ? 2 : 1, d: run.axis === "x" ? 1 : 2 })));
+    const other = axis === "x" ? "z" : "x";
+    if (openWeight(open, panes(other)) < openWeight(open, panes(axis))) axis = other;
+  }
+  for (const run of runs(cells, axis)) {
     const ax = run.axis;
     const fixed = ax === "x" ? run.cells[0][1] : run.cells[0][0];
     if (glass) {
@@ -867,16 +1116,43 @@ function compileTower(ctx: Ctx, el: Extract<Element, { type: "tower" }>) {
   const walls = hollow ? edge : core;
   const courses = el.courses ?? 1;
   const levelH = 3 * courses + 1;
+  // Every level must lay a part across each joint between consecutive rows
+  // and columns of the plan. Without that, a stepped plan tiles into the same
+  // blocks course after course and slab after slab, and its apex becomes a
+  // separate stack. The validator checks connection, not stiffness, so the
+  // compiler sees to it: the level's last course is laid across the joints
+  // still open (the rows of the steps first, as the Panorama tower crosses
+  // its courses), and the slab takes whatever is left.
+  // A course across the rows of a triangle often cannot also cross its
+  // columns without 1×1s, so there the course counts columns lightly and
+  // leaves them to the slab, whose wide plates cross them easily.
+  const joints = planJoints(core);
+  const rowAxis = el.plan === "triangle" ? (el.point === "E" || el.point === "W" ? "x" : "z") : null;
+  const courseWeights = new Map(joints.map((j) => [j, !rowAxis || j[0] === rowAxis ? 100 : 3]));
+  const slabWeights = new Map(joints.map((j) => [j, 100]));
+  const untied: number[] = [];
   let prev = new Map<string, Set<string>>();
   let area: Cell[] = core;
   for (let k = 0; k < el.levels; k++) {
     const L = base + levelH * k;
+    const first = ctx.pieces.length;
+    const laid = () => ctx.pieces.slice(first);
     ctx.step(el.levels > 1 ? `${el.name}: level ${k + 1} walls` : `${el.name}: walls`);
-    for (let c = 0; c < courses; c++)
-      prev = courseCells(ctx, walls, L + 3 * c, k * courses + c, color, `${el.name} wall`, prev, k === 0 && c === 0 && !!el.lobby, hollow ? core : null);
+    for (let c = 0; c < courses; c++) {
+      const open = c === courses - 1 ? openJoints(courseWeights, laid()) : null;
+      prev = courseCells(ctx, walls, L + 3 * c, k * courses + c, color, `${el.name} wall`, prev, k === 0 && c === 0 && !!el.lobby, hollow ? core : null, open);
+    }
     const sides: Side[] = !balconies ? [] : !serrate ? ["N", "S", "E", "W"] : k % 2 === 0 ? ["N", "S"] : ["E", "W"];
     area = dilate(core, sides).filter(([x, z]) => ctx.inSite(x, z));
-    bandCells(ctx, area, L + 3 * courses, bandColor, `${el.name} balcony slab`, L, el.levels > 1 ? `${el.name}: level ${k + 1} balcony slab` : `${el.name}: slab`);
+    bandCells(ctx, area, L + 3 * courses, bandColor, `${el.name} balcony slab`, L, el.levels > 1 ? `${el.name}: level ${k + 1} balcony slab` : `${el.name}: slab`, openJoints(slabWeights, laid()));
+    if (openJoints(slabWeights, laid()).size) untied.push(k + 1);
+  }
+  if (untied.length) {
+    // a one-course glazed lobby is all glass and hollow inside, so its slab
+    // often has nothing to hold a plate across the joints; a second course can
+    const lobby = !!el.lobby && courses === 1 && untied[0] === 1;
+    ctx.warnings.push(`${el.name}: on level${untied.length > 1 ? "s" : ""} ${untied.join(", ")} no part crosses one of the plan's row or column joints, so the tower is less stiff there` +
+      (untied.length > (lobby ? 1 : 0) ? " (the set has run short of parts that could)" : "") + (lobby ? "; courses: 2 would tie the glazed lobby" : ""));
   }
   const top = base + levelH * el.levels;
   if (el.crown === "fins") crownFins(ctx, area, top, color, el.name);
