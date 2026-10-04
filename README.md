@@ -7,9 +7,10 @@ LEGO Architecture Studio set (21050), with a live 3D model for every step.
 
 ## The build
 
-**The Barbican Estate: Lakeside Panorama**, 668 pieces in 108 steps: the
-lake, the podium colonnade, a terrace block with barrel vaults, Lauderdale
-Tower, the conservatory and landscaping, all within one 21050 set.
+**The Barbican Estate: Lakeside Panorama**, 625 pieces in 95 steps: the
+lake, the podium colonnade, a terrace block with barrel vaults, a triangular
+Lauderdale Tower with saw-tooth balconies and a finned crown, the
+conservatory and landscaping, all within one 21050 set.
 
 It is the one Barbican design. The Frobisher Section and London Wall builds
 were retired on 2026-10-02; tag `v2.0.1` still has them.
@@ -17,6 +18,13 @@ were retired on 2026-10-02; tag `v2.0.1` still has them.
 The build has a downloadable booklet (PDF and HTML) generated from the same
 placements as the 3D guide. REVIEW.md records what changed from the August
 booklet; RELEASE.md covers deploys and rollback.
+
+`node scripts/review-build.mjs` sends four renders of the finished model,
+with no title, to the designer's blind reviewer (Opus 5.5, about $0.12 a
+run) and keeps the verdict in `reviews/`.
+
+A fan project, not affiliated with or endorsed by the LEGO Group. LEGO® is a
+trademark of the LEGO Group.
 
 ## AI designer (local tool)
 

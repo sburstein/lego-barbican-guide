@@ -144,6 +144,17 @@ function setPieceCount(anchor, count) {
 }
 setPieceCount("const barbicanPanorama", countPieces(panorama));
 
+// Keep each phase's banner comment, "// PHASE n: NAME (s steps, p pieces)", in step
+for (const pid of BP_PHASE_ORDER) {
+  const at = src.indexOf(`id: "${pid}"`);
+  const banner = src.lastIndexOf("// PHASE", at);
+  const m = /\(\d+ steps, \d+ pieces\)/.exec(src.slice(banner, at));
+  if (!m) continue;
+  const phase = panorama[pid];
+  const counts = `(${phase.length} steps, ${phase.reduce((t, st) => t + st.length, 0)} pieces)`;
+  src = src.slice(0, banner + m.index) + counts + src.slice(banner + m.index + m[0].length);
+}
+
 writeFileSync(buildsPath, src);
 console.log(
   `builds.ts regenerated: panorama ${countPieces(panorama)} pieces.`

@@ -1,0 +1,45 @@
+{
+  "build": "barbican-panorama",
+  "version": "2.1.1",
+  "subject": "the Barbican Estate, City of London (Chamberlin, Powell and Bon)",
+  "model": "claude-opus-5-5",
+  "effort": "xhigh",
+  "date": "2026-10-04T15:25:17.888Z",
+  "costUsd": 0.12,
+  "pass": false,
+  "guess": "The Barbican Estate, City of London. The title says so, and the model backs it up: there is a serrated-edge residential tower, a terrace block with a barrel-vaulted roof raised on pilotis beside a rectangular lake, a glazed conservatory-like volume, and dark raised highwalk-style strips.",
+  "confidence": 0.65,
+  "quality": 5,
+  "fidelity": 5,
+  "recognisable": true,
+  "strengths": [
+    "The barrel-vaulted roofline on the long terrace block, standing on columns over the podium edge, is the most recognisably Barbican element.",
+    "The jagged, stepped edges of the tower suggest the Barbican towers' saw-tooth cantilevered balconies.",
+    "The trans-clear lake and glasshouse volume nod to the lake and the Barbican Conservatory.",
+    "The restrained white, grey and trans-clear palette suits the LEGO Architecture line.",
+    "Dark grey linear elements read plausibly as the elevated pedestrian highwalks and podium edges."
+  ],
+  "problems": [
+    "Only one tower is shown, while the Barbican's skyline is defined by three. One oversized tower turns the composition into a generic skyscraper.",
+    "The tower tapers into a spire-like, pinnacled crown. The real towers are straight-sided prisms with a distinctive flat, serrated top, so the silhouette reads closer to Gothic or Art Deco than Brutalist.",
+    "The tower's scale overwhelms the 'lakeside panorama'. The lake is a small corner patch rather than the central organising feature, so the name oversells the scene.",
+    "The balcony serrations look irregular and random rather than following the strict repeating rhythm that makes the Barbican facades iconic.",
+    "The terrace blocks are short and stubby. The long, horizontal sweep of the terraces over the water, a key Barbican image, is lost.",
+    "The base is cluttered and fragmented: an irregular stepped outline, scattered dark grey bars with unclear meaning, and randomly placed trees reduce legibility compared with official sets' clean plinths.",
+    "Signature context is missing, such as St Giles Cripplegate church or the lake's fountains and stepping stones, which would make the site instantly identifiable.",
+    "There is no clear hero angle. From several views the tower blocks the low-rise elements entirely."
+  ],
+  "issues": [
+    "Tower shape (all views): the tower is a slim, roughly square needle that narrows toward the top, so it reads as an obelisk or spire. Cromwell, Shakespeare and Lauderdale Towers are triangular in plan and keep the same section all the way up. Rebuild the shaft as a triangular prism with no taper and a wider footprint, about one third of the terrace length.",
+    "Balcony serrations (Views 1 and 2): the slope pieces are scattered unevenly, so the faces look encrusted rather than banded. Make them a regular stack of continuous horizontal balcony fronts, for example every 2 plates. Let each band project as a saw-tooth cantilever at the corners. That repeating jagged edge is the tower's signature silhouette.",
+    "Tower crown (Views 2–4): the rounded cap and the dark round element at the top do not belong. Replace them with the stepped, crenellated crown formed by the upper balconies so the skyline profile is jagged rather than soft.",
+    "Tower placement (Views 2 and 3): the tower is grafted onto the terrace block, so the two read as one building. On site the towers stand free on the podium, apart from the terraces. Separate them with a strip of podium paving.",
+    "Terrace length (Views 1 and 4): the terrace block is stubby, almost as deep as it is long. Barbican terraces such as Gilbert House and Andrewes House are long, low horizontal bars. Stretch the block along the full length of the lake and keep it to about 7 storeys. Run the barrel-vaulted top storey as one unbroken arcade of vaults along the whole roofline.",
+    "Lake (View 1): the pool is small and fenced off by dark border strips, which undercuts the 'Lakeside Panorama' theme. Enlarge it into the dominant long rectangular water plane. Bring the pilotis colonnade down to the water's edge so the block appears to stride along or over the lake, as Gilbert House does.",
+    "Highwalks (Views 1 and 4): the dark strips sit flat at ground level and read as kerbs or a picture frame. Lift them onto the podium as raised walkways on short supports. The water should then sit below highwalk level.",
+    "Missing landmark (all views): there is no St Giles' Cripplegate. Its small Gothic tower beside the lake is one of the most recognisable elements of the Lakeside view. Add it as a micro-scale stone tower with crenellations.",
+    "Conservatory (View 1): the glazed volume is a plain ground-level box. Step it in tiers, and if space allows lift it onto a solid concrete base, to suggest the conservatory over the theatre fly tower.",
+    "Rear tall blocks (Views 2 and 3): the tall, curved-top slabs behind the tower are ambiguous and compete with the tower. Lower them to terrace height with the barrel-vault roofline, or cut them, so the composition reads as one tower against long low terraces."
+  ],
+  "verdict": "The Barbican vocabulary is all here: serrated tower, barrel-vaulted terrace on pilotis, lake, conservatory and highwalks. A knowledgeable viewer would get there, though the blind guess leaned on the title. The fidelity problems are mostly in proportion and form. A tapering needle tower, a stubby terrace grafted onto it, and a small framed pool make the scene feel generic and compressed. The tower should be a free-standing triangular prism with regular saw-tooth balconies and a jagged crown. The terraces should be long and low, the lake should dominate, and the highwalks should be raised. Adding St Giles' would make this unmistakable."
+}

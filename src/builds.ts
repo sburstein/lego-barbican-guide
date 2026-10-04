@@ -122,10 +122,10 @@ const barbicanPanorama: Build = {
   subtitle:
     "The full lakeside composition: tower, terraces, conservatory, podium, and lake",
   description:
-    "A large-scale diorama capturing the Barbican's most iconic composition: the full lakeside view with Lauderdale Tower rising behind barrel-vaulted terrace blocks, the colonnade podium, the Conservatory greenhouse, and the ornamental lake. This is a serious, multi-session build using grille-brick spandrels for bush-hammered concrete texture, inverted slopes for the waterside plinth, serrated balcony bands, and recessed window slots. Every piece is drawn from the set's actual white and trans-clear inventory; the 3D model tints water edging dark and planting green purely as a visual guide. On the table those are the same white parts. Designed to maximise the LEGO Architecture Studio 21050 set.",
+    "A large-scale diorama capturing the Barbican's most iconic composition: the full lakeside view with the triangular Lauderdale Tower standing beside a barrel-vaulted terrace block, the colonnade podium, the Conservatory greenhouse, and the ornamental lake. This is a serious, multi-session build using grille-brick spandrels for bush-hammered concrete texture, inverted slopes for the waterside plinth, serrated balcony bands, and recessed window slots. Every piece is drawn from the set's actual white and trans-clear inventory; the 3D model tints water edging dark and planting green purely as a visual guide. On the table those are the same white parts. Designed to maximise the LEGO Architecture Studio 21050 set.",
   difficulty: 3,
   estimatedTime: "8–12 hours across multiple sessions",
-  pieceCount: 668,
+  pieceCount: 625,
   concept: "Brutalist Urbanism: Layers, Texture & Repetition",
   heroPhoto: SHARED_PHOTOS.lakeside.url,
   photos: {
@@ -153,7 +153,7 @@ const barbicanPanorama: Build = {
   },
   phases: [
     // ════════════════════════════════════════════════════════════════════
-    // PHASE 1: FOUNDATION PLATFORM (8 steps, 56 pieces)
+    // PHASE 1: FOUNDATION PLATFORM (8 steps, 33 pieces)
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-foundation",
@@ -207,27 +207,28 @@ const barbicanPanorama: Build = {
         },
         {
           title: "Ties across the side joints",
-          instruction: "Place 4× Plate 1×6 (side seam tie); toward the rear of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
+          instruction: "Place 3× Plate 1×6 (side seam tie); toward the rear of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Plate 1×6", part: "3666", qty: 4 },
+            { name: "Plate 1×6", part: "3666", qty: 3 },
           ],
           tip: "Press each tie down firmly along its whole length before moving on; a loose base joint telegraphs wobble all the way up.",
         },
         {
           title: "Edge beams around the rim",
-          instruction: "Place 2× Plate 1×10 (front edge beam); 1× Plate 1×4 (front edge beam); 2× Plate 1×6 (back edge beam); 1× Plate 1×10 (left edge beam); 1× Plate 1×6 (left edge beam); 1× Plate 1×10 (right edge beam); and 1× Plate 1×6 (right edge beam); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
+          instruction: "Place 2× Plate 1×10 (front edge beam); 1× Plate 1×4 (front edge beam); 4× Plate 1×6 (back edge beam); 1× Plate 1×10 (left edge beam); 1× Plate 1×6 (left edge beam); 1× Plate 1×10 (right edge beam); and 1× Plate 1×6 (right edge beam); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Plate 1×10", part: "4477", qty: 4 },
             { name: "Plate 1×4", part: "3710", qty: 1 },
-            { name: "Plate 1×6", part: "3666", qty: 4 },
+            { name: "Plate 1×6", part: "3666", qty: 6 },
           ],
           tip: "The estate reads as a walled city; its name comes from the Latin barbecana, a fortified outer gateway. These dark beams start that defensive edge.",
         },
         {
           title: "Tower raft foundation",
-          instruction: "Place 3× Plate 4×6 (tower reinforcement l1) and 2× Plate 4×6 (tower reinforcement l2); toward the rear of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
+          instruction: "Place 2× Plate 2×6 (tower raft l1) and 1× Plate 6×6 (tower raft l2); at the rear east of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Plate 4×6", part: "3032", qty: 5 },
+            { name: "Plate 2×6", part: "3795", qty: 2 },
+            { name: "Plate 6×6", part: "3958", qty: 1 },
           ],
           tip: "Ove Arup's engineers gave each tower a massive raft so 43 storeys of concrete could stand beside Underground tunnels. Two stacked plate layers are your raft.",
         },
@@ -235,7 +236,7 @@ const barbicanPanorama: Build = {
     },
 
     // ════════════════════════════════════════════════════════════════════
-    // PHASE 2: THE LAKE (8 steps, 70 pieces)
+    // PHASE 2: THE LAKE (6 steps, 56 pieces)
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-lake",
@@ -300,7 +301,7 @@ const barbicanPanorama: Build = {
     },
 
     // ════════════════════════════════════════════════════════════════════
-    // PHASE 3: PODIUM COLONNADE (6 steps, 40 pieces)
+    // PHASE 3: PODIUM COLONNADE (6 steps, 39 pieces)
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-podium",
@@ -364,8 +365,7 @@ const barbicanPanorama: Build = {
     },
 
     // ════════════════════════════════════════════════════════════════════
-    // PHASE 4: GROUND LEVEL & STRUCTURAL CORES (28 steps, 188 pieces)
-    // Interleaved terrace + tower build for access
+    // PHASE 4: GROUND LEVEL & STRUCTURAL CORES (10 steps, 51 pieces)
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-terrace-core",
@@ -375,7 +375,7 @@ const barbicanPanorama: Build = {
       icon: "🧱",
       time: "35\u201345 min",
       location:
-        "Concrete cross-walls carry the terrace blocks, with the Arts Centre pushed in at ground level. When the Queen opened the Barbican Centre on 3 March 1982 it was the largest performing-arts centre in Europe, and she called the complex 'one of the modern wonders of the world'. This phase also starts Lauderdale Tower and lays the podium deck that all pedestrian life happens on.",
+        "Concrete cross-walls carry the terrace blocks, with the Arts Centre pushed in at ground level. When the Queen opened the Barbican Centre on 3 March 1982 it was the largest performing-arts centre in Europe, and she called the complex 'one of the modern wonders of the world'. This phase also lays the podium deck that all pedestrian life happens on.",
       steps: [
         {
           title: "Bearing walls",
@@ -459,60 +459,11 @@ const barbicanPanorama: Build = {
           ],
           tip: "Corner panels turn the rail around the deck's back corners.",
         },
-        {
-          title: "Tower courses 1-2",
-          instruction: "Place 4× Brick 1×3 (tower y-plan course); 2× Brick 2×2 (tower y-plan course); and 4× Brick 2×3 (tower y-plan course); toward the rear of the model, about 1 brick up. Match the coral pieces in the 3D view for exact positions.",
-          pieces: [
-            { name: "Brick 1×3", part: "3622", qty: 4 },
-            { name: "Brick 2×2", part: "3003", qty: 2 },
-            { name: "Brick 2×3", part: "3002", qty: 4 },
-          ],
-          tip: "Lauderdale Tower begins. The real towers are triangular in plan with a service core; ours is a Y; three wings around a 2×2 core, which keeps every course self-bracing.",
-        },
-        {
-          title: "Tower courses 3-4",
-          instruction: "Place 2× Brick 1×3 (tower y-plan course); 2× Brick 2×2 (tower y-plan course); 3× Brick 2×3 (tower y-plan course); 1× Brick 2×6 (tower y-plan course); 1× Plate 2×6 (tower floor band); and 2× Plate 2×4 (tower floor band); toward the rear of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
-          pieces: [
-            { name: "Brick 1×3", part: "3622", qty: 2 },
-            { name: "Brick 2×2", part: "3003", qty: 2 },
-            { name: "Brick 2×3", part: "3002", qty: 3 },
-            { name: "Brick 2×6", part: "2456", qty: 1 },
-            { name: "Plate 2×6", part: "3795", qty: 1 },
-            { name: "Plate 2×4", part: "3020", qty: 2 },
-          ],
-          tip: "Alternating course patterns interlock the wings into the core; running bond, the oldest trick in masonry, in concrete and in LEGO.",
-        },
-        {
-          title: "Tower courses 5-6",
-          instruction: "Place 2× Brick 1×3 (tower y-plan course); 3× Brick 2×2 (tower y-plan course); 2× Brick 2×3 (tower y-plan course); 1× Brick 2×4 (tower y-plan course); and 3× Grille Brick 1×2 (tower spandrel band); toward the rear of the model, about 5 bricks up. Match the coral pieces in the 3D view for exact positions.",
-          pieces: [
-            { name: "Brick 1×3", part: "3622", qty: 2 },
-            { name: "Brick 2×2", part: "3003", qty: 3 },
-            { name: "Brick 2×3", part: "3002", qty: 2 },
-            { name: "Brick 2×4", part: "3001", qty: 1 },
-            { name: "Grille Brick 1×2", part: "2877", qty: 3 },
-          ],
-          tip: "From here up the wing tips alternate: ribbed spandrel courses, then trans-clear window bands. Each course carries its own facade pieces.",
-        },
-        {
-          title: "Tower courses 7-8",
-          instruction: "Place 1× Brick 2×4 (tower y-plan course); 3× Brick 2×2 (tower y-plan course); 3× Trans-Clear Brick 1×2 (tower window band); 1× Brick 2×6 (tower y-plan course); 1× Brick 2×3 (tower y-plan course); 1× Plate 2×6 (tower floor band); and 2× Plate 2×4 (tower floor band); toward the rear of the model, about 7 bricks up. Match the coral pieces in the 3D view for exact positions.",
-          pieces: [
-            { name: "Brick 2×4", part: "3001", qty: 1 },
-            { name: "Brick 2×2", part: "3003", qty: 3 },
-            { name: "Trans-Clear Brick 1×2", part: "3065", qty: 3 },
-            { name: "Brick 2×6", part: "2456", qty: 1 },
-            { name: "Brick 2×3", part: "3002", qty: 1 },
-            { name: "Plate 2×6", part: "3795", qty: 1 },
-            { name: "Plate 2×4", part: "3020", qty: 2 },
-          ],
-          tip: "A plate band after every fourth course marks a floor line, just as the towers' balcony slabs stripe their elevations.",
-        },
       ],
     },
 
     // ════════════════════════════════════════════════════════════════════
-    // PHASE 5: TERRACE BLOCK: SNOT FACADE (12 steps, 72 pieces)
+    // PHASE 5: TERRACE BLOCK: SNOT FACADE (18 steps, 146 pieces)
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-terrace-facade",
@@ -562,7 +513,7 @@ const barbicanPanorama: Build = {
         },
         {
           title: "Storey 1: floor band",
-          instruction: "Place 10× Plate 2×3 (terrace floor band); 3× Plate 2×2 (balcony slab (projecting)); and 7× Plate 1×2 (balcony slab (flush)); in the centre of the model, about 5 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          instruction: "Place 10× Plate 2×3 (terrace floor band); 3× Plate 2×2 (balcony slab (projecting)); and 7× Plate 1×2 (balcony slab (flush)); toward the rear of the model, about 5 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Plate 2×3", part: "3021", qty: 10 },
             { name: "Plate 2×2", part: "3022", qty: 3 },
@@ -617,7 +568,7 @@ const barbicanPanorama: Build = {
         },
         {
           title: "Storey 2: floor band",
-          instruction: "Place 10× Plate 2×3 (terrace floor band); 3× Plate 2×2 (balcony slab (projecting)); and 7× Plate 1×2 (balcony slab (flush)); in the centre of the model, about 7 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          instruction: "Place 10× Plate 2×3 (terrace floor band); 3× Plate 2×2 (balcony slab (projecting)); and 7× Plate 1×2 (balcony slab (flush)); toward the rear of the model, about 7 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Plate 2×3", part: "3021", qty: 10 },
             { name: "Plate 2×2", part: "3022", qty: 3 },
@@ -691,7 +642,7 @@ const barbicanPanorama: Build = {
     },
 
     // ════════════════════════════════════════════════════════════════════
-    // PHASE 6: TERRACE BLOCK: BALCONIES & SOFFITS (10 steps, 52 pieces)
+    // PHASE 6: TERRACE BLOCK: BALCONIES & SOFFITS (4 steps, 18 pieces)
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-terrace-balconies",
@@ -729,7 +680,7 @@ const barbicanPanorama: Build = {
         },
         {
           title: "Lakeside benches",
-          instruction: "Place 4× Tile 1×2 (lakeside bench); toward the front of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
+          instruction: "Place 4× Tile 1×2 (lakeside bench); in the centre of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Tile 1×2", part: "3069b", qty: 4 },
           ],
@@ -739,7 +690,7 @@ const barbicanPanorama: Build = {
     },
 
     // ════════════════════════════════════════════════════════════════════
-    // PHASE 7: BARREL VAULT ROOF (10 steps, 52 pieces)
+    // PHASE 7: BARREL VAULT ROOF (7 steps, 34 pieces)
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-barrel-vault",
@@ -761,7 +712,7 @@ const barbicanPanorama: Build = {
         },
         {
           title: "Front roof pitch",
-          instruction: "Place 3× Slope 2×4 (45°) (roof pitch (front)) and 2× Slope 1×2 (45°) (roof pitch (front)); in the centre of the model, about 10 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          instruction: "Place 3× Slope 2×4 (45°) (roof pitch (front)) and 2× Slope 1×2 (45°) (roof pitch (front)); toward the rear of the model, about 10 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Slope 2×4 (45°)", part: "3037", qty: 3 },
             { name: "Slope 1×2 (45°)", part: "3040", qty: 2 },
@@ -805,7 +756,7 @@ const barbicanPanorama: Build = {
         },
         {
           title: "Barrel vaults, front row",
-          instruction: "Place 6× Slope Curved 2×1×1⅓ (barrel vault cap); on the east side, about 11 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          instruction: "Place 6× Slope Curved 2×1×1⅓ (barrel vault cap); at the rear east of the model, about 11 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
             { name: "Slope Curved 2×1×1⅓", part: "6091", qty: 6 },
           ],
@@ -815,217 +766,200 @@ const barbicanPanorama: Build = {
     },
 
     // ════════════════════════════════════════════════════════════════════
-    // PHASE 8: LAUDERDALE TOWER: ABOVE THE ROOFLINE (10 steps, 92 pieces)
-    // Lower shaft already built in Phase 4
+    // PHASE 8: LAUDERDALE TOWER: LOWER LEVELS (6 steps, 69 pieces)
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-tower-core",
-      title: "Phase 8: Lauderdale Tower, The Shaft",
+      title: "Phase 8: Lauderdale Tower, Lower Levels",
       concept: "Verticality",
       color: "#BE185D",
       icon: "🗼",
-      time: "45\u201360 min",
+      time: "25\u201335 min",
       location:
-        "Cromwell, Shakespeare and Lauderdale rise 43 and 44 storeys to about 123 metres, among the tallest residential towers in Europe when they topped out. Each is triangular in plan with serrated balcony edges; ours is a Y around a solid core, which keeps every course self-bracing. The window bands build in as you climb, so the shaft arrives finished.",
+        "Cromwell, Shakespeare and Lauderdale rise 43 and 44 storeys to about 123 metres, among the tallest residential towers in Europe when they topped out. Each is triangular in plan, and so is ours: a solid triangle of brick on its own raft in the corner of the site, clear of the terrace. Every level is two brick courses laid crosswise, so each bridges the other's joints, then a balcony slab one stud proud of the walls.",
       steps: [
         {
-          title: "Tower courses 9-10",
-          instruction: "Place 2× Brick 1×3 (tower y-plan course); 3× Brick 2×2 (tower y-plan course); 2× Brick 2×3 (tower y-plan course); 1× Brick 2×4 (tower y-plan course); and 3× Grille Brick 1×2 (tower spandrel band); toward the rear of the model, about 10 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          title: "Tower level 1: lobby",
+          instruction: "Place 2× Brick 2×6 (tower wall); 1× Brick 2×4 (tower wall); 3× Brick 2×2 (tower wall); 2× Trans-Clear Brick 1×2 (tower lobby glazing); 2× Plate 2×6 (tower balcony slab); 1× Plate 2×4 (tower balcony slab); and 1× Plate 2×2 (tower balcony slab); at the rear east of the model, about 1 brick up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Brick 1×3", part: "3622", qty: 2 },
-            { name: "Brick 2×2", part: "3003", qty: 3 },
-            { name: "Brick 2×3", part: "3002", qty: 2 },
-            { name: "Brick 2×4", part: "3001", qty: 1 },
-            { name: "Grille Brick 1×2", part: "2877", qty: 3 },
-          ],
-          tip: "The three real towers; Cromwell, Shakespeare and Lauderdale; rise 43 and 44 storeys to about 123 metres, among the tallest residential towers in Europe when they topped out.",
-        },
-        {
-          title: "Tower courses 11-12",
-          instruction: "Place 1× Brick 2×4 (tower y-plan course); 3× Brick 2×2 (tower y-plan course); 3× Trans-Clear Brick 1×2 (tower window band); 1× Brick 2×6 (tower y-plan course); 1× Brick 2×3 (tower y-plan course); 1× Plate 2×6 (tower floor band); and 2× Plate 2×4 (tower floor band); toward the rear of the model, about 12 bricks up. Match the coral pieces in the 3D view for exact positions.",
-          pieces: [
+            { name: "Brick 2×6", part: "2456", qty: 2 },
             { name: "Brick 2×4", part: "3001", qty: 1 },
             { name: "Brick 2×2", part: "3003", qty: 3 },
-            { name: "Trans-Clear Brick 1×2", part: "3065", qty: 3 },
-            { name: "Brick 2×6", part: "2456", qty: 1 },
-            { name: "Brick 2×3", part: "3002", qty: 1 },
-            { name: "Plate 2×6", part: "3795", qty: 1 },
-            { name: "Plate 2×4", part: "3020", qty: 2 },
-          ],
-          tip: "Keep pressing each course fully home; a tall thin tower amplifies any gap below.",
-        },
-        {
-          title: "Tower courses 13-14",
-          instruction: "Place 1× Brick 2×4 (tower y-plan course); 2× Brick 2×2 (tower y-plan course); 2× Brick 1×3 (tower y-plan course); 2× Brick 1×2 (tower y-plan course); and 3× Grille Brick 1×2 (tower spandrel band); toward the rear of the model, about 14 bricks up. Match the coral pieces in the 3D view for exact positions.",
-          pieces: [
-            { name: "Brick 2×4", part: "3001", qty: 1 },
-            { name: "Brick 2×2", part: "3003", qty: 2 },
-            { name: "Brick 1×3", part: "3622", qty: 2 },
-            { name: "Brick 1×2", part: "3004", qty: 2 },
-            { name: "Grille Brick 1×2", part: "2877", qty: 3 },
-          ],
-          tip: "The window bands continue automatically as you climb; grille spandrels, then glass.",
-        },
-        {
-          title: "Tower courses 15-16",
-          instruction: "Place 2× Brick 1×3 (tower y-plan course); 2× Brick 1×2 (tower y-plan course); 3× Trans-Clear Brick 1×2 (tower window band); 2× Brick 1×6 (tower y-plan course); 1× Brick 2×2 (tower y-plan course); 1× Plate 2×8 (tower floor band); 1× Plate 2×2 (tower floor band); and 2× Cheese Slope 1×1×⅔ (serrated fin); toward the rear of the model, about 16 bricks up. Match the coral pieces in the 3D view for exact positions.",
-          pieces: [
-            { name: "Brick 1×3", part: "3622", qty: 2 },
-            { name: "Brick 1×2", part: "3004", qty: 2 },
-            { name: "Trans-Clear Brick 1×2", part: "3065", qty: 3 },
-            { name: "Brick 1×6", part: "3009", qty: 2 },
-            { name: "Brick 2×2", part: "3003", qty: 1 },
-            { name: "Plate 2×8", part: "3034", qty: 1 },
-            { name: "Plate 2×2", part: "3022", qty: 1 },
-            { name: "Cheese Slope 1×1×⅔", part: "54200", qty: 2 },
-          ],
-          tip: "The towers' floors were cast around slip-formed cores; your plate bands play the part of the floor slabs.",
-        },
-        {
-          title: "Tower courses 17-18",
-          instruction: "Place 1× Brick 2×4 (tower y-plan course); 2× Brick 2×2 (tower y-plan course); 2× Brick 1×3 (tower y-plan course); 2× Brick 1×2 (tower y-plan course); and 3× Grille Brick 1×2 (tower spandrel band); toward the rear of the model, about 18 bricks up. Match the coral pieces in the 3D view for exact positions.",
-          pieces: [
-            { name: "Brick 2×4", part: "3001", qty: 1 },
-            { name: "Brick 2×2", part: "3003", qty: 2 },
-            { name: "Brick 1×3", part: "3622", qty: 2 },
-            { name: "Brick 1×2", part: "3004", qty: 2 },
-            { name: "Grille Brick 1×2", part: "2877", qty: 3 },
-          ],
-          tip: "Press every piece fully home before moving on; gaps low down telegraph all the way up.",
-        },
-        {
-          title: "Tower courses 19-20",
-          instruction: "Place 2× Brick 1×3 (tower y-plan course); 2× Brick 1×2 (tower y-plan course); 3× Trans-Clear Brick 1×2 (tower window band); 2× Brick 1×6 (tower y-plan course); 1× Brick 2×2 (tower y-plan course); 1× Plate 2×8 (tower floor band); 1× Plate 2×2 (tower floor band); and 2× Cheese Slope 1×1×⅔ (serrated fin); toward the rear of the model, about 20 bricks up. Match the coral pieces in the 3D view for exact positions.",
-          pieces: [
-            { name: "Brick 1×3", part: "3622", qty: 2 },
-            { name: "Brick 1×2", part: "3004", qty: 2 },
-            { name: "Trans-Clear Brick 1×2", part: "3065", qty: 3 },
-            { name: "Brick 1×6", part: "3009", qty: 2 },
-            { name: "Brick 2×2", part: "3003", qty: 1 },
-            { name: "Plate 2×8", part: "3034", qty: 1 },
-            { name: "Plate 2×2", part: "3022", qty: 1 },
-            { name: "Cheese Slope 1×1×⅔", part: "54200", qty: 2 },
-          ],
-          tip: "First setback: the wings shorten as the tower rises, sharpening the silhouette.",
-        },
-        {
-          title: "Tower courses 21-22",
-          instruction: "Place 1× Brick 2×4 (tower y-plan course); 2× Brick 2×2 (tower y-plan course); 2× Brick 1×3 (tower y-plan course); 2× Brick 1×2 (tower y-plan course); and 3× Grille Brick 1×2 (tower spandrel band); toward the rear of the model, about 23 bricks up. Match the coral pieces in the 3D view for exact positions.",
-          pieces: [
-            { name: "Brick 2×4", part: "3001", qty: 1 },
-            { name: "Brick 2×2", part: "3003", qty: 2 },
-            { name: "Brick 1×3", part: "3622", qty: 2 },
-            { name: "Brick 1×2", part: "3004", qty: 2 },
-            { name: "Grille Brick 1×2", part: "2877", qty: 3 },
-          ],
-          tip: "Check the row against the 3D view before seating it; sliding bricks sideways to correct is harder than placing them right.",
-        },
-        {
-          title: "Tower courses 23-24",
-          instruction: "Place 2× Brick 1×3 (tower y-plan course); 2× Brick 1×2 (tower y-plan course); 3× Trans-Clear Brick 1×2 (tower window band); 1× Brick 2×4 (tower y-plan course); 2× Brick 2×2 (tower y-plan course); 1× Plate 2×8 (tower floor band); 1× Plate 2×2 (tower floor band); and 2× Cheese Slope 1×1×⅔ (serrated fin); toward the rear of the model, about 25 bricks up. Match the coral pieces in the 3D view for exact positions.",
-          pieces: [
-            { name: "Brick 1×3", part: "3622", qty: 2 },
-            { name: "Brick 1×2", part: "3004", qty: 2 },
-            { name: "Trans-Clear Brick 1×2", part: "3065", qty: 3 },
-            { name: "Brick 2×4", part: "3001", qty: 1 },
-            { name: "Brick 2×2", part: "3003", qty: 2 },
-            { name: "Plate 2×8", part: "3034", qty: 1 },
-            { name: "Plate 2×2", part: "3022", qty: 1 },
-            { name: "Cheese Slope 1×1×⅔", part: "54200", qty: 2 },
-          ],
-          tip: "Line the pieces up on the table in order first; real LEGO designers call this presorting, and it halves build time.",
-        },
-        {
-          title: "Tower courses 25-26",
-          instruction: "Place 2× Brick 1×3 (tower y-plan course); 2× Brick 1×2 (tower y-plan course); 1× Brick 2×2 (tower y-plan course); and 3× Brick 1×2 (tower spandrel course); toward the rear of the model, about 27 bricks up. Match the coral pieces in the 3D view for exact positions.",
-          pieces: [
-            { name: "Brick 1×3", part: "3622", qty: 2 },
-            { name: "Brick 1×2", part: "3004", qty: 5 },
-            { name: "Brick 2×2", part: "3003", qty: 1 },
-          ],
-          tip: "Second setback; from here the wings are single studs, all point.",
-        },
-        {
-          title: "Tower courses 27-28",
-          instruction: "Place 1× Brick 2×2 (tower y-plan course); 2× Tile 1×2 Grille (tower vent course); 1× Brick 1×2 (tower spandrel course); 1× Brick 2×4 (tower y-plan course); 1× Brick 1×2 (tower y-plan course); 1× Plate 2×6 (tower floor band); 1× Plate 2×2 (tower floor band); and 4× Cheese Slope 1×1×⅔ (serrated fin); toward the rear of the model, about 29 bricks up. Match the coral pieces in the 3D view for exact positions.",
-          pieces: [
-            { name: "Brick 2×2", part: "3003", qty: 1 },
-            { name: "Tile 1×2 Grille", part: "2412b", qty: 2 },
-            { name: "Brick 1×2", part: "3004", qty: 2 },
-            { name: "Brick 2×4", part: "3001", qty: 1 },
-            { name: "Plate 2×6", part: "3795", qty: 1 },
-            { name: "Plate 2×2", part: "3022", qty: 1 },
-            { name: "Cheese Slope 1×1×⅔", part: "54200", qty: 4 },
-          ],
-          tip: "Rotate the 3D model to see this step from behind before you place anything.",
-        },
-        {
-          title: "Tower courses 29-30",
-          instruction: "Place 2× Brick 1×3 (tower y-plan course); 2× Brick 1×2 (tower y-plan course); 1× Brick 2×2 (tower y-plan course); 2× Tile 1×2 Grille (tower vent course); and 1× Brick 1×2 (tower spandrel course); toward the rear of the model, about 31 bricks up. Match the coral pieces in the 3D view for exact positions.",
-          pieces: [
-            { name: "Brick 1×3", part: "3622", qty: 2 },
-            { name: "Brick 1×2", part: "3004", qty: 3 },
-            { name: "Brick 2×2", part: "3003", qty: 1 },
-            { name: "Tile 1×2 Grille", part: "2412b", qty: 2 },
-          ],
-          tip: "Top courses. Each real tower finishes with two or three floors of penthouses.",
-        },
-        {
-          title: "Top platform",
-          instruction: "Place 1× Plate 2×4 (tower top platform) and 1× Plate 2×2 (tower top platform (rear)); toward the rear of the model, about 33 bricks up. Match the coral pieces in the 3D view for exact positions.",
-          pieces: [
+            { name: "Trans-Clear Brick 1×2", part: "3065", qty: 2 },
+            { name: "Plate 2×6", part: "3795", qty: 2 },
             { name: "Plate 2×4", part: "3020", qty: 1 },
             { name: "Plate 2×2", part: "3022", qty: 1 },
           ],
-          tip: "Plates cap the shaft and carry the penthouse block.",
+          tip: "Lauderdale Tower stands on its own raft, clear of the terrace, as the real towers stand apart from the blocks around them. The clear bricks are the glazed entrance lobby.",
+        },
+        {
+          title: "Tower level 2",
+          instruction: "Place 2× Brick 2×6 (tower wall); 1× Brick 2×4 (tower wall); 3× Brick 2×2 (tower wall); 2× Grille Brick 1×2 (tower ribbed face); 1× Plate 2×8 (tower balcony slab); 1× Plate 2×6 (tower balcony slab); and 1× Plate 2×4 (tower balcony slab); at the rear east of the model, about 3 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Brick 2×6", part: "2456", qty: 2 },
+            { name: "Brick 2×4", part: "3001", qty: 1 },
+            { name: "Brick 2×2", part: "3003", qty: 3 },
+            { name: "Grille Brick 1×2", part: "2877", qty: 2 },
+            { name: "Plate 2×8", part: "3034", qty: 1 },
+            { name: "Plate 2×6", part: "3795", qty: 1 },
+            { name: "Plate 2×4", part: "3020", qty: 1 },
+          ],
+          tip: "Course 1 runs east-west and course 2 north-south, so every joint is bridged. The slab on top reaches one stud past the walls: a balcony.",
+        },
+        {
+          title: "Tower level 3",
+          instruction: "Place 2× Brick 2×6 (tower wall); 1× Brick 2×4 (tower wall); 3× Brick 2×2 (tower wall); 2× Grille Brick 1×2 (tower ribbed face); 1× Plate 4×6 (tower balcony slab); 1× Plate 2×4 (tower balcony slab); and 1× Plate 2×2 (tower balcony slab); at the rear east of the model, about 6 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Brick 2×6", part: "2456", qty: 2 },
+            { name: "Brick 2×4", part: "3001", qty: 1 },
+            { name: "Brick 2×2", part: "3003", qty: 3 },
+            { name: "Grille Brick 1×2", part: "2877", qty: 2 },
+            { name: "Plate 4×6", part: "3032", qty: 1 },
+            { name: "Plate 2×4", part: "3020", qty: 1 },
+            { name: "Plate 2×2", part: "3022", qty: 1 },
+          ],
+          tip: "This slab juts north and toward the prow; the last one jutted east and west. Stacked, they step in and out up the corners, the towers' saw-tooth balcony edge.",
+        },
+        {
+          title: "Tower level 4",
+          instruction: "Place 2× Brick 2×6 (tower wall); 1× Brick 2×4 (tower wall); 3× Brick 2×2 (tower wall); 2× Grille Brick 1×2 (tower ribbed face); 1× Plate 2×8 (tower balcony slab); 1× Plate 2×6 (tower balcony slab); and 1× Plate 2×4 (tower balcony slab); at the rear east of the model, about 8 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Brick 2×6", part: "2456", qty: 2 },
+            { name: "Brick 2×4", part: "3001", qty: 1 },
+            { name: "Brick 2×2", part: "3003", qty: 3 },
+            { name: "Grille Brick 1×2", part: "2877", qty: 2 },
+            { name: "Plate 2×8", part: "3034", qty: 1 },
+            { name: "Plate 2×6", part: "3795", qty: 1 },
+            { name: "Plate 2×4", part: "3020", qty: 1 },
+          ],
+          tip: "The grille bricks on the two sloping faces stand in for the towers' bush-hammered concrete, hacked by hand to expose the stone in the mix.",
+        },
+        {
+          title: "Tower level 5",
+          instruction: "Place 2× Brick 2×3 (tower wall); 1× Brick 2×4 (tower wall); 3× Brick 2×2 (tower wall); 1× Brick 2×6 (tower wall); 2× Grille Brick 1×2 (tower ribbed face); 1× Plate 4×6 (tower balcony slab); 1× Plate 2×4 (tower balcony slab); and 1× Plate 2×2 (tower balcony slab); at the rear east of the model, about 10 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Brick 2×3", part: "3002", qty: 2 },
+            { name: "Brick 2×4", part: "3001", qty: 1 },
+            { name: "Brick 2×2", part: "3003", qty: 3 },
+            { name: "Brick 2×6", part: "2456", qty: 1 },
+            { name: "Grille Brick 1×2", part: "2877", qty: 2 },
+            { name: "Plate 4×6", part: "3032", qty: 1 },
+            { name: "Plate 2×4", part: "3020", qty: 1 },
+            { name: "Plate 2×2", part: "3022", qty: 1 },
+          ],
+          tip: "From this level the back block of course 1 is two 2×3 bricks instead of one 2×6. The towers are named for local history: Cromwell Tower recalls Oliver Cromwell, married in 1620 at St Giles' Cripplegate, the church beside the lake.",
+        },
+        {
+          title: "Tower level 6",
+          instruction: "Place 2× Brick 2×3 (tower wall); 1× Brick 2×4 (tower wall); 3× Brick 2×2 (tower wall); 1× Brick 2×6 (tower wall); 2× Grille Brick 1×2 (tower ribbed face); 1× Plate 2×8 (tower balcony slab); 1× Plate 2×6 (tower balcony slab); and 1× Plate 2×4 (tower balcony slab); at the rear east of the model, about 13 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Brick 2×3", part: "3002", qty: 2 },
+            { name: "Brick 2×4", part: "3001", qty: 1 },
+            { name: "Brick 2×2", part: "3003", qty: 3 },
+            { name: "Brick 2×6", part: "2456", qty: 1 },
+            { name: "Grille Brick 1×2", part: "2877", qty: 2 },
+            { name: "Plate 2×8", part: "3034", qty: 1 },
+            { name: "Plate 2×6", part: "3795", qty: 1 },
+            { name: "Plate 2×4", part: "3020", qty: 1 },
+          ],
+          tip: "Shakespeare Tower recalls the playwright, who lodged on Silver Street, just south of the estate, in the early 1600s.",
         },
       ],
     },
 
     // ════════════════════════════════════════════════════════════════════
-    // PHASE 9: TOWER: FACADE & WINDOW BANDS (10 steps, 64 pieces)
+    // PHASE 9: LAUDERDALE TOWER: UPPER LEVELS (5 steps, 63 pieces)
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-tower-facade",
-      title: "Phase 9: Tower Penthouse & Trims",
-      concept: "The Top Floors",
+      title: "Phase 9: Lauderdale Tower, Upper Levels",
+      concept: "The Saw-tooth Edge",
       color: "#0891B2",
       icon: "📐",
-      time: "10\u201315 min",
+      time: "25\u201335 min",
       location:
-        "The top two or three floors of each tower hold just three penthouse flats apiece, the estate's grandest addresses, with London laid out below their wraparound terraces. A solid penthouse block and the last trims finish the shaft you just raised.",
+        "The balcony slabs alternate, north and south on one level, east and west on the next, so their ends step in and out up every corner: the serrated edge that marks the towers out across London. The top two levels are the penthouses, just three flats a floor on the real towers and the estate's grandest addresses.",
       steps: [
         {
-          title: "Penthouse base course",
-          instruction: "Place 1× Brick 2×4 (crown base) and 1× Brick 2×2 (crown base (rear)); toward the rear of the model, about 34 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          title: "Tower level 7",
+          instruction: "Place 2× Brick 2×3 (tower wall); 1× Brick 2×4 (tower wall); 3× Brick 2×2 (tower wall); 1× Brick 2×6 (tower wall); 2× Grille Brick 1×2 (tower ribbed face); 1× Plate 4×6 (tower balcony slab); 1× Plate 2×4 (tower balcony slab); and 1× Plate 2×2 (tower balcony slab); at the rear east of the model, about 15 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
+            { name: "Brick 2×3", part: "3002", qty: 2 },
             { name: "Brick 2×4", part: "3001", qty: 1 },
-            { name: "Brick 2×2", part: "3003", qty: 1 },
+            { name: "Brick 2×2", part: "3003", qty: 3 },
+            { name: "Brick 2×6", part: "2456", qty: 1 },
+            { name: "Grille Brick 1×2", part: "2877", qty: 2 },
+            { name: "Plate 4×6", part: "3032", qty: 1 },
+            { name: "Plate 2×4", part: "3020", qty: 1 },
+            { name: "Plate 2×2", part: "3022", qty: 1 },
           ],
-          tip: "The top floors of each tower hold three penthouse flats apiece; the Barbican's grandest addresses. A solid course starts ours.",
+          tip: "Lauderdale Tower takes its name from the Earls of Lauderdale, whose London house stood on nearby Aldersgate Street.",
         },
         {
-          title: "Penthouse upper course",
-          instruction: "Place 1× Brick 2×4 (crown course) and 1× Brick 2×2 (crown course (rear)); toward the rear of the model, about 35 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          title: "Tower level 8",
+          instruction: "Place 2× Brick 2×3 (tower wall); 1× Brick 2×4 (tower wall); 3× Brick 2×2 (tower wall); 1× Brick 2×6 (tower wall); 2× Grille Brick 1×2 (tower ribbed face); 1× Plate 2×8 (tower balcony slab); 1× Plate 2×6 (tower balcony slab); and 2× Plate 2×2 (tower balcony slab); at the rear east of the model, about 17 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
+            { name: "Brick 2×3", part: "3002", qty: 2 },
             { name: "Brick 2×4", part: "3001", qty: 1 },
-            { name: "Brick 2×2", part: "3003", qty: 1 },
+            { name: "Brick 2×2", part: "3003", qty: 3 },
+            { name: "Brick 2×6", part: "2456", qty: 1 },
+            { name: "Grille Brick 1×2", part: "2877", qty: 2 },
+            { name: "Plate 2×8", part: "3034", qty: 1 },
+            { name: "Plate 2×6", part: "3795", qty: 1 },
+            { name: "Plate 2×2", part: "3022", qty: 2 },
           ],
-          tip: "A second course brings the penthouse to height.",
+          tip: "Two 2×2 plates fill the slab's narrow strip on this level, where the 2×4s run short; the outline is the same as before.",
         },
         {
-          title: "Band edge tiles",
-          instruction: "Place 2× Tile 1×1 (band edge tile); toward the rear of the model, about 31 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          title: "Tower level 9",
+          instruction: "Place 2× Brick 2×3 (tower wall); 1× Brick 2×4 (tower wall); 3× Brick 2×2 (tower wall); 1× Brick 2×6 (tower wall); 2× Grille Brick 1×2 (tower ribbed face); 1× Plate 4×6 (tower balcony slab); 1× Plate 2×4 (tower balcony slab); and 1× Plate 2×2 (tower balcony slab); at the rear east of the model, about 20 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Tile 1×1", part: "3070b", qty: 2 },
+            { name: "Brick 2×3", part: "3002", qty: 2 },
+            { name: "Brick 2×4", part: "3001", qty: 1 },
+            { name: "Brick 2×2", part: "3003", qty: 3 },
+            { name: "Brick 2×6", part: "2456", qty: 1 },
+            { name: "Grille Brick 1×2", part: "2877", qty: 2 },
+            { name: "Plate 4×6", part: "3032", qty: 1 },
+            { name: "Plate 2×4", part: "3020", qty: 1 },
+            { name: "Plate 2×2", part: "3022", qty: 1 },
           ],
-          tip: "Smooth tiles trim the topmost band where it shows.",
+          tip: "The three real towers rise 43 and 44 storeys to about 123 metres, among the tallest residential towers in Europe when they topped out.",
+        },
+        {
+          title: "Tower level 10: penthouse",
+          instruction: "Place 2× Brick 2×3 (tower wall); 1× Brick 2×4 (tower wall); 3× Brick 2×2 (tower wall); 1× Brick 2×6 (tower wall); 2× Trans-Clear Brick 1×2 (penthouse glazing); 1× Plate 2×8 (tower balcony slab); 1× Plate 2×6 (tower balcony slab); and 2× Plate 2×2 (tower balcony slab); at the rear east of the model, about 22 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Brick 2×3", part: "3002", qty: 2 },
+            { name: "Brick 2×4", part: "3001", qty: 1 },
+            { name: "Brick 2×2", part: "3003", qty: 3 },
+            { name: "Brick 2×6", part: "2456", qty: 1 },
+            { name: "Trans-Clear Brick 1×2", part: "3065", qty: 2 },
+            { name: "Plate 2×8", part: "3034", qty: 1 },
+            { name: "Plate 2×6", part: "3795", qty: 1 },
+            { name: "Plate 2×2", part: "3022", qty: 2 },
+          ],
+          tip: "Penthouses. The top floors of each tower hold just three flats apiece, with terraces all round; clear bricks at the corners are their glazing.",
+        },
+        {
+          title: "Tower level 11: penthouse",
+          instruction: "Place 2× Brick 2×3 (tower wall); 1× Brick 2×4 (tower wall); 3× Brick 2×2 (tower wall); 1× Brick 2×6 (tower wall); 2× Trans-Clear Brick 1×2 (penthouse glazing); 1× Plate 4×6 (tower balcony slab); 2× Plate 1×4 (tower balcony slab); and 1× Plate 2×2 (tower balcony slab); at the rear east of the model, about 24 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          pieces: [
+            { name: "Brick 2×3", part: "3002", qty: 2 },
+            { name: "Brick 2×4", part: "3001", qty: 1 },
+            { name: "Brick 2×2", part: "3003", qty: 3 },
+            { name: "Brick 2×6", part: "2456", qty: 1 },
+            { name: "Trans-Clear Brick 1×2", part: "3065", qty: 2 },
+            { name: "Plate 4×6", part: "3032", qty: 1 },
+            { name: "Plate 1×4", part: "3710", qty: 2 },
+            { name: "Plate 2×2", part: "3022", qty: 1 },
+          ],
+          tip: "The last level. Two 1×4 plates fill the narrow strip, and the slab carries the crown, so check it sits flat before you go on.",
         },
       ],
     },
 
     // ════════════════════════════════════════════════════════════════════
-    // PHASE 10: TOWER: SERRATED EDGES & CROWN (10 steps, 60 pieces)
+    // PHASE 10: TOWER CROWN (2 steps, 17 pieces)
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-tower-crown",
@@ -1033,73 +967,34 @@ const barbicanPanorama: Build = {
       concept: "Silhouette",
       color: "#4338CA",
       icon: "👑",
-      time: "15\u201320 min",
+      time: "10 min",
       location:
-        "A Barbican tower is recognisable from a mile away by its crown: plant rooms, tank rooms and window-washing rigs wrapped in the same serrated concrete as the balconies below. The mast and its aircraft beacon top out the model at the scale equivalent of 123 metres.",
+        "A Barbican tower is recognisable from a mile away by its crown: plant rooms, tank rooms and window-washing rigs wrapped in the same serrated concrete as the balconies below. Sixteen steep slopes lean out from the top slab, tall and short in turn, for the jagged skyline.",
       steps: [
         {
-          title: "Crown platform",
-          instruction: "Place 1× Plate 2×4 (crown platform) and 1× Plate 2×2 (crown platform (rear)); toward the rear of the model, about 36 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          title: "Crown: north fins and plant room",
+          instruction: "Place 4× Slope 1×2×3 (75°) (crown fin); 2× Slope 1×2×2 (65°) (crown fin); and 1× Brick 2×2 (crown plant room); at the rear east of the model, about 27 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Plate 2×4", part: "3020", qty: 1 },
-            { name: "Plate 2×2", part: "3022", qty: 1 },
-          ],
-          tip: "Plates over the penthouse form the roof terrace.",
-        },
-        {
-          title: "Crown core, first course",
-          instruction: "Place 1× Brick 2×2 (crown core); toward the rear of the model, about 36 bricks up. Match the coral pieces in the 3D view for exact positions.",
-          pieces: [
+            { name: "Slope 1×2×3 (75°)", part: "4460b", qty: 4 },
+            { name: "Slope 1×2×2 (65°)", part: "60481", qty: 2 },
             { name: "Brick 2×2", part: "3003", qty: 1 },
           ],
-          tip: "The lift motor room rises from the centre of the platform.",
+          tip: "The towers finish in a jagged crown: plant rooms, tanks and window-cleaning rigs wrapped in the same serrated concrete as the balconies. Each fin leans outward.",
         },
         {
-          title: "Crown core, second course",
-          instruction: "Place 1× Brick 2×2 (crown core); toward the rear of the model, about 37 bricks up. Match the coral pieces in the 3D view for exact positions.",
+          title: "Crown: side and prow fins",
+          instruction: "Place 4× Slope 1×2×2 (65°) (crown fin) and 6× Slope 1×2×3 (75°) (crown fin); at the rear east of the model, about 27 bricks up. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Brick 2×2", part: "3003", qty: 1 },
+            { name: "Slope 1×2×2 (65°)", part: "60481", qty: 4 },
+            { name: "Slope 1×2×3 (75°)", part: "4460b", qty: 6 },
           ],
-          tip: "One more course; the real towers' crowns hold plant, tanks and window-washing rigs.",
-        },
-        {
-          title: "Crown serrations",
-          instruction: "Place 4× Cheese Slope 1×1×⅔ (crown serration); toward the rear of the model, about 36 bricks up. Match the coral pieces in the 3D view for exact positions.",
-          pieces: [
-            { name: "Cheese Slope 1×1×⅔", part: "54200", qty: 4 },
-          ],
-          tip: "Cheese slopes ring the core so even the crown keeps the saw-tooth profile.",
-        },
-        {
-          title: "Rear platform trim",
-          instruction: "Place 2× Tile 1×1 (platform trim tile); toward the rear of the model, about 36 bricks up. Match the coral pieces in the 3D view for exact positions.",
-          pieces: [
-            { name: "Tile 1×1", part: "3070b", qty: 2 },
-          ],
-          tip: "Tiles finish the rear terrace smooth.",
-        },
-        {
-          title: "Crown roof",
-          instruction: "Place 2× Slope 1×2 (45°) (crown roof); toward the rear of the model, about 38 bricks up. Match the coral pieces in the 3D view for exact positions.",
-          pieces: [
-            { name: "Slope 1×2 (45°)", part: "3040", qty: 2 },
-          ],
-          tip: "Two slopes side by side close the motor room with a single pitch falling toward the lake.",
-        },
-        {
-          title: "Mast and beacon",
-          instruction: "Place 1× Round Brick 1×1 (mast base); 2× Plate 1×1 Round (mast ring); and 1× Plate 1×1 Round (mast beacon); toward the rear of the model, about 36 bricks up. Match the coral pieces in the 3D view for exact positions.",
-          pieces: [
-            { name: "Round Brick 1×1", part: "3062b", qty: 1 },
-            { name: "Plate 1×1 Round", part: "4073", qty: 3 },
-          ],
-          tip: "A slim mast with its aircraft beacon tops out at the equivalent of 123 metres. Cromwell Tower's real beacon blinks over the City every night.",
+          tip: "Tall fins and short ones alternate round the sides and the prow, giving the crown its broken skyline, readable from across the City.",
         },
       ],
     },
 
     // ════════════════════════════════════════════════════════════════════
-    // PHASE 11: THE CONSERVATORY (12 steps, 64 pieces)
+    // PHASE 11: THE CONSERVATORY (9 steps, 40 pieces)
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-conservatory",
@@ -1190,7 +1085,7 @@ const barbicanPanorama: Build = {
     },
 
     // ════════════════════════════════════════════════════════════════════
-    // PHASE 12: LANDSCAPING & DETAILS (15 steps, 119 pieces)
+    // PHASE 12: LANDSCAPING & DETAILS (14 steps, 59 pieces)
     // ════════════════════════════════════════════════════════════════════
     {
       id: "bp-landscaping",
@@ -1268,7 +1163,7 @@ const barbicanPanorama: Build = {
             { name: "Brick 1×1", part: "3005", qty: 1 },
             { name: "Brick 1×3", part: "3622", qty: 1 },
           ],
-          tip: "A junction block, an eastern marker and a service block behind the tower finish the estate edge.",
+          tip: "A junction block, an eastern marker and a service block behind the terrace finish the estate edge.",
         },
         {
           title: "Threshold and walkway cap",
@@ -1289,14 +1184,14 @@ const barbicanPanorama: Build = {
           tip: "Trees soften the hard landscape; every planting position on the estate was specified by the architects.",
         },
         {
-          title: "Waterside trees, east",
-          instruction: "Place 2× Round Brick 1×1 (tree trunk); 2× Plate 2×2 Round (tree canopy); and 2× Plate 1×1 Round (tree crown); at the rear east of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
+          title: "Waterside tree, east",
+          instruction: "Place 1× Round Brick 1×1 (tree trunk); 1× Plate 2×2 Round (tree canopy); and 1× Plate 1×1 Round (tree crown); at the rear east of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Round Brick 1×1", part: "3062b", qty: 2 },
-            { name: "Plate 2×2 Round", part: "4032", qty: 2 },
-            { name: "Plate 1×1 Round", part: "4073", qty: 2 },
+            { name: "Round Brick 1×1", part: "3062b", qty: 1 },
+            { name: "Plate 2×2 Round", part: "4032", qty: 1 },
+            { name: "Plate 1×1 Round", part: "4073", qty: 1 },
           ],
-          tip: "The eastern pair mirrors the west bank.",
+          tip: "A single tree on the east bank, in front of the tower's raft.",
         },
         {
           title: "Landscaped banks",
@@ -1316,13 +1211,13 @@ const barbicanPanorama: Build = {
         },
         {
           title: "Rear trees",
-          instruction: "Place 2× Round Brick 1×1 (tree trunk); 2× Plate 2×2 Round (tree canopy); and 2× Plate 1×1 Round (tree crown); toward the rear of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
+          instruction: "Place 3× Round Brick 1×1 (tree trunk); 3× Plate 2×2 Round (tree canopy); and 3× Plate 1×1 Round (tree crown); toward the rear of the model, on the baseplate studs. Match the coral pieces in the 3D view for exact positions.",
           pieces: [
-            { name: "Round Brick 1×1", part: "3062b", qty: 2 },
-            { name: "Plate 2×2 Round", part: "4032", qty: 2 },
-            { name: "Plate 1×1 Round", part: "4073", qty: 2 },
+            { name: "Round Brick 1×1", part: "3062b", qty: 3 },
+            { name: "Plate 2×2 Round", part: "4032", qty: 3 },
+            { name: "Plate 1×1 Round", part: "4073", qty: 3 },
           ],
-          tip: "Two last trees behind the tower complete the estate; home today to more than 4,000 residents in over 2,000 flats, Grade II listed since September 2001.",
+          tip: "Three last trees behind the terrace complete the estate; home today to more than 4,000 residents in over 2,000 flats, Grade II listed since September 2001.",
         },
       ],
     },

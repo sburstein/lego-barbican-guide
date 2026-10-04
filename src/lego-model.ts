@@ -22,7 +22,8 @@ export { validateBuild, analyzeBuild, connectionGraph, components } from "./engi
 //   Podium: 6 main 2×2 round columns (2 bricks tall) in two rows; deck L8.
 //   Terrace: cells x -10..9, z -6..-3; slab L7..8; three storeys of
 //     [brick course, brick course, plate band]; roof cap top = layer 29.
-//   Tower: Y-plan behind terrace; core cells (-1..0, -9..-8), wings W/E/N.
+//   Tower: triangular plan, free-standing in the north-east corner on a
+//     two-plate raft; core cells x 10..15, z -11..-6; 11 levels to L80.
 //   Conservatory: on deck, cells x 3..8, z -2..1.
 //
 // Steps are ordered so every piece can be lowered straight down when its
@@ -45,21 +46,18 @@ const COL_ZS = [-2, 2];
 const SEC_XS = [-5, 3]; // secondary 1×1 round columns
 const SEC_ZS = [-1, 2];
 
-// Tower constants
-const TW_CX = -1;
-const TW_CZ = -9;
-const TOWER_BASE_L = 3;
-const TOWER_COURSES = 30;
-const wingLen = (c: number) => (c < 12 ? 3 : c < 24 ? 2 : 1);
-const bandsBefore = (c: number) => Math.floor(c / 4);
-export const towerLayer = (c: number) => TOWER_BASE_L + 3 * c + bandsBefore(c);
-const TOWER_TOP_L = towerLayer(TOWER_COURSES - 1) + 3; // 100
-
-// Window/spandrel course scheme (c ≥ 5):
-//   c ≡ 1 (mod 4): spandrel band; grille bricks (white bricks on c25, c29)
-//   c ≡ 2 (mod 4): glazing band; trans bricks (grille vents on c26)
-const GRILLE_COURSES = new Set([5, 9, 13, 17, 21]);
-const GLASS_COURSES = new Set([6, 10, 14, 18, 22]);
+// Tower constants. The core is a triangle pointing south, toward the lake.
+// Cells relative to (TW_X, TW_Z), rows from the flat north face:
+//   rows 0-1: x 0..5     rows 2-3: x 1..4     rows 4-5: x 2..3
+// Each level is two brick courses and a balcony slab one stud proud of the
+// core. The slabs alternate, north-south then east-west, so their ends step
+// in and out up the corners: the towers' saw-tooth balcony profile.
+const TW_X = 10;
+const TW_Z = -11;
+const TW_BASE_L = 3; // raft top
+const TW_LEVELS = 11;
+const levelL = (k: number) => TW_BASE_L + 7 * k;
+const TW_TOP_L = levelL(TW_LEVELS); // 80
 
 function buildFoundation(b: Builder) {
   b.phase("bp-foundation");
@@ -104,7 +102,6 @@ function buildFoundation(b: Builder) {
   b.put("plate", 6, 1, -15, -11, 1, "white", "Side seam tie");
   b.put("plate", 6, 1, 10, -11, 1, "white", "Side seam tie");
   b.put("plate", 6, 1, -16, -7, 1, "white", "Side seam tie");
-  b.put("plate", 6, 1, 10, -7, 1, "white", "Side seam tie");
 
   b.step(
     "Edge beams around the rim",
@@ -114,6 +111,8 @@ function buildFoundation(b: Builder) {
   b.put("plate", 10, 1, -2, 13, 1, "dark", "Front edge beam");
   b.put("plate", 4, 1, 8, 13, 1, "dark", "Front edge beam");
   b.put("plate", 6, 1, -12, -12, 1, "dark", "Back edge beam");
+  b.put("plate", 6, 1, -6, -12, 1, "dark", "Back edge beam");
+  b.put("plate", 6, 1, 0, -12, 1, "dark", "Back edge beam");
   b.put("plate", 6, 1, 6, -12, 1, "dark", "Back edge beam");
   b.put("plate", 1, 10, -18, -12, 1, "dark", "Left edge beam");
   b.put("plate", 1, 6, -18, -2, 1, "dark", "Left edge beam");
@@ -124,8 +123,8 @@ function buildFoundation(b: Builder) {
     "Tower raft foundation",
     "Ove Arup's engineers gave each tower a massive raft so 43 storeys of concrete could stand beside Underground tunnels. Two stacked plate layers are your raft."
   );
-  for (const x of [-6, -2, 2]) b.put("plate", 4, 6, x, -12, 1, "dark", "Tower reinforcement L1");
-  for (const x of [-4, 0]) b.put("plate", 4, 6, x, -12, 2, "white", "Tower reinforcement L2");
+  for (const z of [-10, -8]) b.put("plate", 6, 2, 10, z, 1, "dark", "Tower raft L1");
+  b.put("plate", 6, 6, 10, -11, 2, "white", "Tower raft L2");
 }
 
 function buildLake(b: Builder) {
@@ -199,120 +198,60 @@ function buildPodium(b: Builder) {
   for (const x of [-5, 1, 7]) b.put("tile", 2, 2, x, 0, 1, "dark", "Undercroft paving");
 }
 
-// Tower course generator ------------------------------------------------
-// Places one course of the Y-plan tower, including its window-band pieces,
-// so every course is complete before the next goes on top.
-function towerCourse(b: Builder, c: number) {
-  const l = towerLayer(c);
-  const wl = wingLen(c);
-  const mode = c % 4;
-  const slotted = c >= 5 && (mode === 1 || mode === 2);
-  const d = "Tower Y-plan course";
+// Tower levels ------------------------------------------------------------
+// One level of the triangular tower: two brick courses laid at right angles,
+// so each bridges the joints of the other, then a balcony slab. Glass marks
+// the lobby (level 1) and the penthouses (the top two levels); grille bricks
+// rib the two sloping faces in between.
+function towerLevel(b: Builder, k: number) {
+  const L = levelL(k);
+  const X = TW_X, Z = TW_Z;
+  const d = "Tower wall";
 
-  if (mode === 3) {
-    const w = 2 * wl + 2;
-    if (w === 8) {
-      b.put("brick", 6, 2, TW_CX - wl, TW_CZ, l, "white", d);
-      b.put("brick", 2, 2, TW_CX - wl + 6, TW_CZ, l, "white", d);
-    } else if (w === 6 && c < 20) {
-      b.put("brick", 6, 1, TW_CX - wl, TW_CZ, l, "white", d);
-      b.put("brick", 6, 1, TW_CX - wl, TW_CZ + 1, l, "white", d);
-    } else if (w === 6) {
-      b.put("brick", 4, 2, TW_CX - wl, TW_CZ, l, "white", d);
-      b.put("brick", 2, 2, TW_CX - wl + 4, TW_CZ, l, "white", d);
-    } else {
-      b.put("brick", 4, 2, TW_CX - wl, TW_CZ, l, "white", d);
-    }
-    b.put("brick", 2, wl, TW_CX, TW_CZ - wl, l, "white", d);
+  // course 1: blocks across the plan; the set's 2×6 bricks run out after
+  // level 4, so the back block becomes two 2×3s from there
+  if (k < 4) b.put("brick", 6, 2, X, Z, L, "white", d);
+  else for (const x of [X, X + 3]) b.put("brick", 3, 2, x, Z, L, "white", d);
+  b.put("brick", 4, 2, X + 1, Z + 2, L, "white", d);
+  b.put("brick", 2, 2, X + 2, Z + 4, L, "white", d);
+
+  // course 2: a 2×6 spine runs north-south across the course-1 joints
+  b.put("brick", 2, 2, X, Z, L + 3, "white", d);
+  b.put("brick", 2, 6, X + 2, Z, L + 3, "white", d);
+  b.put("brick", 2, 2, X + 4, Z, L + 3, "white", d);
+  const glass = k === 0 || k >= TW_LEVELS - 2;
+  const glassDesc = k === 0 ? "Tower lobby glazing" : "Penthouse glazing";
+  for (const [x, side] of [[X + 1, "W"], [X + 4, "E"]] as const) {
+    if (glass) b.put("brick", 1, 2, x, Z + 2, L + 3, "trans", glassDesc);
+    else b.put("profile", 1, 2, x, Z + 2, L + 3, "white", "Tower ribbed face", side);
+  }
+
+  towerSlab(b, k, L + 6);
+}
+
+// Balcony slab k at layer L. North-south slabs (even k) reach one stud north
+// of the core and one stud past each step of the prow; east-west slabs (odd
+// k) reach one stud east and west. Where the set runs short of one plate,
+// another mix fills the same outline.
+function towerSlab(b: Builder, k: number, L: number) {
+  const X = TW_X, Z = TW_Z;
+  const d = "Tower balcony slab";
+  const strip = (z: number) => {
+    // the 4-stud strip across rows 3-4 (north-south) or 4-5 (east-west)
+    if (k === 7 || k === 9) for (const x of [X + 1, X + 3]) b.put("plate", 2, 2, x, z, L, "white", d);
+    else if (k === 10) for (const zz of [z, z + 1]) b.put("plate", 4, 1, X + 1, zz, L, "white", d);
+    else b.put("plate", 4, 2, X + 1, z, L, "white", d);
+  };
+  if (k % 2 === 1) {
+    b.put("plate", 8, 2, X - 1, Z, L, "white", d);
+    b.put("plate", 6, 2, X, Z + 2, L, "white", d);
+    strip(Z + 4);
     return;
   }
-  // Core + back wing built as one vertical strip (interlocks with the bars)
-  const backD = slotted ? wl - 1 : wl;
-  const depth = 2 + backD;
-  const z0 = TW_CZ - backD;
-  if (depth === 5) {
-    b.put("brick", 1, 3, TW_CX, z0, l, "white", d);
-    b.put("brick", 1, 3, TW_CX + 1, z0, l, "white", d);
-    b.put("brick", 2, 2, TW_CX, z0 + 3, l, "white", d);
-  } else if (depth === 4) {
-    b.put("brick", 2, 4, TW_CX, z0, l, "white", d);
-  } else if (depth === 3) {
-    b.put("brick", 1, 3, TW_CX, z0, l, "white", d);
-    b.put("brick", 1, 3, TW_CX + 1, z0, l, "white", d);
-  } else {
-    b.put("brick", 2, 2, TW_CX, z0, l, "white", d);
-  }
-  const sideW = slotted ? wl - 1 : wl;
-  if (sideW > 0) {
-    b.put("brick", sideW, 2, TW_CX + 2, TW_CZ, l, "white", d);
-    b.put("brick", sideW, 2, TW_CX - sideW, TW_CZ, l, "white", d);
-  }
-  // Window-band pieces at the wing tips, placed with their own course so
-  // they are never trapped under a later course.
-  if (slotted) {
-    const ex = TW_CX + 1 + wl;
-    const wx = TW_CX - wl;
-    const bz = TW_CZ - wl;
-    if (mode === 1) {
-      if (GRILLE_COURSES.has(c)) {
-        b.put("profile", 1, 2, ex, TW_CZ, l, "white", "Tower spandrel band", "E");
-        b.put("profile", 1, 2, wx, TW_CZ, l, "white", "Tower spandrel band", "W");
-        b.put("profile", 2, 1, TW_CX, bz, l, "white", "Tower spandrel band", "N");
-      } else if (c === 25) {
-        b.put("brick", 1, 2, ex, TW_CZ, l, "white", "Tower spandrel course", "E");
-        b.put("brick", 1, 2, wx, TW_CZ, l, "white", "Tower spandrel course", "W");
-        b.put("brick", 2, 1, TW_CX, bz, l, "white", "Tower spandrel course", "N");
-      } else {
-        b.put("grilleTile", 1, 2, ex, TW_CZ, l, "white", "Tower vent course", "E");
-        b.put("grilleTile", 1, 2, wx, TW_CZ, l, "white", "Tower vent course", "W");
-        b.put("brick", 2, 1, TW_CX, bz, l, "white", "Tower spandrel course", "N");
-      }
-    } else {
-      if (GLASS_COURSES.has(c)) {
-        b.put("brick", 1, 2, ex, TW_CZ, l, "trans", "Tower window band", "E");
-        b.put("brick", 1, 2, wx, TW_CZ, l, "trans", "Tower window band", "W");
-        b.put("brick", 2, 1, TW_CX, bz, l, "trans", "Tower window band", "N");
-      } else {
-        b.put("grilleTile", 1, 2, ex, TW_CZ, l, "white", "Tower vent course", "E");
-        b.put("grilleTile", 1, 2, wx, TW_CZ, l, "white", "Tower vent course", "W");
-        b.put("brick", 2, 1, TW_CX, bz, l, "white", "Tower spandrel course", "N");
-      }
-    }
-  }
-}
-
-// Cross-shaped plate band after course c (c ≡ 3 mod 4), plus the serration
-// fins that ride each upper band's overhang; placed with their band so they
-// are never trapped beneath a later one.
-function towerBand(b: Builder, c: number) {
-  const l = towerLayer(c) + 3;
-  const wl = wingLen(c);
-  if (wl === 3) {
-    b.put("plate", 6, 2, TW_CX - wl - 1, TW_CZ, l, "white", "Tower floor band");
-    b.put("plate", 4, 2, TW_CX - wl - 1 + 6, TW_CZ, l, "white", "Tower floor band");
-    b.put("plate", 2, 4, TW_CX, TW_CZ - wl - 1, l, "white", "Tower floor band");
-  } else if (wl === 2) {
-    b.put("plate", 8, 2, TW_CX - wl - 1, TW_CZ, l, "white", "Tower floor band");
-    b.put("plate", 2, 2, TW_CX, TW_CZ - wl, l, "white", "Tower floor band");
-  } else {
-    b.put("plate", 6, 2, TW_CX - wl - 1, TW_CZ, l, "white", "Tower floor band");
-    b.put("plate", 2, 2, TW_CX, TW_CZ - wl - 1, l, "white", "Tower floor band");
-  }
-  if (c >= 15) {
-    b.put("cheese", 1, 1, TW_CX - wl - 1, TW_CZ, l + 1, "white", "Serrated fin", "W");
-    b.put("cheese", 1, 1, TW_CX + wl + 2, TW_CZ, l + 1, "white", "Serrated fin", "E");
-    if (c === 27) {
-      b.put("cheese", 1, 1, TW_CX, TW_CZ - wl - 1, l + 1, "white", "Serrated fin", "N");
-      b.put("cheese", 1, 1, TW_CX + 1, TW_CZ - wl - 1, l + 1, "white", "Serrated fin", "N");
-    }
-  }
-}
-
-function towerCourses(b: Builder, from: number, to: number) {
-  for (let c = from; c <= to; c++) {
-    towerCourse(b, c);
-    if (c % 4 === 3 && c < TOWER_COURSES - 1) towerBand(b, c);
-  }
+  if (k === 0) for (const z of [Z - 1, Z + 1]) b.put("plate", 6, 2, X, z, L, "white", d);
+  else b.put("plate", 6, 4, X, Z - 1, L, "white", d);
+  strip(Z + 3);
+  b.put("plate", 2, 2, X + 2, Z + 5, L, "white", d);
 }
 
 // Terrace helpers --------------------------------------------------------
@@ -407,18 +346,6 @@ function buildTerraceCore(b: Builder) {
   b.step("Parapet corners", "Corner panels turn the rail around the deck's back corners.");
   for (const [x, z] of [[-10, -2], [9, -2], [-10, -1], [9, -1]] as const)
     b.put("panel", 1, 1, x, z, DECK_L + 1, "white", "Parapet corner", "S");
-
-  b.step(
-    "Tower courses 1-2",
-    "Lauderdale Tower begins. The real towers are triangular in plan with a service core; ours is a Y; three wings around a 2×2 core, which keeps every course self-bracing."
-  );
-  towerCourses(b, 0, 1);
-  b.step("Tower courses 3-4", "Alternating course patterns interlock the wings into the core; running bond, the oldest trick in masonry, in concrete and in LEGO.");
-  towerCourses(b, 2, 3);
-  b.step("Tower courses 5-6", "From here up the wing tips alternate: ribbed spandrel courses, then trans-clear window bands. Each course carries its own facade pieces.");
-  towerCourses(b, 4, 5);
-  b.step("Tower courses 7-8", "A plate band after every fourth course marks a floor line, just as the towers' balcony slabs stripe their elevations.");
-  towerCourses(b, 6, 7);
 }
 
 function buildTerraceFacade(b: Builder) {
@@ -557,86 +484,65 @@ function buildBarrelVault(b: Builder) {
   for (let x = 4; x < 10; x++) b.put("curvedTop", 1, 2, x, -4, L + 4, "white", "Barrel vault cap", "S");
 }
 
+const TOWER_TIPS: (string | undefined)[] = [
+  "Lauderdale Tower stands on its own raft, clear of the terrace, as the real towers stand apart from the blocks around them. The clear bricks are the glazed entrance lobby.",
+  "Course 1 runs east-west and course 2 north-south, so every joint is bridged. The slab on top reaches one stud past the walls: a balcony.",
+  "This slab juts north and toward the prow; the last one jutted east and west. Stacked, they step in and out up the corners, the towers' saw-tooth balcony edge.",
+  "The grille bricks on the two sloping faces stand in for the towers' bush-hammered concrete, hacked by hand to expose the stone in the mix.",
+  "From this level the back block of course 1 is two 2×3 bricks instead of one 2×6. The towers are named for local history: Cromwell Tower recalls Oliver Cromwell, married in 1620 at St Giles' Cripplegate, the church beside the lake.",
+  "Shakespeare Tower recalls the playwright, who lodged on Silver Street, just south of the estate, in the early 1600s.",
+  "Lauderdale Tower takes its name from the Earls of Lauderdale, whose London house stood on nearby Aldersgate Street.",
+  "Two 2×2 plates fill the slab's narrow strip on this level, where the 2×4s run short; the outline is the same as before.",
+  "The three real towers rise 43 and 44 storeys to about 123 metres, among the tallest residential towers in Europe when they topped out.",
+  "Penthouses. The top floors of each tower hold just three flats apiece, with terraces all round; clear bricks at the corners are their glazing.",
+  "The last level. Two 1×4 plates fill the narrow strip, and the slab carries the crown, so check it sits flat before you go on.",
+];
+
 function buildTowerCore(b: Builder) {
   b.phase("bp-tower-core");
-  const tips: (string | undefined)[] = [
-    "The three real towers; Cromwell, Shakespeare and Lauderdale; rise 43 and 44 storeys to about 123 metres, among the tallest residential towers in Europe when they topped out.",
-    "Keep pressing each course fully home; a tall thin tower amplifies any gap below.",
-    "The window bands continue automatically as you climb; grille spandrels, then glass.",
-    "The towers' floors were cast around slip-formed cores; your plate bands play the part of the floor slabs.",
-    undefined,
-    "First setback: the wings shorten as the tower rises, sharpening the silhouette.",
-    undefined,
-    undefined,
-    "Second setback; from here the wings are single studs, all point.",
-    undefined,
-    "Top courses. Each real tower finishes with two or three floors of penthouses.",
-  ];
-  let i = 0;
-  for (let c = 8; c < 30; c += 2) {
-    const first = c;
-    b.step(`Tower courses ${first + 1}-${first + 2}`, tips[i++]);
-    towerCourses(b, c, c + 1);
+  for (let k = 0; k < 6; k++) {
+    b.step(k === 0 ? "Tower level 1: lobby" : `Tower level ${k + 1}`, TOWER_TIPS[k]);
+    towerLevel(b, k);
   }
-  b.step("Top platform", "Plates cap the shaft and carry the penthouse block.");
-  b.put("plate", 4, 2, -2, -9, TOWER_TOP_L, "white", "Tower top platform");
-  b.put("plate", 2, 2, -1, -11, TOWER_TOP_L, "white", "Tower top platform (rear)");
 }
 
 function buildTowerFacade(b: Builder) {
   b.phase("bp-tower-facade");
-
-  b.step(
-    "Penthouse base course",
-    "The top floors of each tower hold three penthouse flats apiece; the Barbican's grandest addresses. A solid course starts ours."
-  );
-  b.put("brick", 4, 2, -2, -9, TOWER_TOP_L + 1, "white", "Crown base");
-  b.put("brick", 2, 2, -1, -11, TOWER_TOP_L + 1, "white", "Crown base (rear)");
-
-  b.step("Penthouse upper course", "A second course brings the penthouse to height.");
-  b.put("brick", 4, 2, -2, -9, TOWER_TOP_L + 4, "white", "Crown course");
-  b.put("brick", 2, 2, -1, -11, TOWER_TOP_L + 4, "white", "Crown course (rear)");
-
-  b.step("Band edge tiles", "Smooth tiles trim the topmost band where it shows.");
-  b.put("tile", 1, 1, -3, -8, towerLayer(27) + 4, "white", "Band edge tile");
-  b.put("tile", 1, 1, 2, -8, towerLayer(27) + 4, "white", "Band edge tile");
+  for (let k = 6; k < TW_LEVELS; k++) {
+    b.step(k >= TW_LEVELS - 2 ? `Tower level ${k + 1}: penthouse` : `Tower level ${k + 1}`, TOWER_TIPS[k]);
+    towerLevel(b, k);
+  }
 }
 
+// Crown: steep-slope fins round the top slab, every one leaning out; tall
+// and short alternate for a jagged skyline. A 2×2 plant room fills the middle.
 function buildTowerCrown(b: Builder) {
   b.phase("bp-tower-crown");
-  const L = TOWER_TOP_L + 7;
-
-  b.step("Crown platform", "Plates over the penthouse form the roof terrace.");
-  b.put("plate", 4, 2, -2, -9, L, "white", "Crown platform");
-  b.put("plate", 2, 2, -1, -11, L, "white", "Crown platform (rear)");
-
-  b.step("Crown core, first course", "The lift motor room rises from the centre of the platform.");
-  b.put("brick", 2, 2, -1, -9, L + 1, "white", "Crown core");
-  b.step("Crown core, second course", "One more course; the real towers' crowns hold plant, tanks and window-washing rigs.");
-  b.put("brick", 2, 2, -1, -9, L + 4, "white", "Crown core");
-
-  b.step("Crown serrations", "Cheese slopes ring the core so even the crown keeps the saw-tooth profile.");
-  b.put("cheese", 1, 1, -2, -8, L + 1, "white", "Crown serration", "S");
-  b.put("cheese", 1, 1, 1, -8, L + 1, "white", "Crown serration", "S");
-  b.put("cheese", 1, 1, -2, -9, L + 1, "white", "Crown serration", "W");
-  b.put("cheese", 1, 1, 1, -9, L + 1, "white", "Crown serration", "E");
-
-  b.step("Rear platform trim", "Tiles finish the rear terrace smooth.");
-  b.put("tile", 1, 1, -1, -11, L + 1, "white", "Platform trim tile");
-  b.put("tile", 1, 1, 0, -11, L + 1, "white", "Platform trim tile");
-
-  b.step("Crown roof", "Two slopes side by side close the motor room with a single pitch falling toward the lake.");
-  b.put("slope45", 1, 2, -1, -9, L + 7, "white", "Crown roof", "S");
-  b.put("slope45", 1, 2, 0, -9, L + 7, "white", "Crown roof", "S");
+  const X = TW_X, Z = TW_Z, L = TW_TOP_L;
+  const fin = (tall: boolean, w: number, d: number, x: number, z: number, side: "N" | "S" | "E" | "W") =>
+    b.put(tall ? "steepSlope3" : "steepSlope2", w, d, x, z, L, "white", "Crown fin", side);
 
   b.step(
-    "Mast and beacon",
-    "A slim mast with its aircraft beacon tops out at the equivalent of 123 metres. Cromwell Tower's real beacon blinks over the City every night."
+    "Crown: north fins and plant room",
+    "The towers finish in a jagged crown: plant rooms, tanks and window-cleaning rigs wrapped in the same serrated concrete as the balconies. Each fin leans outward."
   );
-  b.put("roundBrick", 1, 1, -1, -10, L + 1, "white", "Mast base");
-  b.put("roundPlate", 1, 1, -1, -10, L + 4, "white", "Mast ring");
-  b.put("roundPlate", 1, 1, -1, -10, L + 5, "white", "Mast ring");
-  b.put("roundPlate", 1, 1, -1, -10, L + 6, "dark", "Mast beacon");
+  [true, false, true, true, false, true].forEach((tall, i) => fin(tall, 1, 2, X + i, Z - 1, "N"));
+  b.put("brick", 2, 2, X + 2, Z + 1, L, "white", "Crown plant room");
+
+  b.step(
+    "Crown: side and prow fins",
+    "Tall fins and short ones alternate round the sides and the prow, giving the crown its broken skyline, readable from across the City."
+  );
+  for (const [z, tall] of [[Z + 1, false], [Z + 2, true]] as const) {
+    fin(tall, 2, 1, X, z, "W");
+    fin(tall, 2, 1, X + 4, z, "E");
+  }
+  for (const [z, tall] of [[Z + 3, false], [Z + 4, true]] as const) {
+    fin(tall, 2, 1, X + 1, z, "W");
+    fin(tall, 2, 1, X + 3, z, "E");
+  }
+  fin(true, 1, 2, X + 2, Z + 5, "S");
+  fin(true, 1, 2, X + 3, Z + 5, "S");
 }
 
 function buildConservatory(b: Builder) {
@@ -737,10 +643,10 @@ function buildLandscaping(b: Builder) {
   for (const z of [-12, -9, -6, -3]) b.put("brick", 1, 3, -18, z, 2, "white", "Boundary wall");
   b.put("brick", 1, 2, -18, 0, 2, "white", "Boundary wall");
 
-  b.step("Boundary details", "A junction block, an eastern marker and a service block behind the tower finish the estate edge.");
+  b.step("Boundary details", "A junction block, an eastern marker and a service block behind the terrace finish the estate edge.");
   b.put("brick", 2, 2, -18, 2, 2, "white", "Boundary junction");
   b.put("brick", 1, 1, 17, 2, 2, "white", "Boundary marker");
-  b.put("brick", 3, 1, 1, -12, 3, "white", "Service block");
+  b.put("brick", 3, 1, 1, -12, 2, "white", "Service block");
 
   b.step("Threshold and walkway cap", "Dark tiles mark the Centre's entrance threshold on the deck.");
   b.put("tile", 2, 1, 2, 2, DECK_L + 1, "dark", "Entrance threshold");
@@ -749,13 +655,12 @@ function buildLandscaping(b: Builder) {
   b.step("Waterside trees, west", "Trees soften the hard landscape; every planting position on the estate was specified by the architects.");
   tree(-16, -9);
   tree(-14, -4);
-  b.step("Waterside trees, east", "The eastern pair mirrors the west bank.");
+  b.step("Waterside tree, east", "A single tree on the east bank, in front of the tower's raft.");
   tree(13, -4);
-  tree(15, -9);
 
   b.step("Landscaped banks", "Two more green banks blend the boundary into the gardens.");
   b.put("slope33", 2, 3, -17, -5, 1, "green", "Landscaped bank", "S");
-  b.put("slope33", 2, 3, 15, -6, 1, "green", "Landscaped bank", "S");
+  b.put("slope33", 2, 3, 15, -5, 1, "green", "Landscaped bank", "S");
 
   b.step("Plinth extensions", "Extra inverted slopes stretch the waterside plinth along the deck front.");
   for (const x of [-6, -5]) b.put("invSlope", 1, 2, x, 4, 1, "white", "Plinth extension", "S");
@@ -763,9 +668,10 @@ function buildLandscaping(b: Builder) {
 
   b.step(
     "Rear trees",
-    "Two last trees behind the tower complete the estate; home today to more than 4,000 residents in over 2,000 flats, Grade II listed since September 2001."
+    "Three last trees behind the terrace complete the estate; home today to more than 4,000 residents in over 2,000 flats, Grade II listed since September 2001."
   );
   tree(-9, -11);
+  tree(-3, -9);
   tree(7, -11);
 }
 

@@ -1,0 +1,44 @@
+{
+  "build": "barbican-panorama",
+  "version": "2.1.1",
+  "subject": "the Barbican Estate, City of London (Chamberlin, Powell and Bon)",
+  "model": "claude-opus-5-5",
+  "effort": "xhigh",
+  "date": "2026-10-04T15:29:54.376Z",
+  "costUsd": 0.1,
+  "pass": false,
+  "guess": "A generic high-rise mixed-use complex: a tall tapering office tower beside a lower barrel-roofed podium or terminal building, set on a landscaped plaza with a reflecting pool. No specific landmark is identifiable. The ragged taper loosely suggests something like The Shard next to London Bridge station, but that match is weak.",
+  "confidence": 0.15,
+  "quality": 4,
+  "fidelity": 3,
+  "recognisable": false,
+  "strengths": [
+    "Clear hierarchy: the slender tower dominates and the low podium reads as secondary, which gives a strong vertical gesture from every angle",
+    "Stays within the white and trans-clear palette, with trans-clear used for the glazed atrium, the reflecting pool and some window bands",
+    "The site has real program: a water feature, a colonnade or arcade along the pool edge, trees, planting beds and paving bands, so it reads as an urban plaza rather than a bare plate",
+    "The barrel-vaulted roof on the podium adds a curved counterpoint to the boxy tower",
+    "The tower tapers continuously toward a defined spire, so the silhouette narrows as intended"
+  ],
+  "problems": [
+    "The tower's taper is built from irregular, jittery setbacks, with plates and slopes sticking out at random heights. The silhouette looks ragged and noisy rather than crisp and intentional, unlike official Architecture sets",
+    "The facade has no consistent rhythm. Trans-clear glazing appears in scattered patches instead of regular bands, so the tower reads as a stack of white bricks rather than a glass or curtain-wall skyscraper",
+    "The crown is unresolved: a lumpy cap with a small dark element that looks accidental rather than like a designed spire or roof feature",
+    "The podium is cramped and visually muddled where it meets the tower. The glass atrium, arcade and vaulted block collide without clear joints, which is hard to read at this scale",
+    "The base footprint is irregular, with notches and protrusions, and the dark grey bars around the edges look fiddly. It lacks the clean rectangular plinth and nameplate typical of the product line",
+    "The landscaping is overly busy for micro-scale: many small dark-grey tiles and scattered green pieces add clutter rather than clarity",
+    "Without a distinctive signature feature, the model does not evoke a specific recognizable landmark, which is the core requirement of an Architecture set"
+  ],
+  "issues": [
+    "The defining Barbican element is missing. The model has a single slender, tapering, ragged spire, but the estate's skyline is three identical towers (Cromwell, Shakespeare, Lauderdale). Those towers are straight-sided with a constant section, triangular in plan, and stand well apart. Replace the spire seen in all four views with three equal-height prisms of uniform footprint. That one change would make the model read as the Barbican and not The Shard.",
+    "The tower edges lack the Barbican rhythm. Each tower has deep cantilevered balcony slabs on every floor, giving a regular serrated saw-tooth profile up the whole height. The current stepped, irregular setbacks (View 1 and View 4) read as a random taper. Use a repeating stack of projecting plates or wedge plates at a constant interval, with no narrowing towards the top.",
+    "The tower crowns are wrong. The Barbican towers finish in jagged upturned prows, a ring of sharp sloping concrete fins. The current crown is a rounded cap with a dark round element (View 2 and View 3). Replace it with steep slopes or wedges pointing up and outward around the top edge.",
+    "The terrace blocks are missing. The barrel-roofed block (View 2 and View 3) is a compact, nearly cubic mass. The Barbican's residential terraces, such as Gilbert House and Ben Jonson House, are long, thin, roughly seven-storey linear slabs. They are lifted on pilotis and capped by a continuous row of separate barrel vaults, one per penthouse bay, not one big vault. Stretch this block into one or more long bars that wrap the site edge, and break the roof into a repeating series of small arches.",
+    "The lake is too small and in the wrong place. In View 1 the pool sits in a corner, boxed in by dark grey borders. At the Barbican the lake is the central organising void, with a terrace block (Gilbert House) bridging it on columns. The colonnaded bridge over the pool in View 1 and View 4 is the right gesture. Enlarge the water, move it to the middle of the composition, and carry a full-length terrace slab over it on that colonnade. Add the lakeside fountain jets and the stepped water-level terraces.",
+    "The glazed box in View 1 hints at the Barbican Conservatory, but it is detached from context. Place it on top of the arts-centre block, wrapping the fly tower, beside the lake. Give it a stepped or sloping glass profile so it reads as a glasshouse and not a generic atrium.",
+    "The podium highwalks are missing. The estate is defined by its raised pedestrian deck, with blocks standing on columns above it and openings down to the lakeside. Add a continuous raised walkway level with visible pilotis under the slab blocks. At present every building sits directly on the baseplate.",
+    "St Giles Cripplegate is missing. This small medieval church, sitting in the lake courtyard, is an instantly recognisable foil to the concrete. A small tower and nave in a contrasting texture would add identity at low part cost.",
+    "The surface texture is too smooth and glassy. The light-blue glazing strips on the tower (View 2) suggest a curtain-wall office building. The Barbican is heavy, bush-hammered concrete with deep-set windows. Reduce the trans-clear vertical strips and use textured parts (grille tiles, masonry profile bricks) to convey ribbed concrete.",
+    "Clean up the site plan. The scattered dark grey bars around the baseplate edges (View 1 and View 2) read as random car-park markings. Replace them with a crisp podium edge, and group the planting into the formal lawns and raised planters along the lakeside instead of isolated trees."
+  ],
+  "verdict": "The model reads as a generic modern tower beside a terminal-like podium, and the blind reviewer understandably reached for The Shard. Some Barbican cues are present: a barrel-vaulted roof, a pool crossed by a colonnade, and a glazed conservatory-like box. They are overwhelmed by the single tapering spire, which contradicts the estate's three straight, serrated triangular towers. Rebuild the skyline as three equal towers with saw-tooth balcony edges and jagged crowns. Then stretch the low block into long pilotis-raised terraces with repeating vaults around a central lake. Those changes would likely make the subject recognisable; at present it is not."
+}

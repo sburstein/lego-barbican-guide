@@ -212,3 +212,77 @@ retired; they remain recoverable from tag `v2.0.1`. The AI designer panel is
 built into the local dev server only. The September findings above about
 those two builds stay as historical record.
 
+
+# A truly blind review and a new tower (2026-10-04)
+
+## The review gate was not blind
+
+The four-view render handed to the "blind" reviewer carried the model's
+title in its header. The reviewer read it ("The title says so"), so every
+earlier blind verdict, including the designer's first live run, could have
+come from the text rather than the model. Review renders now carry a
+neutral heading (`renderViews(pieces, null, file)`), the designer's
+submitted render is blind, and a test pins both.
+
+`scripts/review-build.mjs` runs the same two-pass review on the hand-built
+Panorama or on any spec (`--spec`), at about $0.12 a run, and keeps each
+record in `reviews/`.
+
+## What the blind reviewer saw
+
+| Render | Blind guess | Quality | Fidelity | Named |
+|---|---|---|---|---|
+| Panorama, title showing (`reviews/leaked/`) | the Barbican, "the title says so" | 5 | 5 | yes |
+| Panorama v2.1.1, blind | "a tall tapering office tower… something like The Shard" | 4 | 3 | no |
+| Compiler critique fixture, blind | the Barbican Estate | 6 | 6 | yes |
+| New tower, 4 studs wide | "a minaret… Hassan II Mosque" | 4 | 4 | no |
+| New tower, 6 studs wide, north-west | "possibly the Barbican Estate" | 5 | 6 | yes |
+| New tower, 6 studs wide, north-east (released) | "The Barbican Estate, London" | 6 | 6 | yes |
+
+The August tower was the problem: it tapered to a point, so the model read
+as a generic skyscraper. The real towers are straight triangular prisms
+with saw-tooth balconies and a jagged crown.
+
+## The new Lauderdale Tower
+
+- **Plan:** a triangle pointing at the lake, its rows 6, 4 and 2 studs wide, two deep each.
+  Each of 11 levels is two brick courses laid crosswise, so each bridges
+  the other's joints, then a balcony slab one stud proud of the walls.
+- **Saw-tooth:** slabs alternate, north and south on one level, east and
+  west on the next, so their ends step in and out up every corner.
+- **Crown:** 16 steep slopes (65° and 75°) lean out from the top slab, tall
+  and short in turn, round a 2×2 plant room.
+- **Site:** the tower stands on its own two-plate raft in the north-east
+  corner, clear of the terrace. In the north-west it hid behind the terrace
+  from the booklet's fixed camera, so a builder could not see the lower
+  levels going on.
+- **Stock:** 625 pieces in all, 43 fewer than before. Plate and brick mixes
+  vary on a few levels where the set runs short, always with the same
+  outline. The validator, the agreement tests and the audit pass.
+
+The booklet is Edition 3, 70 pages (even, for print-on-demand), with a
+changes page for August builders and a back page carrying the fan-project
+notice.
+
+## Still open: what the reviewer wants next
+
+The released model is recognised but scores 6/10 against the gate's 7.
+The reviewer's remaining points are mostly outside the tower:
+
+- the terrace is short and deep, with a blank rear face; the real terraces
+  are long, thin slabs with a long run of vaults;
+- the lake sits beside the terrace instead of running under it on pilotis;
+- the pilotis are buried and the dark lakeside edging reads as clutter;
+- the conservatory belongs on the arts centre, and St Giles' Cripplegate
+  is missing;
+- one tower, where the estate has three.
+
+On the tower itself the verdicts conflict: at 4 studs wide it was "a
+minaret, ten times taller than wide"; at 6 studs it is "too squat". The
+set's 2×2 and 2×6 bricks cap a 6-stud tower at about 11 levels.
+
+The compiler's own `tower` recipe has a weakness found here: on a stepped
+triangle its slabs never cross the joint between the apex rows and the
+rest, so the apex column joins the tower only through the top slab. The
+validator passes it, because it checks connection, not stiffness.
+DESIGNER-STATUS.md records it.

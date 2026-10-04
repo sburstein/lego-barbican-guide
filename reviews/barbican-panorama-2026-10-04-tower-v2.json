@@ -1,0 +1,42 @@
+{
+  "build": "barbican-panorama",
+  "version": "2.1.1",
+  "subject": "the Barbican Estate, City of London (Chamberlin, Powell and Bon)",
+  "model": "claude-opus-5-5",
+  "effort": "xhigh",
+  "date": "2026-10-04T15:54:53.239Z",
+  "costUsd": 0.11,
+  "pass": false,
+  "guess": "Possibly the Barbican Estate in London: a tall residential tower with stepped, jagged balconies and a notched crown, a long terrace block with a barrel-vaulted top raised on pilotis beside a water feature, and a glazed box that could be the conservatory. If not the Barbican, it is a mid-century Brutalist or modernist housing complex: a residential tower, a slab block and a landscaped podium with a reflecting pool.",
+  "confidence": 0.3,
+  "quality": 5,
+  "fidelity": 6,
+  "recognisable": true,
+  "strengths": [
+    "Strong massing contrast between the slender tower and the long low slab reads clearly from every angle",
+    "Trans-clear tiles for the pool and the glazed box add useful variety to the white-on-white palette",
+    "Pilotis under the slab block and the colonnaded walkway along the pool give the base depth and shadow",
+    "The curved top edge of the slab is a nice touch and suggests a barrel-vault roofline",
+    "The tower's alternating projecting plates create a convincing stacked-balcony rhythm"
+  ],
+  "problems": [
+    "The tower crown is a cluster of curved slopes that reads as fussy or ornamental rather than a crisp architectural termination; it is the weakest silhouette element",
+    "The tower is very thin and its balcony offsets look irregular, so it reads as noisy rather than as a disciplined facade",
+    "The rear and side faces of the slab are large blank brick walls with little articulation and look unfinished compared with the front",
+    "The base footprint is irregular: the pool wing juts off as a separate L-shaped plate and the edges look stepped and ad hoc, unlike the clean rectangular plinths of official sets",
+    "The heavy dark paving borders and bench-like plates around the pool visually overpower the white architecture",
+    "The ground plane is busy, with scattered tree blobs, green wedge slopes and exposed studs; it lacks the restraint and tile-finished clarity of official LEGO Architecture landscaping",
+    "The model does not identify itself clearly, and with no nameplate or tiled title the subject is ambiguous"
+  ],
+  "issues": [
+    "Terrace block, rear elevation (Views 2 and 3): the long slab shows a blank wall of stacked bricks with no balconies or glazing. Barbican terraces are banded on both faces by continuous concrete balcony parapets over recessed glazing. Repeat the front's balcony banding and trans-clear infill on this face, and show the semicircular vault profile clearly on the gable ends.",
+    "Tower, balcony coverage (View 3, and the left face in View 2): one face of the tower is plain stacked brick, while the other faces carry the cantilevered balcony plates. The saw-tooth balcony profile is the defining feature of Cromwell, Shakespeare and Lauderdale towers. Carry the projecting balcony plates around every face so the jagged silhouette reads from all four views.",
+    "Tower plan form (all views): the shaft is square in plan, but the real towers are triangular with chamfered corners. Use wedge plates or angled balcony slabs at the corners to suggest the triangular plan and the stepped corner balconies.",
+    "Tower-to-terrace proportion (Views 1 and 3): the tower is only about 2.5–3 times the height of the terrace slab. In reality a 42-storey tower stands about 5–6 times higher than the 7-storey terraces. Lower the terrace by a couple of courses, add height to the tower shaft, or do both, so the tower clearly dominates.",
+    "Lake relationship (Views 1 and 4): the pool sits to one side of the slab inside a heavy dark-grey kerb with bench-like edging. At the Barbican the lake runs directly under the terrace blocks, so the blocks seem to stand on columns in the water. Extend the trans-clear water beneath the raised slab, drop the dark-grey border to a flush white edge, and add a stepped waterfall or fountain nubs.",
+    "Pilotis (Views 2 and 3): the supports under the slab are chunky dark-grey square blocks that read as a solid ground floor. Replace them with paired white round 2x2 columns set back from the slab edge, giving an open, shadowed undercroft like the real double-height pilotis.",
+    "Highwalk (Views 1 and 4): the elevated walkway in front of the slab is a good podium cue, but its dark-grey deck reads as tarmac. Build it in white with a solid upstand parapet, and connect it visibly to the slab's raised podium level.",
+    "Conservatory (Views 1 and 4): the glazed box stands as a free-standing pavilion in front of the slab, so it does not read as the Barbican Centre conservatory. Either wrap it against a blocky arts-centre mass with a fly-tower stub, or omit it. Do not leave it as an ambiguous greenhouse."
+  ],
+  "verdict": "Clearly the Barbican: the jagged-balconied tower with notched crown, the barrel-vaulted terrace on pilotis, the water and the highwalk are all present, and the blind reviewer named it. Fidelity is held back by four things: blank rear and tower faces, a square tower plan, a tower too short relative to the terrace, and a lake that sits beside the slab instead of running under it. Finishing all elevations and fixing the slab–lake–pilotis relationship would make this a strong Architecture-line candidate."
+}

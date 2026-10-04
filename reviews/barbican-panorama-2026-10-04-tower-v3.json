@@ -1,0 +1,47 @@
+{
+  "build": "barbican-panorama",
+  "version": "2.1.1",
+  "subject": "the Barbican Estate, City of London (Chamberlin, Powell and Bon)",
+  "model": "claude-opus-5-5",
+  "effort": "xhigh",
+  "date": "2026-10-04T16:03:56.609Z",
+  "costUsd": 0.13,
+  "pass": false,
+  "guess": "The Barbican Estate, London: one of the residential towers beside a barrel-vaulted terrace block on pilotis, with the lake, a highwalk and a glazed conservatory corner",
+  "confidence": 0.5,
+  "quality": 6,
+  "fidelity": 6,
+  "recognisable": true,
+  "strengths": [
+    "The low block's arched, barrel-vaulted roofline is the strongest cue and reads clearly from every angle",
+    "The terrace block is lifted on dark recessed supports, so it sits on pilotis rather than on the ground, which is true to the Brutalist estate",
+    "The trans-clear tiled pool, edged in dark paving, gives a believable water feature with a podium edge",
+    "The raised walkway and colonnade in front of the low block suggest the highwalk network",
+    "The tower uses repeated projecting plates for cantilevered balcony bands, giving strong horizontal rhythm and a good height contrast with the low block",
+    "The all-white palette with trans-clear glazing fits the Architecture line's monochrome style"
+  ],
+  "problems": [
+    "The tower crown of curved slopes reads as Gothic pinnacles or a castle turret rather than the swept, serrated balcony tops of the real towers",
+    "The tower shaft is a simple square stack of bricks; the distinctive plan and the depth of the balcony fins are lost",
+    "The rear elevation of the terrace block (views 2 and 3) is a flat, featureless wall with no balconies, window rhythm or texture, so half the model looks unfinished",
+    "Only one tower and one terrace fragment are shown, so the composition feels like an arbitrary excerpt rather than a recognisable vignette",
+    "The L-shaped base looks sparse, and the scattered dark grey tiles around the pool read as clutter more than intentional paving",
+    "The trees are generic stud-and-plate lollipops that are inconsistent in placement, which weakens the landscaping",
+    "The glazed conservatory element is small and buried in the corner, so it is easy to miss",
+    "Without a nameplate the subject is ambiguous; it could pass for a generic modernist campus or hotel complex"
+  ],
+  "issues": [
+    "Tower plan (views 2 and 3): the shaft reads as a square block. The Barbican towers are roughly triangular in plan with prow-like corners. Rebuild the core on a triangular or cut-corner footprint using wedge plates, so the serrated balcony edges show on two faces in every view.",
+    "Tower balconies (views 1 and 4): the plates project in an alternating checkerboard, which reads as a lattice. The real towers have a continuous cantilevered balcony slab on every floor with upswept ends. Use a continuous plate ring at each level and finish the corners with small slopes or wedges to get the jagged saw-tooth silhouette.",
+    "Tower-to-terrace proportion (view 1): the tower is only about 1.8 times the height of the terrace block. The real ratio is roughly 4:1 (about 43 storeys against about 7). Add significant height to the tower or remove a storey or two from the terrace so the tower reads as a slender spike.",
+    "Tower crown (all views): the cluster of slopes reads like Gothic pinnacles or castle battlements. Use fewer, sharper fins that continue the balcony prow lines upward, so the crown looks like the balcony saw-tooth turned skyward.",
+    "Terrace block massing (views 1 and 3): it is short and deep, with only a few vault bays. The real terrace blocks are long, thin slabs with a long rhythmic run of barrel vaults. Lengthen the block along its axis, reduce its depth and keep each vault bay equal so the repetition reads clearly.",
+    "Terrace rear elevation (views 2 and 3): this is a blank masonry-profile wall with no openings, so the model has an unfinished back. Add stacked horizontal balcony bands (white tile or rounded parapets) with recessed trans-clear glazing, matching the front.",
+    "Pilotis (views 2 and 3): the block sits on dark recesses rather than visibly floating. Make the undercroft taller and more open, and expose a regular row of chunky columns so the 'slab on legs' reads from every side.",
+    "Lake (views 1 and 4): it is a small pool set beside the highwalk. At the Barbican, the lake runs alongside and beneath the terrace block, which bridges the water on pilotis. Extend the trans-clear water under and along the block, and add a couple of raised planter islands.",
+    "Lakeside paving (views 1 and 4): the dark-grey 1x plates scattered around the pool read as debris. Consolidate them into a continuous lake edge or a stepped terrace.",
+    "Conservatory (view 1): the glazed box is attached to the residential block. The real conservatory sits on the arts centre. Consider setting the stepped glazing on a separate low mass to imply the Barbican Centre, or simplify it.",
+    "Planting (view 1): the balcony planters are a signature feature but appear only as isolated round plates. Run them along each balcony band and add trailing greenery spilling over the parapets."
+  ],
+  "verdict": "This is clearly the Barbican: a jagged-crowned tower, a barrel-vaulted terrace block on pilotis, a highwalk, water and balcony planting together make it unmistakable. It falls short on proportion and detail. The tower is too squat and square in plan, and its balconies read as a checkerboard rather than continuous saw-tooth bands. The terrace block is too short and deep, with a blank rear face, and the lake sits beside the block instead of running beneath it. Fixing the tower's plan, height and balcony rhythm and lengthening the terrace would lift this substantially."
+}

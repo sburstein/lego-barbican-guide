@@ -190,14 +190,17 @@ function stepPanel(step, cumulative, cam) {
 // built from an earlier one (the September 2026 repair, REVIEW.md).
 const EDITIONS = {
   "barbican-panorama": {
-    edition: "October 2026 edition",
+    edition: "Edition 3, October 2026",
     previous: "August 2026 edition",
+    intro: "If you built from the August 2026 edition, five places differ. Two fix spots where the August instructions could not be built as drawn: the deck upstand and the vault caps. The other three come with a new Lauderdale Tower. The August tower tapered like a spire and read as a generic skyscraper; the real towers are straight triangular prisms with saw-tooth balconies and a jagged crown, and so is this one. Its raft, a tree and a planted bank move with it. Edition 2 (2 October) carried the two fixes and a crown-roof fix that the new tower makes moot. Every step in this edition has been checked for fit, grip and build order.",
     changes: [
-      ["Step 29: deck upstand", "Five Brick 1×4 replace the five rounded Panel 1×4×1 along the deck edge. The panels have no studs on top, so the highwalk plates in steps 53 and 54 had nothing to grip."],
-      ["Steps 62 and 63: vault caps", "Point the curved humps outward: north on the rear row, south on the front row. The flat ends with the recessed stud meet in the middle."],
-      ["Step 84: crown roof", "Two Slope 1×2 (45°) sit side by side, studs to the north, both falling toward the lake. The earlier crossed pair could not physically fit."],
+      ["Steps 6 to 8: foundation", "Two more dark 1×6 plates complete the back edge beam, and the tower raft moves to the north-east corner: two 2×6 plates under a 6×6. The east seam tie at the raft goes; the west one stays."],
+      ["Step 29: deck upstand", "Five Brick 1×4 replace the five rounded Panel 1×4×1 along the deck edge. The panels have no studs on top, so the highwalk plates in steps 49 and 50 had nothing to grip."],
+      ["Steps 58 and 59: vault caps", "Point the curved humps outward: north on the rear row, south on the front row. The flat ends with the recessed stud meet in the middle."],
+      ["Steps 60 to 72: Lauderdale Tower", "The tower is rebuilt as a triangle standing on its own in the north-east corner, no longer behind the terrace. Eleven levels of two crossed brick courses and a balcony slab rise to a crown of steep-slope fins. The August tower, including its first eight courses in phase 4, its mast and its raft behind the terrace, comes down before step 60."],
+      ["Steps 89, 92, 93 and 95: landscaping", "The service block sits on the new back edge beam. The tree that stood in the tower's corner moves behind the terrace, and the east bank shifts one stud south to clear the raft."],
     ],
-    parts: "Parts: 5 more Brick 1×4 (3010) and 5 fewer Panel 1×4×1 Rounded (30413). Everything else, and the step numbering, is unchanged.",
+    parts: "Parts: 625 pieces, 43 fewer than August. The new tower adds 16 steep slopes, a Plate 6×6 and 12 more Brick 2×6, and frees most of the old tower's 1×2 and 1×3 bricks and all its cheese slopes. Everything still comes from one 21050 set; the inventory that follows has the totals.",
   },
 };
 const EDITION = EDITIONS[BUILD_ID];
@@ -256,7 +259,7 @@ if (EDITION?.changes?.length) {
   page("essay changes", `
   <div class="ecol">
     <h2>Changes from the ${esc(EDITION.previous)}</h2>
-    <p>If you built from the ${esc(EDITION.previous)}, three places differ. Each fixes a spot where the earlier instructions could not be built as drawn; every step in this edition has been checked for fit, grip and build order.</p>
+    <p>${esc(EDITION.intro)}</p>
     <p>${esc(EDITION.parts)}</p>
   </div>
   <div class="ecol">
@@ -321,6 +324,22 @@ page("finish", `
   <p class="fnote">${overCount.length === 0
     ? "Every part in this build fits within a single Architecture Studio 21050 set."
     : `Note: ${overCount.length} part type(s) exceed a single set: ${overCount.map((o) => `${o.name} (${o.qty} needed, ${invByPart.get(o.part).totalInSet} in set)`).join("; ")}.`}</p></div>`);
+
+// Back page --------------------------------------------------------------
+// Print-on-demand binding needs an even page count, so a notes page goes in
+// first when the count would otherwise be odd.
+if ((pages.length + 1) % 2) page("essay notes", `<div class="ecol"><h2>Notes</h2></div>`);
+page("essay back", `
+  <div class="ecol">
+    <h2>${esc(meta?.title ?? BUILD_ID)}</h2>
+    <p>Building instructions${EDITION ? `, ${esc(EDITION.edition)}` : ""}. The interactive 3D guide, with every step and a parts list, is at lego-barbican-guide.netlify.app.</p>
+    <p>Every placement in this booklet is generated from the same checked model as the online guide: real parts from LEGO&reg; Architecture Studio 21050, tested for fit, grip, stability and build order.</p>
+  </div>
+  <div class="ecol">
+    <h3>Not an official LEGO product</h3>
+    <p>A fan project, not affiliated with, sponsored or endorsed by the LEGO Group. LEGO&reg; and the LEGO logo are trademarks of the LEGO Group.</p>
+    <p>The Barbican Estate was designed by Chamberlin, Powell and Bon. This model is an independent tribute to it.</p>
+  </div>`);
 
 // ─── Document ──────────────────────────────────────────────────────────
 
