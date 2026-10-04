@@ -57,6 +57,11 @@ netlify api restoreSiteDeploy --data '{"site_id":"67225a16-eab6-4ba7-b136-b5f534
 | `6abeb1ea5c0cd5453f2b3685` | 2026-10-01 19:19 | v2.0.1 (`b7c7f52`): compiler, designer route, booklets; verified as a draft, then published unchanged |
 | `6abed88720866024552e94b8` | 2026-10-01 22:04 | v2.1.0 (`4b37ef8`): one Barbican design, the Panorama; designer local only |
 | `6abfabf897835564ef5f52a7` | 2026-10-02 | v2.1.1 (`84c95bb`): October 2026 booklet edition with a changes page |
+| `6ac27a24fba2438399f9052c` | 2026-10-04 16:11 | v2.2.0 (`5a0dfee`): triangular Lauderdale Tower, booklet Edition 3, link previews; verified as a draft, then published unchanged |
 
 In git, the August state is tagged `august-2026-booklet`. Releases are
-tagged `vX.Y.Z` on the commit that was deployed.
+tagged `vX.Y.Z` on the commit that was deployed. Since v2.2.0, `main` is the
+release branch; `repair/engine-2026-09-30` stops at v2.2.0.
+
+The link-preview image, `public/og.png`, is drawn from the model. After a
+model change, run `node scripts/render-og.mjs` before the release build.
