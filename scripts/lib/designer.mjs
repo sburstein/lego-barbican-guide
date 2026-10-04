@@ -133,15 +133,18 @@ export class Budget {
   }
 }
 
+/** Neutral heading for review images: the blind reviewer must not read the subject. */
+export const BLIND_TITLE = "LEGO model";
+
 /** Default renderer: four-view grid through headless Chrome; true if written. */
 export function renderViews(pieces, title, file) {
   const html = file.replace(/\.png$/, ".html");
-  writeFileSync(html, viewsHtml(pieces, title, `${pieces.length} pieces`, 1400));
+  writeFileSync(html, viewsHtml(pieces, title ?? BLIND_TITLE, `${pieces.length} pieces`, 1400));
   return screenshot(html, file, 1400, 1050);
 }
 
-/** Compile and (optionally) render a spec; never throws. */
-export function compileAndRender(spec, file, { render = true, renderFn = renderViews } = {}) {
+/** Compile and (optionally) render a spec; never throws. A blind render carries no title. */
+export function compileAndRender(spec, file, { render = true, renderFn = renderViews, blind = false } = {}) {
   let compiled;
   try {
     compiled = compileDesign(spec);
@@ -163,7 +166,7 @@ export function compileAndRender(spec, file, { render = true, renderFn = renderV
   if (render && compiled.stats.pieces > 0) {
     try {
       const pieces = compiled.phaseOrder.flatMap((id) => compiled.build[id].flat());
-      if (renderFn(pieces, spec.title ?? "Design", file)) png = file;
+      if (renderFn(pieces, blind ? null : spec.title ?? "Design", file)) png = file;
     } catch (err) {
       report.renderError = err.message;
     }
@@ -312,7 +315,7 @@ export async function runDesigner({
         results.push({ type: "tool_result", tool_use_id: use.id, content });
       } else if (use.name === "submit_design") {
         writeFileSync(join(runDir, "submitted.json"), JSON.stringify(spec, null, 2));
-        const { compiled, report, png } = compileAndRender(spec, join(runDir, `submitted-${reviews + 1}.png`), { render: true, renderFn });
+        const { compiled, report, png } = compileAndRender(spec, join(runDir, `submitted-${reviews + 1}.png`), { render: true, renderFn, blind: true });
         if (!report.ok) {
           emit("submit", { ok: false, errors: report.errors.length });
           results.push({ type: "tool_result", tool_use_id: use.id, is_error: true, content: `Not valid yet; fix these first:\n${report.errors.join("\n")}` });

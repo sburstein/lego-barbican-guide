@@ -18,6 +18,20 @@ public site, and the Anthropic account is out of API credit.
 | Failure path through the app | A job started from the panel stopped at once with "out of API credit", saved nothing and cost $0. |
 | Offline tests | 71 pass (`npm test`): compiler, geometry, designer loop with a scripted client, HTTP route, renderer agreement, validator. |
 
+## Correction, 2026-10-04: the review was not blind
+
+Every render sent to the reviewer, including the live run's, showed the
+design's title in its header. The live run's "named the Barbican" verdict
+may have come from that text. The gate now renders without a title and a
+test pins it. Truly blind, `tests/fixtures/barbican-critique.json` is named
+as the Barbican and scores quality 6, fidelity 6 (`reviews/`).
+
+**Known compiler weakness:** on a stepped triangular plan, `tower` slabs
+never bridge the joint between the apex rows and the rest, so the apex
+column is held only by the top slab. The validator checks connection, not
+stiffness, so it passes. Fix before the designer is trusted with towers:
+make each slab, or alternate courses, span that joint.
+
 ## What the review asked for, and what the compiler can now express
 
 The reviewer's actionable points, and the offline response:

@@ -61,6 +61,15 @@ test("approved path: fixes a compile error, submits, passes both reviews", async
   assert.ok(secondResult.content.some((b) => b.type === "image"));
 });
 
+test("the reviewer's image is blind: no title on the submitted render", async () => {
+  const titles = [];
+  const render = (pieces, title, file) => (titles.push([file.split("/").pop(), title]), fakeRender(pieces, title, file));
+  const c = client([msg([use("compile_design", { spec: good })]), msg([use("submit_design", { spec: good })]), blind(), named()]);
+  const r = await run(c, { renderFn: render });
+  assert.equal(r.status, "approved", r.reason);
+  assert.deepEqual(titles, [["render-1.png", good.title], ["submitted-1.png", null]]);
+});
+
 test("every request uses Opus 5.5, xhigh effort, the refusal fallback and web search", async () => {
   const c = client([msg([use("submit_design", { spec: good })]), blind(), named()]);
   await run(c);
