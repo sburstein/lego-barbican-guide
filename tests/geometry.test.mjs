@@ -72,6 +72,40 @@ test("two courses per level halve the slabs for the same height", () => {
   assert.equal(slabs(two), 2);
 });
 
+// A stepped plan tiles into the same blocks every course: on size 6 the rows
+// are 6, 6, 4, 2, 2 wide, and nothing used to cross the joint between the
+// third and fourth rows, so the apex stood as its own stack the full height
+// of the tower. The validator checks connection, not stiffness, so it passed.
+test("every level of a triangular tower lays a part across each joint between plan rows", () => {
+  const across = (p, axis, r) => (axis === "x" ? p.x <= r && r + 1 <= p.x + p.w - 1 : p.z <= r && r + 1 <= p.z + p.d - 1);
+  const check = (el, site) => {
+    const c = compileDesign(spec([el], site));
+    const what = `size ${el.size} pointing ${el.point}, ${el.courses} course(s)${el.lobby ? ", lobby" : ""}`;
+    assert.deepEqual(c.errors, [], what);
+    assert.ok(!c.warnings.some((w) => /less stiff/.test(w)), `${what}: ${c.warnings.join("; ")}`);
+    const core = planCells("triangle", el.size, el.point, ...el.at);
+    const rowAxis = el.point === "E" || el.point === "W" ? "x" : "z";
+    const levelH = 3 * el.courses + 1;
+    const ps = pieces(c).filter((p) => p.info.description.startsWith(`${el.name} `));
+    for (let k = 0; k < el.levels; k++) {
+      const level = ps.filter((p) => p.layer >= 1 + levelH * k && p.layer < 1 + levelH * (k + 1));
+      // rows of the steps, as asked; columns too, which the slab sees to
+      for (const axis of [rowAxis, rowAxis === "x" ? "z" : "x"]) {
+        const lines = [...new Set(core.map(([x, z]) => (axis === "x" ? x : z)))].sort((a, b) => a - b);
+        for (const r of lines.slice(0, -1))
+          assert.ok(level.some((p) => across(p, axis, r)), `${what}: level ${k + 1} has no part across the joint between ${axis === rowAxis ? "rows" : "columns"} ${axis} = ${r} and ${r + 1}`);
+      }
+    }
+  };
+  for (const size of [4, 5, 6, 7, 8])
+    for (const point of ["N", "S", "E", "W"])
+      for (const courses of [1, 2]) check({ type: "tower", id: "t", name: "Tower", at: [8, 6], plan: "triangle", size, point, levels: 2, courses });
+  // a glazed lobby takes the first course, so the second ties the level
+  for (const point of ["N", "E"]) check({ type: "tower", id: "t", name: "Tower", at: [8, 6], plan: "triangle", size: 6, point, levels: 2, courses: 2, lobby: true });
+  // the reported case: 14 levels, more than 90 layers of bricks and plates
+  check({ type: "tower", id: "t", name: "Tower", at: [1, 1], plan: "triangle", size: 6, point: "S", levels: 14, courses: 2 }, { w: 12, d: 12 });
+});
+
 test("towers that are too tall for the set say which parts run out", () => {
   const c = compileDesign(spec([
     { type: "tower", id: "a", name: "A", at: [1, 1], plan: "triangle", size: 10, levels: 30 },

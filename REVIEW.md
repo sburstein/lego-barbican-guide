@@ -285,4 +285,4 @@ The compiler's own `tower` recipe has a weakness found here: on a stepped
 triangle its slabs never cross the joint between the apex rows and the
 rest, so the apex column joins the tower only through the top slab. The
 validator passes it, because it checks connection, not stiffness.
-DESIGNER-STATUS.md records it.
+DESIGNER-STATUS.md records it, and its fix on 2026-10-04.
