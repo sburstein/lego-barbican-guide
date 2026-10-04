@@ -776,8 +776,9 @@ export default function App() {
           </>
         )}
 
-        <footer className="text-center py-3 mt-6 text-[10px] text-stone-300 border-t border-stone-100">
-          LEGO Architecture Studio 21050 · {build.pieceCount} pieces · {build.phases.length} phases · Photos via Wikimedia Commons (CC) · v{__APP_VERSION__}
+        <footer className="text-center py-3 mt-6 text-[10px] text-stone-300 border-t border-stone-100 space-y-1">
+          <p>LEGO Architecture Studio 21050 · {build.pieceCount} pieces · {build.phases.length} phases · Photos via Wikimedia Commons (CC) · v{__APP_VERSION__}</p>
+          <p className="text-stone-400">Fan project, not affiliated with or endorsed by the LEGO Group. LEGO® is a trademark of the LEGO Group.</p>
         </footer>
       </div>
     </div>
